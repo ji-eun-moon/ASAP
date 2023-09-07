@@ -6,7 +6,12 @@ public class Apply {
 
     private Long applyId;
     private Long memberId;
-    private Long apiId;
+    private String api;
+    private String input;
+    private String output;
+    private Long price;
+    private String title;
+    private String content;
     private progress progress;
     private LocalDateTime provideDate;
     private LocalDateTime createDate;

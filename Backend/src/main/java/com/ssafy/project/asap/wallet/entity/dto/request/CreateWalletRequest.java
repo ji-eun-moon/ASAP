@@ -1,4 +1,4 @@
-package com.ssafy.project.asap.payment.entity.dto.request;
+package com.ssafy.project.asap.wallet.entity.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePaymentRequest {
+public class CreateWalletRequest {
 
-    private String cardCompany;
-    private String cardNumber;
+    private String address;
+    private Float balance;
     private LocalDateTime createAt;
-    private Float fee;
 }

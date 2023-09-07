@@ -1,7 +1,6 @@
 package com.ssafy.project.asap.notice.controller;
 
 import com.ssafy.project.asap.notice.entity.dto.response.NoticeListResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -2,9 +2,9 @@ package com.ssafy.project.asap.apply.controller;
 
 import com.ssafy.project.asap.apply.entity.domain.progress;
 import com.ssafy.project.asap.apply.entity.dto.request.ApplyListRequest;
+import com.ssafy.project.asap.apply.entity.dto.request.ApplySubmitRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.ApplyDetailResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.ApplyListResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +52,16 @@ public class ApplyController {
 
 
         return ResponseEntity.ok().body("내 신청내역 리스트 = " + list);
+
+    }
+
+    @PostMapping("/submit")
+    public ResponseEntity<?> submit(@RequestBody ApplySubmitRequest applySubmitRequest){
+
+        // API 사용 신청 (제공자 입장)
+
+
+        return ResponseEntity.ok().body(applySubmitRequest);
 
     }
 

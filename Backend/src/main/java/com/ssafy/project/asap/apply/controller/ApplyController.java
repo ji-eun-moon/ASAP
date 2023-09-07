@@ -2,6 +2,7 @@ package com.ssafy.project.asap.apply.controller;
 
 import com.ssafy.project.asap.apply.entity.domain.progress;
 import com.ssafy.project.asap.apply.entity.dto.request.ApplyListRequest;
+import com.ssafy.project.asap.apply.entity.dto.request.ApplyProgressRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.ApplySubmitRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.ApplyDetailResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.ApplyListResponse;
@@ -65,6 +66,35 @@ public class ApplyController {
 
     }
 
+    @PostMapping("/list")
+    public ResponseEntity<?> list(){
+
+        // 모든 리스트 조회 (사용자 입장)
+
+
+        return ResponseEntity.ok().body("모든 리스트 (관리자 입장)");
+    }
+
+    @PostMapping("/progress")
+    public ResponseEntity<?> progress(@RequestBody ApplyProgressRequest applyProgressRequest){
+
+        // API 진행 상태 변경
+
+
+        return ResponseEntity.ok().body(applyProgressRequest.getApplyId() + "번 진행상태 " + applyProgressRequest.getProgress() + "상태로 변경");
+
+    }
+
+    @PostMapping("/complete")
+    public ResponseEntity<?> complete(@RequestBody Long applyId){
+
+        // 완료 상태로 변경
+        // 완료 상태라면 API 싱청 리시트에서 기본 리스트로 이동해야함
+
+
+        return ResponseEntity.ok().body(applyId + "번 신청 API 제공 완료 ");
+
+    }
 
 
 

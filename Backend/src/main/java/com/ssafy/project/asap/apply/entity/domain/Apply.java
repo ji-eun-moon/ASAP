@@ -1,19 +1,47 @@
 package com.ssafy.project.asap.apply.entity.domain;
 
+import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.member.entity.domain.Member;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
-public class Apply {
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Apply extends BaseTime {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applyId;
-    private Long memberId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @Column(nullable = false)
     private String api;
+
+    @Column(nullable = false)
     private String input;
+
+    @Column(nullable = false)
     private String output;
+
+    @Column(nullable = false)
     private Long price;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String content;
-    private progress progress;
-    private LocalDateTime provideDate;
-    private LocalDateTime createDate;
+
+    @Column(nullable = false)
+    private ApplyProgress progress;
 
 }

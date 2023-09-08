@@ -1,7 +1,9 @@
-package com.ssafy.project.asap.notice.entity.domain;
+package com.ssafy.project.asap.purpose.entity.domain;
 
 import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.api.entity.domain.Api;
 import com.ssafy.project.asap.member.entity.domain.Member;
+import com.ssafy.project.asap.record.entity.domain.Usage;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,28 +13,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Notice extends BaseTime {
+public class Purpose extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long noticeId;
+    private Long purposeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(nullable = false)
-    private String title;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "api_id")
+    private Api api;
 
     @Column(nullable = false)
-    private String content;
-
-    @Column(nullable = false)
-    private boolean isRead;
-
-    @PrePersist
-    public void prePersist(){
-        this.isRead = false;
-    }
+    private String purpose;
 
 }

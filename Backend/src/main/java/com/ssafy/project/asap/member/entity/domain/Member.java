@@ -1,4 +1,65 @@
 package com.ssafy.project.asap.member.entity.domain;
 
-public class Member {
+import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.apply.entity.domain.Apply;
+import com.ssafy.project.asap.credit.entity.domain.Credit;
+import com.ssafy.project.asap.notice.entity.domain.Notice;
+import com.ssafy.project.asap.payment.entity.domain.Payment;
+import com.ssafy.project.asap.purpose.entity.domain.Purpose;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Member extends BaseTime {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberId;
+
+    @Column(nullable = false, unique = true)
+    private String id;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false, unique = true)
+    private String address;
+
+    public String getPassword() {
+        return password;
+    }
+
+    @OneToMany(mappedBy = "member")
+    private List<Payment> paymentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Notice> noticeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Credit> creditList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Apply> applyList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Api> apiList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Purpose> purposeList = new ArrayList<>();
+
 }

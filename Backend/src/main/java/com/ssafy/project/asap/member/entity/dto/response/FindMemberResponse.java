@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberInfoResponse {
+public class FindMemberResponse {
 
     private String walletInfo = "지갑 정보";
     private Float balance = 1234567890F;

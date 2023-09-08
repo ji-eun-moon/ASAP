@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WalletInfoResponse {
+public class FindWalletResponse {
 
     private String address = "아람이의 지갑 주소";
     private Float balance = 100F;

@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateMemberRequest {
+public class FindMemberIdRequest {
 
     private String email;
-    private String id;
-    private String password;
     private String name;
 }

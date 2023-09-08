@@ -1,13 +1,12 @@
 package com.ssafy.project.asap.apply.entity.dto.response;
 
-import com.ssafy.project.asap.apply.entity.domain.progress;
+import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
 import lombok.Builder;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Builder
-public class ApplyDetailResponse {
+public class FindApplyResponse {
 
     private Long applyId;
     private Long memberId;
@@ -16,7 +15,7 @@ public class ApplyDetailResponse {
     private String input;
     private String output;
     private Long price;
-    private progress progress;
+    private ApplyProgress progress;
     private String title;
     private String content;
     private LocalDateTime provideDate;

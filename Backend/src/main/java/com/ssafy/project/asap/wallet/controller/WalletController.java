@@ -1,7 +1,7 @@
 package com.ssafy.project.asap.wallet.controller;
 
-import com.ssafy.project.asap.wallet.entity.dto.request.CreateWalletRequest;
-import com.ssafy.project.asap.wallet.entity.dto.response.WalletInfoResponse;
+import com.ssafy.project.asap.wallet.entity.dto.request.RegisterWalletRequest;
+import com.ssafy.project.asap.wallet.entity.dto.response.FindWalletResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -24,7 +24,7 @@ public class WalletController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> registerWallet(@RequestBody CreateWalletRequest createWalletRequest) {
+    public ResponseEntity<String> register(@RequestBody RegisterWalletRequest registerWalletRequest) {
 
         return ResponseEntity.status(201).body("지갑 생성 완료");
     }
@@ -37,8 +37,8 @@ public class WalletController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<WalletInfoResponse> getWallet() {
+    public ResponseEntity<FindWalletResponse> findByWalletId() {
 
-        return ResponseEntity.ok(new WalletInfoResponse());
+        return ResponseEntity.ok(new FindWalletResponse());
     }
 }

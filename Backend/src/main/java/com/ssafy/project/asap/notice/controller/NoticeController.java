@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.notice.controller;
 
-import com.ssafy.project.asap.notice.entity.dto.response.NoticeListResponse;
+import com.ssafy.project.asap.notice.entity.dto.response.FindNoticesResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,7 +27,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> listCount(){
+    public ResponseEntity<?> findAllNotRead(){
 
         // 아직 읽지 않은 알림 메시지 갯수 출력
         Long unreadAlarm = 3L;
@@ -39,18 +39,18 @@ public class NoticeController {
     @Operation(summary = "알림 리스트 조회", description = "나의 모든 알림 리스트 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "알림 리스트 조회 성공", content = @Content(schema = @Schema(
-                    implementation = NoticeListResponse.class
+                    implementation = FindNoticesResponse.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> list(){
+    public ResponseEntity<?> findAll(){
 
         // 내 알림 메시지 리스트 조회
-        List<NoticeListResponse> list = new ArrayList<>();
+        List<FindNoticesResponse> list = new ArrayList<>();
 
-        list.add(NoticeListResponse.builder()
+        list.add(FindNoticesResponse.builder()
                         .noticeId(1L)
                         .title("제목1")
                         .content("내용1")
@@ -58,7 +58,7 @@ public class NoticeController {
                         .isRead(false)
                 .build());
 
-        list.add(NoticeListResponse.builder()
+        list.add(FindNoticesResponse.builder()
                 .noticeId(2L)
                 .title("제목2")
                 .content("내용2")
@@ -85,7 +85,7 @@ public class NoticeController {
         return ResponseEntity.ok().body(noticeId + "번 알림 메시지 삭제");
     }
 
-    @GetMapping("/check/{notice_id}")
+    @PostMapping("/check/{notice_id}")
     @Operation(summary = "메시지 읽음", description = "회원이 메시지 확인 후 메시지 읽음 상태 변경")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "메시지 확인 완료"),
@@ -93,7 +93,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> check(@PathVariable("notice_id") Long noticeId){
+    public ResponseEntity<?> updateIsRead(@PathVariable("notice_id") Long noticeId){
 
         // 알림 메시지 읽음 상태 변경
 

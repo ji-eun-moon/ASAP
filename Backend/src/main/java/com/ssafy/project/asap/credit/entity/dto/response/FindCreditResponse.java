@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditResponse {
+public class FindCreditResponse {
     private String cardCompany = "국민은행";
     private String cardNumber = "1234-5678-1234-5678";
 }

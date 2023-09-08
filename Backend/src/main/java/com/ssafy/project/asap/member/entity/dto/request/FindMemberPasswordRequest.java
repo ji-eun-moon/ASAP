@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class FindMemberPasswordRequest {
 
+    private String email;
     private String id;
-    private String password;
 }

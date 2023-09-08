@@ -1,9 +1,9 @@
 package com.ssafy.project.asap.api.controller;
 
-import com.ssafy.project.asap.api.entity.dto.request.ApiCategoryRequest;
-import com.ssafy.project.asap.api.entity.dto.request.ApiUseRequest;
-import com.ssafy.project.asap.api.entity.dto.response.ApiDetailResponse;
-import com.ssafy.project.asap.api.entity.dto.response.ApiListResponse;
+import com.ssafy.project.asap.api.entity.domain.ApiCategory;
+import com.ssafy.project.asap.api.entity.dto.request.RegisterApiRequest;
+import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
+import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,19 +28,19 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> all(){
+    public ResponseEntity<?> findAll(){
 
         // 전체 api 리스트 조회
-        List<ApiListResponse> list = new ArrayList<>();
+        List<FindApisResponse> list = new ArrayList<>();
 
-        list.add(ApiListResponse.builder()
+        list.add(FindApisResponse.builder()
                         .apiId(1L)
                         .title("제목1")
                         .content("내용1")
                         .createDate(LocalDateTime.now().minusDays(2))
                 .build());
 
-        list.add(ApiListResponse.builder()
+        list.add(FindApisResponse.builder()
                 .apiId(2L)
                 .title("제목2")
                 .content("내용2")
@@ -59,10 +59,10 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> detail(@PathVariable("api_id") Long apiId){
+    public ResponseEntity<?> findByApiId(@PathVariable("api_id") Long apiId){
 
         // api 상세 조회
-        ApiDetailResponse apiDetailResponse = ApiDetailResponse.builder()
+        FindApiResponse apiDetailResponse = FindApiResponse.builder()
                 .apiId(1L)
                 .title("api 제목")
                 .content("api 내용")
@@ -82,21 +82,21 @@ public class ApiController {
     @Operation(summary = "API 사용 (사용자)", description = "사용자가 해당 API 사용 신청")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 사용 신청 완료", content = @Content(schema =  @Schema(
-                    implementation = ApiUseRequest.class
+                    implementation = RegisterApiRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> use(){
+    public ResponseEntity<?> register(){
 
         // api 신청 하기
-        ApiUseRequest apiUseRequest = ApiUseRequest.builder()
-                .category(ApiCategoryRequest.INDIVIDUAL)
+        RegisterApiRequest registerApiRequest = RegisterApiRequest.builder()
+                .category(ApiCategory.INDIVIDUAL)
                 .purpose("제 개인 프로젝트를 위함인데요??")
                 .build();
 
-        return ResponseEntity.ok().body("api 사용 신청 완료 = " + apiUseRequest);
+        return ResponseEntity.ok().body("api 사용 신청 완료 = " + registerApiRequest);
 
     }
 }

@@ -1,16 +1,15 @@
-package com.ssafy.project.asap.notice.entity.dto.response;
+package com.ssafy.project.asap.api.entity.dto.response;
 
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Builder
-public class NoticeListResponse {
+public class FindApisResponse {
 
-    private Long noticeId;
+    private Long apiId;
     private String title;
     private String content;
-    private boolean isRead;
     private LocalDateTime createDate;
 
 }

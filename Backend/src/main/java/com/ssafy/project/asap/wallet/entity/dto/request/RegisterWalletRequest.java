@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateWalletRequest {
+public class RegisterWalletRequest {
 
     private String address;
     private Float balance;

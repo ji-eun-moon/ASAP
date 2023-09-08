@@ -1,4 +1,4 @@
 package com.ssafy.project.asap.notice.entity.dto.request;
 
-public class CreateNoticeRequest {
+public class RegisterNoticeRequest {
 }

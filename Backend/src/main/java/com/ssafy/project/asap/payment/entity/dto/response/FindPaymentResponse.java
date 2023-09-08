@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentResponse {
+public class FindPaymentResponse {
+
     private String cardCompany = "삼성카드";
     private String cardNumber = "1234-5678-1234-5678";
 

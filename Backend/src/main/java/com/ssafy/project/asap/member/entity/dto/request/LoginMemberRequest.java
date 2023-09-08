@@ -3,16 +3,12 @@ package com.ssafy.project.asap.member.entity.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdataMemberRequest {
+public class LoginMemberRequest {
 
-    @Nullable
-    private String name;
-
-    @Nullable
-    private String email;
+    private String id;
+    private String password;
 }

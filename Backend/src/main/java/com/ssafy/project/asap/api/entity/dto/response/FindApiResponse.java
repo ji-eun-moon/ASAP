@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public class ApiDetailResponse {
+public class FindApiResponse {
 
     private Long apiId;
     private Long memberId;

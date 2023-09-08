@@ -1,7 +1,7 @@
 package com.ssafy.project.asap.payment.controller;
 
-import com.ssafy.project.asap.payment.entity.dto.request.CreatePaymentRequest;
-import com.ssafy.project.asap.payment.entity.dto.response.PaymentResponse;
+import com.ssafy.project.asap.payment.entity.dto.request.RegisterPaymentRequest;
+import com.ssafy.project.asap.payment.entity.dto.response.FindPaymentResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,13 +29,13 @@ public class PaymentController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<PaymentResponse>> getPayments() {
+    public ResponseEntity<List<FindPaymentResponse>> findAll() {
 
-        List<PaymentResponse> paymentResponses = new ArrayList<>();
+        List<FindPaymentResponse> paymentResponses = new ArrayList<>();
 
-        paymentResponses.add(new PaymentResponse());
-        paymentResponses.add(new PaymentResponse());
-        paymentResponses.add(new PaymentResponse());
+        paymentResponses.add(new FindPaymentResponse());
+        paymentResponses.add(new FindPaymentResponse());
+        paymentResponses.add(new FindPaymentResponse());
 
         return ResponseEntity.status(200).body(paymentResponses);
     }
@@ -44,13 +44,13 @@ public class PaymentController {
     @Operation(summary = "결제", description = "회원의 결제 정보를 통해 결제")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "결제 내역 생성", content = @Content(schema = @Schema(
-                    implementation = CreatePaymentRequest.class
+                    implementation = RegisterPaymentRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> registerPayment(@RequestBody CreatePaymentRequest createPaymentRequest) {
+    public ResponseEntity<String> registerPayment(@RequestBody RegisterPaymentRequest registerPaymentRequest) {
 
         return ResponseEntity.status(201).body("결제 내역 생성 완료");
     }

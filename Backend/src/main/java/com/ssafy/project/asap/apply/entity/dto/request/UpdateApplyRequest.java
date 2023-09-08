@@ -3,9 +3,9 @@ package com.ssafy.project.asap.apply.entity.dto.request;
 import lombok.Getter;
 
 @Getter
-public class ApplyProgressRequest {
+public class UpdateApplyRequest {
 
-    private String applyId;
+    private Long applyId;
     private String progress;
 
 }

@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.apply.entity.dto.request;
 
-public class ApplyListRequest {
+public class FindApplysRequest {
 
 //    private Long page;
 

@@ -1,7 +1,7 @@
 package com.ssafy.project.asap.member.controller;
 
 import com.ssafy.project.asap.member.entity.dto.request.*;
-import com.ssafy.project.asap.member.entity.dto.response.MemberInfoResponse;
+import com.ssafy.project.asap.member.entity.dto.response.FindMemberResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,13 +25,13 @@ public class MemberController {
     @Operation(summary = "회원가입", description = "이메일, 아이디, 비밀번호, 이름을 통해 회원가입")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "회원 가입 성공", content = @Content(schema = @Schema(
-                    implementation = CreateMemberRequest.class
+                    implementation = RegisterMemberRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> registerMember(@RequestBody CreateMemberRequest createMemberRequest) {
+    public ResponseEntity<String> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
         return ResponseEntity.status(201).body("");
     }
 
@@ -63,13 +63,13 @@ public class MemberController {
     @Operation(summary = "이메일 인증 확인", description = "이메일 인증 메일 코드 확인")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "이메일 인증 성공", content = @Content(schema = @Schema(
-                    implementation = EmailCheckRequest.class
+                    implementation = CheckMemberEmailRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Boolean> authEmail(@RequestBody EmailCheckRequest emailCheckRequest) {
+    public ResponseEntity<Boolean> authEmail(@RequestBody CheckMemberEmailRequest checkMemberEmailRequest) {
         return ResponseEntity.ok(true);
     }
 
@@ -77,13 +77,13 @@ public class MemberController {
     @Operation(summary = "로그인", description = "아이디, 비밀번호를 통해 로그인")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema = @Schema(
-                    implementation = LoginRequest.class
+                    implementation = LoginMemberRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> login(@RequestBody LoginMemberRequest loginMemberRequest) {
         return ResponseEntity.ok("토큰 어쩌고 저쩌고");
     }
 
@@ -91,13 +91,13 @@ public class MemberController {
     @Operation(summary = "아이디 찾기", description = "이메일, 이름을 통해 로그인")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "아이디 리스트 제공", content = @Content(schema = @Schema(
-                    implementation = FindIdRequest.class
+                    implementation = FindMemberIdRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<String>> findIdByEmailAndName(@RequestBody FindIdRequest findIdRequest) {
+    public ResponseEntity<List<String>> findByEmailAndName(@RequestBody FindMemberIdRequest findMemberIdRequest) {
 
         List<String> ids = new ArrayList<>();
         ids.add("시온");
@@ -111,13 +111,13 @@ public class MemberController {
     @Operation(summary = "비밀번호 변경 주소 발송", description = "새로운 비빌번호 변경을 위해 가능한 URL이 담겨있는 메일 전송")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "메일 발송 성공", content = @Content(schema = @Schema(
-                    implementation = FindPasswordRequest.class
+                    implementation = FindMemberPasswordRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Boolean> findPassword(@RequestBody FindPasswordRequest findPasswordRequest) {
+    public ResponseEntity<Boolean> findPassword(@RequestBody FindMemberPasswordRequest findMemberPasswordRequest) {
 
         return ResponseEntity.ok(true);
     }
@@ -126,13 +126,13 @@ public class MemberController {
     @Operation(summary = "비밀번호 변경", description = "새로운 비밀번호 변경")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "새로운 비밀 번호 변경 완료", content = @Content(schema = @Schema(
-                    implementation = LoginRequest.class
+                    implementation = LoginMemberRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Boolean> ChangePassword(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Boolean> updatePassword(@RequestBody LoginMemberRequest loginMemberRequest) {
 
         return ResponseEntity.ok(true);
     }
@@ -158,24 +158,24 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<MemberInfoResponse> getMember() {
+    public ResponseEntity<FindMemberResponse> findByMemberId() {
 
-        return ResponseEntity.ok(new MemberInfoResponse());
+        return ResponseEntity.ok(new FindMemberResponse());
     }
 
     @PostMapping("/me")
     @Operation(summary = "개인정보 수정", description = "이름, 이메일 수정")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "개인 정보 조회", content = @Content(schema = @Schema(
-                    implementation = UpdataMemberRequest.class
+                    implementation = UpdateMemberRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<MemberInfoResponse> updateMember(@RequestBody UpdataMemberRequest updataMemberRequest) {
+    public ResponseEntity<UpdateMemberRequest> update(@RequestBody UpdateMemberRequest updateMemberRequest) {
 
-        return ResponseEntity.status(202).body(new MemberInfoResponse());
+        return ResponseEntity.status(202).body(new UpdateMemberRequest());
     }
 
 }

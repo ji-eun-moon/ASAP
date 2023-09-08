@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-public class ApplySubmitRequest {
+public class RegisterApplyRequest {
 
     private String title;
     private String content;

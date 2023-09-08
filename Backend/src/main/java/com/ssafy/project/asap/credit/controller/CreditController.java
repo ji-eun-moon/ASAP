@@ -1,7 +1,7 @@
 package com.ssafy.project.asap.credit.controller;
 
-import com.ssafy.project.asap.credit.entity.dto.request.CreateCreditRequest;
-import com.ssafy.project.asap.credit.entity.dto.response.CreditResponse;
+import com.ssafy.project.asap.credit.entity.dto.request.RegisterCreditRequest;
+import com.ssafy.project.asap.credit.entity.dto.response.FindCreditResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,13 +22,13 @@ public class CreditController {
     @Operation(summary = "결제 수단 등록", description = "카드사, 카드 번호를 통해 결제 수단 등록")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "결제 수단 등록", content = @Content(schema = @Schema(
-                    implementation = CreateCreditRequest.class
+                    implementation = RegisterCreditRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> registerCredit(@RequestBody CreateCreditRequest createCreditRequest) {
+    public ResponseEntity<String> register(@RequestBody RegisterCreditRequest registerCreditRequest) {
         return ResponseEntity.status(201).body("결제 수단 등록 성공 ~ !");
     }
 
@@ -40,8 +40,8 @@ public class CreditController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<CreditResponse> getCredit() {
-        return ResponseEntity.status(200).body(new CreditResponse());
+    public ResponseEntity<FindCreditResponse> find() {
+        return ResponseEntity.status(200).body(new FindCreditResponse());
     }
 
     @DeleteMapping("")
@@ -52,7 +52,7 @@ public class CreditController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> deleteCredit() {
+    public ResponseEntity<String> delete() {
         return ResponseEntity.status(204).body("결제 수단 삭제되었습니다.");
     }
 
@@ -64,7 +64,7 @@ public class CreditController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> updateCredit(@RequestBody CreateCreditRequest createCreditRequest) {
+    public ResponseEntity<String> update(@RequestBody RegisterCreditRequest registerCreditRequest) {
         return ResponseEntity.status(202).body("결제 수단 수정되었습니다.");
     }
 }

@@ -1,4 +1,4 @@
-package com.ssafy.project.asap;
+package com.ssafy.project.asap.global.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.member.entity.domain;
 
-import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.api.entity.domain.Api;
 import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.credit.entity.domain.Credit;

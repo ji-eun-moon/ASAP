@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.record.entity.domain;
 
-import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.global.common.BaseTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

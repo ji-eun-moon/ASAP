@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.payment.entity.domain;
 
-import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

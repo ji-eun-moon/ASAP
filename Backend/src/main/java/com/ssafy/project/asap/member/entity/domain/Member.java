@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.member.entity.domain;
 
-import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.api.entity.domain.Api;
 import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.credit.entity.domain.Credit;
@@ -8,9 +8,7 @@ import com.ssafy.project.asap.notice.entity.domain.Notice;
 import com.ssafy.project.asap.payment.entity.domain.Payment;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,30 +17,29 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Member extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @Getter
     @Column(nullable = false, unique = true)
     private String id;
 
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Getter
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String address;
-
-    public String getPassword() {
-        return password;
-    }
 
     @OneToMany(mappedBy = "member")
     private List<Payment> paymentList = new ArrayList<>();

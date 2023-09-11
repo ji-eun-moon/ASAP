@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.api.entity.domain;
 
-import com.ssafy.project.asap.BaseTime;
+import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;

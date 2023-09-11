@@ -53,8 +53,11 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Boolean> checkId(@RequestBody String id) {
-        return ResponseEntity.ok(true);
+    public ResponseEntity<?> checkId(@RequestBody String id) {
+
+        memberService.checkId(id);
+
+        return ResponseEntity.ok("아이디 확인 완료");
     }
 
     @PostMapping("/auth-email")

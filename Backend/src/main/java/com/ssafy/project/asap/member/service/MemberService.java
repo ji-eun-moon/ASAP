@@ -63,4 +63,14 @@ public class MemberService {
 
     }
 
+    public void checkId(String id){
+
+        Optional<Member> optionalMember = memberRepository.findById(id);
+
+        if(optionalMember.isPresent()){
+            throw new RuntimeException("아이디 중복");
+        }
+
+    }
+
 }

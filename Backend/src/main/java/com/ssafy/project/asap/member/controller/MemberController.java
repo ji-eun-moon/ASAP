@@ -1,7 +1,9 @@
 package com.ssafy.project.asap.member.controller;
 
+import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.entity.dto.response.FindMemberResponse;
+import com.ssafy.project.asap.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/member")
@@ -21,18 +24,25 @@ import java.util.List;
 @Tag(name="Member", description = "회원 API")
 public class MemberController {
 
+    private final MemberService memberService;
+
     @PostMapping("/signup")
     @Operation(summary = "회원가입", description = "이메일, 아이디, 비밀번호, 이름을 통해 회원가입")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "회원 가입 성공", content = @Content(schema = @Schema(
-                    implementation = RegisterMemberRequest.class
+                    implementation = Member.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
-        return ResponseEntity.status(201).body("");
+    public ResponseEntity<?> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
+
+        memberService.signUp(registerMemberRequest);
+
+        Member member = memberService.findById(registerMemberRequest.getId());
+
+        return ResponseEntity.status(201).body(member);
     }
 
     @PostMapping("/check-id")
@@ -84,7 +94,10 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<String> login(@RequestBody LoginMemberRequest loginMemberRequest) {
-        return ResponseEntity.ok("토큰 어쩌고 저쩌고");
+
+        String token = memberService.login(loginMemberRequest);
+
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/find-id")

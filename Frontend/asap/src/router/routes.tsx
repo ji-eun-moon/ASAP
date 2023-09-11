@@ -60,19 +60,19 @@ const routes: Route[] = [
     element: <ApiList />,
   },
   {
-    path: '/api_list/detail',
+    path: '/api_list/:api_id',
     element: <ApiDetail />,
   },
   {
-    path: '/api_list/detail/usage',
+    path: '/api_list/:api_id/usage',
     element: <ApiUsage />,
   },
   {
-    path: '/api_list/detail/test',
+    path: '/api_list/:api_id/test',
     element: <ApiTest />,
   },
   {
-    path: '/api_list/detail/apply',
+    path: '/api_list/:api_id/apply',
     element: <ApiApply />,
   },
   {

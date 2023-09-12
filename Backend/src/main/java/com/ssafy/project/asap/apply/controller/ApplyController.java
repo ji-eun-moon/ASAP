@@ -5,11 +5,13 @@ import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
+import com.ssafy.project.asap.apply.service.ApplyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/apply")
+@RequiredArgsConstructor
 public class ApplyController {
+
+    private final ApplyService applyService;
 
     @GetMapping("/check-apply/{api_id}")
     @Operation(summary = "신청내역 상세 조회 (제공자)", description = "제공자가 관리자에게 신청한 API 상세 정보 조회")

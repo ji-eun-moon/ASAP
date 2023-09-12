@@ -5,11 +5,16 @@ import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.LoginMemberRequest;
 import com.ssafy.project.asap.member.entity.dto.request.RegisterMemberRequest;
 import com.ssafy.project.asap.member.repository.MemberRepository;
+import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 import java.util.Optional;
 
 @Service
@@ -17,6 +22,8 @@ import java.util.Optional;
 @Slf4j
 public class MemberService {
 
+    @Value("${security.jwt.sercret.key}")
+    private String secretKey;
     private final MemberRepository memberRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -41,9 +48,15 @@ public class MemberService {
         if(optionalMember.isEmpty()){
             throw new RuntimeException("아이디 에러");
         }
-        
+
         if(bCryptPasswordEncoder.matches(loginMemberRequest.getPassword(), optionalMember.get().getPassword())){
-            return JwtUtil.createToken(loginMemberRequest.getId());
+
+            byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
+
+            Key key = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS256.getJcaName());
+
+            Long accessExpiration = 60 * 60 * 24L;
+            return JwtUtil.createToken(loginMemberRequest.getId(), key, accessExpiration);
         }else{
             throw new RuntimeException("비밀번호 에러");
         }
@@ -51,6 +64,8 @@ public class MemberService {
     }
 
     public void signUp(RegisterMemberRequest registerMemberRequest){
+
+        log.info(registerMemberRequest.getId(), registerMemberRequest.getPassword());
 
         Member member = Member.builder()
                 .email(registerMemberRequest.getEmail())

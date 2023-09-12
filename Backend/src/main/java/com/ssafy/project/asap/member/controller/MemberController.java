@@ -11,17 +11,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/member")
 @RequiredArgsConstructor
 @Tag(name="Member", description = "회원 API")
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
@@ -30,7 +28,7 @@ public class MemberController {
     @Operation(summary = "회원가입", description = "이메일, 아이디, 비밀번호, 이름을 통해 회원가입")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "회원 가입 성공", content = @Content(schema = @Schema(
-                    implementation = Member.class
+                    implementation = RegisterMemberRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
@@ -53,9 +51,15 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> checkId(@RequestBody String id) {
+    public ResponseEntity<String> checkId(@RequestBody String id) {
 
-        memberService.checkId(id);
+        try {
+            memberService.checkId(id);
+            log.info(id);
+        } catch (RuntimeException e){
+            log.error("이미 가입된 아이디입니다.");
+            return ResponseEntity.status(400).body("이미 가입된 아이디입니다.");
+        }
 
         return ResponseEntity.ok("아이디 확인 완료");
     }
@@ -113,14 +117,11 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<String>> findByEmailAndName(@RequestBody FindMemberIdRequest findMemberIdRequest) {
+    public ResponseEntity<String> findByEmailAndName(@RequestBody FindMemberIdRequest findMemberIdRequest) {
 
-        List<String> ids = new ArrayList<>();
-        ids.add("시온");
-        ids.add("지은");
-        ids.add("도하");
+        Member member = memberService.findByEmailAndName(findMemberIdRequest);
 
-        return ResponseEntity.ok(ids);
+        return ResponseEntity.ok(member.getId());
     }
 
     @PostMapping("/find-password")

@@ -2,10 +2,12 @@ package com.ssafy.project.asap.member.service;
 
 import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
+import com.ssafy.project.asap.member.entity.dto.request.FindMemberIdRequest;
 import com.ssafy.project.asap.member.entity.dto.request.LoginMemberRequest;
 import com.ssafy.project.asap.member.entity.dto.request.RegisterMemberRequest;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.transaction.Transactional;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,18 +31,20 @@ public class MemberService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 
+    @Transactional
     public Member findById(String id){
 
         Optional<Member> optionalMember = memberRepository.findById(id);
 
         if(optionalMember.isEmpty()){
-            throw new RuntimeException("아이디 에러");
+            throw new RuntimeException("없는 아이디입니다.");
         }
 
         return optionalMember.get();
 
     }
-    
+
+    @Transactional
     public String login(LoginMemberRequest loginMemberRequest){
         
         Optional<Member> optionalMember = memberRepository.findById(loginMemberRequest.getId());
@@ -63,9 +67,8 @@ public class MemberService {
         
     }
 
+    @Transactional
     public void signUp(RegisterMemberRequest registerMemberRequest){
-
-        log.info(registerMemberRequest.getId(), registerMemberRequest.getPassword());
 
         Member member = Member.builder()
                 .email(registerMemberRequest.getEmail())
@@ -78,13 +81,30 @@ public class MemberService {
 
     }
 
+    @Transactional
     public void checkId(String id){
 
         Optional<Member> optionalMember = memberRepository.findById(id);
 
+        log.info("checkId");
+
         if(optionalMember.isPresent()){
+            log.error("아이디 중복");
             throw new RuntimeException("아이디 중복");
         }
+
+    }
+
+    @Transactional
+    public Member findByEmailAndName(FindMemberIdRequest findMemberIdRequest){
+
+        Optional<Member> optionalMember = memberRepository.findByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName());
+
+        if(optionalMember.isEmpty()){
+            throw new RuntimeException("해당하는 회원은 존재하지 않습니다.");
+        }
+
+        return optionalMember.get();
 
     }
 

@@ -1,7 +1,12 @@
 import React from 'react';
+import SupplierApi from './SupplierApi';
 
 function MyApi() {
-  return <div>MyApi</div>;
+  return (
+    <div>
+      <SupplierApi />
+    </div>
+  );
 }
 
 export default MyApi;

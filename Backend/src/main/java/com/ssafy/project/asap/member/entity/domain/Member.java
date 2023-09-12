@@ -9,6 +9,7 @@ import com.ssafy.project.asap.payment.entity.domain.Payment;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -34,7 +34,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         String requestHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         log.info("requestHeader = " + requestHeader);
-        log.info("secretKey = " + secretKey);
 
         byte[] secretKeyByte = DatatypeConverter.parseBase64Binary(secretKey);
 

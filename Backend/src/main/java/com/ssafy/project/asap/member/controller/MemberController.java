@@ -36,7 +36,7 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
+    public ResponseEntity<Member> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
 
         memberService.signUp(registerMemberRequest);
 
@@ -175,6 +175,8 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<FindMemberResponse> findByMemberId() {
+
+
 
         return ResponseEntity.ok(new FindMemberResponse());
     }

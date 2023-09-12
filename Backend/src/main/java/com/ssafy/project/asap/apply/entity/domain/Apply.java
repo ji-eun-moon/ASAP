@@ -40,6 +40,7 @@ public class Apply extends BaseTime {
     private String content;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING) 
     private ApplyProgress progress;
 
 }

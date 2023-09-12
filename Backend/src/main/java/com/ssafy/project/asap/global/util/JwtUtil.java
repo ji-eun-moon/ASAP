@@ -2,18 +2,11 @@ package com.ssafy.project.asap.global.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
-import java.security.spec.KeySpec;
 import java.util.Date;
-import java.util.Locale;
 
 @Slf4j
 @RequiredArgsConstructor

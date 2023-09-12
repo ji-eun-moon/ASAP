@@ -1,10 +1,8 @@
 package com.ssafy.project.asap.global.config;
 
 import com.ssafy.project.asap.global.security.JwtTokenFilter;
-import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +33,8 @@ public class SecurityConfig {
                 })
                 .addFilterBefore(new JwtTokenFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
-                    authorizationManagerRequestMatcherRegistry.requestMatchers("/api/v1/member/login", "/api/v1/member/signup", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
+                    authorizationManagerRequestMatcherRegistry.requestMatchers("/api/v1/member/login", "/api/v1/member/signup", "/swagger-ui/**", "/v3/api-docs/**",
+                            "/api/v1/member/check-id").permitAll();
                 })
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();

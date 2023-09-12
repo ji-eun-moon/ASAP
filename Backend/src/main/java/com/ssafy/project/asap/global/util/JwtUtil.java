@@ -21,7 +21,7 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessExpiration))
                 .signWith(key)
                 .compact();
@@ -29,9 +29,9 @@ public class JwtUtil {
 
     public static boolean isExpired(String token, Key key){
 
-        log.info("isExpired = " + Jwts.parserBuilder().build().parseClaimsJwt(token).getBody().toString());
+//        log.info(String.valueOf(Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getExpiration()));
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getExpiration().before(new Date());
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
 
     }
 

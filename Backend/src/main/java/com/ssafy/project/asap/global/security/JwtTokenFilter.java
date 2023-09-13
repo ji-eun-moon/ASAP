@@ -56,13 +56,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = requestHeader.split(" ")[1];
 
         // 토큰이 만료되었을 경우
-        if(JwtUtil.isExpired(token, key)){
-            filterChain.doFilter(request, response);
-            return ;
-        }
+//        if(JwtUtil.isExpired(token, key)){
+//            filterChain.doFilter(request, response);
+//            return ;
+//        }
+
+        log.error("isExpired = " + (JwtUtil.isExpired(token, key)));
 
         // 아이디 추출
         String loginId = JwtUtil.getId(token, key);
+
+        log.info("loginId = " + loginId);
 
         Member member = memberService.findById(loginId);
 

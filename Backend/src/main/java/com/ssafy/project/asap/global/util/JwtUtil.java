@@ -31,13 +31,15 @@ public class JwtUtil {
 
 //        log.info(String.valueOf(Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getExpiration()));
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
+        log.error("exp = " + Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration());
+
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date(System.currentTimeMillis()));
 
     }
 
     public static String getId(String token, Key key){
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getId();
+        return (String) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("id");
 
     }
 

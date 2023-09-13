@@ -1,10 +1,10 @@
 import React from 'react';
-import UserApi from './UserApi';
+import SupplierApi from './SupplierApi';
 
 function MyApi() {
   return (
     <div>
-      <UserApi />
+      <SupplierApi />
     </div>
   );
 }

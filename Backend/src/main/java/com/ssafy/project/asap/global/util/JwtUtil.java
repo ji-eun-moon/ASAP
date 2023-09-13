@@ -2,11 +2,8 @@ package com.ssafy.project.asap.global.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.security.Key;
 import java.util.Date;
@@ -15,15 +12,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtUtil {
 
-
-//    @Value("${jwt.security.secret.key}")
-//    private String secretKey;
-
-    private static final Long accessExpiration = 60 * 60 * 24L;
-
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-    public static String createToken(String id){
+    public static String createToken(String id, Key key, Long accessExpiration){
 
         Claims claims = Jwts.claims();
         claims.put("id", id);
@@ -32,23 +21,26 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + accessExpiration))
                 .signWith(key)
                 .compact();
     }
 
-    public static boolean isExpired(String token){
+    public static boolean isExpired(String token, Key key){
 
-        log.info(Jwts.parserBuilder().build().parseClaimsJwt(token).getBody().toString());
+//        log.info(String.valueOf(Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getExpiration()));
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getExpiration().before(new Date());
+        log.error("exp = " + Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration());
+
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date(System.currentTimeMillis()));
 
     }
 
-    public static String getId(String token){
+    public static String getId(String token, Key key){
 
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody().getId();
+        return (String) Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("id");
+
     }
 
 }

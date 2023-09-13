@@ -34,7 +34,9 @@
         "tsx": "never",
         "json": "never"
       }
-    ]
+    ],
+    "no-console": "off",
+    "no-alert": "off"
   },
   "settings": {
     "import/resolver": {

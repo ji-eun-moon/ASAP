@@ -139,7 +139,7 @@ function SignUp() {
         <p>
           비밀번호는 영문자/숫자/특수문자 혼용 8자이상 16자 이하로 입력해주세요.
         </p>
-        <p>{passwordMessage()}</p>
+        {passwordMessage()}
       </div>
 
       {/* 이름 입력 */}

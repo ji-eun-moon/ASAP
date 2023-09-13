@@ -1,7 +1,12 @@
 import React from 'react';
+import UserApi from './UserApi';
 
 function MyApi() {
-  return <div>MyApi</div>;
+  return (
+    <div>
+      <UserApi />
+    </div>
+  );
 }
 
 export default MyApi;

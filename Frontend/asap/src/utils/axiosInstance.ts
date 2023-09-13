@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://j9c202.p.ssafy.io:9000/', // 원하는 API 서버의 기본 URL을 설정합니다.
+  baseURL: 'https://j9c202.p.ssafy.io', // 원하는 API 서버의 기본 URL을 설정합니다.
+  withCredentials: true,
 });
 
 // 요청 인터셉터

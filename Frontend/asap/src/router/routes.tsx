@@ -4,9 +4,9 @@ import React from 'react';
 import MainPage from 'pages/main/MainPage';
 
 // account
-import SignUp from 'pages/account/SignUp';
-import LogIn from 'pages/account/LogIn';
-import FindAccount from 'pages/account/FindAccount';
+import SignUp from 'pages/auth/SignUp';
+import LogIn from 'pages/auth/LogIn';
+import FindAccount from 'pages/auth/FindAccount';
 
 // api
 import ApiList from 'pages/api/ApiList';

@@ -13,7 +13,7 @@ const useSupplierChart = () => {
         console.error('제공자 통계 정보 가져오기 실패', response.data);
       }
     } catch (error) {
-      console.log('서버 오류', error);
+      console.log('서버 오류남', error);
     }
   };
   return { supplierChart };

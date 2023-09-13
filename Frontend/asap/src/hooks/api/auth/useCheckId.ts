@@ -8,7 +8,7 @@ const useCheckId = () => {
     try {
       const response = await axios({
         method: 'POST',
-        url: 'http://localhost:8080/api/v1/member/check-id',
+        url: 'http://j9c202.p.ssafy.io:9000/api/v1/member/check-id',
         data: { id },
       });
       // 아이디 체크 조건문 수정 필요

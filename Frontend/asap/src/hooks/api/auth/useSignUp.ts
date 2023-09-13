@@ -16,7 +16,7 @@ const useSignUp = () => {
     try {
       const response = await axios({
         method: 'POST',
-        url: 'http://localhost:8080/api/v1/member/signup',
+        url: 'http://j9c202.p.ssafy.io:9000/api/v1/member/signup',
         data: { id, password, name, email },
       });
       // 서버에서 받은 응답 처리

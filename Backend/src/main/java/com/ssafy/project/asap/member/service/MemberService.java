@@ -59,7 +59,7 @@ public class MemberService {
 
             Key key = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS256.getJcaName());
 
-            Long accessExpiration = 60 * 60 * 24L;
+            Long accessExpiration = 1000 * 60 * 60 * 24L;
             return JwtUtil.createToken(loginMemberRequest.getId(), key, accessExpiration);
         }else{
             throw new RuntimeException("비밀번호 에러");
@@ -105,6 +105,15 @@ public class MemberService {
         }
 
         return optionalMember.get();
+
+    }
+
+    @Transactional
+    public void updatePassword(LoginMemberRequest loginMemberRequest){
+
+        Member member = memberRepository.findById(loginMemberRequest.getId()).get();
+
+        member.setPassword(bCryptPasswordEncoder.encode(loginMemberRequest.getPassword()));
 
     }
 

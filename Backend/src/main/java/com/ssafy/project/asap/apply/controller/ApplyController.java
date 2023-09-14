@@ -121,7 +121,7 @@ public class ApplyController {
         return ResponseEntity.ok().body("모든 리스트 (관리자 입장)");
     }
 
-    @PatchMapping ("/progress")
+    @PutMapping  ("/progress")
     @Operation(summary = "API 진행 상태 변경 (관리자)", description = "관리자가 제공자가 신청한 해당 API 신청 상태 변경")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 신청 상태 변경 완료"),

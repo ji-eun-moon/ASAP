@@ -33,6 +33,9 @@ import AdminLogin from 'pages/admin/AdminLogin';
 import ApiApproval from 'pages/admin/ApiApproval';
 import AccountPay from 'pages/mypage/AccountPay';
 
+// notice
+import NoticeList from 'components/notice/NoticeList';
+
 interface Route {
   path: string;
   element: React.ReactElement;
@@ -114,6 +117,10 @@ const routes: Route[] = [
   {
     path: '/admin/approval',
     element: <ApiApproval />,
+  },
+  {
+    path: '/notice',
+    element: <NoticeList />,
   },
 ];
 

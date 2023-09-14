@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +54,6 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<String> checkId(@RequestBody String id) {
-
         try {
             memberService.checkId(id);
             log.info(id);

@@ -49,7 +49,7 @@ public class ApplyController {
                 .title("카카오 맵 조회")
                 .content("카카오 맵 조회해서 띄우기")
                 .price(1L)
-                .progress(ApplyProgress.진행중)
+                .progress(ApplyProgress.진행)
                 .provideDate(LocalDateTime.now().plusDays(2))
                 .createDate(LocalDateTime.now())
                 .api("kakao/api/map")
@@ -76,7 +76,7 @@ public class ApplyController {
         list.add(FindApplysResponse.builder()
                         .applyId(1L)
                         .title("신청 내역 리스트")
-                        .progress(ApplyProgress.대기중)
+                        .progress(ApplyProgress.대기)
                         .createDate(LocalDateTime.now().minusDays(1))
                         .modifyDate(LocalDateTime.now())
                 .build());

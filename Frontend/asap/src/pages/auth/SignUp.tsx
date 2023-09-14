@@ -2,10 +2,13 @@ import React, { useState, ChangeEvent } from 'react';
 import useSignUp from 'hooks/api/auth/useSignUp';
 import useCheckId from 'hooks/api/auth/useCheckId';
 import { Input, Button } from '@material-tailwind/react';
+import useAuthEmail from 'hooks/api/auth/useAuthEmail';
 
 function SignUp() {
   const { signUp } = useSignUp();
   const { isIdAvailable, setIsIdAvailable, checkIdAvailability } = useCheckId();
+  const { postEmail, checkEmailCode } = useAuthEmail();
+
   const [userId, setUserId] = useState<string>('');
 
   const [userPassword, setUserPassword] = useState<string>('');
@@ -51,8 +54,20 @@ function SignUp() {
   const onEmailHandler = (event: ChangeEvent<HTMLInputElement>) =>
     setUserEmail(event.target.value);
 
+  const onPostEmailCode = async () => {
+    if (!userEmail) {
+      alert('이메일을 입력해주세요');
+      return;
+    }
+    await postEmail(userEmail);
+  };
+
   const onEmailCodeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setEmailCode(event?.target.value);
+  };
+
+  const onCheckEmailCode = async () => {
+    await checkEmailCode({ email: userEmail, code: emailCode });
   };
 
   const onsubmitHandler = async () => {
@@ -172,6 +187,7 @@ function SignUp() {
           color={userEmail ? 'gray' : 'blue-gray'}
           disabled={!userEmail}
           className="!absolute right-1 top-1 rounded"
+          onClick={onPostEmailCode}
         >
           인증 코드 전송
         </Button>
@@ -193,6 +209,7 @@ function SignUp() {
           color={emailCode ? 'gray' : 'blue-gray'}
           disabled={!emailCode}
           className="!absolute right-1 top-1 rounded"
+          onClick={onCheckEmailCode}
         >
           인증 코드 확인
         </Button>

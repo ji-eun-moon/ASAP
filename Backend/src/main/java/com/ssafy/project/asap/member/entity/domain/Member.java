@@ -1,15 +1,14 @@
 package com.ssafy.project.asap.member.entity.domain;
 
-import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.api.entity.domain.Api;
 import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.credit.entity.domain.Credit;
+import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.notice.entity.domain.Notice;
 import com.ssafy.project.asap.payment.entity.domain.Payment;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,4 +59,7 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Purpose> purposeList = new ArrayList<>();
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

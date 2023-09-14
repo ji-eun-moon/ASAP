@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -64,31 +65,6 @@ public class MemberController {
         return ResponseEntity.ok("아이디 확인 완료");
     }
 
-    @PostMapping("/auth-email")
-    @Operation(summary = "이메일 인증 전송", description = "이메일 인증 메일 전송")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "이메일 인증 발송"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "404", description = "Not Found"),
-            @ApiResponse(responseCode = "500", description = "Server Error")
-    })
-    public ResponseEntity<Boolean> authEmail(@RequestBody String email) {
-        return ResponseEntity.ok(true);
-    }
-
-    @PostMapping("/check-auth-email")
-    @Operation(summary = "이메일 인증 확인", description = "이메일 인증 메일 코드 확인")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "이메일 인증 성공", content = @Content(schema = @Schema(
-                    implementation = CheckMemberEmailRequest.class
-            ))),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "404", description = "Not Found"),
-            @ApiResponse(responseCode = "500", description = "Server Error")
-    })
-    public ResponseEntity<Boolean> authEmail(@RequestBody CheckMemberEmailRequest checkMemberEmailRequest) {
-        return ResponseEntity.ok(true);
-    }
 
     @PostMapping("/login")
     @Operation(summary = "로그인", description = "아이디, 비밀번호를 통해 로그인")
@@ -151,6 +127,8 @@ public class MemberController {
     })
     public ResponseEntity<Boolean> updatePassword(@RequestBody LoginMemberRequest loginMemberRequest) {
 
+        memberService.updatePassword(loginMemberRequest);
+
         return ResponseEntity.ok(true);
     }
 
@@ -175,9 +153,11 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<FindMemberResponse> findByMemberId() {
+    public ResponseEntity<FindMemberResponse> findByMemberId(Authentication authentication) {
 
+        Member member = memberService.findById(authentication.getName());
 
+        log.info("id = " + member.getId());
 
         return ResponseEntity.ok(new FindMemberResponse());
     }

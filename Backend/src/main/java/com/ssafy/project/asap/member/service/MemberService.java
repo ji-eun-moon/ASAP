@@ -108,4 +108,13 @@ public class MemberService {
 
     }
 
+    @Transactional
+    public void updatePassword(LoginMemberRequest loginMemberRequest){
+
+        Member member = memberRepository.findById(loginMemberRequest.getId()).get();
+
+        member.setPassword(bCryptPasswordEncoder.encode(loginMemberRequest.getPassword()));
+
+    }
+
 }

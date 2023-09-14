@@ -59,7 +59,7 @@ public class MemberService {
 
             Key key = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS256.getJcaName());
 
-            Long accessExpiration = 60 * 60 * 24L;
+            Long accessExpiration = 1000 * 60 * 60 * 24L;
             return JwtUtil.createToken(loginMemberRequest.getId(), key, accessExpiration);
         }else{
             throw new RuntimeException("비밀번호 에러");

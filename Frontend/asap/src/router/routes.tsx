@@ -7,6 +7,7 @@ import MainPage from 'pages/main/MainPage';
 import SignUp from 'pages/auth/SignUp';
 import LogIn from 'pages/auth/LogIn';
 import FindAccount from 'pages/auth/FindAccount';
+import ChangePw from 'pages/auth/ChangePw';
 
 // api
 import ApiList from 'pages/api/ApiList';
@@ -121,6 +122,10 @@ const routes: Route[] = [
   {
     path: '/notice',
     element: <NoticeList />,
+  },
+  {
+    path: '/change_password',
+    element: <ChangePw />,
   },
 ];
 

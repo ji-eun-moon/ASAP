@@ -1,5 +1,5 @@
 import useFindId from 'hooks/api/auth/useFindId';
-import useFindPw from 'hooks/api/auth/useFindPassWord';
+import useFindPw from 'hooks/api/auth/useFindPw';
 import React from 'react';
 
 function FindAccount() {

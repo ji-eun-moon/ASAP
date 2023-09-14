@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +53,6 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<String> checkId(@RequestBody String id) {
-
         try {
             memberService.checkId(id);
             log.info(id);
@@ -139,10 +139,10 @@ public class MemberController {
         return ResponseEntity.ok(true);
     }
 
-    @PostMapping("/change-password")
+    @PatchMapping ("/change-password")
     @Operation(summary = "비밀번호 변경", description = "새로운 비밀번호 변경")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "새로운 비밀 번호 변경 완료", content = @Content(schema = @Schema(
+            @ApiResponse(responseCode = "202", description = "새로운 비밀 번호 변경 완료", content = @Content(schema = @Schema(
                     implementation = LoginMemberRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -151,7 +151,7 @@ public class MemberController {
     })
     public ResponseEntity<Boolean> updatePassword(@RequestBody LoginMemberRequest loginMemberRequest) {
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.status(202).body(true);
     }
 
     @PostMapping("/logout")
@@ -182,7 +182,7 @@ public class MemberController {
         return ResponseEntity.ok(new FindMemberResponse());
     }
 
-    @PostMapping("/me")
+    @PatchMapping("/me")
     @Operation(summary = "개인정보 수정", description = "이름, 이메일 수정")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "개인 정보 조회", content = @Content(schema = @Schema(

@@ -7,7 +7,7 @@ interface LoginInfo {
 }
 
 const useLogIn = () => {
-  const logIn = async ({ id, password }: LoginInfo) => {
+  const logIn = async ({ id, password, loginType }: LoginInfo) => {
     try {
       const response = await axios({
         method: 'POST',
@@ -15,6 +15,7 @@ const useLogIn = () => {
         data: { id, password },
       });
       sessionStorage.setItem('authToken', response.data);
+      sessionStorage.setItem('loginType', loginType);
       //   서버에서 받은 응답 처리
       if (response.status === 200) {
         console.log('로그인 성공:', response.data);

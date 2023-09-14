@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/apply")
 @RequiredArgsConstructor
+@Slf4j
 public class ApplyController {
 
     private final ApplyService applyService;
@@ -130,7 +132,7 @@ public class ApplyController {
     public ResponseEntity<?> updateProgress(@RequestBody UpdateApplyRequest updateApplyRequest){
 
         // API 진행 상태 변경
-
+        log.info("progress 상태 변경");
 
         return ResponseEntity.ok().body(updateApplyRequest.getApplyId() + "번 진행상태 " + updateApplyRequest.getProgress() + "상태로 변경");
 

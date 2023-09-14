@@ -18,7 +18,7 @@ public class MailService {
 
         String pwd = createCode();
 
-        String setFrom = "admin@asap.com";
+        String setFrom = "victoryddh@gmail.com";
         String title = "ASAP 회원가입 인증번호 입니다.";
 
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -38,9 +38,10 @@ public class MailService {
         emailMsg += "<div style='font-size:130%'>";
         emailMsg += "CODE : <strong>";
         emailMsg += pwd + "</strong><div><br/> ";
+        emailMsg += "</div>";
 
         message.setFrom(setFrom);
-        message.setText(emailMsg);
+        message.setText(emailMsg, "utf-8", "html");
 
         javaMailSender.send(message);
     }
@@ -54,16 +55,10 @@ public class MailService {
 
             int idx = random.nextInt(3);
 
-            switch (idx){
-                case 0:
-                    key.append((char) (random.nextInt(26) + 97));
-                    break;
-                case 1:
-                    key.append((char) (random.nextInt(26) + 65));
-                    break;
-                case 2:
-                    key.append((char) (random.nextInt(9)));
-                    break;
+            switch (idx) {
+                case 0 -> key.append((char) (random.nextInt(26) + 97));
+                case 1 -> key.append((char) (random.nextInt(26) + 65));
+                case 2 -> key.append((char) (random.nextInt(9)));
             }
 
         }

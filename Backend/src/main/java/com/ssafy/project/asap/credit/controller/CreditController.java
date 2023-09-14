@@ -56,10 +56,10 @@ public class CreditController {
         return ResponseEntity.status(204).body("결제 수단 삭제되었습니다.");
     }
 
-    @PostMapping("/update")
+    @PutMapping ("/update")
     @Operation(summary = "결제 수단 수정", description = "결제 정보를 수정한다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "결제 수단 수정"),
+            @ApiResponse(responseCode = "202", description = "결제 수단 수정"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")

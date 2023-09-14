@@ -35,7 +35,7 @@ public class NoticeController {
         return ResponseEntity.ok().body("아직 읽지 않은 메시지 = " + unreadAlarm);
     }
 
-    @GetMapping("/notice/list")
+    @GetMapping("/list")
     @Operation(summary = "알림 리스트 조회", description = "나의 모든 알림 리스트 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "알림 리스트 조회 성공", content = @Content(schema = @Schema(

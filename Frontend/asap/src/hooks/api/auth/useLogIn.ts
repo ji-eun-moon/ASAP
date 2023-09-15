@@ -19,6 +19,7 @@ const useLogIn = () => {
       //   서버에서 받은 응답 처리
       if (response.status === 200) {
         console.log('로그인 성공:', response.data);
+        window.location.href = '/';
       } else {
         console.error('로그인 실패:', response.data);
       }

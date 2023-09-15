@@ -72,7 +72,7 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll(@RequestBody FindApplysRequest findApplysRequest){
+    public ResponseEntity<?> findAll(){
 
         List<FindApplysResponse> list = new ArrayList<>();
 
@@ -84,8 +84,16 @@ public class ApplyController {
                         .modifyDate(LocalDateTime.now())
                 .build());
 
+        list.add(FindApplysResponse.builder()
+                .applyId(2L)
+                .title("신청 내역 목록이다 이거야")
+                .progress(ApplyProgress.진행)
+                .createDate(LocalDateTime.now().minusDays(3))
+                .modifyDate(LocalDateTime.now())
+                .build());
 
-        return ResponseEntity.ok("내 신청내역 리스트 = " + list);
+
+        return ResponseEntity.ok(list);
 
     }
 
@@ -116,7 +124,7 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAllForAdmin(){
 
         // 모든 리스트 조회 (관리자 입장)
 

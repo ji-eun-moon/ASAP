@@ -55,7 +55,7 @@ public class PaymentController {
         return ResponseEntity.status(201).body("결제 내역 생성 완료");
     }
 
-    @GetMapping("/detail/{payment_id}")
+    @GetMapping("/detail/{payment-id}")
     @Operation(summary = "결제 내역 상세 조회", description = "회원의 결제 내역 정보를 상세 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "결제 내역 생성"),
@@ -63,8 +63,8 @@ public class PaymentController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> findByPaymentId(@PathVariable Long payment_id) {
+    public ResponseEntity<String> findByPaymentId(@PathVariable("payment-id") Long paymentId) {
 
-        return ResponseEntity.status(201).body("결제 조회 완료 완료");
+        return ResponseEntity.status(200).body("결제 조회 완료 완료");
     }
 }

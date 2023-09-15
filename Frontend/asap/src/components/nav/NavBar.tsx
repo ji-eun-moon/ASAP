@@ -1,5 +1,7 @@
+import useLogOut from 'hooks/api/auth/useLogOut';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import useAuthStore from 'store/authStore';
 
 const activeStyle = {
   color: '#004096',
@@ -7,6 +9,9 @@ const activeStyle = {
 };
 
 function NavBar() {
+  const { logOut } = useLogOut();
+  const { isLoggedIn } = useAuthStore((state) => state);
+
   return (
     <div>
       <NavLink
@@ -28,6 +33,11 @@ function NavBar() {
         고객 지원
       </NavLink>
       <Link to="/login">Login</Link>
+      {isLoggedIn && (
+        <button type="button" style={{ border: '1px solid' }} onClick={logOut}>
+          로그아웃
+        </button>
+      )}
       <hr />
     </div>
   );

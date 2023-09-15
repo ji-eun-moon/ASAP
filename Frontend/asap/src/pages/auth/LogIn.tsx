@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import useLogIn from 'hooks/api/auth/useLogIn';
 import { Input, Button } from '@material-tailwind/react';
+import { Link } from 'react-router-dom';
 
 function LogIn() {
   const { logIn } = useLogIn();
@@ -80,6 +81,7 @@ function LogIn() {
           로그인
         </Button>
       </div>
+      <Link to="/find_account">아이디, 비밀번호 찾기</Link>
     </div>
   );
 }

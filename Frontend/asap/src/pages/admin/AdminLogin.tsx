@@ -5,7 +5,7 @@ import { Input, Button } from '@material-tailwind/react';
 function AdminLogin() {
   const { adminLogin } = useAdminLogin();
   const [adminId, setAdminId] = useState<string>('');
-  const [adminPwd, setAdminPwd] = useState<string>('');
+  const [adminPassword, setAdminPwd] = useState<string>('');
 
   const onIdHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setAdminId(event.target.value);
@@ -15,6 +15,12 @@ function AdminLogin() {
     setAdminPwd(event.target.value);
   };
 
+  const login = async () => {
+    await adminLogin({
+      adminId,
+      adminPassword,
+    });
+  };
   return (
     <div>
       <h1>관리자 인증이 필요한 페이지입니다</h1>
@@ -32,7 +38,7 @@ function AdminLogin() {
         />
         <Input
           label="비밀번호"
-          value={adminPwd}
+          value={adminPassword}
           onChange={onPwdHandler}
           className="pr-20"
           containerProps={{
@@ -40,7 +46,7 @@ function AdminLogin() {
           }}
           crossOrigin=""
         />
-        <Button onClick={adminLogin}>로그인</Button>
+        <Button onClick={login}>로그인</Button>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/notice")
+@Tag(name="Notice", description = "알람 API")
 public class NoticeController {
 
     @GetMapping("/list-count")
@@ -85,7 +87,7 @@ public class NoticeController {
         return ResponseEntity.ok().body(noticeId + "번 알림 메시지 삭제");
     }
 
-    @PostMapping("/check/{notice_id}")
+    @PutMapping("/check/{notice_id}")
     @Operation(summary = "메시지 읽음", description = "회원이 메시지 확인 후 메시지 읽음 상태 변경")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "메시지 확인 완료"),

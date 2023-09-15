@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/apply")
 @RequiredArgsConstructor
+@Tag(name="Apply", description = "API관련 API")
 @Slf4j
 public class ApplyController {
 
@@ -55,7 +57,7 @@ public class ApplyController {
                 .api("kakao/api/map")
                 .build();
 
-        return ResponseEntity.ok().body(applyDetailResponse);
+        return ResponseEntity.ok(applyDetailResponse);
 
     }
 

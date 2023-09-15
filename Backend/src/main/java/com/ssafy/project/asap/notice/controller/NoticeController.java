@@ -34,7 +34,7 @@ public class NoticeController {
         // 아직 읽지 않은 알림 메시지 갯수 출력
         Long unreadAlarm = 3L;
 
-        return ResponseEntity.ok().body("아직 읽지 않은 메시지 = " + unreadAlarm);
+        return ResponseEntity.ok("아직 읽지 않은 메시지 = " + unreadAlarm);
     }
 
     @GetMapping("/list")
@@ -68,7 +68,7 @@ public class NoticeController {
                 .isRead(false)
                 .build());
 
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok(list);
     }
 
     @DeleteMapping("/delete/{notice_id}")
@@ -84,7 +84,7 @@ public class NoticeController {
         // 알림 메시지 삭제
 
 
-        return ResponseEntity.ok().body(noticeId + "번 알림 메시지 삭제");
+        return ResponseEntity.ok(noticeId + "번 알림 메시지 삭제");
     }
 
     @PutMapping("/check/{notice_id}")
@@ -99,7 +99,7 @@ public class NoticeController {
 
         // 알림 메시지 읽음 상태 변경
 
-        return ResponseEntity.ok().body(noticeId + "번 알림 메시지 읽음");
+        return ResponseEntity.ok(noticeId + "번 알림 메시지 읽음");
     }
 
 }

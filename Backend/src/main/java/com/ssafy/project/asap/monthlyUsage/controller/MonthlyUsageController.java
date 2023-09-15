@@ -7,6 +7,7 @@ import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.errors.entity.dto.response.ErrorsResponse;
 import com.ssafy.project.asap.monthlyUsage.entity.dto.response.MonthlyUsageDetailResponse;
 import com.ssafy.project.asap.monthlyUsage.entity.dto.response.MonthlyUsageResponse;
+import com.ssafy.project.asap.monthlyUsage.entity.dto.response.TotalMonthlyUsageCountResponse;
 import com.ssafy.project.asap.monthlyUsage.entity.dto.response.TotalMonthlyUsageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,8 @@ public class MonthlyUsageController {
     })
     public ResponseEntity<?> findProvidedDetail(@PathVariable Long apiId){
 
-        MonthlyUsageResponse monthlyUsageResponse = new MonthlyUsageResponse("밤톨이 건강 상태 조회 API", 50, 2500);
+
+        MonthlyUsageResponse monthlyUsageResponse = new MonthlyUsageResponse("밤톨이 건강 상태 조회 API", 50, 2500,  LocalDate.now());
         List<ErrorsResponse> errorsResponses = new ArrayList<>();
         errorsResponses.add(new ErrorsResponse("404-Forbidden", 34));
         errorsResponses.add(new ErrorsResponse("502-ServerError", 65));
@@ -76,14 +79,22 @@ public class MonthlyUsageController {
 
 
 
+
+
     private ResponseEntity<?> getResponseEntity() {
         List<MonthlyUsageResponse> monthlyUsageResponses = new ArrayList<>();
 
-        monthlyUsageResponses.add(new MonthlyUsageResponse("침수차 차량 조회 API", 50, 2500));
-        monthlyUsageResponses.add(new MonthlyUsageResponse("밤톨이 건강 상태 조회 API", 50, 2500));
-        monthlyUsageResponses.add(new MonthlyUsageResponse("맛집 조회 API", 50, 2500));
+        monthlyUsageResponses.add(new MonthlyUsageResponse("침수차 차량 조회 API", 50, 2500, LocalDate.now()));
+        monthlyUsageResponses.add(new MonthlyUsageResponse("밤톨이 건강 상태 조회 API", 50, 2500, LocalDate.now()));
+        monthlyUsageResponses.add(new MonthlyUsageResponse("맛집 조회 API", 50, 2500, LocalDate.now()));
 
-        TotalMonthlyUsageResponse totalMonthlyUsageResponse = new TotalMonthlyUsageResponse(7500, monthlyUsageResponses);
+        List<TotalMonthlyUsageCountResponse> monthlyUsageCountResponses = new ArrayList<>();
+
+        monthlyUsageCountResponses.add(new TotalMonthlyUsageCountResponse(LocalDate.of(2023, 9, 1), 1234));
+        monthlyUsageCountResponses.add(new TotalMonthlyUsageCountResponse(LocalDate.of(2023, 9, 1), 1234));
+        monthlyUsageCountResponses.add(new TotalMonthlyUsageCountResponse(LocalDate.of(2023, 9, 1), 1234));
+
+        TotalMonthlyUsageResponse totalMonthlyUsageResponse = new TotalMonthlyUsageResponse(7500, monthlyUsageResponses, monthlyUsageCountResponses);
 
 
         return ResponseEntity.ok(totalMonthlyUsageResponse);

@@ -48,11 +48,11 @@ public class ApiController {
                 .createDate(LocalDateTime.now().minusDays(1))
                 .build());
 
-        return ResponseEntity.ok().body("전체 api 리스트 = " + list);
+        return ResponseEntity.ok("전체 api 리스트 = " + list);
 
     }
 
-    @GetMapping("/detail/{api_id}")
+    @GetMapping("/detail/{api-id}")
     @Operation(summary = "API 조회", description = "해당 API 상세 정보 조회 ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 상세 정보 조회 성공"),
@@ -60,7 +60,7 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByApiId(@PathVariable("api_id") Long apiId){
+    public ResponseEntity<?> findByApiId(@PathVariable("api-id") Long apiId){
 
         // api 상세 조회
         FindApiResponse apiDetailResponse = FindApiResponse.builder()
@@ -75,7 +75,7 @@ public class ApiController {
                 .createDate(LocalDateTime.now())
                 .build();
 
-        return ResponseEntity.ok().body("api 상세 조회 = " + apiDetailResponse);
+        return ResponseEntity.ok("api 상세 조회 = " + apiDetailResponse);
 
     }
 

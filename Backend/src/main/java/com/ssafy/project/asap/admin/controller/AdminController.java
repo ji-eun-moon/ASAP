@@ -26,7 +26,7 @@ public class AdminController {
         return ResponseEntity.status(201).body("로그인 성공");
     }
 
-    @PostMapping("/delete/{apiId}")
+    @DeleteMapping("/delete/{apiId}")
     @Operation(summary = "api 관리자 삭제", description = "api 관리자 삭제")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "삭제"),

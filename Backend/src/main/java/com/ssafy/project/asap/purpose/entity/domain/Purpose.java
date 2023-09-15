@@ -29,4 +29,10 @@ public class Purpose extends BaseTime {
     @Column(nullable = false)
     private String purpose;
 
+    @Column(nullable = false)
+    private String industry;
+
+    @Column(nullable = false)
+    private String unit;
+
 }

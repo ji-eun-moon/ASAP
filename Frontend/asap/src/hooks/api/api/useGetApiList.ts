@@ -13,9 +13,10 @@ const useGetApiList = () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: 'https://j9c202.p.ssafy.io/api/v1/apis/all',
+        url: '/api/v1/apis/all',
       });
       setApiList(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
     }

@@ -37,8 +37,9 @@ import AdminLogin from 'pages/admin/AdminLogin';
 import ApiApproval from 'pages/admin/ApiApproval';
 import AccountPay from 'pages/mypage/AccountPay';
 
-// notice
+// test component
 import NoticeList from 'components/notice/NoticeList';
+import WalletInfo from 'components/mypage/WalletInfo';
 
 interface Route {
   path: string;
@@ -74,6 +75,7 @@ const routes: Route[] = [
   { path: '/admin', element: <AdminLogin /> },
   { path: '/admin/approval', element: <ApiApproval /> },
   { path: '/notice', element: <NoticeList /> },
+  { path: '/wallet', element: <WalletInfo /> },
 ];
 
 export default routes;

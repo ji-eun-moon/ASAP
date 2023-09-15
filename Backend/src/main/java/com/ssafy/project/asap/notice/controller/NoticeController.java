@@ -47,7 +47,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<List<FindNoticesResponse>> findAll(){
 
         // 내 알림 메시지 리스트 조회
         List<FindNoticesResponse> list = new ArrayList<>();
@@ -68,7 +68,7 @@ public class NoticeController {
                 .isRead(false)
                 .build());
 
-        return ResponseEntity.ok().body("메시지 리스트 = " + list);
+        return ResponseEntity.ok().body(list);
     }
 
     @DeleteMapping("/delete/{notice_id}")

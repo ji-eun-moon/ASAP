@@ -176,4 +176,19 @@ public class MemberController {
         return ResponseEntity.status(202).body(new UpdateMemberRequest());
     }
 
+    @GetMapping("/provide-api")
+    @Operation(summary = "제공 API 조회", description = "제공 중인 API 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "제공 중인 API 조회", content = @Content(schema = @Schema(
+                    implementation = UpdateMemberRequest.class
+            ))),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> provideApi(@RequestBody UpdateMemberRequest updateMemberRequest) {
+
+        return ResponseEntity.status(202).body("hi");
+    }
+
 }

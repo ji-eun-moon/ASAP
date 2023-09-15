@@ -6,7 +6,7 @@ const useCheckNotice = () => {
   const checkNotice = async (noticeId: TNoticeId) => {
     try {
       await axiosInstance({
-        method: 'POST',
+        method: 'PUT',
         url: `/api/v1/notice/check/${noticeId}`,
       });
     } catch (error) {

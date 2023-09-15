@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from 'utils/axiosInstance';
 
 interface IFindId {
   email: string;
@@ -11,9 +11,9 @@ const useFindId = () => {
 
   const findId = async ({ email, name }: IFindId) => {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         method: 'POST',
-        url: 'https://j9c202.p.ssafy.io/api/v1/member/find-id',
+        url: '/api/v1/member/find-id',
         data: { email, name },
       });
       console.log(response.data);

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosInstance from 'utils/axiosInstance';
 
 interface IFindPw {
   email: string;
@@ -8,9 +8,9 @@ interface IFindPw {
 const useFindPw = () => {
   const findPw = async ({ email, id }: IFindPw) => {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         method: 'POST',
-        url: 'https://j9c202.p.ssafy.io/api/v1/member/find-password',
+        url: '/api/v1/member/find-password',
         data: { email, id },
       });
       console.log(response.data);

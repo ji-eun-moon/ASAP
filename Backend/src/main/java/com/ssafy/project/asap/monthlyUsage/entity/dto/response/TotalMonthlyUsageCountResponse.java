@@ -9,11 +9,8 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyUsageResponse {
+public class TotalMonthlyUsageCountResponse {
 
-    private String apiInfo;
-    private Integer usage;
-    private Integer price;
-    private LocalDate date;
+    private LocalDate month;
+    private Integer count;
 }
-

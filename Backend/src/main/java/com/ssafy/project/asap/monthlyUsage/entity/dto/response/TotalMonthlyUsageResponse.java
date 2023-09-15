@@ -14,4 +14,5 @@ public class TotalMonthlyUsageResponse {
 
     private Integer totalPrice;
     private List<MonthlyUsageResponse> monthlyUsageControllers;
+    private List<TotalMonthlyUsageCountResponse> totalMonthlyUsageCountResponses;
 }

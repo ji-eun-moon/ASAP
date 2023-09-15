@@ -34,7 +34,7 @@ public class NoticeController {
         // 아직 읽지 않은 알림 메시지 갯수 출력
         Long unreadAlarm = 3L;
 
-        return ResponseEntity.ok().body("아직 읽지 않은 메시지 = " + unreadAlarm);
+        return ResponseEntity.ok("아직 읽지 않은 메시지 = " + unreadAlarm);
     }
 
     @GetMapping("/list")
@@ -68,7 +68,7 @@ public class NoticeController {
                 .isRead(false)
                 .build());
 
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok(list);
     }
 
     @DeleteMapping("/delete/{notice_id}")
@@ -84,13 +84,13 @@ public class NoticeController {
         // 알림 메시지 삭제
 
 
-        return ResponseEntity.ok().body(noticeId + "번 알림 메시지 삭제");
+        return ResponseEntity.ok(noticeId + "번 알림 메시지 삭제");
     }
 
     @PutMapping("/check/{notice_id}")
     @Operation(summary = "메시지 읽음", description = "회원이 메시지 확인 후 메시지 읽음 상태 변경")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "메시지 확인 완료"),
+            @ApiResponse(responseCode = "202", description = "메시지 확인 완료"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
@@ -99,7 +99,7 @@ public class NoticeController {
 
         // 알림 메시지 읽음 상태 변경
 
-        return ResponseEntity.ok().body(noticeId + "번 알림 메시지 읽음");
+        return ResponseEntity.status(202).body(noticeId + "번 알림 메시지 읽음");
     }
 
 }

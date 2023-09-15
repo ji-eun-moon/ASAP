@@ -14,7 +14,7 @@ const useGetApiDetail = () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: `https://j9c202.p.ssafy.io/api/v1/apis/detail/${id}`,
+        url: `/api/v1/apis/detail/${id}`,
       });
       setApiDetail(response.data);
       console.log(response.data);

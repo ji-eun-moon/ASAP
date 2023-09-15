@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-/**
- * 회원 가입
- */
-
 interface UserInfo {
   id: string;
   password: string;

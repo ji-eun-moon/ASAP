@@ -12,9 +12,10 @@ const useGetSupplyList = () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: 'https://j9c202.p.ssafy.io/api/v1/member/provide-api', // api 수정 필요
+        url: '/api/v1/monthly/provided',
       });
       setSupplyList(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log('서버 오류 :', error);
     }

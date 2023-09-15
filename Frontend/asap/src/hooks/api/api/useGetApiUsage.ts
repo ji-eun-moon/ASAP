@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 interface apiItem {
   id: string;
   title: string;
-  usage: string;
+  input: string;
+  output: string;
 }
 
 const useGetApiUsage = () => {
@@ -15,9 +16,10 @@ const useGetApiUsage = () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: `https://j9c202.p.ssafy.io/api/v1/apis/guide/${id}`, // api 미완성
+        url: `/api/v1/apis/guide/${id}`,
       });
       setApiUsage(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
     }

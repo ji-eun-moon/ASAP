@@ -15,7 +15,7 @@ const useAccountInfo = () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: '/api/v1/member/me/',
+        url: '/api/v1/member/me',
       });
       setMemberInfo(response.data);
       console.log(response.data);

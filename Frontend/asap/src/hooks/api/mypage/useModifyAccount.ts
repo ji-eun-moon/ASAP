@@ -9,7 +9,7 @@ const useModifyAccount = () => {
     try {
       const response = await axiosInstance({
         method: 'POST',
-        url: '/api/v1/member/me/',
+        url: '/api/v1/member/me',
         data: { name, email },
       });
       console.log(response.data);

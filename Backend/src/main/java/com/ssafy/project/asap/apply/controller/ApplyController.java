@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.apply.controller;
 
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
+import com.ssafy.project.asap.apply.entity.dto.request.FindApplysRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +26,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/apply")
 @RequiredArgsConstructor
+@Tag(name="Apply", description = "신청 관련 API")
 @Slf4j
 public class ApplyController {
 
     private final ApplyService applyService;
 
-    @GetMapping("/check-apply/{api_id}")
+    @GetMapping("/detail/{api_id}")
     @Operation(summary = "신청내역 상세 조회 (제공자)", description = "제공자가 관리자에게 신청한 API 상세 정보 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 상세 정보 조회 성공", content = @Content(schema = @Schema(
@@ -41,7 +44,7 @@ public class ApplyController {
     })
     public ResponseEntity<?> findByApplyId(@PathVariable("api_id") Long apiId){
 
-        // 신청내역 상세 조회
+        // 신청 내역 상세 조회
         FindApplyResponse applyDetailResponse = FindApplyResponse.builder()
                 .applyId(1L)
                 .memberId(1L)
@@ -55,7 +58,7 @@ public class ApplyController {
                 .api("kakao/api/map")
                 .build();
 
-        return ResponseEntity.ok().body(applyDetailResponse);
+        return ResponseEntity.ok(applyDetailResponse);
 
     }
 
@@ -69,7 +72,7 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll(@RequestBody FindApplysResponse findApplysResponse){
+    public ResponseEntity<?> findAll(){
 
         List<FindApplysResponse> list = new ArrayList<>();
 
@@ -81,8 +84,16 @@ public class ApplyController {
                         .modifyDate(LocalDateTime.now())
                 .build());
 
+        list.add(FindApplysResponse.builder()
+                .applyId(2L)
+                .title("신청 내역 목록이다 이거야")
+                .progress(ApplyProgress.진행)
+                .createDate(LocalDateTime.now().minusDays(3))
+                .modifyDate(LocalDateTime.now())
+                .build());
 
-        return ResponseEntity.ok().body("내 신청내역 리스트 = " + list);
+
+        return ResponseEntity.ok(list);
 
     }
 
@@ -101,7 +112,7 @@ public class ApplyController {
         // API 사용 신청 (제공자 입장)
 
 
-        return ResponseEntity.ok().body(registerApplyRequest);
+        return ResponseEntity.ok(registerApplyRequest);
 
     }
 
@@ -113,18 +124,18 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAllForAdmin(){
 
         // 모든 리스트 조회 (관리자 입장)
 
 
-        return ResponseEntity.ok().body("모든 리스트 (관리자 입장)");
+        return ResponseEntity.ok("모든 리스트 (관리자 입장)");
     }
 
     @PutMapping  ("/progress")
     @Operation(summary = "API 진행 상태 변경 (관리자)", description = "관리자가 제공자가 신청한 해당 API 신청 상태 변경")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "API 신청 상태 변경 완료"),
+            @ApiResponse(responseCode = "202", description = "API 신청 상태 변경 완료"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
@@ -134,14 +145,14 @@ public class ApplyController {
         // API 진행 상태 변경
         log.info("progress 상태 변경");
 
-        return ResponseEntity.ok().body(updateApplyRequest.getApplyId() + "번 진행상태 " + updateApplyRequest.getProgress() + "상태로 변경");
+        return ResponseEntity.status(202).body(updateApplyRequest.getApplyId() + "번 진행상태 " + updateApplyRequest.getProgress() + "상태로 변경");
 
     }
 
     @PostMapping("/complete")
     @Operation(summary = "API 신청 허가 (관리자)", description = "관리자가 해당 API 신청 허가 = API 테이블로 이동")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "API 허가 완료"),
+            @ApiResponse(responseCode = "201", description = "API 허가 완료"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
@@ -152,7 +163,7 @@ public class ApplyController {
         // 완료 상태라면 API 싱청 리시트에서 기본 리스트로 이동해야함
 
 
-        return ResponseEntity.ok().body(applyId + "번 신청 API 제공 완료 ");
+        return ResponseEntity.status(201).body(applyId + "번 신청 API 제공 완료 ");
 
     }
 

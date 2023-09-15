@@ -47,7 +47,7 @@ public class CreditController {
     @DeleteMapping("")
     @Operation(summary = "결제 수단 삭제", description = "결제 정보를 삭제한다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "결제 수단 삭제"),
+            @ApiResponse(responseCode = "204", description = "결제 수단 삭제"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")

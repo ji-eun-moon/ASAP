@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.apply.controller;
 
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
+import com.ssafy.project.asap.apply.entity.dto.request.FindApplysRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
@@ -31,7 +32,7 @@ public class ApplyController {
 
     private final ApplyService applyService;
 
-    @GetMapping("/check-apply/{api_id}")
+    @GetMapping("/detail/{api_id}")
     @Operation(summary = "신청내역 상세 조회 (제공자)", description = "제공자가 관리자에게 신청한 API 상세 정보 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 상세 정보 조회 성공", content = @Content(schema = @Schema(
@@ -71,7 +72,7 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll(@RequestBody FindApplysResponse findApplysResponse){
+    public ResponseEntity<?> findAll(@RequestBody FindApplysRequest findApplysRequest){
 
         List<FindApplysResponse> list = new ArrayList<>();
 

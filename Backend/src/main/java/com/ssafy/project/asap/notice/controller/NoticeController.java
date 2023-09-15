@@ -87,7 +87,7 @@ public class NoticeController {
         return ResponseEntity.ok().body(noticeId + "번 알림 메시지 삭제");
     }
 
-    @PostMapping("/check/{notice_id}")
+    @PutMapping("/check/{notice_id}")
     @Operation(summary = "메시지 읽음", description = "회원이 메시지 확인 후 메시지 읽음 상태 변경")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "메시지 확인 완료"),

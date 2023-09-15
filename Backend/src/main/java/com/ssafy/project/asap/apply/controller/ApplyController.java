@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/apply")
 @RequiredArgsConstructor
-@Tag(name="Apply", description = "API관련 API")
+@Tag(name="Apply", description = "신청 관련 API")
 @Slf4j
 public class ApplyController {
 

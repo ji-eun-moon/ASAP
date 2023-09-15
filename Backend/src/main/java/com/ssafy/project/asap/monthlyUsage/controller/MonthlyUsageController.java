@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/monthly")
+@Tag(name = "MonthlyUsage", description = "월간 사용량 API")
 public class MonthlyUsageController {
 
     @GetMapping("/usage")
@@ -38,7 +40,7 @@ public class MonthlyUsageController {
     }
 
     @GetMapping("/provided")
-    @Operation(summary = "API 제공한", description = "제공한 전체 API 조회")
+    @Operation(summary = "제공한 API", description = "제공한 전체 API 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 제공량 조회 성공"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -51,7 +53,7 @@ public class MonthlyUsageController {
     }
 
     @GetMapping("/provided/detail/{apiId}")
-    @Operation(summary = "API 제공한", description = "제공한 전체 API 조회")
+    @Operation(summary = "제공한 API 상세 조회", description = "제공한 전체 API 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 제공량 조회 성공"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -71,6 +73,8 @@ public class MonthlyUsageController {
 
         return ResponseEntity.ok(monthlyUsageDetailResponse);
     }
+
+
 
     private ResponseEntity<?> getResponseEntity() {
         List<MonthlyUsageResponse> monthlyUsageResponses = new ArrayList<>();

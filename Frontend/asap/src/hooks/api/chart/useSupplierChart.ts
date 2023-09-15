@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axiosInstance from 'utils/axiosInstance';
 
 const useSupplierChart = () => {
   const supplierChart = async () => {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         method: 'GET',
-        url: 'http://localhost:8000/api/v1/member/provide-api/analysis',
+        url: '/api/v1/monthly/provided',
       });
       if (response.status === 200) {
         console.log('제공자 통계 정보', response.data);

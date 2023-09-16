@@ -1,5 +1,5 @@
 import axiosInstance from 'utils/axiosInstance';
-
+// 결제수단 등록(카드회사,카드번호)
 interface cardInfo {
   cardCompany: string;
   cardNumber: string;

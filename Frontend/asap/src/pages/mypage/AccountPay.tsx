@@ -1,6 +1,7 @@
 import useDeleteCredit from 'hooks/api/credit/useDeleteCreditCard';
 import useGetCreditCard from 'hooks/api/credit/useGetCreditCard';
 import usePostCreditCard from 'hooks/api/credit/usePostCreditCard';
+import useChangeCard from 'hooks/api/credit/useChangeCreditCard';
 import React, { useState, ChangeEvent } from 'react';
 import { Input, Button } from '@material-tailwind/react';
 
@@ -8,6 +9,7 @@ function AccountPay() {
   const { deleteCreditCard } = useDeleteCredit();
   const { getCreditCard } = useGetCreditCard();
   const { postCreditCard } = usePostCreditCard();
+  const { changeCreditCard } = useChangeCard();
 
   // 카드등록 정보 (카드회사, 카드번호)
   const [cardCompany, setCardCompany] = useState<string>(''); // 카드회사
@@ -23,6 +25,12 @@ function AccountPay() {
 
   const onPostCreditCard = async () => {
     await postCreditCard({
+      cardCompany,
+      cardNumber,
+    });
+  };
+  const onChangeCreditCard = async () => {
+    await changeCreditCard({
       cardCompany,
       cardNumber,
     });
@@ -52,9 +60,8 @@ function AccountPay() {
       <div>
         카드 등록하기 테스트
         <div>
-          <p>카드회사</p>
           <Input
-            label="카드회사"
+            label="등록할 카드회사"
             value={cardCompany}
             onChange={onCompanyHandler}
             className="pr-20"
@@ -64,7 +71,7 @@ function AccountPay() {
             crossOrigin=""
           />
           <Input
-            label="카드번호"
+            label="등록할 카드번호"
             value={cardNumber}
             onChange={onNumberHandler}
             className="pr-20"
@@ -75,6 +82,32 @@ function AccountPay() {
           />
         </div>
         <Button onClick={onPostCreditCard}>카드등록</Button>
+      </div>
+      <div>
+        카드 변경하기 테스트
+        <div>
+          <Input
+            label="등록할 카드회사"
+            value={cardCompany}
+            onChange={onCompanyHandler}
+            className="pr-20"
+            containerProps={{
+              className: 'min-w-0',
+            }}
+            crossOrigin=""
+          />
+          <Input
+            label="등록할 카드번호"
+            value={cardNumber}
+            onChange={onNumberHandler}
+            className="pr-20"
+            containerProps={{
+              className: 'min-w-0',
+            }}
+            crossOrigin=""
+          />
+        </div>
+        <Button onClick={onChangeCreditCard}>카드변경</Button>
       </div>
     </div>
   );

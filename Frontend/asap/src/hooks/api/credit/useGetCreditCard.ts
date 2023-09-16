@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from 'utils/axiosInstance';
-
+// 카드회사, 카드번호 조회
 interface INotice {
   cardCompany: string;
   cardNumber: string;

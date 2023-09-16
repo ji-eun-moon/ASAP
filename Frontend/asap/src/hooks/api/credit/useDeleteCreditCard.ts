@@ -1,5 +1,6 @@
 import axiosInstance from 'utils/axiosInstance';
 
+// 결제수단 삭제
 const useDeleteCredit = () => {
   const deleteCreditCard = async () => {
     try {

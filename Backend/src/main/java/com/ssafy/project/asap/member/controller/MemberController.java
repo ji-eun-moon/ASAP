@@ -186,9 +186,9 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> checkPassword(@RequestBody CheckPasswordRequest checkPasswordRequest){
+    public ResponseEntity<?> checkPassword(@RequestBody CheckPasswordRequest checkPasswordRequest, Authentication authentication){
         
-        memberService.checkPassword(checkPasswordRequest);
+        memberService.checkPassword(checkPasswordRequest, authentication.getName());
 
         return ResponseEntity.status(200).body("비밀번호 인증 성공");
     }

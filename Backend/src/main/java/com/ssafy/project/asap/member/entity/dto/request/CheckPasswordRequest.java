@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public class CheckPasswordRequest {
 
-    private String id;
     private String password;
 
 }

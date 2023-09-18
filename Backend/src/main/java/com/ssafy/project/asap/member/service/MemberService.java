@@ -2,10 +2,7 @@ package com.ssafy.project.asap.member.service;
 
 import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
-import com.ssafy.project.asap.member.entity.dto.request.CheckPasswordRequest;
-import com.ssafy.project.asap.member.entity.dto.request.FindMemberIdRequest;
-import com.ssafy.project.asap.member.entity.dto.request.LoginMemberRequest;
-import com.ssafy.project.asap.member.entity.dto.request.RegisterMemberRequest;
+import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.xml.bind.DatatypeConverter;
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -87,11 +85,8 @@ public class MemberService {
 
     public Member findByEmailAndName(FindMemberIdRequest findMemberIdRequest){
 
-        Optional<Member> optionalMember = memberRepository.findByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName());
-
-        if(optionalMember.isEmpty()){
-            throw new RuntimeException("해당하는 회원은 존재하지 않습니다.");
-        }
+        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName()))
+                .orElseThrow(() -> new RuntimeException("일치하는 회원이 존재하지 않습니다."));
 
         return optionalMember.get();
 
@@ -113,6 +108,25 @@ public class MemberService {
         if(bCryptPasswordEncoder.matches(checkPasswordRequest.getPassword(), member.getPassword())){
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
+    }
+
+    @Transactional
+    public void update(UpdateMemberRequest updateMemberRequest){
+
+        Optional<Member> optionalMember = memberRepository.findById(updateMemberRequest.getId());
+
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+
+            if (updateMemberRequest.getName() != null) {
+                member.setName(updateMemberRequest.getName());
+            }
+
+            if (updateMemberRequest.getEmail() != null) {
+                member.setEmail(updateMemberRequest.getEmail());
+            }
+        }
+
     }
 
 }

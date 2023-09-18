@@ -10,6 +10,8 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 public class UpdateMemberRequest {
 
+    private String id;
+
     @Nullable
     private String name;
 

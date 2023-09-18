@@ -1,7 +1,6 @@
 package com.ssafy.project.asap.apply.controller;
 
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
-import com.ssafy.project.asap.apply.entity.dto.request.FindApplysRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;

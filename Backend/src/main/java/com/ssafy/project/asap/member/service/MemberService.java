@@ -34,13 +34,7 @@ public class MemberService {
     @Transactional
     public Member findById(String id){
 
-        Optional<Member> optionalMember = memberRepository.findById(id);
-
-        if(optionalMember.isEmpty()){
-            throw new RuntimeException("없는 아이디입니다.");
-        }
-
-        return optionalMember.get();
+        return memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원이 없습니다."));
 
     }
 
@@ -84,14 +78,10 @@ public class MemberService {
     @Transactional
     public void checkId(String id){
 
-        Optional<Member> optionalMember = memberRepository.findById(id);
-
-        log.info("checkId");
-
-        if(optionalMember.isPresent()){
-            log.error("아이디 중복");
-            throw new RuntimeException("아이디 중복");
-        }
+        memberRepository.findById(id)
+                .ifPresent((e) -> {
+                    throw new RuntimeException("이미 존재하는 ID입니다.");
+                });
 
     }
 

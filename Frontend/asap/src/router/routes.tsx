@@ -31,11 +31,12 @@ import AccountCheck from 'pages/mypage/AccountCheck';
 import AccountInfo from 'pages/mypage/AccountInfo';
 import AccountMod from 'pages/mypage/AccountMod';
 import AccountKey from 'pages/mypage/AccountKey';
+import AccountCredit from 'pages/mypage/AccountCredit';
+import AccountPay from 'pages/mypage/AccountPay';
 
 // admin
 import AdminLogin from 'pages/admin/AdminLogin';
 import ApiApproval from 'pages/admin/ApiApproval';
-import AccountPay from 'pages/mypage/AccountPay';
 
 // test component
 import NoticeList from 'components/notice/NoticeList';
@@ -70,6 +71,7 @@ const routes: Route[] = [
   { path: '/mypage/account', element: <AccountInfo /> },
   { path: '/mypage/account/modify', element: <AccountMod /> },
   { path: '/mypage/keys', element: <AccountKey /> },
+  { path: '/mypage/credit', element: <AccountCredit /> },
   { path: '/mypage/payment', element: <AccountPay /> },
 
   { path: '/admin', element: <AdminLogin /> },

@@ -15,11 +15,11 @@ const useCheckId = () => {
       if (response.status === 200) {
         // 중복 아이디가 없는 경우
         setIsIdAvailable(true);
-        console.log('아이디 사용 가능');
+        alert('사용가능한 아이디입니다.');
       } else {
         // 중복 아이디가 있는 경우
         setIsIdAvailable(false);
-        console.log('아이디 중복');
+        alert('사용할 수 없는 아이디입니다. 다른 아이디를 입력해주세요');
       }
     } catch (error) {
       console.error('서버 오류:', error);

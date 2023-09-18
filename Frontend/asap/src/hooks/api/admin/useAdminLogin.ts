@@ -11,13 +11,13 @@ const useAdminLogin = () => {
     try {
       const response = await axiosInstance({
         method: 'POST',
-        url: '/api/v1/admin', // 아직 안만들어짐
+        url: '/api/v1/admin/login',
         data: {
           adminId,
           adminPassword,
         },
       });
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log('관리자 로그인 성공');
       } else {
         console.log('관리자 로그인 실패');

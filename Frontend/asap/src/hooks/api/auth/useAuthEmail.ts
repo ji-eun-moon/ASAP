@@ -7,9 +7,11 @@ interface IEmailCode {
 }
 
 const useAuthEmail = () => {
-  const [checkCode, setCheckCode] = useState<boolean>(false);
+  const [postedEmail, setPostedEmail] = useState<boolean>(false);
+  const [checkedCode, setCheckedCode] = useState<boolean>(false);
 
   const postEmail = async (email: string) => {
+    setPostedEmail(true);
     try {
       const response = await axios({
         method: 'POST',
@@ -17,7 +19,7 @@ const useAuthEmail = () => {
         data: { email },
       });
       if (response.status === 200) {
-        alert('이메일 전송 완료');
+        setPostedEmail(true);
       }
     } catch (error) {
       console.log('서버 오류:', error);
@@ -32,7 +34,7 @@ const useAuthEmail = () => {
         data: { email, code },
       });
       if (response.status === 200) {
-        setCheckCode(true);
+        setCheckedCode(true);
         console.log('이메일 인증 성공');
       }
     } catch (error) {
@@ -40,7 +42,18 @@ const useAuthEmail = () => {
     }
   };
 
-  return { postEmail, checkCode, checkEmailCode };
+  const resetEmailStatus = () => {
+    setCheckedCode(false);
+    setPostedEmail(false);
+  };
+
+  return {
+    postEmail,
+    checkedCode,
+    checkEmailCode,
+    postedEmail,
+    resetEmailStatus,
+  };
 };
 
 export default useAuthEmail;

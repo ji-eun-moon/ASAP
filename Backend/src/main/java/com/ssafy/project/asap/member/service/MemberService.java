@@ -2,6 +2,7 @@ package com.ssafy.project.asap.member.service;
 
 import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
+import com.ssafy.project.asap.member.entity.dto.request.CheckPasswordRequest;
 import com.ssafy.project.asap.member.entity.dto.request.FindMemberIdRequest;
 import com.ssafy.project.asap.member.entity.dto.request.LoginMemberRequest;
 import com.ssafy.project.asap.member.entity.dto.request.RegisterMemberRequest;
@@ -102,6 +103,16 @@ public class MemberService {
 
         member.setPassword(bCryptPasswordEncoder.encode(loginMemberRequest.getPassword()));
 
+    }
+
+    public void checkPassword(CheckPasswordRequest checkPasswordRequest){
+
+        Member member =  memberRepository.findById(checkPasswordRequest.getId())
+                .orElseThrow(() -> new RuntimeException("아이디가 틀렸습니다."));
+
+        if(bCryptPasswordEncoder.matches(checkPasswordRequest.getPassword(), member.getPassword())){
+            throw new RuntimeException("비밀번호가 틀렸습니다.");
+        }
     }
 
 }

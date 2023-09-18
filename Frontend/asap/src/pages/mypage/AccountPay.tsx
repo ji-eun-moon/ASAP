@@ -4,6 +4,7 @@ import usePaymentList from 'hooks/api/payment/usePaymentList';
 import usePaymentDetail from 'hooks/api/payment/usePaymentDetail';
 import { Button } from '@material-tailwind/react';
 import SideBar from 'components/nav/SideBar';
+import Header from 'components/common/Header';
 import menus from 'router/mypage-menus';
 
 function AccountPay() {
@@ -20,19 +21,22 @@ function AccountPay() {
     });
   };
   return (
-    <div className="container mx-auto page-container grid grid-cols-4">
-      <div className="col-span-1 flex justify-center items-start">
-        <SideBar menus={menus} />
-      </div>
-      <div className="col-span-3">
-        <h1>API 신청내역</h1>
-        <Button onClick={setPayment}>결제하기</Button>
+    <div>
+      <Header title="결제 내역" />
+      <div className="container mx-auto page-container grid grid-cols-4">
+        <div className="col-span-1 flex justify-center items-start">
+          <SideBar menus={menus} />
+        </div>
+        <div className="col-span-3">
+          <h1>API 신청내역</h1>
+          <Button onClick={setPayment}>결제하기</Button>
 
-        <Button onClick={paymentList}>결제 내역 확인하기</Button>
+          <Button onClick={paymentList}>결제 내역 확인하기</Button>
 
-        <Button onClick={() => paymentDetail(1)}>
-          결제 상세 내역 확인하기
-        </Button>
+          <Button onClick={() => paymentDetail(1)}>
+            결제 상세 내역 확인하기
+          </Button>
+        </div>
       </div>
     </div>
   );

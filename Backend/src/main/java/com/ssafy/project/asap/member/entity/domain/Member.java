@@ -28,7 +28,7 @@ public class Member extends BaseTime {
     @Column(nullable = false, unique = true)
     private String id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Getter

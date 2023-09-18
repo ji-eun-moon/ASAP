@@ -175,5 +175,20 @@ public class MemberController {
 
         return ResponseEntity.status(202).body(updateMemberRequest);
     }
+    
+    @PostMapping("/check-password")
+    @Operation(summary = "개인정보 조회", description = "개인정보 조회 들어가기 전 비밀번호 확인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "비밀번호 확인 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> checkPassword(@RequestBody CheckPasswordRequest checkPasswordRequest){
+        
+        memberService.checkPassword(checkPasswordRequest);
+
+        return ResponseEntity.status(200).body("비밀번호 인증 성공");
+    }
 
 }

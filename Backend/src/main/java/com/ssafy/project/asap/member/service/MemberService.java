@@ -7,13 +7,13 @@ import com.ssafy.project.asap.member.entity.dto.request.LoginMemberRequest;
 import com.ssafy.project.asap.member.entity.dto.request.RegisterMemberRequest;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.transaction.Transactional;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -22,6 +22,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class MemberService {
 
     @Value("${security.jwt.sercret.key}")
@@ -31,7 +32,7 @@ public class MemberService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 
-    @Transactional
+
     public Member findById(String id){
 
         return memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원이 없습니다."));
@@ -61,7 +62,6 @@ public class MemberService {
         
     }
 
-    @Transactional
     public void signUp(RegisterMemberRequest registerMemberRequest){
 
         Member member = Member.builder()
@@ -75,7 +75,6 @@ public class MemberService {
 
     }
 
-    @Transactional
     public void checkId(String id){
 
         memberRepository.findById(id)
@@ -85,7 +84,6 @@ public class MemberService {
 
     }
 
-    @Transactional
     public Member findByEmailAndName(FindMemberIdRequest findMemberIdRequest){
 
         Optional<Member> optionalMember = memberRepository.findByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName());
@@ -98,7 +96,6 @@ public class MemberService {
 
     }
 
-    @Transactional
     public void updatePassword(LoginMemberRequest loginMemberRequest){
 
         Member member = memberRepository.findById(loginMemberRequest.getId()).get();

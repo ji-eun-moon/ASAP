@@ -171,9 +171,11 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<UpdateMemberRequest> update(@RequestBody UpdateMemberRequest updateMemberRequest) {
+    public ResponseEntity<String> update(@RequestBody UpdateMemberRequest updateMemberRequest) {
 
-        return ResponseEntity.status(202).body(updateMemberRequest);
+        memberService.update(updateMemberRequest);
+
+        return ResponseEntity.status(202).body("회원 수정 완료");
     }
     
     @PostMapping("/check-password")

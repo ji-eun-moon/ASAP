@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import useLogIn from 'hooks/api/auth/useLogIn';
 import { Input, Button } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
@@ -33,9 +33,20 @@ function LogIn() {
     });
   };
 
+  // 로그인 페이지에서 body 색상 변경
+  useEffect(() => {
+    document.body.classList.add('login-page-body');
+    return () => {
+      document.body.classList.remove('login-page-body');
+    };
+  }, []);
+
   return (
-    <div className="container mx-auto">
-      LogIn
+    <div className="container mx-auto form-container page-container bg-blue">
+      <div className="flex justify-center my-8">
+        <p className="font-bold text-6xl text-gray-50">LogIn</p>
+      </div>
+      <p className="text-lg font-extrabold text-gray-50">아이디</p>
       <Input
         label="아이디"
         value={userId}
@@ -44,8 +55,10 @@ function LogIn() {
         containerProps={{
           className: 'min-w-0',
         }}
+        color="white"
         crossOrigin=""
       />
+      <p className="text-lg font-extrabold text-gray-50">비밀번호</p>
       <Input
         label="비밀번호"
         value={userPassword}
@@ -55,6 +68,7 @@ function LogIn() {
         containerProps={{
           className: 'min-w-0',
         }}
+        color="white"
         crossOrigin=""
       />
       <div>
@@ -81,7 +95,17 @@ function LogIn() {
           로그인
         </Button>
       </div>
-      <Link to="/find_account">아이디, 비밀번호 찾기</Link>
+      <div className="flex justify-center my-5">
+        <p className="text-xl text-gray-500 font-bold me-3">
+          아직 회원이 아니신가요?
+        </p>
+        <Link to="/signup" className="text-xl font-bold text-blue">
+          Signup
+        </Link>
+      </div>
+      <div className="flex justify-center">
+        <Link to="/find_account">아이디, 비밀번호 찾기</Link>
+      </div>
     </div>
   );
 }

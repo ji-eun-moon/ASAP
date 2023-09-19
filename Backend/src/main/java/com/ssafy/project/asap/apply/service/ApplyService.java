@@ -9,7 +9,6 @@ import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.repository.ApplyRepository;
-import com.ssafy.project.asap.category.repository.CategoryRepository;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
     private final ApiRepository apiRepository;
-    private final CategoryRepository categoryRepository;
 
     public FindApplyResponse findByApplyId(long applyId){
 
@@ -41,6 +39,11 @@ public class ApplyService {
 
     @Transactional
     public void signup(RegisterApplyRequest request, String id){
+
+        applyRepository.findByApiAndMethod(request.getApi(), request.getMethod())
+                .ifPresent((e) -> {
+                    throw new RuntimeException("이미 등록된 API입니다.");
+                });
 
         Apply apply = Apply.builder()
                 .api(request.getApi())
@@ -89,7 +92,7 @@ public class ApplyService {
 
         Apply apply = applyRepository.findByApplyId(updateApplyRequest.getApplyId());
 
-        if(updateApplyRequest.getProgress().equals(ApplyProgress.완료)){
+        if(updateApplyRequest.getProgress().equals(ApplyProgress.승인)){
 
             Api api = Api.builder()
                     .api(apply.getApi())
@@ -103,11 +106,18 @@ public class ApplyService {
                     .build();
 
             apiRepository.save(api);
-
-            applyRepository.delete(apply);
-        }else{
-            apply.setProgress(updateApplyRequest.getProgress());
         }
+
+        apply.setProgress(updateApplyRequest.getProgress());
+
+    }
+
+    @Transactional
+    public void rejectProgress(Long applyId){
+
+        Apply apply = applyRepository.findByApplyId(applyId);
+
+        apply.setProgress(ApplyProgress.거절);
 
     }
 }

@@ -1,13 +1,18 @@
 package com.ssafy.project.asap.notice.controller;
 
+import com.ssafy.project.asap.member.service.MemberService;
+import com.ssafy.project.asap.notice.entity.domain.Notice;
 import com.ssafy.project.asap.notice.entity.dto.response.FindNoticesResponse;
+import com.ssafy.project.asap.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +22,11 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/notice")
 @Tag(name="Notice", description = "알람 API")
+@RequiredArgsConstructor
 public class NoticeController {
+
+    private final NoticeService noticeService;
+    private final MemberService memberService;
 
     @GetMapping("/list-count")
     @Operation(summary = "메시지 확인", description = "아직 읽지 않은 메시지의 총 갯수 출력 (메인페이지)")
@@ -29,12 +38,11 @@ public class NoticeController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAllNotRead(){
+    public ResponseEntity<?> findAllNotRead(Authentication authentication){
 
         // 아직 읽지 않은 알림 메시지 갯수 출력
-        Long unreadAlarm = 3L;
 
-        return ResponseEntity.ok("아직 읽지 않은 메시지 = " + unreadAlarm);
+        return ResponseEntity.ok(noticeService.findUnRead(memberService.findById(authentication.getName())));
     }
 
     @GetMapping("/list")
@@ -47,26 +55,10 @@ public class NoticeController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<FindNoticesResponse>> findAll(){
+    public ResponseEntity<List<FindNoticesResponse>> findAll(Authentication authentication){
 
         // 내 알림 메시지 리스트 조회
-        List<FindNoticesResponse> list = new ArrayList<>();
-
-        list.add(FindNoticesResponse.builder()
-                        .noticeId(1L)
-                        .title("제목1")
-                        .content("내용1")
-                        .createDate(LocalDateTime.now().minusMinutes(1))
-                        .isRead(false)
-                .build());
-
-        list.add(FindNoticesResponse.builder()
-                .noticeId(2L)
-                .title("제목2")
-                .content("내용2")
-                .createDate(LocalDateTime.now())
-                .isRead(false)
-                .build());
+        List<FindNoticesResponse> list = noticeService.findAll(memberService.findById(authentication.getName()));
 
         return ResponseEntity.ok(list);
     }
@@ -82,9 +74,9 @@ public class NoticeController {
     public ResponseEntity<?> delete(@PathVariable("notice_id") Long noticeId){
 
         // 알림 메시지 삭제
+        noticeService.delete(noticeId);
 
-
-        return ResponseEntity.ok(noticeId + "번 알림 메시지 삭제");
+        return ResponseEntity.status(200).body("삭제 완료");
     }
 
     @PutMapping("/check/{notice_id}")
@@ -98,6 +90,7 @@ public class NoticeController {
     public ResponseEntity<?> updateIsRead(@PathVariable("notice_id") Long noticeId){
 
         // 알림 메시지 읽음 상태 변경
+        noticeService.update(noticeId);
 
         return ResponseEntity.status(202).body(noticeId + "번 알림 메시지 읽음");
     }

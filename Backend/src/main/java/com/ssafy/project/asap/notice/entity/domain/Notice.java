@@ -3,14 +3,13 @@ package com.ssafy.project.asap.notice.entity.domain;
 import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class Notice extends BaseTime {
 
     @Id
@@ -28,6 +27,7 @@ public class Notice extends BaseTime {
     private String content;
 
     @Column(nullable = false)
+    @Setter
     private boolean isRead;
 
     @PrePersist

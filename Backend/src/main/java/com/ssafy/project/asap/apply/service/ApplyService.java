@@ -40,6 +40,11 @@ public class ApplyService {
     @Transactional
     public void signup(RegisterApplyRequest request, String id){
 
+        applyRepository.findByApiAndMethod(request.getApi(), request.getMethod())
+                .ifPresent((e) -> {
+                    throw new RuntimeException("이미 등록된 API입니다.");
+                });
+
         Apply apply = Apply.builder()
                 .api(request.getApi())
                 .title(request.getTitle())

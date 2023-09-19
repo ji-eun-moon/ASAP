@@ -9,9 +9,9 @@ import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.repository.ApplyRepository;
+import com.ssafy.project.asap.category.repository.CategoryRepository;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
-import com.ssafy.project.asap.category.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
     private final ApiRepository apiRepository;
-    private final TagRepository tagRepository;
+    private final CategoryRepository categoryRepository;
 
     public FindApplyResponse findByApplyId(long applyId){
 

@@ -11,6 +11,7 @@ import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.repository.ApplyRepository;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
+import com.ssafy.project.asap.category.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
     private final ApiRepository apiRepository;
+    private final TagRepository tagRepository;
 
     public FindApplyResponse findByApplyId(long applyId){
 
@@ -37,6 +39,7 @@ public class ApplyService {
 
     }
 
+    @Transactional
     public void signup(RegisterApplyRequest request, String id){
 
         Apply apply = Apply.builder()
@@ -47,8 +50,10 @@ public class ApplyService {
                 .output(request.getOutput())
                 .progress(ApplyProgress.대기)
                 .price(request.getPrice())
+                .method(request.getMethod())
                 .member(memberRepository.findById(id).get())
                 .provideDate(request.getProvideDate())
+                .tags(request.getTags())
                 .build();
 
         applyRepository.save(apply);

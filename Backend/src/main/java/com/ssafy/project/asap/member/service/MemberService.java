@@ -103,7 +103,7 @@ public class MemberService {
 
         Member member =  memberRepository.findById(id).get();
 
-        if(bCryptPasswordEncoder.matches(checkPasswordRequest.getPassword(), member.getPassword())){
+        if(!bCryptPasswordEncoder.matches(checkPasswordRequest.getPassword(), member.getPassword())){
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
     }

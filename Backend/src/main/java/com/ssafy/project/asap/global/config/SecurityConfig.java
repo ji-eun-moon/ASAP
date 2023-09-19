@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtTokenFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry.requestMatchers("/api/v1/member/login", "/api/v1/member/signup", "/swagger-ui/**", "/v3/api-docs/**",
-                            "/api/v1/member/check-id", "/api/v1/mail/**", "/api/v1/member/find-id", "/api/v1/member/find-password", "/api/v1/apis/detail/**").permitAll();
+                            "/api/v1/member/check-id", "/api/v1/mail/**", "/api/v1/member/find-id", "/api/v1/member/find-password", "/api/v1/apis/detail/**",
+                            "/api/v1/apply/list", "/api/v1/apply/progress").permitAll();
                 })
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();

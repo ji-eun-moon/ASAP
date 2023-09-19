@@ -1,21 +1,34 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import useSubmitApi from 'hooks/api/api/useSubmitApi';
 import Header from 'components/common/Header';
 import InputTags from 'components/supply/InputTags';
 import { Input, Button } from '@material-tailwind/react';
+import useSupplyStore from 'store/supply/useSupplyStore';
+import InputValues from 'components/supply/InputValues';
 
 function ApiSupply() {
   const { submitApi } = useSubmitApi();
 
-  // 입력값
-  const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');
-  const [input, setInput] = useState<string>('');
-  const [output, setOutput] = useState<string>('');
-  const [price, setPrice] = useState<number>(0);
-  const [api, setApi] = useState<string>('');
-  const [tag, setTag] = useState<string>('');
-  const [tags, setTags] = useState<string[]>([]);
+  const {
+    title,
+    content,
+    input,
+    output,
+    price,
+    api,
+    tag,
+    tags,
+    provideDate,
+    method,
+    setTitle,
+    setContent,
+    setInput,
+    setOutput,
+    setPrice,
+    setApi,
+    setTag,
+    setTags,
+  } = useSupplyStore();
 
   const onTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -40,7 +53,7 @@ function ApiSupply() {
     setTag(event.target.value);
   };
   const onTagsHandler = () => {
-    setTags([...tags, tag]);
+    setTags(tag);
     setTag('');
     console.log(tags);
   };
@@ -54,6 +67,8 @@ function ApiSupply() {
       price,
       api,
       tags,
+      provideDate,
+      method,
     });
   };
   return (
@@ -62,83 +77,109 @@ function ApiSupply() {
       <div className="container mx-auto">
         <div className="flex">
           <p>API 제목</p>
-          <Input
-            label="제목"
-            value={title}
-            onChange={onTitleHandler}
-            className="pr-20"
-            containerProps={{
-              className: 'min-w-0',
-            }}
-            crossOrigin=""
-          />
+          <div>
+            <Input
+              label="제목"
+              value={title}
+              onChange={onTitleHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
         </div>
-        <p>상세 내용</p>
-        <Input
-          label="내용"
-          value={content}
-          onChange={onContentHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <p>1회 요청당 가격</p>
-        <Input
-          label="price"
-          value={price}
-          onChange={onPriceHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <p>API 주소</p>
-        <Input
-          label="api"
-          value={api}
-          onChange={onApiHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <p>관련 태그</p>
-        <Input
-          label="tag"
-          value={tag}
-          onChange={onTagHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <p>INPUT</p>
-        <Input
-          label="input"
-          value={input}
-          onChange={onInputHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <p>OUTPUT</p>
-        <Input
-          label="output"
-          value={output}
-          onChange={onOutputHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
+        <div className="flex">
+          <p>상세 내용</p>
+          <div>
+            <Input
+              label="내용"
+              value={content}
+              onChange={onContentHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
+        </div>
+        <div className="flex">
+          <p>1회 요청당 가격</p>
+          <div>
+            <Input
+              label="price"
+              value={price}
+              onChange={onPriceHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
+        </div>
+        <div className="flex">
+          <p>API 주소</p>
+          <div>
+            <Input
+              label="api"
+              value={api}
+              onChange={onApiHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
+        </div>
+        <div className="flex">
+          <p>관련 태그</p>
+          <div>
+            <Input
+              label="tag"
+              value={tag}
+              onChange={onTagHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
+        </div>
+        <div className="flex">
+          <p>INPUT</p>
+          <div>
+            <Input
+              label="input"
+              value={input}
+              onChange={onInputHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
+        </div>
+        <div className="flex">
+          <p>OUTPUT</p>
+          <div>
+            <Input
+              label="output"
+              value={output}
+              onChange={onOutputHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
+        </div>
         <Button ripple onClick={onTagsHandler}>
           태그 추가
         </Button>
@@ -147,6 +188,7 @@ function ApiSupply() {
         </Button>
       </div>
       <InputTags />
+      <InputValues />
     </div>
   );
 }

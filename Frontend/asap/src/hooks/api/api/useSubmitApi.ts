@@ -8,10 +8,11 @@ interface ApiInfo {
   price: number;
   api: string;
   tags: string[];
+  provideDate: Date;
+  method: string;
 }
+
 const useSubmitApi = () => {
-  const provideDate = '2023-09-29T07:55:07';
-  const method = 'POST';
   const submitApi = async ({
     title,
     content,
@@ -20,6 +21,8 @@ const useSubmitApi = () => {
     price,
     api,
     tags,
+    provideDate,
+    method,
   }: ApiInfo) => {
     try {
       const response = await axiosInstance({

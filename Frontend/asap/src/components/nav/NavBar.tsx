@@ -1,7 +1,7 @@
 import useLogOut from 'hooks/api/auth/useLogOut';
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import useAuthStore from 'store/authStore';
+import useAuthStore from 'store/auth/useAuthStore';
 
 const activeStyle = {
   color: '#004096',

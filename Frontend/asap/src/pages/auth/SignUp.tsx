@@ -115,7 +115,7 @@ function SignUp() {
     }
     await postEmail(userEmail);
     setInitialTime({ mm: 5, ss: 0 });
-    setTimerKey((prevKey) => prevKey + 1);
+    setTimerKey((Key) => Key + 1);
   };
 
   // 인증 코드 입력

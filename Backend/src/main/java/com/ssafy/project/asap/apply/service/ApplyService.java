@@ -9,7 +9,6 @@ import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.repository.ApplyRepository;
-import com.ssafy.project.asap.category.repository.CategoryRepository;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
     private final ApiRepository apiRepository;
-    private final CategoryRepository categoryRepository;
 
     public FindApplyResponse findByApplyId(long applyId){
 
@@ -108,6 +106,15 @@ public class ApplyService {
         }else{
             apply.setProgress(updateApplyRequest.getProgress());
         }
+
+    }
+
+    @Transactional
+    public void rejectProgress(Long applyId){
+
+        Apply apply = applyRepository.findByApplyId(applyId);
+
+        apply.setProgress(ApplyProgress.거절);
 
     }
 }

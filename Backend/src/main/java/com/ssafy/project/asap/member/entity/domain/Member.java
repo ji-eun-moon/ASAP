@@ -21,6 +21,7 @@ import java.util.List;
 public class Member extends BaseTime {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 

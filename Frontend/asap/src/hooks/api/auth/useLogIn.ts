@@ -19,12 +19,16 @@ const useLogIn = () => {
       //   서버에서 받은 응답 처리
       if (response.status === 200) {
         console.log('로그인 성공:', response.data);
-        window.location.href = '/';
+        if (loginType === 'user') {
+          window.location.href = '/';
+        } else {
+          window.location.href = '/supply/list';
+        }
       } else {
         console.error('로그인 실패:', response.data);
       }
     } catch (error) {
-      console.log('서버 오류:', error);
+      alert('아이디와 비밀번호를 다시 확인해주세요');
     }
   };
 

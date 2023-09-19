@@ -39,7 +39,7 @@ function SignUp() {
 
   const [userEmail, setUserEmail] = useState<string>('');
   const [emailCode, setEmailCode] = useState<string>('');
-  const [initialTime, setInitialTime] = useState<ITime>({ mm: 5, ss: 0 });
+  const [initialTime, setInitialTime] = useState<ITime>({ mm: 0, ss: 0 });
   const [timerKey, setTimerKey] = useState<number>(0);
 
   // 아이디 입력
@@ -130,6 +130,9 @@ function SignUp() {
 
   // 타이머 출력
   const codeTimer = () => {
+    if (initialTime.mm === 0 && initialTime.ss === 0) {
+      return null;
+    }
     if (postedEmail && !checkedCode) {
       return <Timer key={timerKey} mm={initialTime.mm} ss={initialTime.ss} />;
     }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/apis")
+@RequestMapping("/api/v1/apis")
 @Tag(name="Api", description = "API관련 API")
 public class ApiController {
 

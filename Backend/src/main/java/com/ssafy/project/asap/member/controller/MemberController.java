@@ -171,9 +171,26 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<UpdateMemberRequest> update(@RequestBody UpdateMemberRequest updateMemberRequest) {
+    public ResponseEntity<String> update(@RequestBody UpdateMemberRequest updateMemberRequest) {
 
-        return ResponseEntity.status(202).body(updateMemberRequest);
+        memberService.update(updateMemberRequest);
+
+        return ResponseEntity.status(202).body("회원 수정 완료");
+    }
+    
+    @PostMapping("/check-password")
+    @Operation(summary = "개인정보 조회", description = "개인정보 조회 들어가기 전 비밀번호 확인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "비밀번호 확인 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> checkPassword(@RequestBody CheckPasswordRequest checkPasswordRequest, Authentication authentication){
+        
+        memberService.checkPassword(checkPasswordRequest, authentication.getName());
+
+        return ResponseEntity.status(200).body("비밀번호 인증 성공");
     }
 
 }

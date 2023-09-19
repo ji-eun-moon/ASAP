@@ -1,12 +1,11 @@
 package com.ssafy.project.asap.apply.entity.dto.response;
 
+import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Builder
 @Getter
 public class FindApplysResponse {
 
@@ -15,5 +14,13 @@ public class FindApplysResponse {
     private ApplyProgress progress;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
+
+    public FindApplysResponse(Apply apply){
+        this.applyId = apply.getApplyId();
+        this.title = apply.getTitle();
+        this.progress = apply.getProgress();
+        this.createDate = apply.getCreateDate();
+        this.modifyDate = apply.getModifyDate();
+    }
 
 }

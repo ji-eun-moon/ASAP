@@ -39,9 +39,6 @@ public class Api extends BaseTime {
     private Long price;
 
     @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)

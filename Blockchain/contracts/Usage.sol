@@ -8,12 +8,14 @@ contract Usage {
 
     mapping(address => bytes32) public usageHashes;
 
-    function setHash(bytes64 usageHash) public {
-        require(usageHash, "Invalid usage hash");
+    function setUsage(bytes32 usageHash) public {
+        require(usageHash != bytes32(0), "Invalid usage hash");
         usageHashes[msg.sender] = usageHash;
     }
 
-    function getUsage() public view returns (bytes64) {
+    function getUsage() public view returns (bytes32) {
         return usageHashes[msg.sender];
     }
+
+
 }

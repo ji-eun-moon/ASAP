@@ -87,7 +87,7 @@ public class ApplyService {
 
         Apply apply = applyRepository.findByApplyId(updateApplyRequest.getApplyId());
 
-        if(updateApplyRequest.getProgress().equals(ApplyProgress.완료)){
+        if(updateApplyRequest.getProgress().equals(ApplyProgress.승인)){
 
             Api api = Api.builder()
                     .api(apply.getApi())

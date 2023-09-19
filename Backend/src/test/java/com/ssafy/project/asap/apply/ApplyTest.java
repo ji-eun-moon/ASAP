@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.apply;
 
+import com.ssafy.project.asap.apply.entity.domain.ApplyMethod;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.service.ApplyService;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +29,7 @@ public class ApplyTest {
                 .output("output")
                 .price(1L)
                 .api("https://localhost")
+                .method(ApplyMethod.GET)
                 .provideDate(LocalDateTime.now().plusDays(2))
                 .build();
 

@@ -21,6 +21,7 @@ import java.util.List;
 public class Member extends BaseTime {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
@@ -28,13 +29,15 @@ public class Member extends BaseTime {
     @Column(nullable = false, unique = true)
     private String id;
 
-    @Column(nullable = false, unique = true)
+    @Getter
+    @Column(nullable = false)
     private String email;
 
     @Getter
     @Column(nullable = false)
     private String password;
 
+    @Getter
     @Column(nullable = false)
     private String name;
 
@@ -61,5 +64,13 @@ public class Member extends BaseTime {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

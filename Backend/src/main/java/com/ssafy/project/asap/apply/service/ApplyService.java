@@ -101,11 +101,9 @@ public class ApplyService {
                     .build();
 
             apiRepository.save(api);
-
-            applyRepository.delete(apply);
-        }else{
-            apply.setProgress(updateApplyRequest.getProgress());
         }
+
+        apply.setProgress(updateApplyRequest.getProgress());
 
     }
 

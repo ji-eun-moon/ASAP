@@ -99,12 +99,11 @@ public class MemberService {
 
     }
 
-    public void checkPassword(CheckPasswordRequest checkPasswordRequest){
+    public void checkPassword(CheckPasswordRequest checkPasswordRequest, String id){
 
-        Member member =  memberRepository.findById(checkPasswordRequest.getId())
-                .orElseThrow(() -> new RuntimeException("아이디가 틀렸습니다."));
+        Member member =  memberRepository.findById(id).get();
 
-        if(bCryptPasswordEncoder.matches(checkPasswordRequest.getPassword(), member.getPassword())){
+        if(!bCryptPasswordEncoder.matches(checkPasswordRequest.getPassword(), member.getPassword())){
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
     }

@@ -3,14 +3,15 @@ package com.ssafy.project.asap.apply.entity.domain;
 import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class Apply extends BaseTime {
 
     @Id
@@ -21,7 +22,7 @@ public class Apply extends BaseTime {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String api;
 
     @Column(nullable = false)
@@ -40,7 +41,11 @@ public class Apply extends BaseTime {
     private String content;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING) 
+    private LocalDateTime provideDate;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Setter
     private ApplyProgress progress;
 
 }

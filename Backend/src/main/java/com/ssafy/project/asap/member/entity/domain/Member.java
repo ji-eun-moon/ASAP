@@ -42,6 +42,7 @@ public class Member extends BaseTime {
     private String name;
 
     @Column(unique = true)
+    @Setter
     private String address;
 
     @OneToMany(mappedBy = "member")

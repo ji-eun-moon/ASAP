@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Transactional
 @SpringBootTest
@@ -30,7 +30,7 @@ public class ApplyTest {
                 .price(1L)
                 .api("https://localhost")
                 .method(ApplyMethod.GET)
-                .provideDate(LocalDateTime.now().plusDays(2))
+                .provideDate(LocalDate.now().plusDays(2))
                 .build();
 
         applyService.signup(request, "asap");

@@ -9,11 +9,15 @@ import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.net.URI;
 import java.security.Key;
 import java.util.Optional;
 
@@ -132,14 +136,28 @@ public class MemberService {
 
         Member member = memberRepository.findById(id).get();
 
+        Long walletId = getWalletId(request);
+
+        log.info(request.getAddress() + " " + walletId);
+
         member.setAddress(request.getAddress());
+        member.setWalletId(walletId);
 
     }
 
-    public void sendAddress(RegisterAddressRequest request){
+    public Long getWalletId(RegisterAddressRequest request){
 
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io")
+                .path("/block/api/v1/wallet/register")
+                .encode()
+                .build()
+                .toUri();
 
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(uri, request, Long.class);
 
+        return responseEntity.getBody();
     }
 
 }

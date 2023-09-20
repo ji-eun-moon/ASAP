@@ -3,17 +3,26 @@ import 'styles/admin/apiApproval.scss';
 
 import useAdminApiList from 'hooks/api/admin/useAdminApiList';
 import useAdminApiProgress from 'hooks/api/admin/useAdminApiProgress';
-// import useAdminApiRejectReason from 'hooks/api/admin/useAdminApiRejectReason';
+import useAdminApiRejectReason from 'hooks/api/admin/useAdminApiRejectReason';
 
-// import useAdminApiDelete from 'hooks/api/admin/useAdminApiDelete';
-// import { Button } from '@material-tailwind/react';
+import Header from 'components/common/Header';
+import Modal from 'components/common/Modal';
+
 function ApiApproval() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const { apis, setLastChanged } = useAdminApiList();
   const { adminApiProgress } = useAdminApiProgress();
   const [stateApis, setStateApis] = useState(apis);
-  // const { adminApiRejectReason } = useAdminApiRejectReason();
-
-  // const [apis, setApiList] = useState<ApiData[]>([]);
+  const { adminApiRejectReason } = useAdminApiRejectReason();
 
   const [selectedItem, setSelectItem] = useState('전체 조회');
   const handleItemClick = (item: string) => {
@@ -21,9 +30,23 @@ function ApiApproval() {
     setStateApis(apis.filter((api) => api.progress === item.slice(0, 2)));
   };
 
+  const [nowApiId, setNowApiId] = useState(-1);
+  const [nowApiTitle, setNowApiTitle] = useState('');
   const [rejectState, setRejectState] = useState(false);
-  const handleRejectState = () => {
-    // adminApiRejectReason();
+  const [rejectReason, setRejectReason] = useState('');
+  const handleRejectState = async () => {
+    adminApiRejectReason({
+      applyId: nowApiId,
+      title: nowApiTitle,
+      content: rejectReason,
+    });
+    setRejectState(false);
+    closeModal();
+    window.location.reload();
+  };
+  const handleRejectReason = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(e.target.value);
+    setRejectReason(e.target.value);
   };
 
   const changeState = (applyId: number, newState: string) => {
@@ -34,9 +57,10 @@ function ApiApproval() {
       await setLastChanged(new Date().getTime());
       if (newState === '거절') {
         setRejectState(true);
-        handleRejectState();
+        openModal();
+      } else {
+        window.location.reload();
       }
-      window.location.reload();
     };
     doChange();
   };
@@ -58,9 +82,11 @@ function ApiApproval() {
 
   const [clicked, setClicked] = useState(false);
   const [clickedapi, setClickedApi] = useState<number | undefined>(undefined);
-  const handleClick = (applyId: number) => {
+  const handleClick = (applyId: number, title: string) => {
     setClickedApi(applyId);
     setClicked(!clicked);
+    setNowApiId(applyId);
+    setNowApiTitle(title);
   };
 
   const allApis = () => {
@@ -78,7 +104,11 @@ function ApiApproval() {
         <div className="col-span-1 text-center">
           <button
             type="button"
-            onClick={() => handleClick(api.applyId)}
+            onClick={() => {
+              if (api.progress !== '승인' && api.progress !== '거절') {
+                handleClick(api.applyId, api.title);
+              }
+            }}
             className={getClassName(api.progress)}
           >
             {api.progress}
@@ -138,66 +168,64 @@ function ApiApproval() {
         <div className="col-span-3 text-center font-medium">{api.title}</div>
 
         <div className="col-span-1 text-center">
-          <div className="flex flex-col parent">
-            <button
-              type="button"
-              onClick={() => handleClick(api.applyId)}
-              className={getClassName(api.progress)}
-            >
-              {api.progress}
-            </button>
-            {clicked && api.applyId === clickedapi ? (
-              <ul className="ulTag">
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => changeState(api.applyId, '대기')}
-                  >
-                    대기
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => changeState(api.applyId, '승인')}
-                  >
-                    승인
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => changeState(api.applyId, '진행')}
-                  >
-                    진행
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => changeState(api.applyId, '거절')}
-                  >
-                    거절
-                  </button>
-                </li>
-              </ul>
-            ) : (
-              ''
-            )}
-          </div>
+          <button
+            type="button"
+            onClick={() => handleClick(api.applyId, api.title)}
+            className={getClassName(api.progress)}
+          >
+            {api.progress}
+          </button>
+          {clicked && api.applyId === clickedapi ? (
+            <ul className="ulTag">
+              <li>
+                <button
+                  type="button"
+                  onClick={() => changeState(api.applyId, '대기')}
+                >
+                  대기
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => changeState(api.applyId, '승인')}
+                >
+                  승인
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => changeState(api.applyId, '진행')}
+                >
+                  진행
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => changeState(api.applyId, '거절')}
+                >
+                  거절
+                </button>
+              </li>
+            </ul>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     ));
   };
 
   return (
-    <div className="custom-container">
-      <p className="color-blue text-xl font-bold w-40 m-0">API 신청내역</p>
+    <div>
+      <Header title="API 신청내역" />
+
       <div className="flex justify-arouond w-full mt-8">
         <div className="border-right w-1/6 flex flex-col justify-center items-center text-center my-4">
           <button
             type="button"
-            // className="my-4"
             className={
               selectedItem === '전체 조회' ? 'selected' : 'no-selected'
             }
@@ -241,10 +269,6 @@ function ApiApproval() {
           >
             거절 조회
           </button>
-          {/* <p className="my-4">승인 조회</p>
-          <p className="my-4">대기 조회</p>
-          <p className="my-4">진행 조회</p>
-          <p className="my-4">거절 조회</p> */}
         </div>
         <div className="w-5/6 px-8">
           <div className="my-4 w-full grid grid-cols-5 border-bottom py-3">
@@ -260,7 +284,26 @@ function ApiApproval() {
           <div className="my-6 pb-3 w-full border-bottom text-center">
             {selectedItem === '전체 조회' ? allApis() : filterdApis()}
           </div>
-          {rejectState ? 'reject' : ''}
+          {rejectState ? (
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+              <div className="flex flex-col justify-center content-center font-semibold">
+                <p>거절 사유를 입력하세요</p>
+                <textarea
+                  className="rejectTextarea"
+                  onChange={(e) => handleRejectReason(e)}
+                />
+                <button
+                  type="button"
+                  onClick={handleRejectState}
+                  className="rejectButton"
+                >
+                  완료
+                </button>
+              </div>
+            </Modal>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

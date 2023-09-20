@@ -156,9 +156,9 @@ public class MemberController {
 
         Member member = memberService.findById(authentication.getName());
 
-        log.info("id = " + member.getId());
+        FindMemberResponse findMemberResponse = new FindMemberResponse(member);
 
-        return ResponseEntity.ok(new FindMemberResponse());
+        return ResponseEntity.ok(findMemberResponse);
     }
 
     @PutMapping("/me")

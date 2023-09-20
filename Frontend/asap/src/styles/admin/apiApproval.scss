@@ -1,9 +1,9 @@
-.custom-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+// .custom-container {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+// }
 
 .selected {
   background-color: #c4c2c2;
@@ -26,19 +26,15 @@
   font-size: 15px;
   font-weight: 700;
 }
+
 .border-right {
   border-right: 1px solid #e7e7e7d8; /* 선 색상을 원하는 대로 설정 */
-  // padding-right: 16px; /* 오른쪽 패딩을 추가해 선과 텍스트 사이에 간격을 줌 */
-  // margin-right: 16px; /* 오른쪽 마진을 추가해 선과 다음 엘리먼트 사이에 간격을 줌 */
 }
+
 .border-bottom {
   border-bottom: 1px solid #e7e7e7d8; /* 선 색상을 원하는 대로 설정 */
-  // padding-right: 16px; /* 오른쪽 패딩을 추가해 선과 텍스트 사이에 간격을 줌 */
-  // margin-right: 16px; /* 오른쪽 마진을 추가해 선과 다음 엘리먼트 사이에 간격을 줌 */
 }
-.parent {
-  position: relative;
-}
+
 .ulTag {
   position: absolute;
   right: 8%;
@@ -48,6 +44,7 @@
   width: 60px;
   border-radius: 5px;
 }
+
 .wait {
   width: 60px;
   height: 30px;
@@ -62,6 +59,7 @@
   border-radius: 5px;
   background-color: white;
 }
+
 .approve {
   width: 60px;
   height: 30px;
@@ -76,6 +74,7 @@
   border-radius: 5px;
   background-color: white;
 }
+
 .proceed {
   width: 60px;
   height: 30px;
@@ -90,6 +89,7 @@
   border-radius: 5px;
   background-color: white;
 }
+
 .reject {
   width: 60px;
   height: 30px;
@@ -103,4 +103,25 @@
   height: 30px;
   border-radius: 5px;
   background-color: white;
+}
+
+.rejectTextarea {
+  width: 300px;
+  height: 200px;
+  border: 1px solid;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+
+.rejectButton {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+
+  margin: auto;
+  margin-top: 8px;
+
+  background-color: #8b8a8a;
+
+  color: #ffffff;
 }

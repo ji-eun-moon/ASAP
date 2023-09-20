@@ -1,0 +1,106 @@
+.custom-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected {
+  background-color: #c4c2c2;
+  border: none;
+  border-radius: 5px;
+  width: 60%;
+  height: 40px;
+  margin: 5px 0px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.no-selected {
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  width: 60%;
+  height: 40px;
+  margin: 5px 0px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.border-right {
+  border-right: 1px solid #e7e7e7d8; /* 선 색상을 원하는 대로 설정 */
+  // padding-right: 16px; /* 오른쪽 패딩을 추가해 선과 텍스트 사이에 간격을 줌 */
+  // margin-right: 16px; /* 오른쪽 마진을 추가해 선과 다음 엘리먼트 사이에 간격을 줌 */
+}
+.border-bottom {
+  border-bottom: 1px solid #e7e7e7d8; /* 선 색상을 원하는 대로 설정 */
+  // padding-right: 16px; /* 오른쪽 패딩을 추가해 선과 텍스트 사이에 간격을 줌 */
+  // margin-right: 16px; /* 오른쪽 마진을 추가해 선과 다음 엘리먼트 사이에 간격을 줌 */
+}
+.parent {
+  position: relative;
+}
+.ulTag {
+  position: absolute;
+  right: 8%;
+  z-index: 1000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  width: 60px;
+  border-radius: 5px;
+}
+.wait {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #aed2ec;
+  color: white;
+  font-weight: 700;
+}
+.wait option {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: white;
+}
+.approve {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #1aa90d;
+  color: white;
+  font-weight: 700;
+}
+.approve option {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: white;
+}
+.proceed {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #3e87e7;
+  color: white;
+  font-weight: 700;
+}
+.proceed option {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: white;
+}
+.reject {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #e33e36;
+  color: white;
+  font-weight: 700;
+}
+.reject option {
+  width: 60px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: white;
+}

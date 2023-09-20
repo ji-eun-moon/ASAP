@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.apply.service;
 
 import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.api.entity.domain.ApiMethod;
 import com.ssafy.project.asap.api.repository.ApiRepository;
 import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
@@ -103,6 +104,7 @@ public class ApplyService {
                     .output(apply.getOutput())
                     .member(apply.getMember())
                     .provideDate(apply.getProvideDate())
+                    .apiMethod(ApiMethod.mapApplyMethodToApiMethod(apply.getMethod()))
                     .build();
 
             apiRepository.save(api);

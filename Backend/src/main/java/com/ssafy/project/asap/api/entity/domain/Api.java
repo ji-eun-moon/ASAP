@@ -47,6 +47,9 @@ public class Api extends BaseTime {
     @Column(nullable = false)
     private LocalDate provideDate;
 
+    @Column
+    private ApiMethod apiMethod;
+
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
     List<Purpose> purposeList = new ArrayList<>();
 }

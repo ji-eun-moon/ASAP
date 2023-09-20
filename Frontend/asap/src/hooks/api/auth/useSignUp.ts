@@ -18,6 +18,8 @@ const useSignUp = () => {
       // 서버에서 받은 응답 처리
       if (response.status === 201) {
         console.log('회원가입 성공:', response.data);
+        alert('환영합니다.');
+        window.location.href = '/login';
       } else {
         console.error('회원가입 실패:', response.data);
       }

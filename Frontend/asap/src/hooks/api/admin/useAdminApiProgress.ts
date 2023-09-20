@@ -13,7 +13,7 @@ const useAdminApiProgress = () => {
         url: '/api/v1/apply/progress',
         data: { applyId, progress },
       });
-      if (response.status === 200) {
+      if (response.status === 202) {
         console.log('진행 상태 변경 완료');
       } else {
         console.log('진행 상태 변경 실패');

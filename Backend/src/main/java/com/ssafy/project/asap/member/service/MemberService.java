@@ -136,4 +136,10 @@ public class MemberService {
 
     }
 
+    public void sendAddress(RegisterAddressRequest request){
+
+
+
+    }
+
 }

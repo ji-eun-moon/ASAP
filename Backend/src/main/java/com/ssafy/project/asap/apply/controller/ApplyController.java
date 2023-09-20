@@ -34,7 +34,7 @@ public class ApplyController {
     private final MemberService memberService;
     private final NoticeService noticeService;
 
-    @GetMapping("/detail/{apply_id}")
+    @GetMapping("/detail/{applyId}")
     @Operation(summary = "신청내역 상세 조회 (제공자)", description = "제공자가 관리자에게 신청한 API 상세 정보 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 상세 정보 조회 성공", content = @Content(schema = @Schema(
@@ -44,7 +44,7 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<FindApplyResponse> findByApplyId(@PathVariable("apply_id") Long applyId){
+    public ResponseEntity<FindApplyResponse> findByApplyId(@PathVariable("applyId") Long applyId){
 
         // 신청 내역 상세 조회
         FindApplyResponse findApplyResponse = applyService.findByApplyId(applyId);

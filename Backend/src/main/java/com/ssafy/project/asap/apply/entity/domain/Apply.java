@@ -5,7 +5,7 @@ import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
@@ -41,7 +41,7 @@ public class Apply extends BaseTime {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime provideDate;
+    private LocalDate provideDate;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

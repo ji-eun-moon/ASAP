@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class Api extends BaseTime {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime provideDate;
+    private LocalDate provideDate;
 
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
     List<Purpose> purposeList = new ArrayList<>();

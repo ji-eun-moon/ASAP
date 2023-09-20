@@ -13,6 +13,7 @@ interface ApiInfo {
 }
 
 const useSubmitApi = () => {
+  const provideDate = '2023-09-29T07:55:07';
   const submitApi = async ({
     title,
     content,
@@ -21,9 +22,19 @@ const useSubmitApi = () => {
     price,
     api,
     tags,
-    provideDate,
     method,
   }: ApiInfo) => {
+    console.log(
+      title,
+      content,
+      input,
+      output,
+      price,
+      api,
+      tags,
+      provideDate,
+      method,
+    );
     try {
       const response = await axiosInstance({
         method: 'POST',

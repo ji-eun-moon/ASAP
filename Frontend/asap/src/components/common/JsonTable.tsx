@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+/**
+ * @prop {string} jsonData Json 파일 String으로 변환한 문자열 전체
+ */
+
 interface Pair {
   idx: number;
   key: string;
@@ -37,9 +41,12 @@ function JsonTable({ jsonData }: JsonTableProps) {
   return (
     <div className="h-full w-full">
       {data.map((item) => (
-        <div key={item.idx} className="flex grid grid-cols-5">
+        <div
+          key={item.idx}
+          className="flex grid grid-cols-5 h-11 items-center mt-3"
+        >
           {columns.map((column) => (
-            <p key={column} className="col-span-1">
+            <p key={column} className="col-span-1 ps-2 font-semibold">
               {item[column]}
             </p>
           ))}

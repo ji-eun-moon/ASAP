@@ -25,7 +25,7 @@ public class NoticeService {
     public void saveRejectApply(RejectApplyRequest request){
 
         Notice notice = Notice.builder()
-                .title(request.getTitle() + "건에 대한 거절 사유입니다.")
+                .title("'" + request.getTitle() + "'"  + " 건에 대한 거절 사유입니다.")
                 .content(request.getContent())
                 .member(applyRepository.findByApplyId(request.getApplyId()).getMember())
                 .build();

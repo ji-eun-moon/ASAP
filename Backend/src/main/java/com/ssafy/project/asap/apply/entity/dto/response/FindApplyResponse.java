@@ -4,6 +4,7 @@ import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -19,7 +20,7 @@ public class FindApplyResponse {
     private ApplyProgress progress;
     private String title;
     private String content;
-    private LocalDateTime provideDate;
+    private LocalDate provideDate;
     private LocalDateTime createDate;
 
     public FindApplyResponse(Apply apply){

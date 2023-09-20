@@ -4,7 +4,7 @@ import com.ssafy.project.asap.apply.entity.domain.ApplyMethod;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -18,6 +18,6 @@ public class RegisterApplyRequest {
     private Long price;
     private String api;
     private String tags;
-    private LocalDateTime provideDate;
+    private LocalDate provideDate;
 
 }

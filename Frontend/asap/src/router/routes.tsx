@@ -42,6 +42,9 @@ import ApiApproval from 'pages/admin/ApiApproval';
 import NoticeList from 'components/notice/NoticeList';
 import WalletInfo from 'components/mypage/WalletInfo';
 
+// Not Found
+import NotFound from 'components/common/NotFound';
+
 interface Route {
   path: string;
   element: React.ReactElement;
@@ -78,6 +81,8 @@ const routes: Route[] = [
   { path: '/admin/approval', element: <ApiApproval /> },
   { path: '/notice', element: <NoticeList /> },
   { path: '/wallet', element: <WalletInfo /> },
+
+  { path: '/*', element: <NotFound /> },
 ];
 
 export default routes;

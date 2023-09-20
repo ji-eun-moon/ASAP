@@ -6,5 +6,6 @@ import lombok.Getter;
 public class RegisterAddressRequest {
 
     private String address;
+    private String privateKey;
 
 }

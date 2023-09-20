@@ -1,0 +1,24 @@
+.input-container {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: full;
+  padding: 0 8px;
+  border: 1px solid #ababab;
+  border-radius: 6px;
+
+  input {
+    flex: 1;
+    border: none;
+    height: 40px;
+    font-size: 14px;
+
+    &:focus {
+      outline: transparent;
+    }
+  }
+
+  &:focus-within {
+    border: 1px solid #6ba9d4;
+  }
+}

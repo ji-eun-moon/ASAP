@@ -8,7 +8,8 @@ interface IApi {
 }
 
 const useGetApiDetail = () => {
-  const [apiDetail, setApiDetail] = useState<IApi[] | null>(null);
+  const [apiDetail, setApiDetail] = useState<IApi | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const { apiId } = useParams() as { apiId: string };
   const getApiDetail = async (id: string) => {
     try {
@@ -17,6 +18,7 @@ const useGetApiDetail = () => {
         url: `/api/v1/apis/detail/${id}`,
       });
       setApiDetail(response.data);
+      setLoading(false);
       console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
@@ -27,7 +29,7 @@ const useGetApiDetail = () => {
     getApiDetail(apiId);
   }, [apiId]);
 
-  return { apiDetail, getApiDetail, apiId };
+  return { apiDetail, getApiDetail, apiId, loading };
 };
 
 export default useGetApiDetail;

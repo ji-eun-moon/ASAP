@@ -2,17 +2,21 @@ package com.ssafy.project.asap.apply.entity.dto.response;
 
 import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class FindApplyResponse {
 
-    private Long applyId;
-    private Long memberId;
     private String api;
     private String input;
     private String output;
@@ -22,10 +26,11 @@ public class FindApplyResponse {
     private String content;
     private LocalDate provideDate;
     private LocalDateTime createDate;
+    private String id;
+    private String name;
+    private String tags;
 
-    public FindApplyResponse(Apply apply){
-        this.applyId = apply.getApplyId();
-        this.memberId = apply.getMember().getMemberId();
+    public FindApplyResponse(Apply apply) {
         this.api = apply.getApi();
         this.input = apply.getInput();
         this.output = apply.getOutput();
@@ -35,6 +40,8 @@ public class FindApplyResponse {
         this.content = apply.getContent();
         this.provideDate = apply.getProvideDate();
         this.createDate = apply.getCreateDate();
+        this.id = apply.getMember().getId();
+        this.name = apply.getMember().getName();
+        this.tags = apply.getTags();
     }
-
 }

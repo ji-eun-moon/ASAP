@@ -1,8 +1,10 @@
 import React, { ChangeEvent } from 'react';
 import JsonTable from 'components/common/JsonTable';
-import { Input, Card } from '@material-tailwind/react';
+import { Card } from '@material-tailwind/react';
 import useOutputStore from 'store/supply/useOutputStore';
 import useSubmitStore from 'store/supply/useSubmitStore';
+import 'styles/common/Input.scss';
+import { ReactComponent as Add } from 'assets/icons/Add.svg';
 
 function SubmitOutput() {
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
@@ -66,76 +68,47 @@ function SubmitOutput() {
   };
 
   return (
-    <Card className="w-full h-full container mx-auto">
-      <div className="grid grid-cols-5">
-        {TABLE_HEAD.map((head) => (
-          <p key={head} className="col-span-1">
-            {head}
-          </p>
-        ))}
+    <div className="flex">
+      <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
+        <div className="grid grid-cols-5 bg-gray-200">
+          {TABLE_HEAD.map((head) => (
+            <p key={head} className="col-span-1 p-2 font-bold text-xl h-11">
+              {head}
+            </p>
+          ))}
+        </div>
+        <hr className="h-0.5 bg-gray-500" />
+        <JsonTable jsonData={jsonOutput} />
+        <div className="grid grid-cols-5">
+          <div className="table-input-container">
+            <input placeholder="key" value={key} onChange={onKeyHandler} />
+          </div>
+          <div className="table-input-container">
+            <input placeholder="name" value={name} onChange={onNameHandler} />
+          </div>
+          <div className="table-input-container">
+            <input placeholder="type" value={type} onChange={onTypeHandler} />
+          </div>
+          <div className="table-input-container">
+            <input
+              placeholder="required"
+              value={required}
+              onChange={onRequiredHandler}
+            />
+          </div>
+          <div className="table-input-container">
+            <input
+              placeholder="description"
+              value={description}
+              onChange={onDescriptionHandler}
+            />
+          </div>
+        </div>
+      </Card>
+      <div className="flex items-end">
+        <Add type="button" onClick={handleAddPair} className="w-6 my-5 ms-5" />
       </div>
-      <JsonTable jsonData={jsonOutput} />
-      <div className="flex">
-        <Input
-          label="Key"
-          value={key}
-          onChange={onKeyHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <Input
-          label="Name"
-          value={name}
-          onChange={onNameHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <Input
-          label="Type"
-          value={type}
-          onChange={onTypeHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <Input
-          label="Required"
-          value={required}
-          onChange={onRequiredHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <Input
-          label="Description"
-          value={description}
-          onChange={onDescriptionHandler}
-          className="pr-20"
-          containerProps={{
-            className: 'min-w-0',
-          }}
-          crossOrigin=""
-        />
-        <button
-          type="button"
-          onClick={handleAddPair}
-          className="font-bold text-3xl"
-        >
-          +
-        </button>
-      </div>
-      <div />
-    </Card>
+    </div>
   );
 }
 

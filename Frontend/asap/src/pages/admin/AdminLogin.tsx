@@ -1,8 +1,11 @@
 import React, { useState, ChangeEvent } from 'react';
 import useAdminLogin from 'hooks/api/admin/useAdminLogin';
 import { Input, Button } from '@material-tailwind/react';
+import '../../styles/admin/adminLogin.scss';
+import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
+  const navigate = useNavigate();
   const { adminLogin } = useAdminLogin();
   const [adminId, setAdminId] = useState<string>('');
   const [adminPassword, setAdminPwd] = useState<string>('');
@@ -20,6 +23,7 @@ function AdminLogin() {
       adminId,
       adminPassword,
     });
+    navigate('/admin/approval');
   };
   return (
     <div className="container-custom">
@@ -40,6 +44,7 @@ function AdminLogin() {
               //   className: 'min-w-0',
               // }}
               crossOrigin=""
+              required
             />
           </div>
           <div className="my-5 flex justify-center items-center">
@@ -53,6 +58,7 @@ function AdminLogin() {
               //   className: 'min-w-0',
               // }}
               crossOrigin=""
+              required
             />
           </div>
         </div>

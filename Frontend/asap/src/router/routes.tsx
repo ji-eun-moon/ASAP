@@ -17,7 +17,7 @@ import ApiTest from 'pages/api/ApiTest';
 import ApiApply from 'pages/api/ApiApply';
 
 // supply
-import ApiSupply from 'pages/api/ApiSupply';
+import ApiSupplySubmit from 'pages/api/ApiSupplySubmit';
 import ApiSupplyList from 'pages/api/ApiSupplyList';
 
 // myapi
@@ -60,7 +60,7 @@ const routes: Route[] = [
   { path: '/api_list/:apiId/test', element: <ApiTest /> },
   { path: '/api_list/:apiId/apply', element: <ApiApply /> },
 
-  { path: '/supply', element: <ApiSupply /> },
+  { path: '/supply', element: <ApiSupplySubmit /> },
   { path: '/supply/list', element: <ApiSupplyList /> },
 
   { path: '/myapi', element: <MyApi /> },

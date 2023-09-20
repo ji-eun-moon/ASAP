@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import useAdminLogin from 'hooks/api/admin/useAdminLogin';
 import { Input, Button } from '@material-tailwind/react';
-import 'styles/admin/adminLogin.scss';
 
 function AdminLogin() {
   const { adminLogin } = useAdminLogin();

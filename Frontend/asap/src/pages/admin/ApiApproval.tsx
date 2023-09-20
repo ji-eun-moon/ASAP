@@ -4,6 +4,7 @@ import 'styles/admin/apiApproval.scss';
 import useAdminApiList from 'hooks/api/admin/useAdminApiList';
 import useAdminApiProgress from 'hooks/api/admin/useAdminApiProgress';
 import useAdminApiRejectReason from 'hooks/api/admin/useAdminApiRejectReason';
+import useAdminApiDetail from 'hooks/api/admin/useAdminApiDetail';
 
 import Header from 'components/common/Header';
 import Modal from 'components/common/Modal';
@@ -23,6 +24,7 @@ function ApiApproval() {
   const { adminApiProgress } = useAdminApiProgress();
   const [stateApis, setStateApis] = useState(apis);
   const { adminApiRejectReason } = useAdminApiRejectReason();
+  const { adminApiDetail, apiDetail } = useAdminApiDetail();
 
   const [selectedItem, setSelectItem] = useState('전체 조회');
   const handleItemClick = (item: string) => {
@@ -89,6 +91,11 @@ function ApiApproval() {
     setNowApiTitle(title);
   };
 
+  // const [detailApplyId, setDetailApplyId] = useState(-1);
+  const showDetail = async (applyId: number) => {
+    console.log(applyId);
+    adminApiDetail(applyId);
+  };
   const allApis = () => {
     if (apis.length === 0) {
       return <div>신청 api 내역이 없습니다</div>;
@@ -99,8 +106,69 @@ function ApiApproval() {
         <div className="col-span-1 text-center font-medium">
           {api.createDate.split('T')[0]}
         </div>
-        <div className="col-span-3 text-center font-medium">{api.title}</div>
-
+        <div
+          role="button"
+          tabIndex={0}
+          className="col-span-3 text-center font-medium"
+          onClick={() => showDetail(api.applyId)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === 'Space') {
+              showDetail(api.applyId);
+            }
+          }}
+        >
+          {api.title}
+        </div>
+        {Object.keys(apiDetail).length === 0 ? (
+          ''
+        ) : (
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <div className="flex flex-col justify-center content-center font-semibold">
+              <div>
+                {/* API 이름 부분 */}
+                <div className="flex">
+                  <p>API명 </p>
+                  <p>API 이름 출력할 부분</p>
+                </div>
+                {/* API 상세 설명 부분 */}
+                <div className="flex">
+                  <p>상세 설명</p>
+                  <p>상세 설명 출력할 부분</p>
+                </div>
+                {/* API 주소 부분 */}
+                <div className="flex">
+                  <p>API </p>
+                  <p>API 주소 출력할 부분</p>
+                </div>
+                {/* 태그 부분 */}
+                <div className="flex">
+                  <p>태그</p>
+                  <p>태그 출력할 부분</p>
+                </div>
+                {/* 인풋 부분 */}
+                <div className="flex">
+                  <p>INPUT</p>
+                  <p>인풋 출력할 부분</p>
+                </div>
+                {/* 아웃풋 부분 */}
+                <div className="flex">
+                  <p>OUTPUT</p>
+                  <p>아웃풋 출력할 부분</p>
+                </div>
+                {/* 제공 신청 날짜 */}
+                <div className="flex">
+                  <p>신청 날짜</p>
+                  <p>신청 날짜 출력할 부분</p>
+                </div>
+                {/* 제공 마감 날짜 */}
+                <div className="flex">
+                  <p>제공 마감 날짜</p>
+                  <p>제공 날짜 출력할 부분</p>
+                </div>
+              </div>
+            </div>
+          </Modal>
+        )}
         <div className="col-span-1 text-center">
           <button
             type="button"

@@ -8,6 +8,7 @@ import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
@@ -30,6 +31,8 @@ public class UsageContractService {
         Function function = new Function("setUsage",
                 Arrays.asList(new Bytes32(usageHash)),
                 Collections.emptyList());
+
+        System.out.println("usageHash 확인 : " + Arrays.toString(new Bytes32(usageHash).getValue()));
 
         // 2. sendTransaction
         String txHash = ethereumService.ethSendTransaction(function);

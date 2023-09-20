@@ -1,5 +1,6 @@
 package com.core.apiserver.wallet.service;
 
+import com.core.apiserver.wallet.entity.domain.Wallet;
 import com.core.apiserver.wallet.entity.dto.CreateWalletRequest;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,9 @@ public class WalletService {
     private final Web3j web3j = Web3j.build(new HttpService());
 
     @Transactional
-    public void registerAddress(CreateWalletRequest createWalletRequest) {
-        walletRepository.save(createWalletRequest.toWallet());
+    public Long register(CreateWalletRequest createWalletRequest) {
+        Wallet wallet = walletRepository.save(createWalletRequest.toWallet());
+        return wallet.getWalletId();
     }
 
 }

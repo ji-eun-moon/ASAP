@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: c202
-    url: jdbc:mysql://j9c202.p.ssafy.io:3306/asap
+    username: c202_api
+    url: jdbc:mysql://j9c202.p.ssafy.io:3306/asap_api
     password: '!asap1290!@()'
   jpa:
     properties:
@@ -28,5 +28,3 @@ ethereum:
   server:
     ip: localhost
     port: 8545
-  contract:
-    address: "0x1e0de843cf81303fde693018bd25e6626db90f50"

@@ -26,11 +26,11 @@ public class EthereumService {
     @Autowired
     private Sha256Util sha256Util;
 
-    private String from = "0x01b711a058933486fdB7C514d022f31Ecd10A23D";
-    private String contract = "0x0aa72a09d5aaeb501dea5d88b8965cce7393b3c8";
+    private String from = "0xC112B30914476B67a882C0e7eaAC3e6A2D6206b1";
+    private String contract = "0xde13DE374A1559e6D46FbcbDC83D6043c0ad287e";
 
     // hardcording because of testing
-    private String pwd = "0x806e7540314f8f5d16bcb8cabfb9dd16e7cbf6153170bb1802305991c8c27ba1";
+    private String pwd = "0xeb785a7ab0fb1d395920be970d55fe59e231b2a859edbf695d69dfc0060f5796";
 
     private Admin web3j = null;
 

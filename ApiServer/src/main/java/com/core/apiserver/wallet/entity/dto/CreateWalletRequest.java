@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 public class CreateWalletRequest {
 
     private String address;
+    private String privateKey;
 
     public Wallet toWallet() {
         return Wallet.builder()
                 .address(address)
+                .privateKey(privateKey)
                 .build();
     }
 }

@@ -1,17 +1,17 @@
 package com.core.apiserver.wallet.controller;
 
 import com.core.apiserver.global.util.Sha256Util;
+import com.core.apiserver.wallet.entity.dto.CreateWalletRequest;
 import com.core.apiserver.wallet.service.BasicService;
 import com.core.apiserver.wallet.service.UsageContractService;
+import com.core.apiserver.wallet.service.WalletService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 @Tag(name="Wallet", description = "지갑 관련 API")
 public class WalletController {
 
+    private final WalletService walletService;
     private final UsageContractService usageContractService;
     private final Sha256Util sha256Util;
 
@@ -47,7 +48,31 @@ public class WalletController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<?> test2() throws IOException, ExecutionException, InterruptedException, NoSuchAlgorithmException {
-        usageContractService.setUsage(sha256Util.encryptToBytes("송아람"));
+        usageContractService.setUsage(sha256Util.encryptToBytes("박서희"));
         return ResponseEntity.ok("성공적");
+    }
+
+    @GetMapping("/test3")
+    @Operation(summary = "test2", description = "스마트 컨트랙트 test")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "스마트 컨트랙트 연동"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> test3(@RequestParam byte[] bytes) throws IOException, ExecutionException, InterruptedException, NoSuchAlgorithmException {
+        return ResponseEntity.ok(sha256Util.bytesToHex(bytes));
+    }
+
+    @PostMapping("/register")
+    @Operation(summary = "지갑 등록", description = "지갑 등록후 PK 반환")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "지갑 저장 완료"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<Long> register(@RequestBody CreateWalletRequest createWalletRequest) {
+        return ResponseEntity.ok(walletService.register(createWalletRequest));
     }
 }

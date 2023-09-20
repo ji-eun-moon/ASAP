@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
+import java.time.LocalDateTime;
+
 @RedisHash
 @Builder
 @Getter
@@ -13,7 +15,8 @@ public class RedisUsage {
     @Id
     private Integer id;
 
-    private Long userWalletId;
-    private Long providerWalletId;
-    private Long apiId;
+    private Integer userWalletId;
+    private Integer providerWalletId;
+    private Integer apiId;
+    private LocalDateTime useAt;
 }

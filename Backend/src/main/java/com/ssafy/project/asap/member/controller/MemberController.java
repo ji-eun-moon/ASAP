@@ -181,7 +181,7 @@ public class MemberController {
     @PostMapping("/check-password")
     @Operation(summary = "개인정보 조회", description = "개인정보 조회 들어가기 전 비밀번호 확인")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "비밀번호 확인 성공"),
+            @ApiResponse(responseCode = "200", description = "비밀번호 인증 성공"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
@@ -191,6 +191,21 @@ public class MemberController {
         memberService.checkPassword(checkPasswordRequest, authentication.getName());
 
         return ResponseEntity.status(200).body("비밀번호 인증 성공");
+    }
+
+    @PostMapping("/registerAddress")
+    @Operation(summary = "지갑 등록", description = "블록체인에 지갑 등록하고 DB에 지갑 주소 저장")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "지갑 생성 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> registerAddress(@RequestBody RegisterAddressRequest request, Authentication authentication){
+
+        memberService.registerAddress(request, authentication.getName());
+        
+        return ResponseEntity.ok("지갑 생성 성공");
     }
 
 }

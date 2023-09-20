@@ -104,7 +104,7 @@ public class ApplyService {
                     .output(apply.getOutput())
                     .member(apply.getMember())
                     .provideDate(apply.getProvideDate())
-                    .apiMethod(ApiMethod.mapApplyMethodToApiMethod(apply.getMethod()))
+                    .method(ApiMethod.mapApplyMethodToApiMethod(apply.getMethod()))
                     .build();
 
             apiRepository.save(api);

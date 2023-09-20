@@ -21,6 +21,7 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final ApplyRepository applyRepository;
 
+    @Transactional
     public void saveRejectApply(RejectApplyRequest request){
 
         Notice notice = Notice.builder()

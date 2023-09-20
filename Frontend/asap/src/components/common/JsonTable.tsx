@@ -1,42 +1,43 @@
 import React, { useState, useEffect } from 'react';
 
-import usePairStore from 'store/supply/usePairStore';
-
 interface Pair {
-  id: number;
+  idx: number;
   key: string;
   name: string;
   type: string;
+  required: string;
   description: string;
 }
+interface JsonTableProps {
+  jsonData: string;
+}
 
-function JsonTable() {
-  const { jsonOutput } = usePairStore();
+function JsonTable({ jsonData }: JsonTableProps) {
   const [data, setData] = useState<Pair[]>([]);
 
   useEffect(() => {
     try {
-      if (jsonOutput) {
-        const parsedData = JSON.parse(jsonOutput);
+      if (jsonData) {
+        const parsedData = JSON.parse(jsonData);
         setData(parsedData);
       }
     } catch (error) {
       console.error('Invalid JSON data:', error);
     }
-  }, [jsonOutput]);
+  }, [jsonData]);
 
   if (!data || data.length === 0) {
     return null;
   }
 
   const columns = Object.keys(data[0]).filter(
-    (column) => column !== 'id',
+    (column) => column !== 'idx',
   ) as (keyof Pair)[];
 
   return (
     <div className="h-full w-full">
       {data.map((item) => (
-        <div key={item.id} className="flex grid grid-cols-4">
+        <div key={item.idx} className="flex grid grid-cols-5">
           {columns.map((column) => (
             <p key={column} className="col-span-1">
               {item[column]}

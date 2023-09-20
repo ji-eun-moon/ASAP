@@ -45,6 +45,10 @@ public class Member extends BaseTime {
     @Setter
     private String address;
 
+    @Column(unique = true)
+    @Setter
+    private Long walletId;
+
     @OneToMany(mappedBy = "member")
     private List<Payment> paymentList = new ArrayList<>();
 

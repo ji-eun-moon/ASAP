@@ -63,8 +63,8 @@ const routes: Route[] = [
   { path: '/api_list/:apiId/test', element: <ApiTest /> },
   { path: '/api_list/:apiId/apply', element: <ApiApply /> },
 
-  { path: '/supply', element: <ApiSupplySubmit /> },
-  { path: '/supply/list', element: <ApiSupplyList /> },
+  { path: '/supply', element: <ApiSupplyList /> },
+  { path: '/supply/submit', element: <ApiSupplySubmit /> },
 
   { path: '/myapi', element: <MyApi /> },
 

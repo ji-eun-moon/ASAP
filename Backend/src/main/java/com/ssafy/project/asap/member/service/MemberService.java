@@ -127,4 +127,13 @@ public class MemberService {
 
     }
 
+    @Transactional
+    public void registerAddress(RegisterAddressRequest request, String id){
+
+        Member member = memberRepository.findById(id).get();
+
+        member.setAddress(request.getAddress());
+
+    }
+
 }

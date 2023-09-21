@@ -10,7 +10,7 @@ const useLogOut = () => {
       if (response.status === 200) {
         sessionStorage.clear();
         console.log('로그아웃 성공:', response.data);
-        window.location.reload();
+        window.location.href = '/';
       }
     } catch (error) {
       console.log('서버 오류:', error);

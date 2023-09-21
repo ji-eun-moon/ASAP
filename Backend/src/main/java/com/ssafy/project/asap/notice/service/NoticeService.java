@@ -26,6 +26,7 @@ public class NoticeService {
 
         Notice notice = Notice.builder()
                 .title("'" + request.getTitle() + "'"  + " 건에 대한 거절 사유입니다.")
+                .isRead(false)
                 .content(request.getContent())
                 .member(applyRepository.findByApplyId(request.getApplyId()).getMember())
                 .build();

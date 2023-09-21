@@ -30,9 +30,4 @@ public class Notice extends BaseTime {
     @Setter
     private boolean isRead;
 
-    @PrePersist
-    public void prePersist(){
-        this.isRead = false;
-    }
-
 }

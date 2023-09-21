@@ -5,6 +5,7 @@ import com.ssafy.project.asap.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,9 +26,15 @@ public class CategoryService {
 
     }
 
-    public List<Category> findAll(){
+    public List<String> findAll(){
 
-        return categoryRepository.findAll();
+        List<String> list = new ArrayList<>();
+
+        for(Category category : categoryRepository.findAll()){
+            list.add(category.getCategory());
+        }
+
+        return list;
 
     }
 

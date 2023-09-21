@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.member;
 
 
+import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.CheckPasswordRequest;
 import com.ssafy.project.asap.member.entity.dto.request.FindMemberIdRequest;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 @Transactional
@@ -56,7 +59,7 @@ public class MemberTest {
                 .name("ASAP")
                 .build();
 
-        Assertions.assertThrows(Exception.class, () ->{
+        Assertions.assertThrows(CustomException.class, () ->{
             memberService.signUp(registerMemberRequest1);
         });
 
@@ -96,7 +99,7 @@ public class MemberTest {
 
         LoginMemberRequest loginMemberRequest = new LoginMemberRequest("testId", "invalidPassword");
 
-        Assertions.assertThrows(Exception.class, () -> {
+        Assertions.assertThrows(CustomException.class, () -> {
             memberService.login(loginMemberRequest);
         });
 
@@ -117,7 +120,7 @@ public class MemberTest {
 
         LoginMemberRequest loginMemberRequest = new LoginMemberRequest("testId2", "testPassword");
 
-        Assertions.assertThrows(Exception.class, () -> {
+        Assertions.assertThrows(CustomException.class, () -> {
             memberService.login(loginMemberRequest);
         });
 
@@ -138,10 +141,7 @@ public class MemberTest {
 
         FindMemberIdRequest findMemberIdRequest = new FindMemberIdRequest(registerMemberRequest.getEmail(), registerMemberRequest.getName());
 
-        Member member =  memberService.findByEmailAndName(findMemberIdRequest);
-
-        Assertions.assertEquals(member.getEmail(), findMemberIdRequest.getEmail());
-        Assertions.assertEquals(member.getName(), findMemberIdRequest.getName());
+        List<String> list =  memberService.findAllByEmailAndName(findMemberIdRequest);
 
     }
 
@@ -160,8 +160,8 @@ public class MemberTest {
 
         FindMemberIdRequest findMemberIdRequest = new FindMemberIdRequest("invalidId", "invalidName");
 
-        Assertions.assertThrows(Exception.class, () -> {
-            memberService.findByEmailAndName(findMemberIdRequest);
+        Assertions.assertThrows(CustomException.class, () -> {
+            memberService.findAllByEmailAndName(findMemberIdRequest);
         });
 
     }
@@ -200,7 +200,7 @@ public class MemberTest {
 
         CheckPasswordRequest checkPasswordRequest = new CheckPasswordRequest("invalidPassword");
 
-        Assertions.assertThrows(Exception.class, () -> {
+        Assertions.assertThrows(CustomException.class, () -> {
             memberService.checkPassword(checkPasswordRequest, registerMemberRequest.getId());
         });
 

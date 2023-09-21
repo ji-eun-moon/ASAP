@@ -6,7 +6,7 @@ interface INotice {
   title: string;
   content: string;
   read: boolean;
-  createdAt: Date;
+  createDate: string;
 }
 
 const useNoticeList = () => {
@@ -19,7 +19,6 @@ const useNoticeList = () => {
         method: 'GET',
         url: '/api/v1/notice/list',
       });
-      console.log(response.data);
       setNoticeList(response.data);
       setLoading(false);
     } catch (error) {

@@ -8,7 +8,7 @@ function NoticeBadge() {
   const { noticeCount } = useCountNotice();
 
   return (
-    <Menu>
+    <Menu placement="bottom-end">
       <MenuHandler>
         <div className="bg-gray-50 w-20 h-20 flex items-center justify-center cursor-pointer">
           <Badge content={noticeCount} className="notice-badge">

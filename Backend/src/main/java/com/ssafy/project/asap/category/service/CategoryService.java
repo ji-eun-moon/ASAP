@@ -15,10 +15,10 @@ public class CategoryService {
 
     public void registerIfAbsent(List<String> list){
 
-        for(String tag : list){
-            if(categoryRepository.findByTag(tag).isEmpty()){
+        for(String category : list){
+            if(categoryRepository.findByCategory(category).isEmpty()){
                 categoryRepository.save(Category.builder()
-                                .tag(tag)
+                                .category(category)
                             .build());
             }
         }

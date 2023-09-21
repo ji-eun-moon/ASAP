@@ -205,9 +205,9 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> registerAddress(@RequestBody RegisterAddressRequest request, Authentication authentication){
+    public ResponseEntity<?> registerAddress(@RequestBody RegisterAddressRequest request){
 
-        memberService.registerAddress(request, authentication.getName());
+        memberService.registerAddress(request);
         
         return ResponseEntity.ok("지갑 생성 성공");
     }

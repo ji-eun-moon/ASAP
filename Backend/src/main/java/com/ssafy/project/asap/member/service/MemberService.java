@@ -136,9 +136,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void registerAddress(RegisterAddressRequest request, String id){
+    public void registerAddress(RegisterAddressRequest request){
 
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(request.getId()).get();
 
         Long walletId = getWalletId(request);
 

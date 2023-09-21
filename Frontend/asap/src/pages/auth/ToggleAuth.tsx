@@ -6,7 +6,7 @@ import { ReactComponent as Logo } from 'assets/images/Logo.svg';
 
 function ToggleAuth() {
   const navigate = useNavigate();
-  const { loginType } = useAuthStore();
+  const { loginType, setLoginType } = useAuthStore();
 
   // 뒤로 가기
   const handleGoBack = () => {
@@ -16,9 +16,9 @@ function ToggleAuth() {
   // 계정 전환 하고 메인페이지로 이동
   const toggleAccount = () => {
     const newLoginType = loginType === 'user' ? 'supplier' : 'user';
-    sessionStorage.setItem('loginType', newLoginType);
+    setLoginType(newLoginType);
     navigate('/');
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

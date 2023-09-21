@@ -6,7 +6,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { Input, Button } from '@material-tailwind/react';
 import SideBar from 'components/nav/SideBar';
 import Header from 'components/common/Header';
-import menus from 'router/mypage-menus';
+import menus from 'router/data/mypage-menus';
 
 function AccountPay() {
   const { deleteCreditCard } = useDeleteCredit();

@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class RegisterAddressRequest {
 
+    private String id;
     private String address;
     private String privateKey;
 

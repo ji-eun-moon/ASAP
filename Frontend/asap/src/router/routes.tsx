@@ -167,6 +167,14 @@ const routes: Route[] = [
       </SupplierRoute>
     ),
   },
+  {
+    path: '/supply/apply_list',
+    element: (
+      <SupplierRoute>
+        <SupplyApplyList />
+      </SupplierRoute>
+    ),
+  },
 
   // 통계
   {

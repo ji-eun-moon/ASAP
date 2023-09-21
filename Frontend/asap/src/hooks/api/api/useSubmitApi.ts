@@ -24,17 +24,6 @@ const useSubmitApi = () => {
     method,
     provideDate,
   }: ApiInfo) => {
-    console.log(
-      title,
-      content,
-      input,
-      output,
-      price,
-      api,
-      tags,
-      provideDate,
-      method,
-    );
     try {
       const response = await axiosInstance({
         method: 'POST',
@@ -52,7 +41,7 @@ const useSubmitApi = () => {
         },
       });
       if (response.status === 200) {
-        window.location.href = '/supply/list';
+        window.location.href = '/supply/apply_list';
       }
     } catch (error) {
       console.log('서버 오류 :', error);

@@ -5,7 +5,7 @@ function Test() {
   return (
     <div className="text-3xl">
       테스트페이지입니다.
-      <Table left="안녕" right="하세요" />
+      <Table left="안녕" right="하세요" height="55px" />
     </div>
   );
 }

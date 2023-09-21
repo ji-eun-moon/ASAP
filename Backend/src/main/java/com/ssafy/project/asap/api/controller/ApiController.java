@@ -4,10 +4,12 @@ import com.ssafy.project.asap.api.entity.domain.ApiCategory;
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.api.entity.dto.response.GuideApiResponse;
+import com.ssafy.project.asap.api.service.ApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/apis")
+@RequiredArgsConstructor
 @Tag(name="Api", description = "API관련 API")
 public class ApiController {
+
+    private final ApiService apiService;
 
     @GetMapping("/all")
     @Operation(summary = "API 전체 리스트", description = "사용 가능한 전체 API 리스트 조회")
@@ -31,26 +35,9 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<List<FindApisResponse>> findAll(){
 
-        // 전체 api 리스트 조회
-        List<FindApisResponse> list = new ArrayList<>();
-
-        list.add(FindApisResponse.builder()
-                        .apiId(1L)
-                        .title("제목1")
-                        .content("내용1")
-                        .createDate(LocalDateTime.now().minusDays(2))
-                .build());
-
-        list.add(FindApisResponse.builder()
-                .apiId(2L)
-                .title("제목2")
-                .content("내용2")
-                .createDate(LocalDateTime.now().minusDays(1))
-                .build());
-
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(apiService.findAll());
 
     }
 

@@ -24,6 +24,7 @@ public class ApiService {
                     .apiId(api.getApiId())
                     .title(api.getTitle())
                     .content(api.getContent())
+                    .tags(api.getTags())
                     .build());
         }
 

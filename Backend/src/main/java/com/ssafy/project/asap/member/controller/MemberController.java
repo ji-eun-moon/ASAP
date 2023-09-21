@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.member.controller;
 
-import com.ssafy.project.asap.global.common.CustomException;
+import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.entity.dto.response.FindMemberResponse;
@@ -42,7 +42,7 @@ public class MemberController {
 
         Member member = memberService.findById(registerMemberRequest.getId());
 
-        return ResponseEntity.status(201).body(member);
+        return ResponseEntity.status(200).body(member);
     }
 
     @PostMapping("/check-id")

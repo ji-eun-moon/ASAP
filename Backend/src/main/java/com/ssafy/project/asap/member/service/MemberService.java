@@ -1,7 +1,7 @@
 package com.ssafy.project.asap.member.service;
 
-import com.ssafy.project.asap.global.common.CustomException;
-import com.ssafy.project.asap.global.common.ErrorCode;
+import com.ssafy.project.asap.global.exception.CustomException;
+import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.*;

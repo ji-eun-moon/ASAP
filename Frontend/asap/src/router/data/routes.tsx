@@ -44,12 +44,13 @@ import NotFound from 'components/common/NotFound';
 
 // Route Restrict
 import ToggleAuth from 'pages/auth/ToggleAuth';
-import PublicRoute from './PublicRoute';
-import PrivateRoute from './PrivateRoute';
-import SupplierRoute from './SupplierRoute';
-import UserRoute from './UserRoute';
-import AdminRoute from './AdminRoute';
-import AnyRoute from './AnyRoute';
+import NoSplRoute from 'router/route/NoSplRoute';
+import PublicRoute from '../route/PublicRoute';
+import PrivateRoute from '../route/PrivateRoute';
+import SupplierRoute from '../route/SupplierRoute';
+import UserRoute from '../route/UserRoute';
+import AdminRoute from '../route/AdminRoute';
+import AnyRoute from '../route/AnyRoute';
 
 interface Route {
   path: string;
@@ -112,25 +113,25 @@ const routes: Route[] = [
   {
     path: '/api_list',
     element: (
-      <AnyRoute>
+      <NoSplRoute>
         <ApiList />
-      </AnyRoute>
+      </NoSplRoute>
     ),
   },
   {
     path: '/api_list/:apiId',
     element: (
-      <AnyRoute>
+      <NoSplRoute>
         <ApiDetail />
-      </AnyRoute>
+      </NoSplRoute>
     ),
   },
   {
     path: '/api_list/:apiId/usage',
     element: (
-      <AnyRoute>
+      <NoSplRoute>
         <ApiUsage />
-      </AnyRoute>
+      </NoSplRoute>
     ),
   },
   {

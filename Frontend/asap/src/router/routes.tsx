@@ -19,6 +19,7 @@ import ApiApply from 'pages/api/ApiApply';
 // supply
 import ApiSupplySubmit from 'pages/api/ApiSupplySubmit';
 import ApiSupplyList from 'pages/api/ApiSupplyList';
+import SupplyApplyList from 'pages/supply/SupplyApplyList';
 
 // myapi
 import MyApi from 'pages/myapi/MyApi';

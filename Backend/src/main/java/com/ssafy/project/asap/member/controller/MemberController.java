@@ -212,4 +212,30 @@ public class MemberController {
         return ResponseEntity.ok("지갑 생성 성공");
     }
 
+    @GetMapping("/getAddress")
+    @Operation(summary = "지갑 조회", description = "지갑 주소 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "지갑 주소 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> getAddress(Authentication authentication){
+
+        try {
+
+            String address = memberService.getAddress(authentication.getName());
+
+            return ResponseEntity.ok().body(address);
+
+        } catch (CustomException e) {
+
+            return ResponseEntity.ok().body(e.getErrorCode());
+
+        }
+
+    }
+
 }
+
+

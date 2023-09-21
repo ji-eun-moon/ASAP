@@ -2,6 +2,8 @@ import React from 'react';
 import SideBar from 'components/nav/SideBar';
 import Header from 'components/common/Header';
 import menus from 'router/mypage-menus';
+import './AccountCredit.scss';
+import { ReactComponent as Cross } from 'assets/icons/Cross2.svg';
 
 function AccountPay() {
   return (
@@ -16,12 +18,15 @@ function AccountPay() {
         <div className="col-span-10">
           {/* <p className="text-2xl font-bold">등록된 카드</p> */}
           {/* <p className="text-2xl font-bold">결제 내역</p> */}
-          <div className="px-4 credit-modal">
-            <div className="flex">
-              <p>카드정보</p>
-              <p>XX</p>
+          {/* 모달창 */}
+          <div className="px-10 py-8 credit-modal border rounded">
+            <div className="flex justify-between cross items-center">
+              <p className="text-2xl font-bold">카드정보</p>
+              <div className="mt-1">
+                <Cross />
+              </div>
             </div>
-            <div className="flex">
+            <div className="mt-2 flex border rounded py-4 px-4">
               <p>카드번호</p>
               <p>네모네모</p>
             </div>

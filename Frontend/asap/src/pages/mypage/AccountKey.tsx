@@ -6,6 +6,16 @@ import './AccountKey.scss';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 
 function AccountKey() {
+  const willcopy = '나중에 키값넣기';
+  // 클릭하면 복사 함수
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('클립보드에 복사 되었습니다.');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       {/* 헤더 */}
@@ -21,11 +31,11 @@ function AccountKey() {
           <div className="mt-4 py-2 pl-3 pr-1 border-black rounded border outer flex">
             {/* 안쪽 회색박스 */}
             <div className="rounded bg-gray-300 inner text-base font-medium flex items-center">
-              <p className="ml-2">key는이거입니다.</p>
+              <p className="ml-2">{willcopy} </p>
             </div>
             {/* copy icon */}
-            <div className="iconbox ml-2">
-              <Copy />
+            <div className="iconbox ml-2 cursor-pointer">
+              <Copy onClick={() => handleCopyClipBoard(willcopy)} />
             </div>
           </div>
           {/* 아래 text */}

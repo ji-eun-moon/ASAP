@@ -64,6 +64,7 @@ public class MemberService {
         
     }
 
+    @Transactional
     public void signUp(RegisterMemberRequest registerMemberRequest){
 
         Member member = Member.builder()

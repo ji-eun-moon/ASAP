@@ -1,7 +1,6 @@
 package com.ssafy.project.asap.api.controller;
 
 import com.ssafy.project.asap.api.entity.domain.ApiCategory;
-import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.api.entity.dto.response.GuideApiResponse;
 import com.ssafy.project.asap.api.service.ApiService;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -41,7 +39,7 @@ public class ApiController {
 
     }
 
-    @GetMapping("/detail/{api-id}")
+    @GetMapping("/detail/{apiId}")
     @Operation(summary = "API 조회", description = "해당 API 상세 정보 조회 ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 상세 정보 조회 성공"),
@@ -49,22 +47,12 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> findByApiId(@PathVariable("api-id") Long apiId){
+    public ResponseEntity<?> findByApiId(@PathVariable("apiId") Long apiId){
 
         // api 상세 조회
-        FindApiResponse apiDetailResponse = FindApiResponse.builder()
-                .apiId(1L)
-                .title("api 제목")
-                .content("api 내용")
-                .address("api 지갑 주소")
-                .price(5L)
-                .input("입력 예시")
-                .output("출력 예시")
-                .provideDate(LocalDateTime.now().plusDays(2L))
-                .createDate(LocalDateTime.now())
-                .build();
 
-        return ResponseEntity.ok(apiDetailResponse);
+
+        return ResponseEntity.ok("a");
 
     }
 

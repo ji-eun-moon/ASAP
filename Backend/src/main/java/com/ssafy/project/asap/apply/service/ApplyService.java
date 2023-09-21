@@ -130,5 +130,7 @@ public class ApplyService {
 
         apiRepository.save(api);
 
+        apply.setProgress(ApplyProgress.승인);
+
     }
 }

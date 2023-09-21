@@ -19,7 +19,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long categoryId;
 
-    @Column
+    @Column(unique = true)
     private String category;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)

@@ -43,7 +43,7 @@ function AccountPay() {
     <div>
       <Header title="결제 수단 관리" />
       <div className="container mx-auto page-container grid grid-cols-4">
-        <div className="col-span-1 flex justify-center items-start">
+        <div className="col-span-1 flex justify-start items-start ml-8">
           <SideBar menus={menus} />
         </div>
         <div className="col-span-3">

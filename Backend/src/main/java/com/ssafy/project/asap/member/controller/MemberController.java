@@ -56,12 +56,12 @@ public class MemberController {
         try {
             memberService.checkId(id);
             log.info(id);
+            return ResponseEntity.ok("아이디 확인 완료");
         } catch (RuntimeException e){
             log.error("이미 가입된 아이디입니다.");
             return ResponseEntity.status(400).body("이미 가입된 아이디입니다.");
         }
 
-        return ResponseEntity.ok("아이디 확인 완료");
     }
 
 

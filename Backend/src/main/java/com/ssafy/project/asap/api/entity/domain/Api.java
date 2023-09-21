@@ -1,11 +1,13 @@
 package com.ssafy.project.asap.api.entity.domain;
 
+import com.ssafy.project.asap.apitocategory.entity.domain.ApiToCategory;
 import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class Api extends BaseTime {
 
     @Id
@@ -53,4 +56,7 @@ public class Api extends BaseTime {
 
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
     List<Purpose> purposeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
+    List<ApiToCategory> apiToCategories = new ArrayList<>();
 }

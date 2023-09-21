@@ -7,6 +7,7 @@ import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.service.ApplyService;
+import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.member.service.MemberService;
 import com.ssafy.project.asap.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -151,9 +152,15 @@ public class ApplyController {
     })
     public ResponseEntity<?> approve(@RequestBody ApproveApplyRequest request){
 
-        applyService.approveProgress(request);
-        
-        return ResponseEntity.ok("승인 완료");
+        try {
+            applyService.approveProgress(request);
+
+            return ResponseEntity.ok("승인 완료");
+        } catch (CustomException e){
+
+            return ResponseEntity.ok().body(e.getErrorCode());
+
+        }
 
     }
 

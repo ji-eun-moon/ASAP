@@ -12,6 +12,8 @@ import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.repository.ApplyRepository;
 import com.ssafy.project.asap.category.repository.CategoryRepository;
+import com.ssafy.project.asap.global.exception.CustomException;
+import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -125,7 +127,8 @@ public class ApplyService {
                 .provideDate(apply.getProvideDate())
                 .method(ApiMethod.mapApplyMethodToApiMethod(apply.getMethod()))
                 .tags(apply.getTags())
-                .category(categoryRepository.findByCategory(request.getCategory()).get())
+                .category(categoryRepository.findByCategory(request.getCategory())
+                        .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND)))
                 .build();
 
         apiRepository.save(api);

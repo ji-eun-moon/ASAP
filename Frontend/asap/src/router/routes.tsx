@@ -38,12 +38,17 @@ import AccountPay from 'pages/mypage/AccountPay';
 import AdminLogin from 'pages/admin/AdminLogin';
 import ApiApproval from 'pages/admin/ApiApproval';
 
-// test component
-import NoticeList from 'components/notice/NoticeList';
-import WalletInfo from 'components/mypage/WalletInfo';
-
 // Not Found
 import NotFound from 'components/common/NotFound';
+
+// Route Restrict
+import ToggleAuth from 'pages/auth/ToggleAuth';
+import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
+import SupplierRoute from './SupplierRoute';
+import UserRoute from './UserRoute';
+import AdminRoute from './AdminRoute';
+import AnyRoute from './AnyRoute';
 
 interface Route {
   path: string;
@@ -51,36 +56,202 @@ interface Route {
 }
 
 const routes: Route[] = [
-  { path: '/', element: <MainPage /> },
-  { path: '/signup', element: <SignUp /> },
-  { path: '/login', element: <LogIn /> },
-  { path: '/find_account', element: <FindAccount /> },
-  { path: '/change_password', element: <ChangePw /> },
+  {
+    path: '/',
+    element: (
+      <AnyRoute>
+        <MainPage />
+      </AnyRoute>
+    ),
+  },
 
-  { path: '/api_list', element: <ApiList /> },
-  { path: '/api_list/:apiId', element: <ApiDetail /> },
-  { path: '/api_list/:apiId/usage', element: <ApiUsage /> },
-  { path: '/api_list/:apiId/test', element: <ApiTest /> },
-  { path: '/api_list/:apiId/apply', element: <ApiApply /> },
+  // auth
+  {
+    path: '/signup',
+    element: (
+      <PublicRoute>
+        <SignUp />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/login',
+    element: (
+      <PublicRoute>
+        <LogIn />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/find_account',
+    element: (
+      <PublicRoute>
+        <FindAccount />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/change_password',
+    element: (
+      <PrivateRoute>
+        <ChangePw />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/change_account',
+    element: (
+      <PrivateRoute>
+        <ToggleAuth />
+      </PrivateRoute>
+    ),
+  },
 
-  { path: '/supply', element: <ApiSupplyList /> },
-  { path: '/supply/submit', element: <ApiSupplySubmit /> },
+  // user
+  {
+    path: '/api_list',
+    element: (
+      <AnyRoute>
+        <ApiList />
+      </AnyRoute>
+    ),
+  },
+  {
+    path: '/api_list/:apiId',
+    element: (
+      <AnyRoute>
+        <ApiDetail />
+      </AnyRoute>
+    ),
+  },
+  {
+    path: '/api_list/:apiId/usage',
+    element: (
+      <AnyRoute>
+        <ApiUsage />
+      </AnyRoute>
+    ),
+  },
+  {
+    path: '/api_list/:apiId/test',
+    element: (
+      <UserRoute>
+        <ApiTest />
+      </UserRoute>
+    ),
+  },
+  {
+    path: '/api_list/:apiId/apply',
+    element: (
+      <UserRoute>
+        <ApiApply />
+      </UserRoute>
+    ),
+  },
 
-  { path: '/myapi', element: <MyApi /> },
+  // supplier
+  {
+    path: '/supply',
+    element: (
+      <SupplierRoute>
+        <ApiSupplyList />
+      </SupplierRoute>
+    ),
+  },
+  {
+    path: '/supply/submit',
+    element: (
+      <SupplierRoute>
+        <ApiSupplySubmit />
+      </SupplierRoute>
+    ),
+  },
 
-  { path: '/help', element: <HelpPage /> },
+  // 통계
+  {
+    path: '/myapi',
+    element: (
+      <PrivateRoute>
+        <MyApi />
+      </PrivateRoute>
+    ),
+  },
 
-  { path: '/mypage/check', element: <AccountCheck /> },
-  { path: '/mypage/account', element: <AccountInfo /> },
-  { path: '/mypage/account/modify', element: <AccountMod /> },
-  { path: '/mypage/keys', element: <AccountKey /> },
-  { path: '/mypage/credit', element: <AccountCredit /> },
-  { path: '/mypage/payment', element: <AccountPay /> },
+  // 고객 지원
+  {
+    path: '/help',
+    element: (
+      <AnyRoute>
+        <HelpPage />
+      </AnyRoute>
+    ),
+  },
 
-  { path: '/admin', element: <AdminLogin /> },
-  { path: '/admin/approval', element: <ApiApproval /> },
-  { path: '/notice', element: <NoticeList /> },
-  { path: '/wallet', element: <WalletInfo /> },
+  {
+    path: '/mypage/check',
+    element: (
+      <PrivateRoute>
+        <AccountCheck />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/mypage/account',
+    element: (
+      <PrivateRoute>
+        <AccountInfo />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/mypage/account/modify',
+    element: (
+      <PrivateRoute>
+        <AccountMod />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/mypage/keys',
+    element: (
+      <PrivateRoute>
+        <AccountKey />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/mypage/credit',
+    element: (
+      <PrivateRoute>
+        <AccountCredit />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/mypage/payment',
+    element: (
+      <PrivateRoute>
+        <AccountPay />
+      </PrivateRoute>
+    ),
+  },
+
+  {
+    path: '/admin',
+    element: (
+      <AdminRoute>
+        <AdminLogin />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: '/admin/approval',
+    element: (
+      <AdminRoute>
+        <ApiApproval />
+      </AdminRoute>
+    ),
+  },
 
   { path: '/*', element: <NotFound /> },
 ];

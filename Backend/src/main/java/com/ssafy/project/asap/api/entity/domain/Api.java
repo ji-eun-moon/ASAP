@@ -54,6 +54,9 @@ public class Api extends BaseTime {
     @Enumerated(EnumType.STRING)
     private ApiMethod method;
 
+    @Column
+    private String tags;
+
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
     List<Purpose> purposeList = new ArrayList<>();
 

@@ -1,4 +1,4 @@
-package com.ssafy.project.asap.global.common;
+package com.ssafy.project.asap.global.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

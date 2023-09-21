@@ -207,6 +207,7 @@ public class MemberController {
     })
     public ResponseEntity<?> registerAddress(@RequestBody RegisterAddressRequest request){
 
+
         memberService.registerAddress(request);
         
         return ResponseEntity.ok("지갑 생성 성공");

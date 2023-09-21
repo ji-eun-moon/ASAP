@@ -1,32 +1,24 @@
 import React from 'react';
+import './InfoTable.scss';
 
 /**
- * 채팅창 메세지 하나하나
- * @param text 메세지 내용
- * @param time 메세지 발신 시간
- * @param person 보내는 주체 (me|you)
+ * 테이블 한줄
+ * @param left 왼쪽항목
+ * @param right 오른쪽항목
  */
-function ChatMessage({
-  text,
-  time,
-  person,
-}: {
-  text: string;
-  time: string;
-  person: string;
-}) {
-  if (person === 'me') {
-    return (
-      <div>
-        <div className="message-container right">
-          <div className="time">{time}</div>
-          <div className="message-box green">
-            <div className="me">{text}</div>
-          </div>
-        </div>
+function Table({ left, right }: { left: string; right: string | undefined }) {
+  return (
+    <div className="table-container grid grid-cols-12 justify-start items-center">
+      {/* 왼쪽부분 */}
+      <div className="col-span-3 left-bgc flex items-center text-gray-600">
+        <span className="ml-7 text-.base table-text font-bold">{left}</span>
       </div>
-    );
-  }
+      {/* 오른쪽부분 */}
+      <div className="col-span-9 right-bgc flex items-center">
+        <span className="ml-7 text-base table-text font-bold">{right}</span>
+      </div>
+    </div>
+  );
 }
 
-export default ChatMessage;
+export default Table;

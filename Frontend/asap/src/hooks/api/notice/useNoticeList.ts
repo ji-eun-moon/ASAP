@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import axiosInstance from 'utils/axiosInstance';
 
 interface INotice {
-  id: number;
+  noticeId: number;
   title: string;
   content: string;
-  checked: boolean;
+  read: boolean;
   createdAt: Date;
 }
 

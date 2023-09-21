@@ -25,10 +25,10 @@ public class Apply extends BaseTime {
     @Column(nullable = false, unique = true)
     private String api;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String input;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String output;
 
     @Column(nullable = false)

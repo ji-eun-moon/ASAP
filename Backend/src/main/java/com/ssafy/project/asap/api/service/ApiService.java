@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.api.service;
 
 import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.api.repository.ApiRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +25,21 @@ public class ApiService {
                     .apiId(api.getApiId())
                     .title(api.getTitle())
                     .content(api.getContent())
+                    .tags(api.getTags())
                     .build());
         }
 
         return list;
+
+    }
+
+    public FindApiResponse findByApiId(Long apiId){
+
+        Api api = apiRepository.findByApiId(apiId);
+
+        return FindApiResponse.builder()
+                .apiId(api.getApiId())
+                .build();
 
     }
 

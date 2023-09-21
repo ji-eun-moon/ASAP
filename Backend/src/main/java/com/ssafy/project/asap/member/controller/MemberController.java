@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.member.controller;
 
+import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.entity.dto.response.FindMemberResponse;
@@ -41,7 +42,7 @@ public class MemberController {
 
         Member member = memberService.findById(registerMemberRequest.getId());
 
-        return ResponseEntity.status(201).body(member);
+        return ResponseEntity.status(200).body(member);
     }
 
     @PostMapping("/check-id")
@@ -52,13 +53,17 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> checkId(@RequestBody CheckIdRequest checkIdRequest) {
+    public ResponseEntity<?> checkId(@RequestBody CheckIdRequest checkIdRequest) {
+
         try {
             memberService.checkId(checkIdRequest.getId());
+
             return ResponseEntity.ok().body("회원가입 가능한 아이디입니다.");
-        } catch (RuntimeException e){
-            log.error("이미 가입된 아이디입니다.");
-            return ResponseEntity.status(400).body("이미 가입된 아이디입니다.");
+
+        } catch (CustomException e){
+
+            return ResponseEntity.ok().body(e.getErrorCode());
+
         }
 
     }

@@ -5,11 +5,15 @@ import com.ssafy.project.asap.api.entity.domain.ApiMethod;
 import com.ssafy.project.asap.api.repository.ApiRepository;
 import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
+import com.ssafy.project.asap.apply.entity.dto.request.ApproveApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.repository.ApplyRepository;
+import com.ssafy.project.asap.category.repository.CategoryRepository;
+import com.ssafy.project.asap.global.exception.CustomException;
+import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +33,7 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final MemberRepository memberRepository;
     private final ApiRepository apiRepository;
+    private final CategoryRepository categoryRepository;
 
     public FindApplyResponse findByApplyId(long applyId){
 
@@ -93,23 +98,6 @@ public class ApplyService {
 
         Apply apply = applyRepository.findByApplyId(updateApplyRequest.getApplyId());
 
-        if(updateApplyRequest.getProgress().equals(ApplyProgress.승인)){
-
-            Api api = Api.builder()
-                    .api(apply.getApi())
-                    .title(apply.getTitle())
-                    .content(apply.getContent())
-                    .price(apply.getPrice())
-                    .input(apply.getInput())
-                    .output(apply.getOutput())
-                    .member(apply.getMember())
-                    .provideDate(apply.getProvideDate())
-                    .method(ApiMethod.mapApplyMethodToApiMethod(apply.getMethod()))
-                    .build();
-
-            apiRepository.save(api);
-        }
-
         apply.setProgress(updateApplyRequest.getProgress());
 
     }
@@ -120,6 +108,32 @@ public class ApplyService {
         Apply apply = applyRepository.findByApplyId(applyId);
 
         apply.setProgress(ApplyProgress.거절);
+
+    }
+
+    @Transactional
+    public void approveProgress(ApproveApplyRequest request){
+
+        Apply apply = applyRepository.findByApplyId(request.getApplyId());
+
+        Api api = Api.builder()
+                .api(apply.getApi())
+                .title(apply.getTitle())
+                .content(apply.getContent())
+                .price(apply.getPrice())
+                .input(apply.getInput())
+                .output(apply.getOutput())
+                .member(apply.getMember())
+                .provideDate(apply.getProvideDate())
+                .method(ApiMethod.mapApplyMethodToApiMethod(apply.getMethod()))
+                .tags(apply.getTags())
+                .category(categoryRepository.findByCategory(request.getCategory())
+                        .orElseThrow(() -> new CustomException(ErrorCode.CATEGORY_NOT_FOUND)))
+                .build();
+
+        apiRepository.save(api);
+
+        apply.setProgress(ApplyProgress.승인);
 
     }
 }

@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/member")
 @RequiredArgsConstructor
@@ -113,9 +115,9 @@ public class MemberController {
     public ResponseEntity<?> findByEmailAndName(@RequestBody FindMemberIdRequest findMemberIdRequest) {
 
         try {
-            Member member = memberService.findByEmailAndName(findMemberIdRequest);
+            List<String> list = memberService.findAllByEmailAndName(findMemberIdRequest);
 
-            return ResponseEntity.ok(member.getId());
+            return ResponseEntity.ok(list);
 
         } catch (CustomException e) {
 

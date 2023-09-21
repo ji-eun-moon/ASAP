@@ -21,6 +21,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URI;
 import java.security.Key;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -95,12 +97,18 @@ public class MemberService {
 
     }
 
-    public Member findByEmailAndName(FindMemberIdRequest findMemberIdRequest){
+    public List<String> findAllByEmailAndName(FindMemberIdRequest findMemberIdRequest){
 
-        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName()))
+        List<Member> memberList = Optional.ofNullable(memberRepository.findAllByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName()))
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
-        return optionalMember.get();
+        List<String> list = new ArrayList<>();
+
+        for(Member member : memberList){
+            list.add(member.getId());
+        }
+
+        return list;
 
     }
 

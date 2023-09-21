@@ -1,5 +1,7 @@
 package com.ssafy.project.asap.member.service;
 
+import com.ssafy.project.asap.global.common.CustomException;
+import com.ssafy.project.asap.global.common.ErrorCode;
 import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.*;
@@ -83,7 +85,7 @@ public class MemberService {
         memberRepository.findById(id)
                 .ifPresent((member) -> {
                     log.info(member.getId());
-                    throw new RuntimeException("이미 존재하는 ID입니다.");
+                    throw new CustomException(ErrorCode.USER_ID_DUPLICATED);
                 });
 
     }

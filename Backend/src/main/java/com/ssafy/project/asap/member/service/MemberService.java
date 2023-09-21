@@ -99,8 +99,11 @@ public class MemberService {
 
     public List<String> findAllByEmailAndName(FindMemberIdRequest findMemberIdRequest){
 
-        List<Member> memberList = Optional.ofNullable(memberRepository.findAllByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName()))
-                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        List<Member> memberList = memberRepository.findAllByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName());
+
+        if(memberList.isEmpty()){
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        }
 
         List<String> list = new ArrayList<>();
 
@@ -125,7 +128,7 @@ public class MemberService {
         Member member =  memberRepository.findById(id).get();
 
         if(!bCryptPasswordEncoder.matches(checkPasswordRequest.getPassword(), member.getPassword())){
-            throw new RuntimeException("비밀번호가 틀렸습니다.");
+            throw new CustomException(ErrorCode.PASSWORD_NOT_AUTHORIZED);
         }
     }
 

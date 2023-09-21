@@ -7,17 +7,11 @@ public enum ApiMethod {
     GET, POST, PUT, DELETE;
 
     public static ApiMethod mapApplyMethodToApiMethod(ApplyMethod applyMethod) {
-        switch (applyMethod) {
-            case GET:
-                return ApiMethod.GET;
-            case POST:
-                return ApiMethod.POST;
-            case PUT:
-                return ApiMethod.PUT;
-            case DELETE:
-                return ApiMethod.DELETE;
-            default:
-                throw new IllegalArgumentException("Unsupported ApplyMethod: " + applyMethod);
-        }
+        return switch (applyMethod) {
+            case GET -> ApiMethod.GET;
+            case POST -> ApiMethod.POST;
+            case PUT -> ApiMethod.PUT;
+            case DELETE -> ApiMethod.DELETE;
+        };
     }
 }

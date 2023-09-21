@@ -14,8 +14,9 @@ function AccountPay() {
         </div>
         {/* 오른쪽부분 */}
         <div className="col-span-10">
-          {/* <p className="text-2xl font-bold">가입자 정보</p> */}
-          <div className="px-4">
+          {/* <p className="text-2xl font-bold">등록된 카드</p> */}
+          {/* <p className="text-2xl font-bold">결제 내역</p> */}
+          <div className="px-4 credit-modal">
             <div className="flex">
               <p>카드정보</p>
               <p>XX</p>

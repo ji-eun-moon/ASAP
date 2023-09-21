@@ -1,11 +1,13 @@
 package com.ssafy.project.asap.apply.controller;
 
+import com.ssafy.project.asap.apply.entity.dto.request.ApproveApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RejectApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.service.ApplyService;
+import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.member.service.MemberService;
 import com.ssafy.project.asap.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -138,6 +140,28 @@ public class ApplyController {
         applyService.rejectProgress(request.getApplyId());
 
         return ResponseEntity.ok("거절 사유 입력 완료");
+    }
+
+    @PutMapping("/approve")
+    @Operation(summary = "API 승인", description = "API 승인 완료")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "API 신청 승인 완료"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> approve(@RequestBody ApproveApplyRequest request){
+
+        try {
+            applyService.approveProgress(request);
+
+            return ResponseEntity.ok("승인 완료");
+        } catch (CustomException e){
+
+            return ResponseEntity.ok().body(e.getErrorCode());
+
+        }
+
     }
 
 }

@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.category.entity;
 
-import com.ssafy.project.asap.apitocategory.entity.domain.ApiToCategory;
+import com.ssafy.project.asap.api.entity.domain.Api;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,10 +19,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long categoryId;
 
-    @Column
-    private String tag;
+    @Column(unique = true)
+    private String category;
 
-    @OneToMany(mappedBy = "category")
-    List<ApiToCategory> apiToCategories = new ArrayList<>();
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    List<Api> apiList = new ArrayList<>();
 
 }

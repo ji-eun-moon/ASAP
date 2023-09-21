@@ -1,6 +1,6 @@
 package com.ssafy.project.asap.api.entity.domain;
 
-import com.ssafy.project.asap.apitocategory.entity.domain.ApiToCategory;
+import com.ssafy.project.asap.category.entity.Category;
 import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
@@ -32,10 +32,10 @@ public class Api extends BaseTime {
     @Column(nullable = false)
     private String api;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String input;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String output;
 
     @Column(nullable = false)
@@ -54,9 +54,14 @@ public class Api extends BaseTime {
     @Enumerated(EnumType.STRING)
     private ApiMethod method;
 
+    @Column
+    private String tags;
+
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
     List<Purpose> purposeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
-    List<ApiToCategory> apiToCategories = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 }

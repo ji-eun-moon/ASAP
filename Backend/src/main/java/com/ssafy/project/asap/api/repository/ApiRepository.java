@@ -11,4 +11,6 @@ public interface ApiRepository extends JpaRepository<Api, Long> {
 
     List<Api> findAll();
 
+    Api findByApiId(Long apiId);
+
 }

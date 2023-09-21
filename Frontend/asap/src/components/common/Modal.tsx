@@ -1,5 +1,6 @@
 import React from 'react';
 import 'styles/common/Modal.scss';
+import { ReactComponent as Cross } from 'assets/icons/Cross.svg';
 
 interface ModalProps {
   isOpen: boolean;
@@ -14,7 +15,7 @@ function Modal({ isOpen, onClose, children }: ModalProps) {
     <div className="overlay">
       <div className="modal">
         <button type="button" onClick={onClose} className="close-button">
-          <img src="/assets/icons/cross.png" alt="cross icon" />
+          <Cross className="close-button-img" />
         </button>
         <div className="my-4 mx-4">{children}</div>
       </div>

@@ -1,36 +1,36 @@
 import React from 'react';
 import useAuthStore from 'store/auth/useAuthStore';
-import { Tabs, TabsHeader, Tab } from '@material-tailwind/react';
+import { Chip } from '@material-tailwind/react';
 
 function Switch() {
-  const { isLoggedIn, loginType } = useAuthStore((state) => state);
-
-  const setLoginType = (newLoginType: string) => {
-    sessionStorage.setItem('loginType', newLoginType);
-  };
-
-  const data = [
-    {
-      label: '사용자',
-      value: 'user',
-    },
-    {
-      label: '제공자',
-      value: 'supplier',
-    },
-  ];
+  const { isLoggedIn, loginType, setLoginType } = useAuthStore(
+    (state) => state,
+  );
 
   if (isLoggedIn) {
     return (
-      <Tabs value={loginType} className="w-52 me-3">
-        <TabsHeader>
-          {data.map(({ label, value }) => (
-            <Tab key={value} value={value} onClick={() => setLoginType(value)}>
-              <p className="font-bold">{label}</p>
-            </Tab>
-          ))}
-        </TabsHeader>
-      </Tabs>
+      <div className="flex flex-col">
+        <div className="w-40 bg-gray-200 flex p-1 rounded-md">
+          <button type="button" onClick={() => setLoginType('user')}>
+            <Chip
+              size="lg"
+              value="사용자"
+              className={`text-base text-black px-3 font-bold ${
+                loginType === 'user' ? 'bg-white' : 'bg-gray-200'
+              }`}
+            />
+          </button>
+          <button type="button" onClick={() => setLoginType('supplier')}>
+            <Chip
+              size="lg"
+              value="제공자"
+              className={`text-base text-black font-bold ${
+                loginType === 'supplier' ? 'bg-white' : 'bg-gray-200'
+              }`}
+            />
+          </button>
+        </div>
+      </div>
     );
   }
 

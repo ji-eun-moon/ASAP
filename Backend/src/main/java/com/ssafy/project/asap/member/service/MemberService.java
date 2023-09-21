@@ -136,9 +136,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void registerAddress(RegisterAddressRequest request, String id){
+    public void registerAddress(RegisterAddressRequest request){
 
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(request.getId()).get();
 
         Long walletId = getWalletId(request);
 
@@ -164,4 +164,15 @@ public class MemberService {
         return responseEntity.getBody();
     }
 
+    public String getAddress(String id) {
+
+        String address = memberRepository.findById(id).get().getAddress();
+
+        if (address == null){
+            throw new CustomException(ErrorCode.USER_NOT_HAVE_WALLET);
+        } else {
+           return address;
+        }
+
+    }
 }

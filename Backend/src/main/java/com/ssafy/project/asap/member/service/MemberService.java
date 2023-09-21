@@ -81,7 +81,8 @@ public class MemberService {
     public void checkId(String id){
 
         memberRepository.findById(id)
-                .ifPresent((e) -> {
+                .ifPresent((member) -> {
+                    log.info(member.getId());
                     throw new RuntimeException("이미 존재하는 ID입니다.");
                 });
 

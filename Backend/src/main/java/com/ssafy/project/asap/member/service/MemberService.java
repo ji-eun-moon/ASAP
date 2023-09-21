@@ -39,20 +39,20 @@ public class MemberService {
 
     public Member findById(String id){
 
-        return memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원이 없습니다."));
+        return memberRepository.findById(id).get();
 
     }
 
     @Transactional
     public String login(LoginMemberRequest loginMemberRequest){
         
-        Optional<Member> optionalMember = memberRepository.findById(loginMemberRequest.getId());
-        
-        if(optionalMember.isEmpty()){
-            throw new RuntimeException("아이디 에러");
-        }
+        Member optionalMember = memberRepository.findById(loginMemberRequest.getId())
+                .orElseThrow(() -> {
+                    throw new CustomException(ErrorCode.USER_ID_NOT_FOUND);
+                });
 
-        if(bCryptPasswordEncoder.matches(loginMemberRequest.getPassword(), optionalMember.get().getPassword())){
+
+        if(bCryptPasswordEncoder.matches(loginMemberRequest.getPassword(), optionalMember.getPassword())){
 
             byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
 
@@ -61,7 +61,7 @@ public class MemberService {
             Long accessExpiration = 1000 * 60 * 60 * 24L;
             return JwtUtil.createToken(loginMemberRequest.getId(), key, accessExpiration);
         }else{
-            throw new RuntimeException("비밀번호 에러");
+            throw new CustomException(ErrorCode.PASSWORD_NOT_AUTHORIZED);
         }
         
     }
@@ -76,7 +76,13 @@ public class MemberService {
                 .name(registerMemberRequest.getName())
                 .build();
 
-        memberRepository.save(member);
+        try {
+            memberRepository.save(member);
+        } catch (Exception e) {
+
+            throw new CustomException(ErrorCode.SIGNUP_DUPLICATED);
+
+        }
 
     }
 
@@ -84,7 +90,6 @@ public class MemberService {
 
         memberRepository.findById(id)
                 .ifPresent((member) -> {
-                    log.info(member.getId());
                     throw new CustomException(ErrorCode.USER_ID_DUPLICATED);
                 });
 
@@ -93,7 +98,7 @@ public class MemberService {
     public Member findByEmailAndName(FindMemberIdRequest findMemberIdRequest){
 
         Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findByEmailAndName(findMemberIdRequest.getEmail(), findMemberIdRequest.getName()))
-                .orElseThrow(() -> new RuntimeException("일치하는 회원이 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         return optionalMember.get();
 

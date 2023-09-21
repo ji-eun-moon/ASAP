@@ -1,5 +1,7 @@
 package com.ssafy.project.asap.mail.service;
 
+import com.ssafy.project.asap.global.exception.CustomException;
+import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.member.entity.dto.request.CheckEmailRequest;
 import com.ssafy.project.asap.redis.service.RedisService;
 import jakarta.mail.MessagingException;
@@ -75,9 +77,13 @@ public class MailService {
         return key.toString();
     }
 
-    public boolean checkAuthEmail(CheckEmailRequest checkEmailRequest){
+    public void checkAuthEmail(CheckEmailRequest checkEmailRequest){
 
-        return redisService.getValue(checkEmailRequest.getEmail()).equals(checkEmailRequest.getCode());
+        if (!redisService.getValue(checkEmailRequest.getEmail()).equals(checkEmailRequest.getCode())) {
+
+            throw new CustomException(ErrorCode.EMAIL_CODE_NOT_AUTHORIZED);
+
+        }
 
     }
 

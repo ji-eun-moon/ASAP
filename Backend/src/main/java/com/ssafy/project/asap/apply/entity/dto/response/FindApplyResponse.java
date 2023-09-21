@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.apply.entity.dto.response;
 
 import com.ssafy.project.asap.apply.entity.domain.Apply;
+import com.ssafy.project.asap.apply.entity.domain.ApplyMethod;
 import com.ssafy.project.asap.apply.entity.domain.ApplyProgress;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class FindApplyResponse {
     private String id;
     private String name;
     private String tags;
+    private ApplyMethod method;
 
     public FindApplyResponse(Apply apply) {
         this.api = apply.getApi();
@@ -43,5 +45,6 @@ public class FindApplyResponse {
         this.id = apply.getMember().getId();
         this.name = apply.getMember().getName();
         this.tags = apply.getTags();
+        this.method = apply.getMethod();
     }
 }

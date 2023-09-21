@@ -142,7 +142,7 @@ public class ApplyController {
         return ResponseEntity.ok("거절 사유 입력 완료");
     }
 
-    @PostMapping("/approve")
+    @PutMapping("/approve")
     @Operation(summary = "API 승인", description = "API 승인 완료")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "API 신청 승인 완료"),

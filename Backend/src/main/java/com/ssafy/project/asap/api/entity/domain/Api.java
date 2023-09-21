@@ -32,10 +32,10 @@ public class Api extends BaseTime {
     @Column(nullable = false)
     private String api;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String input;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String output;
 
     @Column(nullable = false)

@@ -33,11 +33,17 @@ public class PurposeController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> register(@RequestBody RegisterPurposeRequest request){
+    public ResponseEntity<?> register(@RequestBody RegisterPurposeRequest request, Authentication authentication){
+        ;
+        try {
+            purposeService.register(request, authentication.getName());
 
+            return ResponseEntity.ok("API 사용 신청이 완료되었습니다.");
+        } catch (CustomException e) {
 
+            return ResponseEntity.ok(e.getErrorCode());
 
-        return ResponseEntity.status(200).body(true + " " + request.getPurpose());
+        }
 
     }
 

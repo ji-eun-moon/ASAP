@@ -17,4 +17,9 @@ public interface PurposeRepository extends JpaRepository<Purpose, Long> {
             "WHERE p.api.apiId = :api and p.member.memberId = :memberId")
     Optional<Purpose> findByApiIdAndMemberId(@Param("api") Long api, @Param("memberId") Long memberId);
 
+    @Query("SELECT p " +
+            "FROM Purpose p " +
+            "WHERE p.api.apiId = :apiId and p.member.id = :id")
+    Optional<Purpose> findByApiAndMember(@Param("apiId") Long apiId, @Param("id") String id);
+
 }

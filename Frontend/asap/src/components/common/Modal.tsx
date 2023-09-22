@@ -12,7 +12,7 @@ function Modal({ isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="overlay" onClick={onClose} aria-hidden="true">
+    <div className="overlay" aria-hidden="true">
       <div
         className="modal"
         onClick={(e) => e.stopPropagation}

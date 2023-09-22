@@ -14,6 +14,7 @@ interface APIDetail {
   id: string;
   name: string;
   tags: string;
+  method: string;
 }
 const useAdminApiDetail = () => {
   const [apiDetail, setApiDetail] = useState<APIDetail>();

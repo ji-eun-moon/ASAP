@@ -12,8 +12,12 @@ function Modal({ isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="overlay">
-      <div className="modal">
+    <div className="overlay" onClick={onClose} aria-hidden="true">
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation}
+        aria-hidden="true"
+      >
         <button type="button" onClick={onClose} className="close-button">
           <Cross className="close-button-img" />
         </button>

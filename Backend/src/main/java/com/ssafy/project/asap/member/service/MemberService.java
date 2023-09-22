@@ -191,4 +191,13 @@ public class MemberService {
         }
 
     }
+
+    public Long checkWallet(String authorization) {
+
+        Member member = memberRepository.findByAddress(authorization)
+                .orElseThrow(() -> new RuntimeException("올바르지 않은 개인키입니다."));
+
+        return member.getWalletId();
+
+    }
 }

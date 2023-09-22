@@ -1,5 +1,6 @@
 package com.core.apiserver.wallet.service;
 
+import com.core.apiserver.global.util.Sha256Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.TypeReference;
@@ -18,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 public class UsageContractService {
 
     private final EthereumService ethereumService;
+    private final Sha256Util sha256Util;
 
     public String getUsage() throws IOException, ExecutionException, InterruptedException {
         // 1. 호출하고자 하는 function 세팅 [functionName, parameters]
@@ -32,6 +34,8 @@ public class UsageContractService {
                 Arrays.asList(new Bytes32(usageHash)),
                 Collections.emptyList());
 
+        System.out.println(sha256Util.bytesToHex(usageHash));
+
         System.out.println("usageHash 확인 : " + Arrays.toString(new Bytes32(usageHash).getValue()));
 
         // 2. sendTransaction
@@ -40,6 +44,8 @@ public class UsageContractService {
         // 3. getReceipt
         TransactionReceipt receipt = ethereumService.getReceipt(txHash);
         System.out.println("receipt = " + receipt);
+
+
     }
 
 }

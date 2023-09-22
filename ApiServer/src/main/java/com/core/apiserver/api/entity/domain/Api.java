@@ -1,13 +1,14 @@
 package com.core.apiserver.api.entity.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.core.apiserver.daily.entity.domain.Daily;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -18,8 +19,12 @@ import lombok.NoArgsConstructor;
 public class Api {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "api_id")
+    private Long apiId;
 
     private String address;
     private Integer price;
+
+    @OneToMany(mappedBy = "api")
+    private List<Daily> dailies = new ArrayList<>();
 }

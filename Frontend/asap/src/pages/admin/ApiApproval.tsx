@@ -18,10 +18,30 @@ import JsonTable from 'components/common/JsonTable';
 
 initTE({ Collapse, Ripple });
 
+interface APIDetail {
+  api: string;
+  input: string;
+  output: string;
+  price: number;
+  progress: string;
+  title: string;
+  content: string;
+  provideDate: string;
+  createDate: 'T' | string;
+  id: string;
+  name: string;
+  tags: string;
+  method: string;
+}
+
+interface ApiDetailProps {
+  apiDetail: APIDetail | undefined; // Define the prop 'apiDetail' with type 'APIDetail'
+}
+
 /* apiDetail 화면 출력 함수 */
-function ApiDetail({ apiDetail = {} }: any) {
+function ApiDetail({ apiDetail }: ApiDetailProps) {
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
-  console.log('tags', apiDetail.tags);
+  console.log('tags', apiDetail?.tags);
   return (
     <div className="my-5">
       {!apiDetail ? (

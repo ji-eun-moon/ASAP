@@ -9,7 +9,7 @@ import './InfoTable.scss';
 
 interface TableProps {
   left: string;
-  right: string | React.ReactElement | undefined;
+  right: number | string | React.ReactElement | undefined;
   height: string;
 }
 function Table({ left, right, height = '55px' }: TableProps) {

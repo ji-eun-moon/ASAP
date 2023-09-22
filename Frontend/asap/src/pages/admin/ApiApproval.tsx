@@ -272,7 +272,7 @@ function ApiApproval() {
     setIsOpened(false);
   };
 
-  const handleChangeApi = (e: any) => {
+  const handleChangeApi = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log('changeAPI', e.target.value);
     setChangeApi(e.target.value);
   };

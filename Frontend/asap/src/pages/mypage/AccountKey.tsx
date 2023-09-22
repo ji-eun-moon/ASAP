@@ -6,26 +6,40 @@ import './AccountKey.scss';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 
 function AccountKey() {
+  const willcopy = '나중에 키값넣기';
+  // 클릭하면 복사 함수
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('클립보드에 복사 되었습니다.');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       {/* 헤더 */}
       <Header title="키 관리" />
       <div className="container mx-auto page-container grid grid-cols-12">
-        {/* 죄측 사이드바 */}
+        {/* 좌측 사이드바 */}
         <div className="col-span-2 flex justify-start items-start ml-8">
           <SideBar menus={menus} />
         </div>
         {/* 우측 publickey */}
         <div className="col-span-10 text-2xl font-bold">
           <div>public_key</div>
-          <div className="mt-4 py-2 pl-3 pr-1 border-black rounded border outer flex">
+          <div className="mt-4 py-1 pl-1 pr-1 border-black rounded border outer flex">
             {/* 안쪽 회색박스 */}
-            <div className="rounded bg-gray-300 inner text-base font-medium flex items-center">
-              <p className="ml-2">key는이거입니다.</p>
+            <div
+              aria-hidden="true"
+              className="rounded bg-gray-300 inner text-base font-medium flex items-center cursor-pointer"
+              onClick={() => handleCopyClipBoard(willcopy)}
+            >
+              <p className="ml-2">{willcopy} </p>
             </div>
             {/* copy icon */}
-            <div className="iconbox ml-2">
-              <Copy />
+            <div className="iconbox ml-2 cursor-pointer">
+              <Copy onClick={() => handleCopyClipBoard(willcopy)} />
             </div>
           </div>
           {/* 아래 text */}

@@ -81,7 +81,7 @@ public class ApiService {
                 .toUri();
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForEntity(uri, request, Object.class);
+        restTemplate.postForEntity(uri, request, boolean.class);
 
     }
 

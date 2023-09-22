@@ -49,4 +49,4 @@ function AccountCheck() {
   );
 }
 
-export default AccountWallet;
+export default AccountCheck;

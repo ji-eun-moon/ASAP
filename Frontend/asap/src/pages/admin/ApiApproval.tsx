@@ -148,6 +148,7 @@ function ApiApproval() {
   const [rejectReason, setRejectReason] = useState(''); // 거절 이유
   const [approveState, setApproveState] = useState(false); // 승인 상태(true/false)
   const [selectedCategory, setSelectedCategory] = useState(''); // 승인 카테고리
+  const [changeApi, setChangeApi] = useState(''); // API 사용가능하게 변경한 new api
 
   /* 거절 상태 관리 */
   const handleRejectState = async () => {
@@ -168,7 +169,11 @@ function ApiApproval() {
 
   /* 승인 상태 관리 */
   const handleApproveState = async () => {
-    adminApiApprove({ applyId: nowApiId, category: selectedCategory });
+    adminApiApprove({
+      applyId: nowApiId,
+      category: selectedCategory,
+      api: changeApi,
+    });
     setApproveState(false); // 승인 상태 false로 돌려놓음(승인 상태에 따라 카테고리 고를 수 있도록 밑에서 설정해놓았기 때문)
     closeModal();
     window.location.reload();
@@ -245,6 +250,11 @@ function ApiApproval() {
     setStateApis(apis.filter((api) => api.progress === item.slice(0, 2)));
     setDetailApplyId(null);
     setIsOpened(false);
+  };
+
+  const handleChangeApi = (e: any) => {
+    console.log('changeAPI', e.target.value);
+    setChangeApi(e.target.value);
   };
 
   /* 전체 조회 api 리스트 화면 관리 */
@@ -505,6 +515,13 @@ function ApiApproval() {
           {approveState ? ( // 승인을 눌렀을 대 승인 카테고리 선택 모달 뜨는 부분
             <Modal isOpen={isModalOpen} onClose={closeModal}>
               <div className="flex flex-col justify-center content-center font-semibold">
+                <p className="text-lg m-2">API url을 입력하세요</p>
+                <hr />
+                <input
+                  type="text"
+                  value={changeApi}
+                  onChange={handleChangeApi}
+                />
                 <p className="text-lg m-2">API 카테고리를 선택하세요</p>
                 <hr />
                 {/* <p>{approveCategory}</p> */}

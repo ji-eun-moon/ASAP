@@ -4,6 +4,9 @@ const useWeb3 = () => {
   const web3 = new Web3(
     new Web3.providers.HttpProvider('https://j9c202.p.ssafy.io/lego/'),
   );
+  // const web3 = new Web3(
+  //   new Web3.providers.HttpProvider('https://gethrpc.ssafy-blockchain.com'),
+  // );
 
   // 코인베이스 계정 가져오기
   const getCoinBase = async () => {
@@ -40,8 +43,7 @@ const useWeb3 = () => {
       });
 
       console.log(receipt, '영수증');
-      console.log('실행 체크');
-
+      console.log(account);
       return account;
     } catch (error) {
       console.error(error);

@@ -1,4 +1,4 @@
-package com.core.apiserver.daily.entity.domain;
+package com.core.apiserver.total.entity.domain;
 
 import com.core.apiserver.api.entity.domain.Api;
 import com.core.apiserver.wallet.entity.domain.Wallet;
@@ -15,11 +15,10 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Daily {
-
+public class Total {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dailyId;
+    private Long totalId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "wallet_id", name = "userWalletId", nullable = false)
@@ -34,5 +33,4 @@ public class Daily {
     private Api api;
 
     private Long useAmount;
-    private LocalDate date;
 }

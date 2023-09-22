@@ -1,25 +1,23 @@
-package com.core.apiserver.daily.entity.domain;
+package com.core.apiserver.transaction.entity.domain;
 
 import com.core.apiserver.api.entity.domain.Api;
 import com.core.apiserver.wallet.entity.domain.Wallet;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Daily {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dailyId;
+    private Long transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "wallet_id", name = "userWalletId", nullable = false)
@@ -33,6 +31,9 @@ public class Daily {
     @JoinColumn(name = "api_id")
     private Api api;
 
-    private Long useAmount;
-    private LocalDate date;
+    private String transactionHash;
+
+    private LocalDate startDate;
+    private LocalDate endDate;
+
 }

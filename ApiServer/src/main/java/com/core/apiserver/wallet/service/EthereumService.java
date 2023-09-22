@@ -7,7 +7,6 @@ import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -17,7 +16,6 @@ import org.web3j.protocol.http.HttpService;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -26,16 +24,16 @@ public class EthereumService {
     @Autowired
     private Sha256Util sha256Util;
 
-    private String from = "0xC112B30914476B67a882C0e7eaAC3e6A2D6206b1";
-    private String contract = "0xde13DE374A1559e6D46FbcbDC83D6043c0ad287e";
+    private String from = "0xb2f25bea384704fc26d60f1bf7490444df21babe";
+    private String contract = "0x60b0f09e73cc508bd2553179dc445586cfb3ca3e";
 
     // hardcording because of testing
-    private String pwd = "0xeb785a7ab0fb1d395920be970d55fe59e231b2a859edbf695d69dfc0060f5796";
+    private String pwd = "pass";
 
     private Admin web3j = null;
 
     public EthereumService() {
-        web3j = Admin.build(new HttpService());
+        web3j = Admin.build(new HttpService("https://j9c202.p.ssafy.io/lego/"));
     }
 
     public Object ethCall(Function function) throws IOException {
@@ -51,6 +49,9 @@ public class EthereumService {
 
             // 4. 결과값 decode
             List<Type> decode = FunctionReturnDecoder.decode(ethCall.getResult(), function.getOutputParameters());
+            if (decode.isEmpty()) {
+                throw new RuntimeException();
+            }
             byte[] s = (byte[]) decode.get(0).getValue();
 
             String s1 = sha256Util.bytesToHex(s);
@@ -78,15 +79,19 @@ public class EthereumService {
 
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
+
             // 3. Transaction 값 제작
-            Transaction transaction = Transaction.createFunctionCallTransaction(from, nonce, Transaction.DEFAULT_GAS, null, contract,
-                    FunctionEncoder.encode(function));
+            Transaction transaction = Transaction.createFunctionCallTransaction(from, nonce, Transaction.DEFAULT_GAS, null,
+                    contract, FunctionEncoder.encode(function));
 
             // 4. ethereum Call &
             EthSendTransaction ethSendTransaction = web3j.ethSendTransaction(transaction).send();
 
+
             // transaction에 대한 transaction Hash값 얻기.
             String transactionHash = ethSendTransaction.getTransactionHash();
+
+
 
             // ledger 에 쓰여지기까지 기다리기
             Thread.sleep(5000);
@@ -104,6 +109,12 @@ public class EthereumService {
         {
             System.out.println("transactionReceipt.getResult().getContractAddress() = " +
                     transactionReceipt.getResult());
+
+            EthTransaction transaction = web3j.ethGetTransactionByHash(transactionHash).send();
+            System.out.println(transaction.getTransaction().get().getInput());
+            byte[] s = transaction.getTransaction().get().getInput().getBytes();
+            String s1 = sha256Util.bytesToHex(s);
+            System.out.println(s1);
         }
         else
         {
@@ -112,6 +123,7 @@ public class EthereumService {
 
         return transactionReceipt.getResult();
     }
+
 
     private static class PersonalLockException extends RuntimeException
     {

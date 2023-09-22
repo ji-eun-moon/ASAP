@@ -24,7 +24,7 @@ server:
   port: '9001'
 
 
-ethereum:
-  server:
-    ip: localhost
-    port: 8545
+# 개인키 모음
+private-key:
+  kakao:
+    rest-api: "KakaoAK 8f721a216fd93270b57928cf397354d2"

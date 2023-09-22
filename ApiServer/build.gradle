@@ -44,7 +44,12 @@ dependencies {
 	implementation group: 'org.web3j', name: 'core', version: '4.10.3'
 	// https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.10.0'
+
+	// simple json
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
 }
+
 
 
 

@@ -254,7 +254,7 @@ function ApiApproval() {
     }
 
     return apis.map((api) => (
-      <div className="w-full grid grid-cols-5 my-5">
+      <div className="w-full grid grid-cols-5 my-5" key={api.applyId}>
         <div className="col-span-1 text-center font-medium">
           {api.createDate.split('T')[0]}
         </div>
@@ -341,7 +341,7 @@ function ApiApproval() {
     }
 
     return stateApis.map((api) => (
-      <div className="w-full grid grid-cols-5 my-5">
+      <div className="w-full grid grid-cols-5 my-5" key={api.applyId}>
         <div className="col-span-1 text-center font-medium">
           {api.createDate.split('T')[0]}
         </div>

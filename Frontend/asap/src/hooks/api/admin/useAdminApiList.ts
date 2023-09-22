@@ -19,8 +19,8 @@ const useAdminApiList = () => {
         url: '/api/v1/apply/list',
       });
       if (response.status === 200) {
-        console.log('관리자 api 신청 내역 조회');
-        console.log(response.data);
+        // console.log('관리자 api 신청 내역 조회');
+        // console.log(response.data);
         setApiList(response.data);
       } else {
         console.log('관리자 api 신청 내역 조회 실패');

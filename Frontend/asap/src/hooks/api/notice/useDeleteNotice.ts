@@ -2,6 +2,11 @@ import axiosInstance from 'utils/axiosInstance';
 
 type TNoticeId = number;
 
+/**
+ * 메시지 삭제
+ * @returns {function} deleteNotice 메시지 삭제
+ */
+
 const useDeleteNotice = () => {
   const deleteNotice = async (noticeId: TNoticeId) => {
     try {

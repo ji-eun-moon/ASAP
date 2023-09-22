@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Input, Button } from '@material-tailwind/react';
 import SideBar from 'components/nav/SideBar';
-import menus from 'router/mypage-menus';
+import menus from 'router/data/mypage-menus';
 import useModifyAccount from 'hooks/api/mypage/useModifyAccount';
 import useAuthEmail from 'hooks/api/auth/useAuthEmail';
 
@@ -43,7 +43,7 @@ function AccountMod() {
 
   return (
     <div className="container mx-auto page-container grid grid-cols-4">
-      <div className="col-span-1 flex justify-center items-start">
+      <div className="col-span-1 flex justify-start items-start ml-8">
         <SideBar menus={menus} />
       </div>
       <div className="col-span-3">

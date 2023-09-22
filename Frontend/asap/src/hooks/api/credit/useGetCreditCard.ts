@@ -11,13 +11,11 @@ const useGetCreditCard = () => {
   const [creditCard, setCreditCard] = useState<INotice[] | null>(null);
 
   const getCreditCard = async () => {
-    console.log('조회하기');
     try {
       const response = await axiosInstance({
         method: 'GET',
         url: '/api/v1/credit',
       });
-      console.log(response.data);
       setCreditCard(response.data);
       setLoading(false);
     } catch (error) {

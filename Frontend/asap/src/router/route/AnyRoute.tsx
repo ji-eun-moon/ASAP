@@ -11,6 +11,8 @@ interface Props {
  */
 
 function AnyRoute({ children }: Props) {
+  // 페이지 접근시 인증 초기화
+  sessionStorage.removeItem('isAuthenticated');
   return children;
 }
 

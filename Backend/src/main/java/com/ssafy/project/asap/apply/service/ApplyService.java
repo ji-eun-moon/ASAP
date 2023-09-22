@@ -117,7 +117,7 @@ public class ApplyService {
         Apply apply = applyRepository.findByApplyId(request.getApplyId());
 
         Api api = Api.builder()
-                .api(apply.getApi())
+                .api(request.getApi())
                 .title(apply.getTitle())
                 .content(apply.getContent())
                 .price(apply.getPrice())

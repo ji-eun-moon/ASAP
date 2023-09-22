@@ -4,7 +4,7 @@ import Header from 'components/common/Header';
 import menus from 'router/data/mypage-menus';
 import CreditCardRegistration from 'components/mypage/CreditCardRegistration';
 
-function AccountPay() {
+function AccountCredit() {
   return (
     <div>
       <Header title="결제 수단 관리" />
@@ -25,4 +25,4 @@ function AccountPay() {
   );
 }
 
-export default AccountPay;
+export default AccountCredit;

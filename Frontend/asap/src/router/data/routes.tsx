@@ -46,12 +46,13 @@ import NotFound from 'components/common/NotFound';
 // Route Restrict
 import ToggleAuth from 'pages/auth/ToggleAuth';
 import NoSplRoute from 'router/route/NoSplRoute';
-import PublicRoute from '../route/PublicRoute';
-import PrivateRoute from '../route/PrivateRoute';
-import SupplierRoute from '../route/SupplierRoute';
-import UserRoute from '../route/UserRoute';
-import AdminRoute from '../route/AdminRoute';
-import AnyRoute from '../route/AnyRoute';
+import ProtectRoute from 'router/route/ProtectRoute';
+import PublicRoute from 'router/route/PublicRoute';
+import PrivateRoute from 'router/route/PrivateRoute';
+import SupplierRoute from 'router/route/SupplierRoute';
+import UserRoute from 'router/route/UserRoute';
+import AdminRoute from 'router/route/AdminRoute';
+import AnyRoute from 'router/route/AnyRoute';
 
 interface Route {
   path: string;
@@ -198,6 +199,7 @@ const routes: Route[] = [
     ),
   },
 
+  // 마이페이지
   {
     path: '/mypage/check',
     element: (
@@ -209,41 +211,41 @@ const routes: Route[] = [
   {
     path: '/mypage/account',
     element: (
-      <PrivateRoute>
+      <ProtectRoute>
         <AccountInfo />
-      </PrivateRoute>
+      </ProtectRoute>
     ),
   },
   {
     path: '/mypage/account/modify',
     element: (
-      <PrivateRoute>
+      <ProtectRoute>
         <AccountMod />
-      </PrivateRoute>
+      </ProtectRoute>
     ),
   },
   {
     path: '/mypage/keys',
     element: (
-      <PrivateRoute>
+      <ProtectRoute>
         <AccountKey />
-      </PrivateRoute>
+      </ProtectRoute>
     ),
   },
   {
     path: '/mypage/credit',
     element: (
-      <PrivateRoute>
+      <ProtectRoute>
         <AccountCredit />
-      </PrivateRoute>
+      </ProtectRoute>
     ),
   },
   {
     path: '/mypage/payment',
     element: (
-      <PrivateRoute>
+      <ProtectRoute>
         <AccountPay />
-      </PrivateRoute>
+      </ProtectRoute>
     ),
   },
 

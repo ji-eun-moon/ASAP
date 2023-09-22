@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import useLogOut from 'hooks/api/auth/useLogOut';
 import { ReactComponent as LogOut } from 'assets/icons/LogOut.svg';
 import 'styles/common/Button.scss';
 
-function MyPageDrop() {
+const MyPageDrop = forwardRef(() => {
   const { logOut } = useLogOut();
   return (
     <div>
@@ -13,6 +13,6 @@ function MyPageDrop() {
       </button>
     </div>
   );
-}
+});
 
 export default MyPageDrop;

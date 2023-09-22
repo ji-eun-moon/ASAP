@@ -6,6 +6,7 @@ import NoticeList from './NoticeList';
 
 function NoticeBadge() {
   const { noticeCount } = useCountNotice();
+  const noticeListRef = React.createRef();
 
   return (
     <Menu placement="bottom-end">
@@ -24,7 +25,7 @@ function NoticeBadge() {
         </div>
       </MenuHandler>
       <MenuList>
-        <NoticeList />
+        <NoticeList ref={noticeListRef} />
       </MenuList>
     </Menu>
   );

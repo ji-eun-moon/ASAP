@@ -9,13 +9,25 @@ interface INotice {
 }
 
 interface NoticeStore {
-  noticeListStore: INotice[];
-  setNoticeListStore: (noticeList: INotice[]) => void; // eslint-disable-line no-unused-vars
+  notices: INotice[];
+  setNotices: (notices: INotice[]) => void; // eslint-disable-line no-unused-vars
+  markAsRead: (noticeId: number) => void; // eslint-disable-line no-unused-vars
+  markAsDelete: (noticeId: number) => void; // eslint-disable-line no-unused-vars
 }
 
 const useNoticeStore = create<NoticeStore>((set) => ({
-  noticeListStore: [],
-  setNoticeListStore: (noticeListStore: INotice[]) => set({ noticeListStore }),
+  notices: [],
+  setNotices: (notices: INotice[]) => set({ notices }),
+  markAsRead: (noticeId) =>
+    set((state) => ({
+      notices: state.notices.map((notice) =>
+        notice.noticeId === noticeId ? { ...notice, read: true } : notice,
+      ),
+    })),
+  markAsDelete: (noticeId) =>
+    set((state) => ({
+      notices: state.notices.filter((notice) => notice.noticeId !== noticeId),
+    })),
 }));
 
 export default useNoticeStore;

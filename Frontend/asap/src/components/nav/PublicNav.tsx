@@ -19,6 +19,7 @@ const activeStyle = {
 
 function PublicNav() {
   const { isLoggedIn } = useAuthStore((state) => state);
+  const MyPageRef = React.createRef();
 
   return (
     <div>
@@ -73,7 +74,7 @@ function PublicNav() {
                 </button>
               </MenuHandler>
               <MenuList>
-                <DropDown />
+                <DropDown ref={MyPageRef} />
               </MenuList>
             </Menu>
           ) : (

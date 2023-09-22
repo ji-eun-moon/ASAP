@@ -12,6 +12,7 @@ import { ReactComponent as Unread } from 'assets/icons/Unread.svg';
 import { ReactComponent as Trash } from 'assets/icons/Trash.svg';
 import useCheckNotice from 'hooks/api/notice/useCheckNotice';
 import useDeleteNotice from 'hooks/api/notice/useDeleteNotice';
+import useNoticeStore from 'store/notice/useNoticeStore';
 
 interface INotice {
   noticeId: number;
@@ -28,18 +29,22 @@ interface Props {
 function NoticeCard({ notice }: Props) {
   const { checkNotice } = useCheckNotice();
   const { deleteNotice } = useDeleteNotice();
-
+  const { markAsRead, markAsDelete } = useNoticeStore((state) => state);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
+  // 알림을 클릭하면 읽음 처리
   const toggleDetail = () => {
     setIsDetailOpen(!isDetailOpen);
     if (!notice.read) {
       checkNotice(notice.noticeId);
+      markAsRead(notice.noticeId);
     }
   };
 
+  // 알림 삭제
   const onDeleteNotice = () => {
     deleteNotice(notice.noticeId);
+    markAsDelete(notice.noticeId);
   };
 
   // 알림 도착 시간
@@ -63,7 +68,12 @@ function NoticeCard({ notice }: Props) {
   };
 
   return (
-    <div className="border p-2">
+    <div
+      className={`border p-2 mt-1 w-80 rounded-lg ${
+        notice.read ? 'border-gray-300' : 'border-blue-800'
+      }`}
+    >
+      {/* 알림 헤더 */}
       <div onClick={toggleDetail} aria-hidden="true" className="cursor-pointer">
         <div className="flex justify-between">
           <div className="flex text-black items-center justify-between mb-2">
@@ -77,10 +87,13 @@ function NoticeCard({ notice }: Props) {
         </div>
         <div className="text-black mb-1 ms-1">{notice.title}</div>
       </div>
+
+      {/* 알림 내용 */}
       {isDetailOpen && (
-        <div>
+        <div className="mt-2">
           <hr />
           <div className="ms-1 mt-3">{notice.content}</div>
+          {/* 알림 삭제 버튼 */}
           <div className="flex justify-end">
             <div
               onClick={onDeleteNotice}

@@ -34,6 +34,7 @@ import AccountMod from 'pages/mypage/AccountMod';
 import AccountKey from 'pages/mypage/AccountKey';
 import AccountCredit from 'pages/mypage/AccountCredit';
 import AccountPay from 'pages/mypage/AccountPay';
+import AccountWallet from 'pages/mypage/AccountWallet';
 
 // admin
 import AdminLogin from 'pages/admin/AdminLogin';
@@ -262,6 +263,14 @@ const routes: Route[] = [
       <AdminRoute>
         <ApiApproval />
       </AdminRoute>
+    ),
+  },
+  {
+    path: '/mypage/wallet',
+    element: (
+      <PrivateRoute>
+        <AccountWallet />
+      </PrivateRoute>
     ),
   },
 

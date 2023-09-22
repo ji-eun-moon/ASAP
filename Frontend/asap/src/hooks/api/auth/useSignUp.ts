@@ -16,15 +16,15 @@ const useSignUp = () => {
         data: { id, password, name, email },
       });
       // 서버에서 받은 응답 처리
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log('회원가입 성공:', response.data);
-        alert('환영합니다.');
-        window.location.href = '/login';
-      } else {
-        console.error('회원가입 실패:', response.data);
+        // alert('환영합니다.');
+        return response;
       }
+      return null;
     } catch (error) {
       console.log('서버 오류:', error);
+      return null;
     }
   };
 

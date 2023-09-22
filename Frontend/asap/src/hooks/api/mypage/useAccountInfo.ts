@@ -2,8 +2,7 @@ import axiosInstance from 'utils/axiosInstance';
 import { useEffect, useState } from 'react';
 
 interface IMemberInfo {
-  walletInfo: string;
-  balance: number;
+  id: string;
   name: string;
   email: string;
 }

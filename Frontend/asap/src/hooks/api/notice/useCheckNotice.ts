@@ -2,6 +2,11 @@ import axiosInstance from 'utils/axiosInstance';
 
 type TNoticeId = number;
 
+/**
+ * 메시지 확인
+ * @returns {function} checkNotice 메시지 확인 POST
+ */
+
 const useCheckNotice = () => {
   const checkNotice = async (noticeId: TNoticeId) => {
     try {

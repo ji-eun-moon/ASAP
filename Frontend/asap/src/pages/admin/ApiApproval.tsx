@@ -5,26 +5,21 @@ import useAdminApiList from 'hooks/api/admin/useAdminApiList';
 import useAdminApiProgress from 'hooks/api/admin/useAdminApiProgress';
 import useAdminApiRejectReason from 'hooks/api/admin/useAdminApiRejectReason';
 import useAdminApiDetail from 'hooks/api/admin/useAdminApiDetail';
+import useAdminApiApprove from 'hooks/api/admin/useAdminApiApprove';
 
 import Header from 'components/common/Header';
 import Modal from 'components/common/Modal';
 import { Tabs, TabsHeader, Tab, Card } from '@material-tailwind/react';
 import { Collapse, Ripple, initTE } from 'tw-elements';
 
-// import useSubmitApi from 'hooks/api/api/useSubmitApi';
-
-// import SubmitTags from 'components/supply/SubmitTags';
-// import useSubmitStore from 'store/supply/useSubmitStore';
-// import SubmitInput from 'components/supply/SubmitInput';
-// import SubmitOutput from 'components/supply/SubmitOutput';
-// import Calendar from 'components/common/Calendar';
 import Table from 'components/mypage/InfoTable';
 import 'styles/common/Input.scss';
 import JsonTable from 'components/common/JsonTable';
 
 initTE({ Collapse, Ripple });
 
-function ApiSupply({ apiDetail = {} }: any) {
+/* apiDetail 화면 출력 함수 */
+function ApiDetail({ apiDetail = {} }: any) {
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
   console.log('tags', apiDetail.tags);
   return (
@@ -113,7 +108,13 @@ function ApiSupply({ apiDetail = {} }: any) {
           <hr />
           <Table
             left="제공 신청 날짜"
-            right={apiDetail?.createDate.split('T')[0]}
+            right={
+              apiDetail &&
+              apiDetail.createDate &&
+              apiDetail.createDate.includes('T')
+                ? apiDetail.createDate.split('T')[0]
+                : ''
+            }
             height="55px"
           />
         </div>
@@ -121,42 +122,64 @@ function ApiSupply({ apiDetail = {} }: any) {
     </div>
   );
 }
-function ApiApproval() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
+/* 함수 */
+function ApiApproval() {
+  /* 모달 open/close */
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  const { apis, setLastChanged } = useAdminApiList();
-  const { adminApiProgress } = useAdminApiProgress();
-  const [stateApis, setStateApis] = useState(apis);
-  const { adminApiRejectReason } = useAdminApiRejectReason();
-  const { adminApiDetail, apiDetail } = useAdminApiDetail();
+  /* api hook */
+  const { apis, setLastChanged } = useAdminApiList(); // 전체 api 신청 리스트 받아오기
+  const { adminApiProgress } = useAdminApiProgress(); // 현재 api 상태 불러오기
+  const { adminApiRejectReason } = useAdminApiRejectReason(); // api 거절 사유 보내기
+  const { adminApiDetail, apiDetail } = useAdminApiDetail(); // api 상세 내용 불러오기
+  const { adminApiApprove, approveCategory } = useAdminApiApprove(); // api 승인하기, 승인 카테고리 불러오기
 
-  const [nowApiId, setNowApiId] = useState(-1);
-  const [nowApiTitle, setNowApiTitle] = useState('');
-  const [rejectState, setRejectState] = useState(false);
-  const [rejectReason, setRejectReason] = useState('');
+  const [stateApis, setStateApis] = useState(apis); // 상태에 따른 api 리스트
+  const [nowApiId, setNowApiId] = useState(-1); // 현재 선택된 api ID
+  const [nowApiTitle, setNowApiTitle] = useState(''); // 현재 선택된 api Title
+  const [rejectState, setRejectState] = useState(false); // 거절 상태(true/false)
+  const [rejectReason, setRejectReason] = useState(''); // 거절 이유
+  const [approveState, setApproveState] = useState(false); // 승인 상태(true/false)
+  const [selectedCategory, setSelectedCategory] = useState(''); // 승인 카테고리
+
+  /* 거절 상태 관리 */
   const handleRejectState = async () => {
     adminApiRejectReason({
       applyId: nowApiId,
       title: nowApiTitle,
       content: rejectReason,
     });
-    setRejectState(false);
+    setRejectState(false); // 거절 상태 false로 돌려놓음(거절 상태에 따라 거절 사유를 입력할 수 있도록 밑에서 설정해놓았기 때문)
     closeModal();
     window.location.reload();
   };
+  /* 거절 이유 관리 */
   const handleRejectReason = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     console.log(e.target.value);
     setRejectReason(e.target.value);
   };
 
+  /* 승인 상태 관리 */
+  const handleApproveState = async () => {
+    adminApiApprove({ applyId: nowApiId, category: selectedCategory });
+    setApproveState(false); // 승인 상태 false로 돌려놓음(승인 상태에 따라 카테고리 고를 수 있도록 밑에서 설정해놓았기 때문)
+    closeModal();
+    window.location.reload();
+  };
+  /* 승인 카테고리 관리 */
+  const handleApproveCategory = (category: string) => {
+    console.log(category);
+    setSelectedCategory(category);
+  };
+
+  /* api 상태 관리 */
   const changeState = (applyId: number, newState: string) => {
     const doChange = async () => {
       console.log(applyId, newState);
@@ -166,13 +189,16 @@ function ApiApproval() {
       if (newState === '거절') {
         setRejectState(true);
         openModal();
+      } else if (newState === '승인') {
+        setApproveState(true);
+        openModal();
       } else {
         window.location.reload();
       }
     };
     doChange();
   };
-
+  /* 선택된 api 상태에 따라 className 변경하기 위한 부분 */
   const getClassName = (progress: string) => {
     switch (progress) {
       case '대기':
@@ -188,17 +214,17 @@ function ApiApproval() {
     }
   };
 
-  const [clicked, setClicked] = useState(false);
-  const [clickedapi, setClickedApi] = useState<number | undefined>(undefined);
+  const [clicked, setClicked] = useState(false); // 클릭 상태(true/false)
+  /* 특정 api 클릭 시 변경 될 부분 */
   const handleClick = (applyId: number, title: string) => {
-    setClickedApi(applyId);
     setClicked(!clicked);
     setNowApiId(applyId);
     setNowApiTitle(title);
   };
 
-  const [detailApplyId, setDetailApplyId] = useState<number | null>(null);
-  const [isOpened, setIsOpened] = useState(false);
+  const [detailApplyId, setDetailApplyId] = useState<number | null>(null); // 상세 내용 볼 api Id
+  const [isOpened, setIsOpened] = useState(false); // 상세 내용 창이 열렸는지 유무(true/false)
+  /* 특정 api의 상세 내용 조회 */
   const showDetail = async (applyId: number) => {
     console.log(applyId);
     if (detailApplyId === applyId) {
@@ -212,7 +238,8 @@ function ApiApproval() {
     }
   };
 
-  const [selectedItem, setSelectItem] = useState('전체 조회');
+  const [selectedItem, setSelectItem] = useState('전체 조회'); // 조희 아이템 (저체/대기/승인/진행/거절)
+  /* 조회 아이템 관리 */
   const handleItemClick = (item: string) => {
     setSelectItem(item);
     setStateApis(apis.filter((api) => api.progress === item.slice(0, 2)));
@@ -220,6 +247,7 @@ function ApiApproval() {
     setIsOpened(false);
   };
 
+  /* 전체 조회 api 리스트 화면 관리 */
   const allApis = () => {
     if (apis.length === 0) {
       return <div>신청 api 내역이 없습니다</div>;
@@ -258,7 +286,7 @@ function ApiApproval() {
           >
             {api.progress}
           </button>
-          {clicked && api.applyId === clickedapi ? (
+          {clicked && api.applyId === nowApiId ? (
             <ul className="ulTag">
               <li>
                 <button
@@ -299,12 +327,14 @@ function ApiApproval() {
         </div>
         <div className="col-span-5">
           {detailApplyId === api.applyId && isOpened && (
-            <ApiSupply apiDetail={apiDetail} />
+            <ApiDetail apiDetail={apiDetail} />
           )}
         </div>
       </div>
     ));
   };
+
+  /* 대기,승인,진행,거절조회 api 리스트 화면 관리 */
   const filterdApis = () => {
     if (stateApis.length === 0) {
       return <div>신청 api 내역이 없습니다</div>;
@@ -343,7 +373,7 @@ function ApiApproval() {
           >
             {api.progress}
           </button>
-          {clicked && api.applyId === clickedapi ? (
+          {clicked && api.applyId === nowApiId ? (
             <ul className="ulTag">
               <li>
                 <button
@@ -384,13 +414,14 @@ function ApiApproval() {
         </div>
         <div className="col-span-5">
           {detailApplyId === api.applyId && isOpened && (
-            <ApiSupply apiDetail={apiDetail} />
+            <ApiDetail apiDetail={apiDetail} />
           )}
         </div>
       </div>
     ));
   };
 
+  /* 조회 종류 */
   const data = [
     {
       label: '전체 조회',
@@ -451,7 +482,7 @@ function ApiApproval() {
           <div className="my-6 pb-3 w-full border-bottom text-center">
             {selectedItem === '전체 조회' ? allApis() : filterdApis()}
           </div>
-          {rejectState ? (
+          {rejectState ? ( // 거절을 눌렀을 때 거절사유 입력 모달 뜨는 부분
             <Modal isOpen={isModalOpen} onClose={closeModal}>
               <div className="flex flex-col justify-center content-center font-semibold">
                 <p>거절 사유를 입력하세요</p>
@@ -463,6 +494,40 @@ function ApiApproval() {
                   type="button"
                   onClick={handleRejectState}
                   className="rejectButton"
+                >
+                  완료
+                </button>
+              </div>
+            </Modal>
+          ) : (
+            ''
+          )}
+          {approveState ? ( // 승인을 눌렀을 대 승인 카테고리 선택 모달 뜨는 부분
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+              <div className="flex flex-col justify-center content-center font-semibold">
+                <p className="text-lg m-2">API 카테고리를 선택하세요</p>
+                <hr />
+                {/* <p>{approveCategory}</p> */}
+                <div className="flex justify-items-stretch content-center text-center font-semibold grid grid-cols-2 m-3">
+                  {approveCategory.map((category) => (
+                    <button
+                      type="button"
+                      onClick={() => handleApproveCategory(category)}
+                      className={`${
+                        selectedCategory === category
+                          ? 'selectedCategory'
+                          : 'noSelectedCategory'
+                      } col-span-1 p-1 justify-self-center`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+                <hr />
+                <button
+                  type="button"
+                  onClick={handleApproveState}
+                  className="approveButton"
                 >
                   완료
                 </button>

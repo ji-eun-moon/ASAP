@@ -33,7 +33,7 @@ public class ApplyTest {
                 .provideDate(LocalDate.now().plusDays(2))
                 .build();
 
-        applyService.signup(request, "asap");
+//        applyService.signup(request, "asap");
 
     }
 

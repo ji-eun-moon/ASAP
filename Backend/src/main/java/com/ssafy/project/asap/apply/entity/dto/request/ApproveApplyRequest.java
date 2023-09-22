@@ -7,5 +7,6 @@ public class ApproveApplyRequest {
 
     private String category;
     private Long applyId;
+    private String api;
 
 }

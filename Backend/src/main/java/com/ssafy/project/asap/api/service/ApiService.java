@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.api.service;
 
 import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.api.entity.dto.request.RegisterBlockApiRequest;
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.api.entity.dto.response.GuideApiResponse;
@@ -10,7 +11,10 @@ import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +68,20 @@ public class ApiService {
                 .input(api.getInput())
                 .output(api.getOutput())
                 .build();
+
+    }
+
+    public void registerApi(RegisterBlockApiRequest request){
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io")
+                .path("block")
+                .encode()
+                .build()
+                .toUri();
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(uri, request, Object.class);
 
     }
 

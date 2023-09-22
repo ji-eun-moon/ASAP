@@ -112,7 +112,7 @@ public class ApplyService {
     }
 
     @Transactional
-    public void approveProgress(ApproveApplyRequest request){
+    public Long approveProgress(ApproveApplyRequest request){
 
         Apply apply = applyRepository.findByApplyId(request.getApplyId());
 
@@ -133,7 +133,11 @@ public class ApplyService {
 
         apiRepository.save(api);
 
+        log.info("apiId = " + api.getApiId());
+
         apply.setProgress(ApplyProgress.승인);
+
+        return api.getApiId();
 
     }
 }

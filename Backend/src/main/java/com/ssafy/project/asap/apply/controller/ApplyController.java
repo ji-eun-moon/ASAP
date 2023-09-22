@@ -1,5 +1,7 @@
 package com.ssafy.project.asap.apply.controller;
 
+import com.ssafy.project.asap.api.entity.dto.request.RegisterBlockApiRequest;
+import com.ssafy.project.asap.api.service.ApiService;
 import com.ssafy.project.asap.apply.entity.dto.request.ApproveApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RejectApplyRequest;
@@ -35,6 +37,7 @@ public class ApplyController {
     private final ApplyService applyService;
     private final MemberService memberService;
     private final NoticeService noticeService;
+    private final ApiService apiService;
 
     @GetMapping("/detail/{applyId}")
     @Operation(summary = "신청내역 상세 조회 (제공자)", description = "제공자가 관리자에게 신청한 API 상세 정보 조회")
@@ -150,10 +153,14 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> approve(@RequestBody ApproveApplyRequest request){
+    public ResponseEntity<?> approve(@RequestBody ApproveApplyRequest request, Authentication authentication){
 
         try {
-            applyService.approveProgress(request);
+            Long apiId = applyService.approveProgress(request);
+//            apiService.registerApi(RegisterBlockApiRequest.builder()
+//                            .apiId(apiId)
+//                            .memberId(memberService.findById(authentication.getName()).getMemberId())
+//                    .build());
 
             return ResponseEntity.ok("승인 완료");
         } catch (CustomException e){

@@ -8,17 +8,20 @@ function ToggleAuth() {
   const navigate = useNavigate();
   const { loginType, setLoginType } = useAuthStore();
 
+  const prevLocation = sessionStorage.getItem('prevLocation');
+  const defaultRedirect = '/';
+
   // 뒤로 가기
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  // 계정 전환 하고 메인페이지로 이동
+  // 계정 전환 하고 이전 페이지로 이동
   const toggleAccount = () => {
     const newLoginType = loginType === 'user' ? 'supplier' : 'user';
     setLoginType(newLoginType);
-    navigate('/');
-    // window.location.reload();
+    // navigate('/');
+    window.location.replace(prevLocation || defaultRedirect);
   };
 
   return (

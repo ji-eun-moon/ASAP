@@ -8,7 +8,7 @@ import SideBar from 'components/nav/SideBar';
 import Header from 'components/common/Header';
 import menus from 'router/data/mypage-menus';
 
-function AccountPay() {
+function AccountCredit() {
   const { deleteCreditCard } = useDeleteCredit();
   const { getCreditCard } = useGetCreditCard();
   const { postCreditCard } = usePostCreditCard();
@@ -124,4 +124,4 @@ function AccountPay() {
   );
 }
 
-export default AccountPay;
+export default AccountCredit;

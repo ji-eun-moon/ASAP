@@ -14,6 +14,9 @@ interface Props {
 
 function PublicRoute({ children }: Props) {
   const { isLoggedIn } = useAuthStore();
+
+  // 페이지 접근시 인증 초기화
+  sessionStorage.removeItem('isAuthenticated');
   return isLoggedIn ? <Navigate to="/" /> : children;
 }
 

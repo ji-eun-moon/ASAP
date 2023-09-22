@@ -404,7 +404,7 @@ function SignUp() {
             ) : (
               <div className="flex justify-center flex-col">
                 <div className="flex justify-center">지갑이 생성되었습니다</div>
-                <div>로그인하셔서 ASAP을 사용해보세요</div>
+                <div>로그인해서 ASAP을 사용해보세요</div>
               </div>
             )
           }

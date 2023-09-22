@@ -1,8 +1,22 @@
 import { useState } from 'react';
 import axiosInstance from 'utils/axiosInstance';
 
+interface APIDetail {
+  api: string;
+  input: string;
+  output: string;
+  price: number;
+  progress: string;
+  title: string;
+  content: string;
+  provideDate: string;
+  createDate: 'T' | string;
+  id: string;
+  name: string;
+  tags: string;
+}
 const useAdminApiDetail = () => {
-  const [apiDetail, setApiDetail] = useState([]);
+  const [apiDetail, setApiDetail] = useState<APIDetail>();
   const adminApiDetail = async (applyId: number) => {
     try {
       const response = await axiosInstance({

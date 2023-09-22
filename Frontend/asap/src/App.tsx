@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import routes from 'router/routes';
+import routes from 'router/data/routes';
 
 import NavBar from 'components/nav/NavBar';
 

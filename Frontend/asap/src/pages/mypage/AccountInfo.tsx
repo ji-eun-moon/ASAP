@@ -2,27 +2,43 @@ import useAccountInfo from 'hooks/api/mypage/useAccountInfo';
 import React from 'react';
 import SideBar from 'components/nav/SideBar';
 import Header from 'components/common/Header';
-import menus from 'router/mypage-menus';
+import menus from 'router/data/mypage-menus';
+import Table from 'components/mypage/InfoTable';
 
+// mypage - 기본정보 페이지
 function AccountInfo() {
-  const { getMemberInfo } = useAccountInfo();
+  const { memberInfo } = useAccountInfo();
+  // const { getMemberInfo, memberInfo } = useAccountInfo();
 
   return (
     <div>
       <Header title="기본 정보" />
-      <div className="container mx-auto page-container grid grid-cols-4">
-        <div className="col-span-1 flex justify-center items-start">
+      {/* sidebar */}
+      <div className="container mx-auto page-container grid grid-cols-12">
+        <div className="col-span-2 flex justify-start items-start ml-8">
           <SideBar menus={menus} />
         </div>
-        <div className="col-span-3">
-          AccountInfo
-          <button
-            type="button"
-            style={{ border: '1px solid' }}
-            onClick={getMemberInfo}
-          >
-            개인 정보 조회 테스트
-          </button>
+        {/* 기본정보 메인 */}
+        <div className="col-span-10">
+          <p className="text-2xl font-bold">가입자 정보</p>
+          <br />
+          {/* 표 테두리 */}
+          <div className="border-2">
+            <Table left="아이디" right={memberInfo?.id} height="55px" />
+            <hr />
+            <Table left="이름" right={memberInfo?.name} height="55px" />
+            <hr />
+            <Table left="이메일" right={memberInfo?.email} height="55px" />
+          </div>
+          {/* 수정,탈퇴 flex div */}
+          <div className="flex justify-end mt-4">
+            <div className="ml-4 border-blue-800 border rounded text-blue-800 py-2 px-5 text-xs">
+              회원정보수정
+            </div>
+            <div className="ml-4 border-red-600 border rounded text-red-600 py-2 px-7 text-xs">
+              회원탈퇴
+            </div>
+          </div>
         </div>
       </div>
     </div>

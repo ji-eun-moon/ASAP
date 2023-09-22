@@ -8,12 +8,11 @@ interface ApiInfo {
   price: number;
   api: string;
   tags: string[];
-  provideDate: Date;
+  provideDate: string;
   method: string;
 }
 
 const useSubmitApi = () => {
-  const provideDate = '2023-09-29T07:55:07';
   const submitApi = async ({
     title,
     content,
@@ -23,18 +22,8 @@ const useSubmitApi = () => {
     api,
     tags,
     method,
+    provideDate,
   }: ApiInfo) => {
-    console.log(
-      title,
-      content,
-      input,
-      output,
-      price,
-      api,
-      tags,
-      provideDate,
-      method,
-    );
     try {
       const response = await axiosInstance({
         method: 'POST',
@@ -51,7 +40,9 @@ const useSubmitApi = () => {
           method,
         },
       });
-      console.log(response);
+      if (response.status === 200) {
+        window.location.href = '/supply/apply_list';
+      }
     } catch (error) {
       console.log('서버 오류 :', error);
     }

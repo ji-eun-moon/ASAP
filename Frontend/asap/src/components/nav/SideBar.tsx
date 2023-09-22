@@ -13,23 +13,27 @@ interface ISideBarProps {
 
 const activeStyle = {
   backgroundColor: 'rgba(122, 192, 240, 0.37)',
-  width: '130px',
+  width: '180px',
+  height: '35px',
   color: '#222222',
   fontWeight: '700',
-  borderRadius: '10px',
-  padding: '3px',
+  borderRadius: '8px',
+  padding: '10px',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'start',
+  alignItems: 'center',
 };
 
 const nonActiveStyle = {
-  width: '120px',
+  width: '180px',
+  height: '35px',
   color: 'grey',
   fontWeight: '700',
-  borderRadius: '10px',
-  padding: '3px',
+  borderRadius: '8px',
+  padding: '10px',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'start',
+  alignItems: 'center',
 };
 
 function SideBar(props: ISideBarProps) {

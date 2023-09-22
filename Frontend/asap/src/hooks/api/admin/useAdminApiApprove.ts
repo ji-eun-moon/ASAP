@@ -4,12 +4,13 @@ import axiosInstance from 'utils/axiosInstance';
 interface APIApprove {
   applyId: number;
   category: string;
+  api: string;
 }
 
 const useAdminApiApprove = () => {
   const [approveCategory, setApproveCategory] = useState([]);
 
-  const adminApiApprove = async ({ applyId, category }: APIApprove) => {
+  const adminApiApprove = async ({ applyId, category, api }: APIApprove) => {
     try {
       const response = await axiosInstance({
         method: 'PUT',
@@ -17,6 +18,7 @@ const useAdminApiApprove = () => {
         data: {
           applyId,
           category,
+          api,
         },
       });
       if (response.status === 200) {

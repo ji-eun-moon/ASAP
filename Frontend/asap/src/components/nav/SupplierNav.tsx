@@ -5,6 +5,7 @@ import { Menu, MenuHandler, MenuList } from '@material-tailwind/react';
 import { ReactComponent as Search } from 'assets/icons/Search.svg';
 import { ReactComponent as MyPage } from 'assets/icons/MyPage.svg';
 import NoticeBadge from 'components/notice/NoticeBadge';
+import logoImage from 'assets/images/logo2.png';
 import MyPageDrop from './MyPageDrop';
 import Switch from './Switch';
 
@@ -23,11 +24,7 @@ function SupplierNav() {
   return (
     <div className="h-20 bg-gray-50 flex h-full items-center relative">
       <Link to="/">
-        <img
-          src="/assets/images/logo.png"
-          alt="asap logo"
-          className="h-20 w-50 ms-2"
-        />
+        <img src={logoImage} alt="asap logo" className="h-20 w-50 ms-2" />
       </Link>
 
       <div className="flex justify-center gap-20 w-full absolute">

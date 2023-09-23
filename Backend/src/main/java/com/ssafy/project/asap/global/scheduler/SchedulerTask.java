@@ -19,7 +19,7 @@ public class SchedulerTask {
     private final MemberService memberService;
     private final NoticeRepository noticeRepository;
 
-    @Scheduled(fixedDelay = 60000)
+//    @Scheduled(fixedDelay = 60000)
     public void task1(){
 
         noticeRepository.save(Notice.builder()
@@ -31,7 +31,7 @@ public class SchedulerTask {
 
     }
 
-    @Scheduled(fixedDelay = 1000 * 60 * 2)
+//    @Scheduled(fixedDelay = 1000 * 60 * 2)
     public void taskTest2(){
 
         noticeRepository.save(Notice.builder()

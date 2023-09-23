@@ -48,7 +48,7 @@ public class ApplyService {
 
         applyRepository.findByApiAndMethod(request.getApi(), request.getMethod())
                 .ifPresent((e) -> {
-                    throw new RuntimeException("이미 등록된 API입니다.");
+                    throw new CustomException(ErrorCode.APPLY_DUPLICATED);
                 });
 
         Apply apply = Apply.builder()

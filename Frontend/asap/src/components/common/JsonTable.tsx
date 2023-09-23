@@ -38,17 +38,30 @@ function JsonTable({ jsonData }: JsonTableProps) {
     (column) => column !== 'idx',
   ) as (keyof Pair)[];
 
+  const columnGrid = (column: string) => {
+    if (column === 'description') {
+      return 'col-span-5';
+    }
+    if (column === 'required') {
+      return 'col-span-1';
+    }
+    return 'col-span-2';
+  };
+
   return (
     <div className="h-full w-full">
       {data.map((item) => (
         <div
           key={item.idx}
-          className="flex grid grid-cols-5 h-11 items-center mt-3"
+          className="flex grid grid-cols-12 items-center mt-3"
         >
           {columns.map((column) => (
-            <p key={column} className="col-span-1 ps-2 font-semibold">
+            <pre
+              key={column}
+              className={`${columnGrid(column)} ps-2 font-semibold`}
+            >
               {item[column]}
-            </p>
+            </pre>
           ))}
         </div>
       ))}

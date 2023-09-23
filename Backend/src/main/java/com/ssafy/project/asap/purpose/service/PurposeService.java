@@ -36,7 +36,6 @@ public class PurposeService {
         Purpose purpose = Purpose.builder()
                 .api(apiRepository.findByApiId(request.getApiId()))
                 .industry(request.getIndustry())
-                .unit(request.getUnit())
                 .member(memberRepository.findById(id).get())
                 .build();
 

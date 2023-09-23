@@ -32,7 +32,4 @@ public class Purpose extends BaseTime {
     @Enumerated(EnumType.STRING)
     private PurposeIndustry industry;
 
-    @Enumerated(EnumType.STRING)
-    private PurposeUnit unit;
-
 }

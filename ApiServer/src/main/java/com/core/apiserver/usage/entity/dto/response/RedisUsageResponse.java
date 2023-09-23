@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,9 +14,9 @@ import java.time.LocalDateTime;
 public class RedisUsageResponse {
 
     private Integer id;
-    private Integer userWalletId;
-    private Integer providerWalletId;
-    private Integer apiId;
+    private Long userWalletId;
+    private Long providerWalletId;
+    private Long apiId;
     private LocalDateTime useAt;
 
     public RedisUsageResponse(RedisUsage redisUsage) {

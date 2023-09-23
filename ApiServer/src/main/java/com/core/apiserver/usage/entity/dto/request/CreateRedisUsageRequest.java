@@ -1,6 +1,7 @@
 package com.core.apiserver.usage.entity.dto.request;
 
 import com.core.apiserver.usage.entity.domain.RedisUsage;
+import com.core.apiserver.usage.entity.dto.response.RedisUsageResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreateRedisUsageRequest {
 
-    private Integer userWalletId;
-    private Integer providerWalletId;
-    private Integer apiId;
-
+    private Long userWalletId;
+    private Long providerWalletId;
+    private Long apiId;
+    
     public RedisUsage toRedisUsage() {
         return RedisUsage.builder()
                 .userWalletId(userWalletId)
@@ -24,4 +25,5 @@ public class CreateRedisUsageRequest {
                 .useAt(LocalDateTime.now())
                 .build();
     }
+
 }

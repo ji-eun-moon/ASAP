@@ -31,7 +31,9 @@ public class PurposeService {
     public void register(RegisterPurposeRequest request, String id){
 
         purposeRepository.findByApiAndMember(request.getApiId(), id)
-                .orElseThrow(() -> new CustomException(ErrorCode.PURPOSE_DUPLICATED));
+                .ifPresent((e) -> {
+                    throw new CustomException(ErrorCode.PURPOSE_DUPLICATED);
+                });
 
         Purpose purpose = Purpose.builder()
                 .api(apiRepository.findByApiId(request.getApiId()))

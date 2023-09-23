@@ -39,6 +39,7 @@ public class PurposeService {
                 .api(apiRepository.findByApiId(request.getApiId()))
                 .industry(request.getIndustry())
                 .member(memberRepository.findById(id).get())
+                .purpose(request.getPurpose())
                 .build();
 
         purposeRepository.save(purpose);

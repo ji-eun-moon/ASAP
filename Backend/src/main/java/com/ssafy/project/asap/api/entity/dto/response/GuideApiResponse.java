@@ -14,6 +14,8 @@ public class GuideApiResponse {
     private String title;
     private String api;
     private String input;
+    private String inputExample;
     private String output;
+    private String outputExample;
 
 }

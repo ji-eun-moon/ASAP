@@ -66,7 +66,9 @@ public class ApiService {
                 .title(api.getTitle())
                 .api(api.getApi())
                 .input(api.getInput())
+                .inputExample(api.getInputExample())
                 .output(api.getOutput())
+                .outputExample(api.getOutputExample())
                 .build();
 
     }

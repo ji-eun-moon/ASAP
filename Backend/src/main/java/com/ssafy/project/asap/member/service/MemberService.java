@@ -6,12 +6,14 @@ import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.repository.MemberRepository;
+import com.sun.net.httpserver.Headers;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -165,7 +167,7 @@ public class MemberService {
 
     }
 
-    public Long getWalletId(RegisterAddressRequest request){
+    public Long getWalletId(RegisterAddressRequest request) {
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io")
@@ -174,8 +176,17 @@ public class MemberService {
                 .build()
                 .toUri();
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, "8E6E21BF3296265C20F84D34F85DA9AA0FAFFFAD8B1BFA661B80FF8199BFA9D7");
+
+        // 요청 본문에 request 객체를 JSON으로 변환하여 추가
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // HttpEntity에 헤더와 요청 본문을 함께 설정
+        HttpEntity<RegisterAddressRequest> httpEntity = new HttpEntity<>(request, headers);
+
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(uri, request, Long.class);
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Long.class);
 
         return responseEntity.getBody();
     }

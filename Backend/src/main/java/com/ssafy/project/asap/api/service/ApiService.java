@@ -75,13 +75,19 @@ public class ApiService {
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io")
-                .path("block")
+                .path("/block/api/v1/asap/register")
                 .encode()
                 .build()
                 .toUri();
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForEntity(uri, request, boolean.class);
+        restTemplate.postForEntity(uri, request, Object.class);
+
+    }
+
+    public Api findByApiId(Long apiId){
+
+        return apiRepository.findByApiId(apiId);
 
     }
 

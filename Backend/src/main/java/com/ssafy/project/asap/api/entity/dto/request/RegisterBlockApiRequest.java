@@ -6,6 +6,8 @@ import lombok.Builder;
 public class RegisterBlockApiRequest {
 
     private Long apiId;
-    private Long memberId;
+    private Long walletId;
+    private Long price;
+    private String title;
 
 }

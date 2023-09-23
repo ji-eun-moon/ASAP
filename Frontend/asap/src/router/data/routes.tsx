@@ -248,6 +248,14 @@ const routes: Route[] = [
       </ProtectRoute>
     ),
   },
+  {
+    path: '/mypage/wallet',
+    element: (
+      <ProtectRoute>
+        <AccountWallet />
+      </ProtectRoute>
+    ),
+  },
 
   {
     path: '/admin',
@@ -263,14 +271,6 @@ const routes: Route[] = [
       <AdminRoute>
         <ApiApproval />
       </AdminRoute>
-    ),
-  },
-  {
-    path: '/mypage/wallet',
-    element: (
-      <PrivateRoute>
-        <AccountWallet />
-      </PrivateRoute>
     ),
   },
 

@@ -7,7 +7,7 @@ import NavBar from 'components/nav/NavBar';
 
 function App() {
   return (
-    <div>
+    <div className="font-container">
       <BrowserRouter>
         <NavBar />
         <Routes>

@@ -11,5 +11,5 @@ public class CreateApiRequest {
     private Long apiId;
     private Long walletId;
     private Integer price;
-    private String address;
+    private String title;
 }

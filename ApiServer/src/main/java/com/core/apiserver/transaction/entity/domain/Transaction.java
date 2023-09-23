@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document(collection = "Transaction")
 @Getter
@@ -17,5 +18,11 @@ import java.time.LocalDateTime;
 public class Transaction {
 
     @Id
-    private Long transactionId;
+    private String transactionHash;
+
+    private Long userWalletId;
+    private Long providerWalletId;
+    private Long apiId;
+    private List<Long> usageRecode;
+    private String hash;
 }

@@ -36,7 +36,13 @@ public class Api extends BaseTime {
     private String input;
 
     @Column(columnDefinition = "JSON NOT NULL", nullable = false)
+    private String inputExample;
+
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String output;
+
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
+    private String outputExample;
 
     @Column(nullable = false)
     private Long price;

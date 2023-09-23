@@ -13,7 +13,10 @@ public class FindApiResponse {
 
     private Long apiId;
     private String memberName;
+    private String input;
+    private String inputExample;
     private String output;
+    private String outputExample;
     private String title;
     private String content;
     private String tags;

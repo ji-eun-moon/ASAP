@@ -17,7 +17,9 @@ public class RegisterApplyRequest {
     private String title;
     private String content;
     private String input;
+    private String inputExample;
     private String output;
+    private String outputExample;
     private ApplyMethod method;
     private Long price;
     private String api;

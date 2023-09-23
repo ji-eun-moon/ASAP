@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class SchedulerTask {
 
-    @Scheduled(fixedDelay = 3000)
+    @Scheduled(fixedDelay = 60000)
     public void task1(){
 
         log.info("Current Time = " + LocalDateTime.now());

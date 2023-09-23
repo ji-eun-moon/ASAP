@@ -37,7 +37,6 @@ public class ApplyController {
     private final ApplyService applyService;
     private final MemberService memberService;
     private final NoticeService noticeService;
-    private final ApiService apiService;
 
     @GetMapping("/detail/{applyId}")
     @Operation(summary = "신청내역 상세 조회 (제공자)", description = "제공자가 관리자에게 신청한 API 상세 정보 조회")

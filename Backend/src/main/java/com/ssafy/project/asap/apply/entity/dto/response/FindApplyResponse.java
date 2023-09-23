@@ -20,7 +20,9 @@ public class FindApplyResponse {
 
     private String api;
     private String input;
+    private String inputExample;
     private String output;
+    private String outputExample;
     private Long price;
     private ApplyProgress progress;
     private String title;
@@ -35,7 +37,9 @@ public class FindApplyResponse {
     public FindApplyResponse(Apply apply) {
         this.api = apply.getApi();
         this.input = apply.getInput();
+        this.inputExample = apply.getOutputExample();
         this.output = apply.getOutput();
+        this.outputExample = apply.getInputExample();
         this.price = apply.getPrice();
         this.progress = apply.getProgress();
         this.title = apply.getTitle();

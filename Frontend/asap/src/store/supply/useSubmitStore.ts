@@ -12,6 +12,8 @@ interface ISubmitStore {
   tags: string[];
   provideDate: string;
   method: string;
+  inputExample: string;
+  outputExample: string;
   setTitle: (title: string) => void; // eslint-disable-line no-unused-vars
   setContent: (content: string) => void; // eslint-disable-line no-unused-vars
   setInput: (input: string) => void; // eslint-disable-line no-unused-vars
@@ -22,6 +24,8 @@ interface ISubmitStore {
   setTags: (tags: string[]) => void; // eslint-disable-line no-unused-vars
   setProvideDate: (provideDate: string) => void; // eslint-disable-line no-unused-vars
   setMethod: (method: string) => void; // eslint-disable-line no-unused-vars
+  setInputExample: (inputExample: string) => void; // eslint-disable-line no-unused-vars
+  setOutputExample: (outputExample: string) => void; // eslint-disable-line no-unused-vars
 }
 
 const useSubmitStore = create<ISubmitStore>((set) => ({
@@ -35,6 +39,8 @@ const useSubmitStore = create<ISubmitStore>((set) => ({
   tags: [],
   provideDate: format(new Date(), 'yyyy-MM-dd'),
   method: 'GET',
+  inputExample: '',
+  outputExample: '',
   setTitle: (title) => set({ title }),
   setContent: (content) => set({ content }),
   setInput: (input) => set({ input }),
@@ -45,6 +51,8 @@ const useSubmitStore = create<ISubmitStore>((set) => ({
   setTags: (tags) => set({ tags }),
   setProvideDate: (provideDate) => set({ provideDate }),
   setMethod: (method) => set({ method }),
+  setInputExample: (inputExample) => set({ inputExample }),
+  setOutputExample: (outputExample) => set({ outputExample }),
 }));
 
 export default useSubmitStore;

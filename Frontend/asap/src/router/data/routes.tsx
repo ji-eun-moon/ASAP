@@ -17,8 +17,7 @@ import ApiTest from 'pages/api/ApiTest';
 import ApiApply from 'pages/api/ApiApply';
 
 // supply
-import ApiSupplySubmit from 'pages/api/ApiSupplySubmit';
-import ApiSupplyList from 'pages/api/ApiSupplyList';
+import ApiSupplySubmit from 'pages/supply/ApiSupplySubmit';
 import SupplyApplyList from 'pages/supply/SupplyApplyList';
 
 // myapi
@@ -158,7 +157,7 @@ const routes: Route[] = [
     path: '/supply',
     element: (
       <SupplierRoute>
-        <ApiSupplyList />
+        <SupplyApplyList />
       </SupplierRoute>
     ),
   },
@@ -167,14 +166,6 @@ const routes: Route[] = [
     element: (
       <SupplierRoute>
         <ApiSupplySubmit />
-      </SupplierRoute>
-    ),
-  },
-  {
-    path: '/supply/apply_list',
-    element: (
-      <SupplierRoute>
-        <SupplyApplyList />
       </SupplierRoute>
     ),
   },

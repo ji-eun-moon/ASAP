@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import useSubmitApi from 'hooks/api/api/useSubmitApi';
+import useSubmitApi from 'hooks/api/supply/useSubmitApi';
 import Header from 'components/common/Header';
 import SubmitTags from 'components/supply/SubmitTags';
 import useSubmitStore from 'store/supply/useSubmitStore';
@@ -8,6 +8,7 @@ import SubmitOutput from 'components/supply/SubmitOutput';
 import Calendar from 'components/common/Calendar';
 import { Button, Radio } from '@material-tailwind/react';
 import 'styles/common/Input.scss';
+import CodeEditor from 'components/supply/CodeEditor';
 
 function ApiSupply() {
   const { submitApi } = useSubmitApi();
@@ -22,11 +23,15 @@ function ApiSupply() {
     tags,
     provideDate,
     method,
+    inputExample,
+    outputExample,
     setTitle,
     setContent,
     setPrice,
     setApi,
     setMethod,
+    setInputExample,
+    setOutputExample,
   } = useSubmitStore();
 
   const onTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +64,8 @@ function ApiSupply() {
       tags,
       provideDate,
       method,
+      inputExample,
+      outputExample,
     });
   };
   return (
@@ -168,12 +175,23 @@ function ApiSupply() {
           </div>
         </div>
         <div className="mb-5">
+          <p className="text-lg font-bold mb-2">INPUT 예시</p>
+          <div className="input-container">
+            <CodeEditor setStore={setInputExample} />
+          </div>
+        </div>
+        <div className="mb-5">
           <p className="text-lg font-bold mb-2">OUTPUT</p>
           <div>
             <SubmitOutput />
           </div>
         </div>
-
+        <div className="mb-5">
+          <p className="text-lg font-bold mb-2">OUTPUT 예시</p>
+          <div className="input-container">
+            <CodeEditor setStore={setOutputExample} />
+          </div>
+        </div>
         <div className="flex justify-center my-10">
           <Button ripple onClick={onSubmitHandler} className="text-lg bg-blue">
             신청하기

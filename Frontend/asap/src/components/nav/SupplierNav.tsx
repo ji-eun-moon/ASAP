@@ -26,7 +26,7 @@ function SupplierNav() {
         <img
           src="/assets/images/logo.png"
           alt="asap logo"
-          className="h-20 w-40 ms-2"
+          className="h-20 w-50 ms-2"
         />
       </Link>
 

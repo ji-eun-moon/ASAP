@@ -46,22 +46,22 @@ public class Member extends BaseTime {
     private Long walletId;
 
     @OneToMany(mappedBy = "member")
-    private List<Payment> paymentList = new ArrayList<>();
+    private final List<Payment> paymentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Notice> noticeList = new ArrayList<>();
+    private final List<Notice> noticeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Credit> creditList = new ArrayList<>();
+    private final List<Credit> creditList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Apply> applyList = new ArrayList<>();
+    private final List<Apply> applyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Api> apiList = new ArrayList<>();
+    private final List<Api> apiList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Purpose> purposeList = new ArrayList<>();
+    private final List<Purpose> purposeList = new ArrayList<>();
 
     public void setPassword(String password) {
         this.password = password;

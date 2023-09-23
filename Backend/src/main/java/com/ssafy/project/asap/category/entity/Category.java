@@ -25,6 +25,6 @@ public class Category {
     private String category;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    List<Api> apiList = new ArrayList<>();
+    private final List<Api> apiList = new ArrayList<>();
 
 }

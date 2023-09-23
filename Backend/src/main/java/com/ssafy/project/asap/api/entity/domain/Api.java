@@ -64,7 +64,7 @@ public class Api extends BaseTime {
     private String tags;
 
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
-    List<Purpose> purposeList = new ArrayList<>();
+    private final List<Purpose> purposeList = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "category_id")

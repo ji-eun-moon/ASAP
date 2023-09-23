@@ -3,14 +3,17 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 interface apiItem {
-  id: string;
   title: string;
+  api: string;
   input: string;
+  inputExample: string;
   output: string;
+  outputExample: string;
 }
 
 const useGetApiUsage = () => {
-  const [apiUsage, setApiUsage] = useState<apiItem[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [apiUsage, setApiUsage] = useState<apiItem>();
   const { apiId } = useParams() as { apiId: string };
   const getApiUsage = async (id: string) => {
     try {
@@ -19,7 +22,7 @@ const useGetApiUsage = () => {
         url: `/api/v1/apis/guide/${id}`,
       });
       setApiUsage(response.data);
-      console.log(response.data);
+      setLoading(true);
     } catch (error) {
       console.log('서버 오류:', error);
     }
@@ -29,7 +32,7 @@ const useGetApiUsage = () => {
     getApiUsage(apiId);
   }, [apiId]);
 
-  return { getApiUsage, apiId, apiUsage };
+  return { getApiUsage, apiId, apiUsage, loading };
 };
 
 export default useGetApiUsage;

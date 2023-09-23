@@ -56,7 +56,7 @@ function NoticeCard({ notice }: Props) {
     const daysAgo = differenceInDays(currentTime, parsedCreateDate);
     if (daysAgo > 0) {
       return (
-        <p>{`${format(parsedCreateDate, 'M월 d일', {
+        <p>{`${format(parsedCreateDate, 'yyyy년 M월 d일', {
           locale: ko,
         })}`}</p>
       );

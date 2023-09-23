@@ -28,8 +28,6 @@ const useSubmitApi = () => {
     inputExample,
     outputExample,
   }: ApiInfo) => {
-    console.log(input);
-    console.log(inputExample, outputExample, '얍');
     try {
       const response = await axiosInstance({
         method: 'POST',

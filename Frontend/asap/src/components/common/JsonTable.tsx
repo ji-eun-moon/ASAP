@@ -12,8 +12,9 @@ interface Pair {
   required: string;
   description: string;
 }
+
 interface JsonTableProps {
-  jsonData: string;
+  jsonData: string | undefined;
 }
 
 function JsonTable({ jsonData }: JsonTableProps) {

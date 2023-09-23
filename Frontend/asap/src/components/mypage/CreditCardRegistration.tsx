@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CreditCardRegistration.scss';
 import { ReactComponent as Cross } from 'assets/icons/Cross2.svg';
 
 function CreditCardRegistration() {
+  const [checkboxCount, setCheckboxCount] = useState(0);
+
+  const handleCheckboxClick = () => {
+    setCheckboxCount((prevCount) => prevCount + 1);
+  };
+
+  const handleButtonClick = () => {
+    if (checkboxCount === 2) {
+      window.confirm('이 카드를 등록하시겠습니까?');
+    } else if (checkboxCount <= 1) {
+      alert('카드 정보를 확인해주세요');
+    }
+  };
+
   return (
     <div className="ml-28 z-10">
       <div className="px-8 py-8 credit-modal border-2 rounded">
@@ -93,30 +107,37 @@ function CreditCardRegistration() {
             * 마이 페이지 - 결제 수단 관리 카드 정보를 변경하실 수 있습니다.
           </div>
         </div>
+
         {/* 동의체크 */}
         <div className="check-box mt-6 ml-2 font-bold">
           <div className="">
             <div className="mb-2 flex items-center">
               <input
-                id="default-checkbox"
+                id="default-checkbox-1"
                 type="checkbox"
                 value=""
-                className="rounded w-5 h-5 text-blue-600 bg-gray-100 border-gray-300  focus:ring-blue-500 dark:focus:ring-blue-600  dark:border-gray-600"
+                className="rounded w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:border-gray-600"
+                onClick={handleCheckboxClick}
               />
               <p className="ml-2">개인정보 수집 및 이용 동의</p>
             </div>
             <div className="flex items-center">
               <input
-                id="default-checkbox"
+                id="default-checkbox-2"
                 type="checkbox"
                 value=""
-                className="rounded w-5 h-5 text-blue-600 bg-gray-100 border-gray-300  focus:ring-blue-500 dark:focus:ring-blue-600  dark:border-gray-600"
+                className="rounded w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:border-gray-600"
+                onClick={handleCheckboxClick}
               />
               <p className="ml-2">ASAP 유료서비스 이용 동의</p>
             </div>
           </div>
           <div className="flex justify-center mt-6 cursor-pointer">
-            <div className="rounded bg-blue-700 text-white py-2 px-5 text-xs w-28 text-center font-bold">
+            <div
+              aria-hidden="true"
+              className="rounded bg-blue-700 text-white py-2 px-5 text-xs w-28 text-center font-bold"
+              onClick={handleButtonClick}
+            >
               카드 등록
             </div>
           </div>

@@ -14,10 +14,12 @@ public class ApiResponse {
     private Long apiId;
     private Long walletId;
     private Integer price;
+    private String title;
 
     public ApiResponse(Api api) {
         this.apiId = api.getApiId();
         this.walletId = api.getWallet().getWalletId();
         this.price = api.getPrice();
+        this.title = api.getTitle();
     }
 }

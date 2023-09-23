@@ -18,7 +18,7 @@ public class Api {
     @Column(name = "api_id")
     private Long apiId;
 
-    private String address;
+    private String title;
     private Integer price;
 
     @ManyToOne

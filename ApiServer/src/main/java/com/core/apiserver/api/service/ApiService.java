@@ -38,7 +38,7 @@ public class ApiService {
         return apiRepository.save(Api.builder()
                         .apiId(createApiRequest.getApiId())
                         .wallet(walletRepository.findById(createApiRequest.getWalletId()).get())
-                        .address("")
+                        .title(createApiRequest.getTitle())
                         .price(createApiRequest.getPrice())
                 .build());
     }

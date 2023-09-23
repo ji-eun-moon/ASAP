@@ -167,9 +167,9 @@ function SignUp() {
       const res = await setWallet({ id, address, privateKey });
       if (res) {
         await setIsLoadingOn(false);
-        // setTimeout(() => {
-        //   window.location.href = '/login';
-        // }, 3000);
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 3000);
       } else {
         await setLoading(false);
         openModal();

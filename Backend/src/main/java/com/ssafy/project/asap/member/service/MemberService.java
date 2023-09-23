@@ -35,6 +35,8 @@ public class MemberService {
 
     @Value("${security.jwt.sercret.key}")
     private String secretKey;
+    @Value("${server.allow-header}")
+    private String allowHeader;
     private final MemberRepository memberRepository;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -177,7 +179,7 @@ public class MemberService {
                 .toUri();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION, "8E6E21BF3296265C20F84D34F85DA9AA0FAFFFAD8B1BFA661B80FF8199BFA9D7");
+        headers.set(HttpHeaders.AUTHORIZATION, allowHeader);
 
         // 요청 본문에 request 객체를 JSON으로 변환하여 추가
         headers.setContentType(MediaType.APPLICATION_JSON);

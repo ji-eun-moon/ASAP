@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,7 +30,8 @@ import java.util.Collections;
 public class AsapController {
 
     private final MemberService memberService;
-    private final String HEADERS = "8E6E21BF3296265C20F84D34F85DA9AA0FAFFFAD8B1BFA661B80FF8199BFA9D7";
+    @Value("${server.allow-header}")
+    private String allowHeader;
 
 
     // https://j9c202.p.ssafy.io/block/api/v1/asap/local/search
@@ -64,7 +66,7 @@ public class AsapController {
 
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.AUTHORIZATION, HEADERS); // 이 부분에서 헤더를 설정합니다.
+            headers.set(HttpHeaders.AUTHORIZATION, allowHeader); // 이 부분에서 헤더를 설정합니다.
 
             HttpEntity<?> httpEntity = new HttpEntity<>(headers);
 

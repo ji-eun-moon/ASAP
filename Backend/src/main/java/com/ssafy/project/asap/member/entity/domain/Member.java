@@ -45,6 +45,9 @@ public class Member extends BaseTime {
     @Setter
     private Long walletId;
 
+    @Column
+    private Role role;
+
     @OneToMany(mappedBy = "member")
     private final List<Payment> paymentList = new ArrayList<>();
 

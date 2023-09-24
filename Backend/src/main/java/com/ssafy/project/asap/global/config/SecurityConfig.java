@@ -39,7 +39,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry.requestMatchers("/api/v1/member/login", "/api/v1/member/signup", "/swagger-ui/**", "/v3/api-docs/**",
                             "/api/v1/member/check-id", "/api/v1/mail/**", "/api/v1/member/find-id", "/api/v1/member/find-password", "/api/v1/apis/detail/**",
-                            "/api/v1/apply/list", "/api/v1/apply/progress", "/api/v1/member/registerAddress", "/api/v1/asap/**").permitAll();
+                            "/api/v1/member/registerAddress", "/api/v1/asap/**").permitAll();
+                })
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
+                    authorizationManagerRequestMatcherRegistry.requestMatchers("/api/v1/apply/list", "/api/v1/apply/progress").hasRole("ADMIN");
                 })
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();

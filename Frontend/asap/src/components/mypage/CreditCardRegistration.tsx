@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import './CreditCardRegistration.scss';
 import { ReactComponent as Cross } from 'assets/icons/Cross2.svg';
 
-function CreditCardRegistration() {
+type CreditCardRegistrationProps = {
+  closeModal: () => void;
+};
+
+function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   const [checkboxCount, setCheckboxCount] = useState(0);
 
+  // 이용약관 동의 됐을때
   const handleCheckboxClick = () => {
     setCheckboxCount((prevCount) => prevCount + 1);
   };
@@ -24,34 +29,42 @@ function CreditCardRegistration() {
         <div className="flex justify-between cross items-center">
           <p className="text-xl font-bold">카드정보</p>
           {/* 닫기버튼 */}
-          <div className="mt-1 cursor-pointer">
+          <div
+            className="mt-1 cursor-pointer"
+            aria-hidden="true"
+            onClick={closeModal}
+          >
             <Cross />
           </div>
         </div>
         {/* 카드번호 */}
-        <div className="mt-2 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
+        <div className="mt-6 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
           <div>카드번호</div>
           <div className="flex ">
             <input
               type="text"
               className="credit-input credit-input-number rounded text-center mx-1"
+              maxLength={4}
             />
             <input
               type="text"
               className="credit-input credit-input-number rounded text-center mx-1"
+              maxLength={4}
             />
             <input
               type="password"
               className="credit-input credit-input-number rounded text-center mx-1"
+              maxLength={4}
             />
             <input
               type="password"
               className="credit-input credit-input-number rounded text-center mx-1"
+              maxLength={4}
             />
           </div>
         </div>
         {/* 유효기간 */}
-        <div className="mt-3 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
+        <div className="mt-4 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
           <div>유효기간</div>
           <div className="flex justify-end items-center input-date">
             <div className="mr-2">
@@ -59,6 +72,7 @@ function CreditCardRegistration() {
                 type="text"
                 placeholder="MM"
                 className="date-input-1 mr-1 rounded"
+                maxLength={2}
               />
               월
             </div>
@@ -67,24 +81,33 @@ function CreditCardRegistration() {
                 type="text"
                 placeholder="YYYY"
                 className="date-input-2 mr-1"
+                maxLength={4}
               />
               년
             </div>
           </div>
         </div>
         {/* 카드비밀번호 */}
-        <div className="mt-3 flex justify-between">
+        <div className="mt-4 flex justify-between">
           <div className="flex justify-between credit-input-box credit-input-half items-center border rounded-lg py-5 px-4">
             <div>카드비밀번호 앞2자리</div>
-            <input type="password" className="pw-input rounded-lg" />
+            <input
+              type="password"
+              className="pw-input rounded-lg"
+              maxLength={2}
+            />
           </div>
           <div className="flex justify-between credit-input-box credit-input-half items-center border rounded-lg py-5 px-4">
             <div>CVC번호</div>
-            <input type="password" className="pw-input rounded-lg" />
+            <input
+              type="password"
+              className="pw-input rounded-lg"
+              maxLength={3}
+            />
           </div>
         </div>
         {/* 주민등록번호 */}
-        <div className="mt-3 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
+        <div className="mt-4 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
           <div>주민등록번호 앞6자리</div>
           <div className="flex justify-end items-center input-date">
             <div className="mr-2" />
@@ -93,6 +116,7 @@ function CreditCardRegistration() {
                 type="text"
                 placeholder="여기에 입력해주세요"
                 className="idnumber-input mr-1 rounded-lg pr-2"
+                maxLength={6}
               />
             </div>
           </div>

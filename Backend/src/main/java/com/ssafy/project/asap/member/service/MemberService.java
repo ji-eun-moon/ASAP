@@ -81,7 +81,7 @@ public class MemberService {
                 .id(registerMemberRequest.getId())
                 .password(bCryptPasswordEncoder.encode(registerMemberRequest.getPassword()))
                 .name(registerMemberRequest.getName())
-                .role(Role.USER)
+//                .role(Role.USER)
                 .build();
 
         try {

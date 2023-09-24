@@ -1,4 +1,4 @@
-package com.ssafy.project.asap.category.entity;
+package com.ssafy.project.asap.category.entity.domain;
 
 import com.ssafy.project.asap.api.entity.domain.Api;
 import jakarta.persistence.*;

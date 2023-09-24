@@ -1,8 +1,9 @@
 package com.ssafy.project.asap.category.controller;
 
-import com.ssafy.project.asap.category.entity.Category;
+import com.ssafy.project.asap.category.entity.dto.response.CategoryListResponse;
 import com.ssafy.project.asap.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/category")
 @RequiredArgsConstructor
+@Slf4j
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -21,6 +23,18 @@ public class CategoryController {
     public ResponseEntity<List<String>> findAll(){
 
         return ResponseEntity.ok(categoryService.findAll());
+
+    }
+
+    @GetMapping("/categoryList")
+    public ResponseEntity<List<CategoryListResponse>> categoryList(){
+
+        List<CategoryListResponse> list = categoryService.categoryList();
+
+        log.info(list.toString());
+
+        return ResponseEntity.ok(list);
+//        return ResponseEntity.ok(categoryService.categoryList());
 
     }
 

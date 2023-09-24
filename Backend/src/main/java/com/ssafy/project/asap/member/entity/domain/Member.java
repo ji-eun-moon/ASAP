@@ -45,7 +45,8 @@ public class Member extends BaseTime {
     @Setter
     private Long walletId;
 
-    @Column
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(mappedBy = "member")

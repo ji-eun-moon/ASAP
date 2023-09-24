@@ -7,6 +7,7 @@ import { ReactComponent as MyPage } from 'assets/icons/MyPage.svg';
 import NoticeBadge from 'components/notice/NoticeBadge';
 import logoImage from 'assets/images/logo2.png';
 import MyPageDrop from './MyPageDrop';
+import SearchDrop from './SearchDrop';
 import Switch from './Switch';
 
 const activeStyle = {
@@ -82,9 +83,16 @@ function SupplierNav() {
             </div>
           </Link>
         )}
-        <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
-          <Search className="w-5" />
-        </div>
+        <Menu placement="top-start">
+          <MenuHandler>
+            <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
+              <Search className="w-5" />
+            </div>
+          </MenuHandler>
+          <MenuList>
+            <SearchDrop />
+          </MenuList>
+        </Menu>
       </div>
     </div>
   );

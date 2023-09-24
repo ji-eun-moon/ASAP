@@ -8,6 +8,7 @@ import logoImage from 'assets/images/logo2.png';
 import NoticeBadge from 'components/notice/NoticeBadge';
 import DropDown from './MyPageDrop';
 import Switch from './Switch';
+import SearchDrop from './SearchDrop';
 
 const activeStyle = {
   color: '#004096',
@@ -81,12 +82,16 @@ function PublicNav() {
               </div>
             </Link>
           )}
-          <button
-            type="button"
-            className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold"
-          >
-            <Search className="w-5" />
-          </button>
+          <Menu placement="top-start">
+            <MenuHandler>
+              <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
+                <Search className="w-5" />
+              </div>
+            </MenuHandler>
+            <MenuList>
+              <SearchDrop />
+            </MenuList>
+          </Menu>
         </div>
       </div>
     </div>

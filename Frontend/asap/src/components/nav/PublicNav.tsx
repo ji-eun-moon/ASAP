@@ -26,7 +26,7 @@ function PublicNav() {
     <div>
       <div className="bg-gray-50 flex h-full items-center relative">
         <Link to="/">
-          <img src={logoImage} alt="asap logo" className="h-20 w-50 ms-2" />
+          <img src={logoImage} alt="asap logo" className="h-20 w-50" />
         </Link>
 
         <div className="flex justify-center gap-20 w-full absolute">

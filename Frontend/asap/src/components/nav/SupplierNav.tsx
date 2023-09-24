@@ -23,7 +23,7 @@ function SupplierNav() {
   const MyPageRef = React.createRef();
 
   return (
-    <div className="h-20 bg-gray-50 flex h-full items-center relative">
+    <div className="bg-gray-50 flex h-full items-center relative">
       <Link to="/">
         <img src={logoImage} alt="asap logo" className="h-20 w-50 ms-2" />
       </Link>

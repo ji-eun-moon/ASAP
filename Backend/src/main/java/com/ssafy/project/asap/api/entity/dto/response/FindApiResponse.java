@@ -20,5 +20,6 @@ public class FindApiResponse {
     private String title;
     private String content;
     private String tags;
+    private String category;
 
 }

@@ -3,7 +3,7 @@ import { Button } from '@material-tailwind/react';
 import menus from 'router/data/mypage-menus';
 import Header from 'components/common/Header';
 import SideBar from 'components/nav/SideBar';
-import { ReactComponent as Wallet } from 'assets/icons/wallet.svg';
+import { ReactComponent as Wallet } from 'assets/icons/Wallet.svg';
 import useGetWallet from 'hooks/api/wallet/useGetWallet';
 import useWeb3 from 'hooks/api/wallet/useWeb3';
 import useAccountInfo from 'hooks/api/mypage/useAccountInfo';

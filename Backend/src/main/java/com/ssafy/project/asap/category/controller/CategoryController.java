@@ -29,12 +29,7 @@ public class CategoryController {
     @GetMapping("/categoryList")
     public ResponseEntity<List<CategoryListResponse>> categoryList(){
 
-        List<CategoryListResponse> list = categoryService.categoryList();
-
-        log.info(list.toString());
-
-        return ResponseEntity.ok(list);
-//        return ResponseEntity.ok(categoryService.categoryList());
+        return ResponseEntity.ok(categoryService.categoryList());
 
     }
 

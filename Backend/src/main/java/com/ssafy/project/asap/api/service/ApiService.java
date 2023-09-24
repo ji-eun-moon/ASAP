@@ -34,6 +34,7 @@ public class ApiService {
                     .apiId(api.getApiId())
                     .title(api.getTitle())
                     .content(api.getContent())
+                    .category(api.getCategory().getCategory())
                     .tags(api.getTags())
                     .build());
         }

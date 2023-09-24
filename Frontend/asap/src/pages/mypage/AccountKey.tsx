@@ -2,18 +2,21 @@ import React from 'react';
 import SideBar from 'components/nav/SideBar';
 import Header from 'components/common/Header';
 import menus from 'router/data/mypage-menus';
+import useGetWallet from 'hooks/api/wallet/useGetWallet';
 import './AccountKey.scss';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 
 function AccountKey() {
-  const willcopy = '나중에 키값넣기';
+  const { wallet } = useGetWallet();
   // 클릭하면 복사 함수
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert('클립보드에 복사 되었습니다.');
-    } catch (error) {
-      console.log(error);
+  const handleCopyClipBoard = async (text: string | null) => {
+    if (text !== null) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('클립보드에 복사 되었습니다.');
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
@@ -33,13 +36,13 @@ function AccountKey() {
             <div
               aria-hidden="true"
               className="rounded bg-gray-300 inner text-base font-medium flex items-center cursor-pointer"
-              onClick={() => handleCopyClipBoard(willcopy)}
+              onClick={() => handleCopyClipBoard(wallet)}
             >
-              <p className="ml-2">{willcopy} </p>
+              <p className="ml-2">{wallet} </p>
             </div>
             {/* copy icon */}
             <div className="iconbox ml-2 cursor-pointer">
-              <Copy onClick={() => handleCopyClipBoard(willcopy)} />
+              <Copy onClick={() => handleCopyClipBoard(wallet)} />
             </div>
           </div>
           {/* 아래 text */}

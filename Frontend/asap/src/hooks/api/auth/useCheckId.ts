@@ -11,7 +11,6 @@ const useCheckId = () => {
         url: 'https://j9c202.p.ssafy.io/api/v1/member/check-id',
         data: { id },
       });
-
       if (response.data === 'USER_ID_DUPLICATED') {
         // 중복 아이디가 있는 경우
         setIsIdAvailable(false);

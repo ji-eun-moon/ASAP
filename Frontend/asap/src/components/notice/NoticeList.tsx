@@ -1,56 +1,76 @@
-import React from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import useNoticeList from 'hooks/api/notice/useNoticeList';
-import useDeleteNotice from 'hooks/api/notice/useDeleteNotice';
-import useCheckNotice from 'hooks/api/notice/useCheckNotice';
-import useCountNotice from 'hooks/api/notice/useCountNotice';
+import useNoticeStore from 'store/notice/useNoticeStore';
+import { ReactComponent as RightArrow } from 'assets/icons/RightArrow.svg';
+import { ReactComponent as LeftArrow } from 'assets/icons/LeftArrow.svg';
+import { ReactComponent as RightArrowDisabled } from 'assets/icons/RightArrowDisabled.svg';
+import { ReactComponent as LeftArrowDisabled } from 'assets/icons/LeftArrowDisabled.svg';
+import NoticeCard from './NoticeCard';
 
-function NoticeList() {
-  const { getNoticeList } = useNoticeList();
-  const { deleteNotice } = useDeleteNotice();
-  const { checkNotice } = useCheckNotice();
-  const { getNoticeCount } = useCountNotice();
+const NoticeList = forwardRef(() => {
+  const { loading } = useNoticeList();
+  const { notices } = useNoticeStore((state) => state);
+  const noticesPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageNotices, setPageNotices] = useState(notices || []);
 
-  const handleCheckNotice = (noticeId: number) => {
-    checkNotice(noticeId);
+  // 페이지별 알림 세팅
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * noticesPerPage;
+    const endIndex = startIndex + noticesPerPage;
+    const visibleNotices = notices.slice(startIndex, endIndex);
+    setPageNotices(visibleNotices);
+  }, [notices, currentPage]);
+
+  // 전체 페이지
+  const totalPages = Math.ceil(notices.length / noticesPerPage);
+
+  // 이전페이지로 이동
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
-  const handleDeleteNotice = (noticeId: number) => {
-    deleteNotice(noticeId);
+  // 다음 페이지로 이동
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   return (
     <div>
-      NoticeList
-      <button
-        type="button"
-        style={{ border: '1px solid' }}
-        onClick={getNoticeList}
-      >
-        알림 리스트 받기 테스트
-      </button>
-      <button
-        type="button"
-        style={{ border: '1px solid' }}
-        onClick={() => handleCheckNotice(1)}
-      >
-        알림 읽기 테스트
-      </button>
-      <button
-        type="button"
-        style={{ border: '1px solid' }}
-        onClick={() => handleDeleteNotice(1)}
-      >
-        알림 삭제하기 테스트
-      </button>
-      <button
-        type="button"
-        style={{ border: '1px solid' }}
-        onClick={getNoticeCount}
-      >
-        알림 카운트 테스트
-      </button>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {pageNotices?.map((notice) => (
+            <NoticeCard key={notice.noticeId} notice={notice} />
+          ))}
+        </div>
+      )}
+
+      {/* 페이지 전환 */}
+      <div className="flex justify-between mt-3">
+        <button
+          type="button"
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          {currentPage === 1 ? <LeftArrowDisabled /> : <LeftArrow />}
+        </button>
+        <p className="font-bold">{`${currentPage} / ${totalPages}`}</p>
+        <button
+          type="button"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          {currentPage === totalPages ? <RightArrowDisabled /> : <RightArrow />}
+        </button>
+      </div>
     </div>
   );
-}
+});
 
 export default NoticeList;

@@ -20,6 +20,7 @@ const activeStyle = {
 
 function SupplierNav() {
   const { isLoggedIn } = useAuthStore((state) => state);
+  const MyPageRef = React.createRef();
 
   return (
     <div className="bg-gray-50 flex h-full items-center relative">
@@ -71,7 +72,7 @@ function SupplierNav() {
               </button>
             </MenuHandler>
             <MenuList>
-              <MyPageDrop />
+              <MyPageDrop ref={MyPageRef} />
             </MenuList>
           </Menu>
         ) : (

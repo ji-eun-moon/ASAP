@@ -18,7 +18,9 @@ const useAuthEmail = () => {
         url: 'https://j9c202.p.ssafy.io/api/v1/mail/auth-email',
         data: { email },
       });
-      if (response.status === 200) {
+      if (response.data === 'EMAIL_NOT_SEND') {
+        setPostedEmail(false);
+      } else {
         setPostedEmail(true);
       }
     } catch (error) {
@@ -33,7 +35,10 @@ const useAuthEmail = () => {
         url: 'https://j9c202.p.ssafy.io/api/v1/mail/check-auth-email',
         data: { email, code },
       });
-      if (response.status === 200) {
+      if (response.data === 'EMAIL_CODE_NOT_AUTHORIZED') {
+        setCheckedCode(false);
+        console.error('이메일 인증 실패');
+      } else {
         setCheckedCode(true);
         console.log('이메일 인증 성공');
       }

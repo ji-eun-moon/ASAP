@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 import 'styles/auth/SignUp.scss';
 import useSignUp from 'hooks/api/auth/useSignUp';
 import useCheckId from 'hooks/api/auth/useCheckId';
+import useWeb3 from 'hooks/api/wallet/useWeb3';
+import useSetWallet from 'hooks/api/wallet/useSetWallet';
 import { Input, Button } from '@material-tailwind/react';
 import useAuthEmail from 'hooks/api/auth/useAuthEmail';
 import Timer from 'components/auth/Timer';
+import Modal from 'components/common/Modal';
+import Loading from 'components/common/Loading';
 
 interface ITime {
   mm: number;
@@ -22,11 +26,15 @@ function SignUp() {
     checkedCode,
     resetEmailStatus,
   } = useAuthEmail();
+  const { createAccount } = useWeb3();
+  const { setWallet } = useSetWallet();
 
   const [userId, setUserId] = useState<string>('');
-
   const [userPassword, setUserPassword] = useState<string>('');
   const [userConfirmPassword, setUserConfirmPassword] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isLoadingOn, setIsLoadingOn] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // 비밀 번호 조건
   const hasUpperCase = /[A-Z]/.test(userPassword);
@@ -128,6 +136,16 @@ function SignUp() {
     await checkEmailCode({ email: userEmail, code: emailCode });
   };
 
+  // 계정 생성 중 모달 열기
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // 계정 생성 중 모달 닫음
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   // 타이머 출력
   const codeTimer = () => {
     if (initialTime.mm === 0 && initialTime.ss === 0) {
@@ -137,6 +155,29 @@ function SignUp() {
       return <Timer key={timerKey} mm={initialTime.mm} ss={initialTime.ss} />;
     }
     return null;
+  };
+
+  const onWalletHandler = async () => {
+    closeModal();
+    await setLoading(true);
+    const address = await createAccount(userPassword);
+    if (address) {
+      const id = userId;
+      const privateKey = userPassword;
+      const res = await setWallet({ id, address, privateKey });
+      if (res) {
+        await setIsLoadingOn(false);
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 3000);
+      } else {
+        await setLoading(false);
+        openModal();
+      }
+    } else {
+      await setLoading(false);
+      openModal();
+    }
   };
 
   const onsubmitHandler = async () => {
@@ -167,12 +208,17 @@ function SignUp() {
       return;
     }
 
-    await signUp({
+    const response = await signUp({
       id: userId,
       password: userPassword,
       name: userName,
       email: userEmail,
     });
+
+    // 회원가입에 성공하면 계정 생성하기
+    if (response) {
+      onWalletHandler();
+    }
   };
 
   return (
@@ -347,6 +393,36 @@ function SignUp() {
           Login
         </Link>
       </div>
+
+      {/* 지갑 생성 중 로딩 및 생성 완료 */}
+      {loading ? (
+        <Loading
+          isOn={isLoadingOn}
+          content={
+            isLoadingOn ? (
+              '지갑을 생성중입니다'
+            ) : (
+              <div className="flex justify-center flex-col">
+                <div className="flex justify-center">지갑이 생성되었습니다</div>
+                <div>로그인해서 ASAP을 사용해보세요</div>
+              </div>
+            )
+          }
+        />
+      ) : null}
+
+      {/* 지갑 생성 실패 모달 */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="flex flex-col justify-center pt-2">
+          <p className="pb-2">지갑 생성이 실패하였습니다.</p>
+          <Button
+            onClick={onWalletHandler}
+            className="text-base font-bold p-2 bg-blue-500"
+          >
+            지갑 다시 생성하기
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

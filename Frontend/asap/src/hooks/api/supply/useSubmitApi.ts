@@ -10,6 +10,8 @@ interface ApiInfo {
   tags: string[];
   provideDate: string;
   method: string;
+  inputExample: string;
+  outputExample: string;
 }
 
 const useSubmitApi = () => {
@@ -23,6 +25,8 @@ const useSubmitApi = () => {
     tags,
     method,
     provideDate,
+    inputExample,
+    outputExample,
   }: ApiInfo) => {
     try {
       const response = await axiosInstance({
@@ -38,10 +42,12 @@ const useSubmitApi = () => {
           tags: JSON.stringify(tags),
           provideDate,
           method,
+          inputExample,
+          outputExample,
         },
       });
       if (response.status === 200) {
-        window.location.href = '/supply/apply_list';
+        window.location.href = '/supply';
       }
     } catch (error) {
       console.log('서버 오류 :', error);

@@ -5,6 +5,8 @@ import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 import { Button } from '@material-tailwind/react';
 import JsonTable from 'components/common/JsonTable';
 import Modal from 'components/common/Modal';
+import PrettyJson from 'components/common/PrettyJson';
+import 'styles/common/Input.scss';
 
 function ApiUsage() {
   const { apiId, apiUsage } = useGetApiUsage();
@@ -17,28 +19,6 @@ function ApiUsage() {
 
   // 표 헤더
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
-
-  // input 예시 JSON으로 변환
-  const inputExampleJson = () => {
-    if (apiUsage?.inputExample) {
-      if (typeof apiUsage.inputExample === 'string') {
-        return JSON.parse(apiUsage.inputExample);
-      }
-      return apiUsage.inputExample;
-    }
-    return {};
-  };
-
-  // output 예시 JSON으로 변환
-  const outputExampleJson = () => {
-    if (apiUsage?.outputExample) {
-      if (typeof apiUsage.outputExample === 'string') {
-        return JSON.parse(apiUsage.outputExample);
-      }
-      return apiUsage.outputExample;
-    }
-    return {};
-  };
 
   // head grid
   const headGrid = (head: string) => {
@@ -123,7 +103,7 @@ function ApiUsage() {
             />
           )}
         </div>
-        <pre>{JSON.stringify(inputExampleJson(), null, 2)}</pre>
+        <PrettyJson jsonData={apiUsage?.inputExample} />
       </div>
 
       {/* Output */}
@@ -156,7 +136,7 @@ function ApiUsage() {
             />
           )}
         </div>
-        <pre>{JSON.stringify(outputExampleJson(), null, 2)}</pre>
+        <PrettyJson jsonData={apiUsage?.outputExample} />
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

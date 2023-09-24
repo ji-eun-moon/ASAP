@@ -26,8 +26,8 @@ function Footer() {
       <div className="right">
         <Logo className="logo" />
         <div className="content">
-          <div>ssafy 광주 2반 C202 특화 프로젝트입니다 </div>
-          <div>양시온, 문지은, 박서희,송아람, 이도하, 이찬웅</div>
+          <div>ssafy 광주 2반 C202 특화 프로젝트</div>
+          <div>양시온, 문지은, 박서희, 송아람, 이도하, 이찬웅</div>
         </div>
         <div className="copyright">
           ASAP © 2023. All rights reserved by C202

@@ -44,9 +44,10 @@ function JsonName({ jsonData }: Props) {
       {data.map((item) => (
         <div key={item.idx} className="items-center mt-3">
           {columns.map((column) => (
-            <pre key={column} className="ps-2 font-semibold">
+            <p key={column} className="ps-2">
               {item[column]}
-            </pre>
+              {item.idx === data.length ? '' : ','}
+            </p>
           ))}
         </div>
       ))}

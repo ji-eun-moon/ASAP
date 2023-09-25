@@ -9,7 +9,7 @@ function Header({ title, children }: IHeaderProps) {
   return (
     <div className="bg-gray-100 flex justify-center items-center h-44 flex-col">
       <p className="text-4xl font-extrabold">{title}</p>
-      <div>{children}</div>
+      <div className="w-full flex justify-center mt-4">{children}</div>
     </div>
   );
 }

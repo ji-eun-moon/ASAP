@@ -1,16 +1,18 @@
 import React from 'react';
-import Car from 'assets/icons/Car.svg';
+// import Car from 'assets/icons/Car.svg';
+import CategoryImg from 'components/api/CategoryImg';
 
 interface cardInfo {
-  // icon: string;
+  category: string;
   title: string;
   content: string;
   tags: string;
 }
-function ApiListCard({ title, content, tags }: cardInfo) {
+function ApiListCard({ category, title, content, tags }: cardInfo) {
   return (
     <div className="lg:hover:scale-105 transition-transform bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs w-full h-72 flex flex-col justify-center items-center">
-      <img src={Car} alt="car logo" className="h-24 w-56" />
+      {/* <img src={Car} alt="car logo" className="h-24 w-56" /> */}
+      <CategoryImg category={category} />
       <h1 className="text-2xl text-gray-700 mb-1"> {title} </h1>
       <h3 className="text-base text-gray-400 "> {content} </h3>
       <div className="flex">

@@ -5,7 +5,7 @@ import Header from 'components/common/Header';
 import SideBar from 'components/nav/SideBar';
 import { ReactComponent as Wallet } from 'assets/icons/wallet.svg';
 import useGetWallet from 'hooks/api/wallet/useGetWallet';
-import useWeb3 from 'hooks/api/wallet/useWeb3';
+import useWeb3 from 'hooks/api/Wallet/useWeb3';
 import useAccountInfo from 'hooks/api/mypage/useAccountInfo';
 
 function AccountWallet() {

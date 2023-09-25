@@ -30,6 +30,12 @@ function ApiDetail() {
     navigate('/api_list', { state: { category: apiDetail?.category } });
   };
 
+  const onApplyHandler = () => {
+    navigate(`/api_list/${apiId}/apply`, {
+      state: { title: apiDetail?.title },
+    });
+  };
+
   // 표 데이터
   const headers = ['API', 'API 출처', '제공데이터', '비고'];
   const data = [
@@ -81,8 +87,8 @@ function ApiDetail() {
           <Link to={`/api_list/${apiId}/usage`}>API 사용법</Link>
         </Button>
         {!authToken || apply === 'NOT_REGISTERED_API' ? (
-          <Button className="api-button">
-            <Link to={`/api_list/${apiId}/apply`}>API 신청하기</Link>
+          <Button className="api-button" onClick={onApplyHandler}>
+            API 신청하기
           </Button>
         ) : (
           <Button className="api-button">

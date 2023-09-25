@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.member.entity.dto.response;
 
+import com.ssafy.project.asap.member.entity.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FindMemberResponse {
 
-    private String walletInfo = "지갑 정보";
-    private Float balance = 1234567890F;
-    private String name = "찬웅";
-    private String email = "asapfighting@naver.com";
+    private String id;
+    private String name;
+    private String email;
+
+    public FindMemberResponse(Member member) {
+
+        this.id = member.getId();
+        this.name = member.getName();
+        this.email = member.getEmail();
+
+    }
 }

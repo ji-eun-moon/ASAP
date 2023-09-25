@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.member.controller;
 
+import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.entity.dto.response.FindMemberResponse;
@@ -15,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/member")
@@ -35,13 +38,20 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Member> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
+    public ResponseEntity<?> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
 
-        memberService.signUp(registerMemberRequest);
+        try {
 
-        Member member = memberService.findById(registerMemberRequest.getId());
+            memberService.signUp(registerMemberRequest);
 
-        return ResponseEntity.status(201).body(member);
+            return ResponseEntity.ok("회원가입 성공");
+
+        } catch (CustomException e){
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 
     @PostMapping("/check-id")
@@ -52,16 +62,19 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> checkId(@RequestBody String id) {
+    public ResponseEntity<?> checkId(@RequestBody CheckIdRequest checkIdRequest) {
+
         try {
-            memberService.checkId(id);
-            log.info(id);
-        } catch (RuntimeException e){
-            log.error("이미 가입된 아이디입니다.");
-            return ResponseEntity.status(400).body("이미 가입된 아이디입니다.");
+            memberService.checkId(checkIdRequest.getId());
+
+            return ResponseEntity.ok("회원가입 가능한 아이디입니다.");
+
+        } catch (CustomException e){
+
+            return ResponseEntity.ok(e.getErrorCode());
+
         }
 
-        return ResponseEntity.ok("아이디 확인 완료");
     }
 
 
@@ -75,11 +88,18 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> login(@RequestBody LoginMemberRequest loginMemberRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginMemberRequest loginMemberRequest) {
 
-        String token = memberService.login(loginMemberRequest);
+        try {
+            String token = memberService.login(loginMemberRequest);
 
-        return ResponseEntity.ok(token);
+            return ResponseEntity.ok(token);
+
+        } catch (CustomException e) {
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
     }
 
     @PostMapping("/find-id")
@@ -92,11 +112,19 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> findByEmailAndName(@RequestBody FindMemberIdRequest findMemberIdRequest) {
+    public ResponseEntity<?> findByEmailAndName(@RequestBody FindMemberIdRequest findMemberIdRequest) {
 
-        Member member = memberService.findByEmailAndName(findMemberIdRequest);
+        try {
+            List<String> list = memberService.findAllByEmailAndName(findMemberIdRequest);
 
-        return ResponseEntity.ok(member.getId());
+            return ResponseEntity.ok(list);
+
+        } catch (CustomException e) {
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 
     @PostMapping("/find-password")
@@ -124,11 +152,11 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Boolean> updatePassword(@RequestBody LoginMemberRequest loginMemberRequest) {
+    public ResponseEntity<String> updatePassword(@RequestBody LoginMemberRequest loginMemberRequest) {
 
         memberService.updatePassword(loginMemberRequest);
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok("비밀번호 변경 완료");
     }
 
     @PostMapping("/logout")
@@ -156,15 +184,15 @@ public class MemberController {
 
         Member member = memberService.findById(authentication.getName());
 
-        log.info("id = " + member.getId());
+        FindMemberResponse findMemberResponse = new FindMemberResponse(member);
 
-        return ResponseEntity.ok(new FindMemberResponse());
+        return ResponseEntity.ok(findMemberResponse);
     }
 
     @PutMapping("/me")
     @Operation(summary = "개인정보 수정", description = "이름, 이메일 수정")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "개인 정보 조회", content = @Content(schema = @Schema(
+            @ApiResponse(responseCode = "202", description = "개인 정보 수정", content = @Content(schema = @Schema(
                     implementation = UpdateMemberRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -175,13 +203,13 @@ public class MemberController {
 
         memberService.update(updateMemberRequest);
 
-        return ResponseEntity.status(202).body("회원 수정 완료");
+        return ResponseEntity.ok("회원 정보 수정 성공");
     }
     
     @PostMapping("/check-password")
     @Operation(summary = "개인정보 조회", description = "개인정보 조회 들어가기 전 비밀번호 확인")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "비밀번호 확인 성공"),
+            @ApiResponse(responseCode = "200", description = "비밀번호 인증 성공"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
@@ -190,7 +218,48 @@ public class MemberController {
         
         memberService.checkPassword(checkPasswordRequest, authentication.getName());
 
-        return ResponseEntity.status(200).body("비밀번호 인증 성공");
+        return ResponseEntity.ok("비밀번호 인증 성공");
+    }
+
+    @PostMapping("/registerAddress")
+    @Operation(summary = "지갑 등록", description = "블록체인에 지갑 등록하고 DB에 지갑 주소 저장")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "지갑 생성 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> registerAddress(@RequestBody RegisterAddressRequest request){
+
+        memberService.registerAddress(request);
+        
+        return ResponseEntity.ok("지갑 생성 성공");
+    }
+
+    @GetMapping("/getAddress")
+    @Operation(summary = "지갑 조회", description = "지갑 주소 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "지갑 주소 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> getAddress(Authentication authentication){
+
+        try {
+
+            String address = memberService.getAddress(authentication.getName());
+
+            return ResponseEntity.ok(address);
+
+        } catch (CustomException e) {
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 
 }
+
+

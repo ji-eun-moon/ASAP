@@ -5,7 +5,7 @@ import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
@@ -25,11 +25,17 @@ public class Apply extends BaseTime {
     @Column(nullable = false, unique = true)
     private String api;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String input;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String output;
+
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
+    private String inputExample;
+
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
+    private String outputExample;
 
     @Column(nullable = false)
     private Long price;
@@ -41,7 +47,7 @@ public class Apply extends BaseTime {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime provideDate;
+    private LocalDate provideDate;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

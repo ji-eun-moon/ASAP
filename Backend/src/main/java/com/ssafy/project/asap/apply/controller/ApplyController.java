@@ -1,11 +1,18 @@
 package com.ssafy.project.asap.apply.controller;
 
+import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.api.entity.dto.request.RegisterBlockApiRequest;
+import com.ssafy.project.asap.api.service.ApiService;
+import com.ssafy.project.asap.apply.entity.dto.request.ApproveApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.RegisterApplyRequest;
+import com.ssafy.project.asap.apply.entity.dto.request.RejectApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.request.UpdateApplyRequest;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplyResponse;
 import com.ssafy.project.asap.apply.entity.dto.response.FindApplysResponse;
 import com.ssafy.project.asap.apply.service.ApplyService;
+import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.member.service.MemberService;
+import com.ssafy.project.asap.notice.service.NoticeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,8 +37,10 @@ public class ApplyController {
 
     private final ApplyService applyService;
     private final MemberService memberService;
+    private final NoticeService noticeService;
+    private final ApiService apiService;
 
-    @GetMapping("/detail/{apply_id}")
+    @GetMapping("/detail/{applyId}")
     @Operation(summary = "신청내역 상세 조회 (제공자)", description = "제공자가 관리자에게 신청한 API 상세 정보 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "API 상세 정보 조회 성공", content = @Content(schema = @Schema(
@@ -41,7 +50,7 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<FindApplyResponse> findByApplyId(@PathVariable("apply_id") Long applyId){
+    public ResponseEntity<FindApplyResponse> findByApplyId(@PathVariable("applyId") Long applyId){
 
         // 신청 내역 상세 조회
         FindApplyResponse findApplyResponse = applyService.findByApplyId(applyId);
@@ -118,6 +127,53 @@ public class ApplyController {
         applyService.updateProgress(updateApplyRequest);
 
         return ResponseEntity.status(202).body(updateApplyRequest.getApplyId() + "번 진행상태 " + updateApplyRequest.getProgress() + "상태로 변경");
+
+    }
+
+    @PostMapping("/reject")
+    @Operation(summary = "API 거절", description = "API 거절 사유 공지")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "API 신청 상태 변경 완료"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> reject(@RequestBody RejectApplyRequest request){
+
+        noticeService.saveRejectApply(request);
+        applyService.rejectProgress(request.getApplyId());
+
+        return ResponseEntity.ok("거절 사유 입력 완료");
+    }
+
+    @PutMapping("/approve")
+    @Operation(summary = "API 승인", description = "API 승인 완료")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "202", description = "API 신청 승인 완료"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> approve(@RequestBody ApproveApplyRequest request, Authentication authentication){
+
+        try {
+            Long apiId = applyService.approveProgress(request);
+
+            Api api = apiService.findByApiId(apiId);
+
+            apiService.registerApi(RegisterBlockApiRequest.builder()
+                            .apiId(apiId)
+                            .price(api.getPrice())
+                            .title(api.getTitle())
+                            .walletId(api.getMember().getWalletId())
+                    .build());
+
+            return ResponseEntity.ok("승인 완료");
+        } catch (CustomException e){
+
+            return ResponseEntity.ok().body(e.getErrorCode());
+
+        }
 
     }
 

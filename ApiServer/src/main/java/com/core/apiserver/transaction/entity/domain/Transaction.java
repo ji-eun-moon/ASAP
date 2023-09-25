@@ -1,13 +1,10 @@
 package com.core.apiserver.transaction.entity.domain;
 
-import com.core.apiserver.api.entity.domain.Api;
-import com.core.apiserver.wallet.entity.domain.Wallet;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "Transaction")
@@ -17,12 +14,24 @@ import java.util.List;
 @AllArgsConstructor
 public class Transaction {
 
+
     @Id
+    private String transactionId;
     private String transactionHash;
 
-    private Long userWalletId;
-    private Long providerWalletId;
-    private Long apiId;
-    private List<Long> usageRecode;
-    private String hash;
+    private String userWalletAddress;
+    private String providerWalletAddress;
+    private String apiTitle;
+    private List<Long> usageRecord;
+    private String recordHash;
+
+
+    public void updateRecord(List<Long> usageRecords) {
+        this.usageRecord.addAll(usageRecords);
+    }
+
+    public void updateTransactionHash(String txHash, String hash) {
+        this.transactionHash = txHash;
+        this.recordHash = hash;
+    }
 }

@@ -2,15 +2,12 @@ package com.core.apiserver.api.controller;
 
 import com.core.apiserver.api.entity.dto.request.CreateApiRequest;
 import com.core.apiserver.api.service.ApiService;
-import com.core.apiserver.usage.entity.domain.RedisUsage;
 import com.core.apiserver.usage.entity.dto.request.CreateRedisUsageRequest;
-import com.core.apiserver.usage.entity.dto.response.RedisUsageResponse;
 import com.core.apiserver.usage.service.RedisUsageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +15,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.Map;
 
 @RestController
@@ -40,8 +36,8 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<com.core.apiserver.api.entity.dto.response.ApiResponse> regiser(@RequestBody CreateApiRequest createApiRequest) {
-        return ResponseEntity.status(201).body(new com.core.apiserver.api.entity.dto.response.ApiResponse(apiService.save(createApiRequest)));
+    public ResponseEntity<com.core.apiserver.api.entity.dto.response.ApiResponse> register(@RequestBody CreateApiRequest createApiRequest) {
+        return ResponseEntity.status(201).body(new com.core.apiserver.api.entity.dto.response.ApiResponse(apiService.register(createApiRequest)));
     }
 
     @GetMapping("/local/search/{wallet-id}")

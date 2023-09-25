@@ -3,6 +3,7 @@ package com.core.apiserver.api.service;
 import com.core.apiserver.api.entity.domain.Api;
 import com.core.apiserver.api.entity.dto.request.CreateApiRequest;
 import com.core.apiserver.api.repository.ApiRepository;
+import com.core.apiserver.total.repository.TotalRepository;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -25,22 +26,25 @@ public class ApiService {
 
     private final ApiRepository apiRepository;
     private final WalletRepository walletRepository;
+    private final TotalRepository totalRepository;
 
     @Value("${private-key.kakao.rest-api}")
     public String kakaoRestKey;
 
     @Transactional
-    public Api save(CreateApiRequest createApiRequest) {
+    public Api register(CreateApiRequest createApiRequest) {
         if (!walletRepository.existsById(createApiRequest.getWalletId())) {
             throw new IllegalArgumentException("맞는 지갑 주소가 없습니다.");
         }
 
-        return apiRepository.save(Api.builder()
+        Api api = apiRepository.save(Api.builder()
                         .apiId(createApiRequest.getApiId())
-                        .wallet(walletRepository.findById(createApiRequest.getWalletId()).get())
+                        .wallet(walletRepository.findById(createApiRequest.getWalletId()).orElseThrow())
                         .title(createApiRequest.getTitle())
                         .price(createApiRequest.getPrice())
                 .build());
+
+        return api;
     }
 
 

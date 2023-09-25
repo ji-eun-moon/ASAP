@@ -1,6 +1,7 @@
 package com.core.apiserver.wallet.service;
 
 import com.core.apiserver.global.util.Sha256Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.FunctionEncoder;
@@ -19,6 +20,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@Slf4j
 @Component
 public class EthereumService {
     @Autowired
@@ -46,10 +48,11 @@ public class EthereumService {
 
             // 3. ethereum 호출후 결과 가져오기
             EthCall ethCall = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).send();
-
+            log.info("ethCall: " + ethCall);
             // 4. 결과값 decode
             List<Type> decode = FunctionReturnDecoder.decode(ethCall.getResult(), function.getOutputParameters());
             if (decode.isEmpty()) {
+                log.info("decode.is none");
                 throw new RuntimeException();
             }
             byte[] s = (byte[]) decode.get(0).getValue();
@@ -120,6 +123,11 @@ public class EthereumService {
         {
             System.out.println("transaction complete not yet");
         }
+        EthTransaction transaction = web3j.ethGetTransactionByHash(transactionHash).send();
+        System.out.println(transaction.getTransaction().get().getInput());
+        String s1 = transaction.getTransaction().get().getInput();
+        System.out.println("transaction안에 들어있는 값" + s1.substring(10));
+
 
         return transactionReceipt.getResult();
     }

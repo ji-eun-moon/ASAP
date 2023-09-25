@@ -2,7 +2,7 @@ package com.core.apiserver.wallet.controller;
 
 import com.core.apiserver.global.util.Sha256Util;
 import com.core.apiserver.wallet.entity.dto.CreateWalletRequest;
-import com.core.apiserver.wallet.service.BasicService;
+
 import com.core.apiserver.wallet.service.UsageContractService;
 import com.core.apiserver.wallet.service.WalletService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +48,8 @@ public class WalletController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<?> test2() throws IOException, ExecutionException, InterruptedException, NoSuchAlgorithmException {
-        usageContractService.setUsage(sha256Util.encryptToBytes("박서희"));
-        return ResponseEntity.ok("성공적");
+        String txHash = usageContractService.setUsage(sha256Util.encryptToBytes("이도하"));
+        return ResponseEntity.ok(txHash);
     }
 
     @GetMapping("/test3")

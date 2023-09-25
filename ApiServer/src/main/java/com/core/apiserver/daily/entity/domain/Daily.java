@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+
 @Entity
 @Getter
 @Builder
@@ -35,4 +36,8 @@ public class Daily {
 
     private Long useAmount;
     private LocalDate date;
+
+    public void updateAmount(Long amount) {
+        this.useAmount += amount;
+    }
 }

@@ -39,7 +39,7 @@ const useAdminApiApprove = () => {
       });
       if (response.status === 200) {
         // console.log('api 승인 카테고리 불러오기 성공');
-        // console.log('카테고리', response.data);
+        console.log('카테고리', response.data);
         setApproveCategory(response.data);
       } else {
         console.log('api 승인 카테고리 불러오기 실패');

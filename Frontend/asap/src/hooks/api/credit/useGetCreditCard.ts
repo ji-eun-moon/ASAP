@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from 'utils/axiosInstance';
 // 카드회사, 카드번호 조회
-interface INotice {
+interface ICardNotice {
   cardCompany: string;
   cardNumber: string;
 }
 
 const useGetCreditCard = () => {
   const [loading, setLoading] = useState(true);
-  const [creditCard, setCreditCard] = useState<INotice[] | null>(null);
+  const [creditCard, setCreditCard] = useState<ICardNotice | null>(null);
 
   const getCreditCard = async () => {
     try {

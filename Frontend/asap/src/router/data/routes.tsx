@@ -251,9 +251,9 @@ const routes: Route[] = [
   {
     path: '/admin',
     element: (
-      <AdminRoute>
+      <PublicRoute>
         <AdminLogin />
-      </AdminRoute>
+      </PublicRoute>
     ),
   },
   {

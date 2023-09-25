@@ -16,7 +16,7 @@ const useChangeCard = () => {
       });
       console.log(response.data);
       // 서버에서 받은 응답 처리
-      if (response.status === 202) {
+      if (response.status === 200) {
         console.log('결제 수단 변경 성공');
         console.log(cardCompany);
         console.log(cardNumber);

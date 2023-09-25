@@ -10,17 +10,13 @@ const usePostCreditCard = () => {
     try {
       const response = await axiosInstance({
         method: 'POST',
-        url: `/api/v1/credit`,
+        url: `/api/v1/credit/register`,
         data: {
           cardCompany,
           cardNumber,
         },
       });
-      if (response.status === 201) {
-        console.log('카드 등록 성공');
-      } else {
-        console.log('카드 등록 실패');
-      }
+      console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
     }

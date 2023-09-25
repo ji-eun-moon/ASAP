@@ -14,10 +14,11 @@ const useGetCreditCard = () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: '/api/v1/credit',
+        url: '/api/v1/credit/get',
       });
       setCreditCard(response.data);
       setLoading(false);
+      console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
     }

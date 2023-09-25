@@ -16,7 +16,7 @@ function AccountCredit() {
       console.log(loading);
     }
   };
-
+  // 카드 등록 페이지
   return (
     <div>
       <Header title="결제 수단 관리" />
@@ -61,11 +61,14 @@ function AccountCredit() {
 
               <div className="font-bold text-xl">
                 {creditCard
-                  ? `${creditCard.cardCompany} (${creditCard.cardNumber.slice(
-                      -4,
-                    )})`
+                  ? `${creditCard.cardCompany} (${
+                      creditCard.cardNumber
+                        ? creditCard.cardNumber.slice(-4)
+                        : ''
+                    })`
                   : '등록된 카드가 없습니다.'}
               </div>
+
               {/* 카드 정보 등록 버튼 */}
               <div
                 aria-hidden="true"

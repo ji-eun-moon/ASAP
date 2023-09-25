@@ -57,12 +57,9 @@ function JsonTable({ jsonData }: JsonTableProps) {
           className="flex grid grid-cols-12 items-center mt-3"
         >
           {columns.map((column) => (
-            <pre
-              key={column}
-              className={`${columnGrid(column)} ps-2 font-semibold`}
-            >
+            <p key={column} className={`${columnGrid(column)} ps-2`}>
               {item[column]}
-            </pre>
+            </p>
           ))}
         </div>
       ))}

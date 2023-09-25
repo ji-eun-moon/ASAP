@@ -4,6 +4,7 @@ import useGetApiList from 'hooks/api/api/useGetApiList';
 import useGetCategoryList from 'hooks/api/api/useGetCategoryList';
 import Header from 'components/common/Header';
 import ApiListCard from 'components/common/ApiListCard';
+import SearchBar from 'components/common/SearchBar';
 
 const activeStyle = {
   backgroundColor: 'rgba(122, 192, 240, 0.37)',
@@ -51,32 +52,33 @@ function ApiList() {
   return (
     <div>
       <Header title="APIs" />
+      <SearchBar />
       {/* 왼쪽 카테고리 선택부분 */}
       <div className="flex grid grid-cols-12 h-auto">
-        <div className="flex flex-col justify-center col-span-3 items-center border-r">
-          <p className="text-3xl w-3/4 mt-12 mb-10 font-bold">카테고리</p>
+        <div className="flex flex-col justify-center col-span-2 items-center border-r">
+          <p className="text-2xl w-3/4 mt-12 mb-10 font-bold">카테고리</p>
           {categories?.map((data) => (
             <div
               key={data.category}
               onClick={() => onSelectCategoryHandler(data.category, data.count)}
               aria-hidden="true"
-              className="flex justify-center gap-44 m-1 p-3"
+              className="flex justify-center gap-20 m-1 p-2"
               style={
                 selectedCategory === data.category
                   ? activeStyle
                   : nonActiveStyle
               }
             >
-              <p className="text-2xl font-semibold text-gray-800">
+              <p className="text-lg font-semibold text-gray-800">
                 {data.category}
               </p>
-              <p className="text-2xl text-gray-600">({data.count})</p>
+              <p className="text-lg text-gray-600">({data.count})</p>
             </div>
           ))}
         </div>
         {/* 오른쪽 상품 카드 부분 */}
-        <div className="flex flex-col col-span-9 ml-10">
-          <div className="text-4xl mt-12 mb-10 font-bold flex pl-5">
+        <div className="flex flex-col col-span-10 ml-10">
+          <div className="text-2xl mt-12 mb-10 font-bold flex pl-5">
             {totalCount !== undefined && (
               <p style={{ color: '#7AC0F0' }}>{selectedCount}&nbsp;</p>
             )}{' '}
@@ -90,9 +92,7 @@ function ApiList() {
                       <div>상품이 없습니다</div>
                     ) : (
                       <div
-                        onClick={() =>
-                          navigate(`/api/v1/apis/detail/${api.apiId}`)
-                        }
+                        onClick={() => navigate(`/api_list/${api.apiId}`)}
                         aria-hidden="true"
                         className="w-full h-full flex justify-center"
                       >
@@ -111,9 +111,7 @@ function ApiList() {
                       <div>상품이 없습니다</div>
                     ) : (
                       <div
-                        onClick={() =>
-                          navigate(`/api/v1/apis/detail/${api.apiId}`)
-                        }
+                        onClick={() => navigate(`/api_list/${api.apiId}`)}
                         aria-hidden="true"
                         className="w-full h-full flex justify-center"
                       >

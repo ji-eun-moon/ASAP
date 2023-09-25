@@ -16,7 +16,7 @@ function ApiListCard({ title, content, tags }: cardInfo) {
       <div className="flex">
         {JSON.parse(tags).map((tag: string) => (
           <p key={tag} className="text-sm" style={{ color: '#3888B5' }}>
-            #{tag}&nbsp;
+            #{tag}&nbsp;&nbsp;
           </p>
         ))}
       </div>

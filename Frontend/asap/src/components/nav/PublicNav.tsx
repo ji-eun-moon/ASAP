@@ -26,11 +26,13 @@ function PublicNav() {
   return (
     <div>
       <div className="bg-gray-50 flex h-full items-center relative">
-        <Link to="/">
-          <img src={logoImage} alt="asap logo" className="h-20 w-50" />
-        </Link>
+        <div className="z-10">
+          <Link to="/">
+            <img src={logoImage} alt="asap logo" className="h-20 w-50 " />
+          </Link>
+        </div>
 
-        <div className="flex justify-center gap-20 w-full absolute">
+        <div className="flex justify-center gap-20 w-full absolute z-0">
           <NavLink
             to="/api_list"
             className="font-bold text-xl"

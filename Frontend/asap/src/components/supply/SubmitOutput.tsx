@@ -105,19 +105,34 @@ function SubmitOutput() {
         </div>
         <hr className="h-0.5 bg-gray-500" />
 
-        {/* 추가한 input 쌍 */}
+        {/* 추가한 output 쌍 */}
         <JsonTable jsonData={jsonOutput} />
 
-        {/* input 쌍 추가 */}
+        {/* output 쌍 추가 */}
         <div className="grid grid-cols-12">
           <div className="table-input-container col-span-2">
-            <input placeholder="key" value={key} onChange={onKeyHandler} />
+            <input
+              placeholder="key"
+              value={key}
+              onChange={onKeyHandler}
+              className="w-5"
+            />
           </div>
           <div className="table-input-container col-span-2">
-            <input placeholder="name" value={name} onChange={onNameHandler} />
+            <input
+              placeholder="name"
+              value={name}
+              onChange={onNameHandler}
+              className="w-5"
+            />
           </div>
           <div className="table-input-container col-span-2">
-            <input placeholder="type" value={type} onChange={onTypeHandler} />
+            <input
+              placeholder="type"
+              value={type}
+              onChange={onTypeHandler}
+              className="w-5"
+            />
           </div>
           <div className="table-input-container col-span-1">
             <div className="flex justify-center w-full">

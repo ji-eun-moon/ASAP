@@ -23,6 +23,11 @@ function UserRoute({ children }: Props) {
     return children;
   }
 
+  if (!isLoggedIn) {
+    sessionStorage.setItem('prevLocation', location.pathname);
+    return <Navigate to="/login" />;
+  }
+
   // 사용자가 아니라면 이전 위치 저장
   sessionStorage.setItem('prevLocation', location.pathname);
   return <Navigate to="/change_account" />;

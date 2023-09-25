@@ -138,9 +138,9 @@ const routes: Route[] = [
   {
     path: '/api_list/:apiId/test',
     element: (
-      <UserRoute>
+      <NoSplRoute>
         <ApiTest />
-      </UserRoute>
+      </NoSplRoute>
     ),
   },
   {

@@ -17,5 +17,5 @@ public class DailyUsageRequest {
     private Long amount = 0L;
 
     @Nullable
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
 }

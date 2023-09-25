@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +44,7 @@ public class DailyService {
                         .providerWallet(api.getWallet())
                         .api(api)
                         .useAmount(dailyUsageRequest.getAmount())
-                        .date(LocalDate.now())
+                        .date(dailyUsageRequest.getDate())
                 .build());
     }
 
@@ -75,6 +76,9 @@ public class DailyService {
                 amount += d.getUseAmount();
             }
             Long price = amount * total.getApi().getPrice();
+            if (amount == 0) {
+                continue;
+            }
 
             usageResponses.add(new UsageResponse(new ApiResponse(total.getApi()), amount, price));
         }
@@ -88,9 +92,14 @@ public class DailyService {
 
         List<UsageResponse> usageResponses = new ArrayList<>();
         for (Total total : totals) {
-            Daily daily = dailyRepository.findByUserWalletAndApiAndDate(total.getUserWallet(),
-                    total.getApi(), getDailyRequest.getDate()).orElseThrow();
-            Long amount = daily.getUseAmount();
+            Optional<Daily> daily = dailyRepository.findByUserWalletAndApiAndDate(total.getUserWallet(),
+                    total.getApi(), getDailyRequest.getDate());
+
+            if (daily.isEmpty()) {
+                continue;
+            }
+
+            Long amount = daily.get().getUseAmount();
             Long price = amount * total.getApi().getPrice();
 
             usageResponses.add(new UsageResponse(new ApiResponse(total.getApi()), amount, price));

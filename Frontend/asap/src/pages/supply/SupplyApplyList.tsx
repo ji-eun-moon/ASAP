@@ -14,7 +14,9 @@ import useAdminApiDetail from 'hooks/api/admin/useAdminApiDetail';
 initTE({ Collapse, Ripple });
 
 /* apiDetail 화면 출력 함수 */
-function ApiDetail({ apiDetail = {} }: any) {
+function ApiDetail(
+  { apiDetail = {} }: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+) {
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
   console.log('tags', apiDetail.tags);
   return (

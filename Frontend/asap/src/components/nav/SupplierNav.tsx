@@ -24,75 +24,78 @@ function SupplierNav() {
   const MyPageRef = React.createRef();
 
   return (
-    <div className="bg-gray-50 flex h-full items-center relative">
-      <Link to="/">
-        <img src={logoImage} alt="asap logo" className="h-20 w-50 ms-2" />
-      </Link>
+    <div>
+      <div className="bg-gray-50 flex h-full items-center relative">
+        <div className="z-10">
+          <Link to="/">
+            <img src={logoImage} alt="asap logo" className="h-20 w-50" />
+          </Link>
+        </div>
+        <div className="flex justify-center gap-20 w-full absolute z-0">
+          {/* 내가 제공 중인 API 통계로 이동 */}
+          <NavLink
+            to="/myapi"
+            className="font-bold text-xl"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            My API
+          </NavLink>
+          {/* API 신청 리스트로 이동 */}
+          <NavLink
+            to="/supply"
+            className="font-bold text-xl"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            API 신청
+          </NavLink>
+          {/* 고객 지원 페이지로 이동 */}
+          <NavLink
+            to="/help"
+            className="font-bold text-xl"
+            style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          >
+            고객 지원
+          </NavLink>
+        </div>
+        <div className="flex items-center absolute -right-0">
+          {/* 계정 전환 Switch */}
+          <Switch />
 
-      <div className="flex justify-center gap-20 w-full absolute">
-        {/* 내가 제공 중인 API 통계로 이동 */}
-        <NavLink
-          to="/myapi"
-          className="font-bold text-xl"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
-          My API
-        </NavLink>
-        {/* API 신청 리스트로 이동 */}
-        <NavLink
-          to="/supply"
-          className="font-bold text-xl"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
-          API 신청
-        </NavLink>
-        {/* 고객 지원 페이지로 이동 */}
-        <NavLink
-          to="/help"
-          className="font-bold text-xl"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
-          고객 지원
-        </NavLink>
-      </div>
-      <div className="flex items-center absolute -right-0">
-        {/* 계정 전환 Switch */}
-        <Switch />
+          {/* 알림 뱃지 */}
+          {isLoggedIn && <NoticeBadge />}
 
-        {/* 알림 뱃지 */}
-        {isLoggedIn && <NoticeBadge />}
-
-        {isLoggedIn ? (
+          {isLoggedIn ? (
+            <Menu placement="top-start">
+              <MenuHandler>
+                <button
+                  type="button"
+                  className="bg-skyblue w-20 h-20 flex items-center justify-center text-white font-bold"
+                >
+                  <MyPage className="w-5" />
+                </button>
+              </MenuHandler>
+              <MenuList>
+                <MyPageDrop ref={MyPageRef} />
+              </MenuList>
+            </Menu>
+          ) : (
+            <Link to="/login">
+              <div className="bg-skyblue w-20 h-20 flex items-center justify-center text-white font-bold">
+                LOGIN
+              </div>
+            </Link>
+          )}
           <Menu placement="top-start">
             <MenuHandler>
-              <button
-                type="button"
-                className="bg-skyblue w-20 h-20 flex items-center justify-center text-white font-bold"
-              >
-                <MyPage className="w-5" />
-              </button>
+              <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
+                <Search className="w-5" />
+              </div>
             </MenuHandler>
             <MenuList>
-              <MyPageDrop ref={MyPageRef} />
+              <SearchDrop />
             </MenuList>
           </Menu>
-        ) : (
-          <Link to="/login">
-            <div className="bg-skyblue w-20 h-20 flex items-center justify-center text-white font-bold">
-              LOGIN
-            </div>
-          </Link>
-        )}
-        <Menu placement="top-start">
-          <MenuHandler>
-            <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
-              <Search className="w-5" />
-            </div>
-          </MenuHandler>
-          <MenuList>
-            <SearchDrop />
-          </MenuList>
-        </Menu>
+        </div>
       </div>
     </div>
   );

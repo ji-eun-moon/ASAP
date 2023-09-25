@@ -4,6 +4,7 @@ import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
+import com.ssafy.project.asap.member.entity.domain.Role;
 import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import io.jsonwebtoken.SignatureAlgorithm;

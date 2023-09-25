@@ -4,15 +4,12 @@ import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.global.util.JwtUtil;
 import com.ssafy.project.asap.member.entity.domain.Member;
-import com.ssafy.project.asap.member.entity.domain.Role;
 import com.ssafy.project.asap.member.entity.dto.request.*;
 import com.ssafy.project.asap.member.repository.MemberRepository;
-import com.sun.net.httpserver.Headers;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.xml.bind.DatatypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,9 +51,7 @@ public class MemberService {
     public String login(LoginMemberRequest loginMemberRequest){
         
         Member optionalMember = memberRepository.findById(loginMemberRequest.getId())
-                .orElseThrow(() -> {
-                    throw new CustomException(ErrorCode.USER_ID_NOT_FOUND);
-                });
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_ID_NOT_FOUND));
 
 
         if(bCryptPasswordEncoder.matches(loginMemberRequest.getPassword(), optionalMember.getPassword())){

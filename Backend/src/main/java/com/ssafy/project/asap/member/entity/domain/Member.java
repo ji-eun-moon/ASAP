@@ -55,8 +55,8 @@ public class Member extends BaseTime {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private final List<Notice> noticeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private final List<Credit> creditList = new ArrayList<>();
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private final Credit credit = new Credit();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private final List<Apply> applyList = new ArrayList<>();

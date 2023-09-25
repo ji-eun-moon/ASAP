@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
@@ -17,14 +18,16 @@ public class Credit extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long creditId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Column(nullable = false)
+    @Setter
     private String cardCompany;
 
     @Column(nullable = false)
+    @Setter
     private String cardNumber;
 
 }

@@ -1,7 +1,8 @@
 package com.ssafy.project.asap.credit.controller;
 
 import com.ssafy.project.asap.credit.entity.dto.request.RegisterCreditRequest;
-import com.ssafy.project.asap.credit.entity.dto.response.FindCreditResponse;
+import com.ssafy.project.asap.credit.service.CreditService;
+import com.ssafy.project.asap.global.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name="Credit", description = " 결제수단 API")
 public class CreditController {
+
+    private final CreditService creditService;
 
     @PostMapping("")
     @Operation(summary = "결제 수단 등록", description = "카드사, 카드 번호를 통해 결제 수단 등록")
@@ -28,8 +32,20 @@ public class CreditController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> register(@RequestBody RegisterCreditRequest registerCreditRequest) {
-        return ResponseEntity.status(201).body("결제 수단 등록 성공 ~ !");
+    public ResponseEntity<?> register(@RequestBody RegisterCreditRequest registerCreditRequest, Authentication authentication) {
+
+        try {
+
+            creditService.registerCredit(registerCreditRequest, authentication.getName());
+
+            return ResponseEntity.ok("카드 등록 성공");
+
+        } catch (CustomException e){
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 
     @GetMapping("")
@@ -40,8 +56,18 @@ public class CreditController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<FindCreditResponse> find() {
-        return ResponseEntity.status(200).body(new FindCreditResponse());
+    public ResponseEntity<?> find(Authentication authentication) {
+
+        try {
+
+            return ResponseEntity.ok(creditService.findByMember(authentication.getName()));
+
+        } catch (CustomException e){
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 
     @DeleteMapping("")
@@ -52,8 +78,20 @@ public class CreditController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> delete() {
-        return ResponseEntity.status(204).body("결제 수단 삭제되었습니다.");
+    public ResponseEntity<?> delete(Authentication authentication) {
+
+        try {
+
+            creditService.delete(authentication.getName());
+
+            return ResponseEntity.ok("결제 수단 삭제 성공");
+
+        } catch (CustomException e){
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 
     @PutMapping ("/update")
@@ -64,7 +102,19 @@ public class CreditController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<String> update(@RequestBody RegisterCreditRequest registerCreditRequest) {
-        return ResponseEntity.status(202).body("결제 수단 수정되었습니다.");
+    public ResponseEntity<?> update(@RequestBody RegisterCreditRequest registerCreditRequest, Authentication authentication) {
+
+        try {
+
+            creditService.update(registerCreditRequest, authentication.getName());
+
+            return ResponseEntity.ok("결제 수단 수정 완료");
+
+        } catch (CustomException e) {
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 }

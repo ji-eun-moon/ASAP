@@ -5,6 +5,11 @@ import { useState, useEffect } from 'react';
 interface IApi {
   id: string;
   title: string;
+  category: string;
+  memberName: string;
+  content: string;
+  output: string;
+  tags: string;
 }
 
 const useGetApiDetail = () => {
@@ -15,11 +20,10 @@ const useGetApiDetail = () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: `/api/v1/apis/detail/${id}`,
+        url: `https://j9c202.p.ssafy.io/api/v1/apis/detail/${id}`,
       });
       setApiDetail(response.data);
       setLoading(false);
-      console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
     }

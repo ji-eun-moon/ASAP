@@ -11,7 +11,7 @@ import 'styles/api/ApiDetail.scss';
 function ApiDetail() {
   const authToken = sessionStorage.getItem('authToken');
   const navigate = useNavigate();
-  const [apply, setApply] = useState<string>('');
+  const [apply, setApply] = useState<boolean>(true);
   const { apiId, apiDetail } = useGetApiDetail();
   const { checkApply } = useCheckApply();
 
@@ -19,7 +19,9 @@ function ApiDetail() {
     const fetchApply = async () => {
       if (authToken) {
         const check = await checkApply(apiId);
-        setApply(check);
+        if (check === 'NOT_REGISTERED_API') {
+          setApply(false);
+        }
       }
     };
 
@@ -31,9 +33,21 @@ function ApiDetail() {
   };
 
   const onApplyHandler = () => {
-    navigate(`/api_list/${apiId}/apply`, {
-      state: { apiTitle: apiDetail?.title },
-    });
+    if (authToken) {
+      navigate(`/api_list/${apiId}/apply`, {
+        state: { apiTitle: apiDetail?.title },
+      });
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const onTestHandler = () => {
+    if (authToken) {
+      navigate(`/api_list/${apiId}/test`);
+    } else {
+      navigate('/login');
+    }
   };
 
   // 표 데이터
@@ -86,13 +100,12 @@ function ApiDetail() {
         <Button className="api-button">
           <Link to={`/api_list/${apiId}/usage`}>API 사용법</Link>
         </Button>
-        {!authToken || apply === 'NOT_REGISTERED_API' ? (
+        <Button className="api-button" onClick={onTestHandler}>
+          API 테스트
+        </Button>
+        {authToken && apply ? null : (
           <Button className="api-button" onClick={onApplyHandler}>
             API 신청하기
-          </Button>
-        ) : (
-          <Button className="api-button">
-            <Link to={`/api_list/${apiId}/test`}>API 테스트</Link>
           </Button>
         )}
       </div>

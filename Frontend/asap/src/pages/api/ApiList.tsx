@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useGetApiList from 'hooks/api/api/useGetApiList';
 import useGetCategoryList from 'hooks/api/api/useGetCategoryList';
 import Header from 'components/common/Header';
-import Card from 'components/common/Card';
+import ApiListCard from 'components/common/ApiListCard';
 
 const activeStyle = {
   backgroundColor: 'rgba(122, 192, 240, 0.37)',
@@ -96,7 +96,7 @@ function ApiList() {
                         aria-hidden="true"
                         className="w-full h-full flex justify-center"
                       >
-                        <Card
+                        <ApiListCard
                           title={api.title}
                           content={api.content}
                           tags={api.tags}
@@ -117,7 +117,7 @@ function ApiList() {
                         aria-hidden="true"
                         className="w-full h-full flex justify-center"
                       >
-                        <Card
+                        <ApiListCard
                           title={api.title}
                           content={api.content}
                           tags={api.tags}

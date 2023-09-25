@@ -7,7 +7,7 @@ interface cardInfo {
   content: string;
   tags: string;
 }
-function Card({ title, content, tags }: cardInfo) {
+function ApiListCard({ title, content, tags }: cardInfo) {
   return (
     <div className="lg:hover:scale-105 transition-transform bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs w-full h-72 flex flex-col justify-center items-center">
       <img src={Car} alt="car logo" className="h-24 w-56" />
@@ -27,4 +27,4 @@ function Card({ title, content, tags }: cardInfo) {
   );
 }
 
-export default Card;
+export default ApiListCard;

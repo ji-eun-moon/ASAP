@@ -10,6 +10,7 @@ interface ApiData {
 }
 
 const useAdminApiList = () => {
+  const [loading, setLoading] = useState<boolean>(true);
   const [apis, setApiList] = useState<ApiData[]>([]);
   const [lastChanged, setLastChanged] = useState<number>(0);
   const adminApiList = async () => {
@@ -22,10 +23,14 @@ const useAdminApiList = () => {
         // console.log('관리자 api 신청 내역 조회');
         // console.log(response.data);
         setApiList(response.data);
+        setLoading(false);
       } else {
         console.log('관리자 api 신청 내역 조회 실패');
       }
     } catch (error) {
+      sessionStorage.clear();
+      alert('관리자 인증을 다시 해주세요.');
+      window.location.href = '/admin';
       console.log('서버오류', error);
     }
   };
@@ -33,6 +38,6 @@ const useAdminApiList = () => {
   useEffect(() => {
     adminApiList();
   }, [lastChanged]);
-  return { apis, setLastChanged };
+  return { apis, setLastChanged, loading };
 };
 export default useAdminApiList;

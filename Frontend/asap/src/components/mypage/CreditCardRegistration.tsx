@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './CreditCardRegistration.scss';
 import { ReactComponent as Cross } from 'assets/icons/Cross2.svg';
+import useCreditCardStore from 'store/credit/useCreditStore';
+import usePostCreditCard from 'hooks/api/credit/usePostCreditCard';
+import useChangeCard from 'hooks/api/credit/useChangeCreditCard';
 
 type CreditCardRegistrationProps = {
   closeModal: () => void;
@@ -8,17 +11,45 @@ type CreditCardRegistrationProps = {
 
 function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   const [checkboxCount, setCheckboxCount] = useState(0);
+  const { mode } = useCreditCardStore();
+  const { postCreditCard } = usePostCreditCard();
+  const { changeCreditCard } = useChangeCard();
 
   // 이용약관 동의 됐을때
   const handleCheckboxClick = () => {
     setCheckboxCount((prevCount) => prevCount + 1);
   };
+  const cardCompanyRef = useRef<HTMLInputElement>(null);
+  const cardNumberRef1 = useRef<HTMLInputElement>(null);
+  const cardNumberRef2 = useRef<HTMLInputElement>(null);
+  const cardNumberRef3 = useRef<HTMLInputElement>(null);
+  const cardNumberRef4 = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
     if (checkboxCount === 2) {
-      window.confirm('이 카드를 등록하시겠습니까?');
-    } else if (checkboxCount <= 1) {
-      alert('카드 정보를 확인해주세요');
+      const cardCompany = cardCompanyRef.current?.value;
+      const cardNumber = [
+        cardNumberRef1.current?.value,
+        cardNumberRef2.current?.value,
+        cardNumberRef3.current?.value,
+        cardNumberRef4.current?.value,
+      ].join('');
+
+      // 카드 정보가 입력되지 않았다면 경고 메시지 출력
+      if (!cardCompany || !cardNumber) {
+        alert('카드 정보를 모두 입력해주세요.');
+        return;
+      }
+
+      // mode 상태에 따라 카드를 등록하거나 변경
+      if (mode === 'register') {
+        postCreditCard({ cardCompany, cardNumber });
+        console.log(cardCompany, cardNumber);
+      } else if (mode === 'update') {
+        changeCreditCard({ cardCompany, cardNumber });
+      }
+    } else {
+      alert('모든 약관에 동의해주세요.');
     }
   };
 
@@ -37,27 +68,42 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
             <Cross />
           </div>
         </div>
+        {/* 카드회사 */}
+        <div className="mt-6 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
+          <div>카드회사</div>
+          <div className="flex ">
+            <input
+              type="text"
+              ref={cardCompanyRef}
+              className="credit-input credit-input-number rounded text-center mx-1 card-company"
+            />
+          </div>
+        </div>
         {/* 카드번호 */}
         <div className="mt-6 flex justify-between items-center border rounded-lg py-2 px-4 credit-input-box">
           <div>카드번호</div>
           <div className="flex ">
             <input
               type="text"
-              className="credit-input credit-input-number rounded text-center mx-1"
+              ref={cardNumberRef1}
+              className="credit-input credit-input-number rounded text-center mx-1 card-number"
               maxLength={4}
             />
             <input
               type="text"
+              ref={cardNumberRef2}
               className="credit-input credit-input-number rounded text-center mx-1"
               maxLength={4}
             />
             <input
               type="password"
+              ref={cardNumberRef3}
               className="credit-input credit-input-number rounded text-center mx-1"
               maxLength={4}
             />
             <input
               type="password"
+              ref={cardNumberRef4}
               className="credit-input credit-input-number rounded text-center mx-1"
               maxLength={4}
             />
@@ -128,7 +174,7 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
             서비스 이용 요금이 결제됩니다.
           </div>
           <div className="mt-1">
-            * 마이 페이지 - 결제 수단 관리 카드 정보를 변경하실 수 있습니다.
+            * 마이 페이지 - 결제 수단 관리 카드 정보를 변경할 수 있습니다.
           </div>
         </div>
 
@@ -156,13 +202,14 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
               <p className="ml-2">ASAP 유료서비스 이용 동의</p>
             </div>
           </div>
-          <div className="flex justify-center mt-6 cursor-pointer">
+          <div className="flex justify-center">
+            {/* confirm 추가해서 예 누르면 통신 */}
             <div
               aria-hidden="true"
-              className="rounded bg-blue-700 text-white py-2 px-5 text-xs w-28 text-center font-bold"
+              className="rounded bg-blue-700 text-white py-2 px-5 text-xs w-28 text-center font-bold cursor-pointer"
               onClick={handleButtonClick}
             >
-              카드 등록
+              {mode === 'register' ? '카드 등록' : '카드 변경'}
             </div>
           </div>
           <div />

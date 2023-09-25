@@ -41,12 +41,26 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
         return;
       }
 
-      // mode 상태에 따라 카드를 등록하거나 변경
-      if (mode === 'register') {
-        postCreditCard({ cardCompany, cardNumber });
-        console.log(cardCompany, cardNumber);
-      } else if (mode === 'update') {
-        changeCreditCard({ cardCompany, cardNumber });
+      // 사용자에게 확인 대화 상자 표시
+      const userConfirmed = window.confirm('정말로 카드를 등록하시겠습니까?');
+
+      if (userConfirmed) {
+        // 사용자가 확인을 선택한 경우에만 통신 실행
+        if (mode === 'register') {
+          postCreditCard({ cardCompany, cardNumber });
+          console.log(cardCompany, cardNumber);
+        } else if (mode === 'update') {
+          changeCreditCard({ cardCompany, cardNumber });
+        }
+
+        // 카드 정보가 등록 또는 변경된 후 메시지 표시 및 closeModal 호출
+        if (mode === 'register') {
+          alert('카드 정보가 변경되었습니다.');
+        } else if (mode === 'update') {
+          alert('카드 정보가 등록되었습니다.');
+        }
+
+        closeModal();
       }
     } else {
       alert('모든 약관에 동의해주세요.');
@@ -54,8 +68,8 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   };
 
   return (
-    <div className="ml-28 z-10">
-      <div className="px-8 py-8 credit-modal border-2 rounded">
+    <div className="overlay">
+      <div className="px-8 py-8 credit-modal border-2 rounded bg-white">
         {/* 카드정보 */}
         <div className="flex justify-between cross items-center">
           <p className="text-xl font-bold">카드정보</p>
@@ -75,8 +89,9 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
             <input
               type="text"
               ref={cardCompanyRef}
-              className="credit-input credit-input-number rounded text-center mx-1 card-company"
+              className="company-input credit-input-number rounded text-center mx-1 card-company"
             />
+            <span className="flex items-center">카드</span>
           </div>
         </div>
         {/* 카드번호 */}
@@ -161,8 +176,9 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
               <input
                 type="text"
                 placeholder="여기에 입력해주세요"
-                className="idnumber-input mr-1 rounded-lg pr-2"
+                className="idnumber-input mr-1 rounded-lg"
                 maxLength={6}
+                style={{ textAlign: 'center' }}
               />
             </div>
           </div>

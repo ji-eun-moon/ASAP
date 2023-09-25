@@ -9,7 +9,6 @@ import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
@@ -28,7 +27,7 @@ public class UsageContractService {
         return new String(bytes);
     }
 
-    public void setUsage(byte[] usageHash) throws IOException, ExecutionException, InterruptedException {
+    public String setUsage(byte[] usageHash) throws IOException, ExecutionException, InterruptedException {
         // 1. 호출하고자 하는 function 세팅 [functionName, parameters]
         Function function = new Function("setUsage",
                 Arrays.asList(new Bytes32(usageHash)),
@@ -40,12 +39,13 @@ public class UsageContractService {
 
         // 2. sendTransaction
         String txHash = ethereumService.ethSendTransaction(function);
+        System.out.println(txHash);
 
         // 3. getReceipt
         TransactionReceipt receipt = ethereumService.getReceipt(txHash);
         System.out.println("receipt = " + receipt);
 
-
+        return txHash;
     }
 
 }

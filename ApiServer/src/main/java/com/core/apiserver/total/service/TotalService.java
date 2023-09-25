@@ -10,36 +10,36 @@ import com.core.apiserver.wallet.entity.domain.Wallet;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TotalService {
 
-    private TotalRepository totalRepository;
-    private WalletRepository walletRepository;
-    private ApiRepository apiRepository;
+    private final TotalRepository totalRepository;
+    private final WalletRepository walletRepository;
+    private final ApiRepository apiRepository;
 
+    @Transactional
     public boolean register(TotalRequest totalRequest) {
-        try {
-            Wallet userWallet = walletRepository.findById(totalRequest.getUserWalletId()).orElseThrow();
-            Wallet providerWallet = walletRepository.findById(totalRequest.getProviderWalletId()).orElseThrow();
-            Api api = apiRepository.findById(totalRequest.getApiId()).orElseThrow();
+        Api api = apiRepository.findById(totalRequest.getApiId()).orElseThrow();
+        System.out.println("여기까지는 가능?");
+        Wallet userWallet = walletRepository.findById(totalRequest.getUserWalletId()).orElseThrow();
 
-            Total total = Total.builder()
-                    .userWallet(userWallet)
-                    .providerWallet(providerWallet)
-                    .api(api)
-                    .useAmount(0L)
-                    .build();
+        Total total = Total.builder()
+                .userWallet(userWallet)
+                .providerWallet(api.getWallet())
+                .api(api)
+                .useAmount(0L)
+                .build();
 
-            totalRepository.save(total);
+        totalRepository.save(total);
 
-            return true;
-        } catch (Exception e){
-            return false;
-        }
+        return true;
     }
 
+    @Transactional
     public boolean delete(FindTotalRequest totalRequest) {
         try {
             Wallet wallet = walletRepository.findById(totalRequest.getWalletId()).orElseThrow(() ->

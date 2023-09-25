@@ -89,20 +89,21 @@ public class TransactionService {
 
     public String test() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
 
-        List<Long> record = new ArrayList<>();
-        for (Long i = 0L; i < 10L; i++) {
-            record.add(i);
-        }
+        List<String> strings = new ArrayList<>();
+        strings.add("2023-09-17T01:01:01.768");
+        strings.add("2023-09-18T12:23:01.531");
+        strings.add("2023-09-19T15:01:01.123");
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("기간", LocalDate.now().minusDays(1) + "~" + LocalDate.now().minusDays(8));
-        jsonObject.put("사용자 지갑 주소", "0x123241244345123124");
-        jsonObject.put("API", "카카오 지도 api");
-        jsonObject.put("제공자 지갑 주소", "0x12324354412213124124");
-        jsonObject.put("기록", record);
+//        jsonObject.put("기간", LocalDate.now().minusDays(1) + "~" + LocalDate.now().minusDays(8));
+        jsonObject.put("기간", "2023-09-17,2023-09-23");
+        jsonObject.put("사용자 지갑", "0xf3a7315df842bb2ac45a8e026b344656d50d1cf4");
+        jsonObject.put("제공자 지갑", "0x119b72a2ecc218c8998b6709f49ed2d7ee0fba1e");
+        jsonObject.put("API 제목", "카카오 지도 API");
+        jsonObject.put("사용량", strings);
 
 
-//        String txHash = usageContractService.setUsage(shaConvert(jsonObject));
+        String txHash = usageContractService.setUsage(shaConvert(jsonObject));
         jsonObject.put("트랜잭션", "TransactionHash");
 
         return jsonObject.toJSONString();

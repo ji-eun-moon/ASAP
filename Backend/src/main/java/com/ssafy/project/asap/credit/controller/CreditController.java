@@ -22,7 +22,7 @@ public class CreditController {
 
     private final CreditService creditService;
 
-    @PostMapping("")
+    @PostMapping("/register")
     @Operation(summary = "결제 수단 등록", description = "카드사, 카드 번호를 통해 결제 수단 등록")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "결제 수단 등록", content = @Content(schema = @Schema(
@@ -48,7 +48,7 @@ public class CreditController {
 
     }
 
-    @GetMapping("")
+    @GetMapping("/get")
     @Operation(summary = "결제 수단 정보 조회", description = "결제 수단의 정보를 조회 할 수있다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "결제 수단 조회"),
@@ -70,7 +70,7 @@ public class CreditController {
 
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/delete")
     @Operation(summary = "결제 수단 삭제", description = "결제 정보를 삭제한다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "결제 수단 삭제"),

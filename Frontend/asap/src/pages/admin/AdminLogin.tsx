@@ -2,10 +2,8 @@ import React, { useState, ChangeEvent } from 'react';
 import useAdminLogin from 'hooks/api/admin/useAdminLogin';
 import { Input, Button } from '@material-tailwind/react';
 import '../../styles/admin/adminLogin.scss';
-import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
-  const navigate = useNavigate();
   const { adminLogin } = useAdminLogin();
   const [adminId, setAdminId] = useState<string>('');
   const [adminPassword, setAdminPwd] = useState<string>('');
@@ -23,11 +21,9 @@ function AdminLogin() {
       adminId,
       adminPassword,
     });
-    navigate('/admin/approval');
   };
   return (
     <div className="container-custom">
-      {/* <div className="container mx-auto flex flex-col justify-center content-center w-550"> */}
       <div className="flex flex-col justify-center content-center">
         <h1 className="text-3xl font-bold text-center">
           관리자 인증이 필요한 페이지입니다
@@ -39,10 +35,7 @@ function AdminLogin() {
               label="아이디"
               value={adminId}
               onChange={onIdHandler}
-              className="input w-full"
-              // containerProps={{
-              //   className: 'min-w-0',
-              // }}
+              className="input"
               crossOrigin=""
               required
             />
@@ -54,9 +47,7 @@ function AdminLogin() {
               value={adminPassword}
               onChange={onPwdHandler}
               className="input"
-              // containerProps={{
-              //   className: 'min-w-0',
-              // }}
+              type="password"
               crossOrigin=""
               required
             />

@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     @Value("${security.jwt.sercret.key}")
     private String secretKey;
@@ -76,7 +78,7 @@ public class MemberService {
                 .id(registerMemberRequest.getId())
                 .password(bCryptPasswordEncoder.encode(registerMemberRequest.getPassword()))
                 .name(registerMemberRequest.getName())
-//                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .build();
 
         try {
@@ -209,5 +211,14 @@ public class MemberService {
 
         return member.getWalletId();
 
+    }
+
+    @Override
+    public Member loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        log.info("loadUserByUsername " + username);
+
+        return memberRepository.findById(username)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_ID_NOT_FOUND));
     }
 }

@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,6 +23,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.security.Key;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -70,8 +74,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         Member member = memberService.findById(loginId);
 
+        List<GrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority(member.getRole().toString()));
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                member.getId(), null, null
+                member.getId(), null, list
         );
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

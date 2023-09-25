@@ -9,8 +9,11 @@ import com.ssafy.project.asap.payment.entity.domain.Payment;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -19,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Getter
-public class Member extends BaseTime {
+public class Member extends BaseTime implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,9 +48,9 @@ public class Member extends BaseTime {
     @Setter
     private Long walletId;
 
-//    @Column(nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "member")
     private final List<Payment> paymentList = new ArrayList<>();
@@ -77,5 +80,41 @@ public class Member extends BaseTime {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        System.out.println(this.role.name());
+
+        Collection<GrantedAuthority> collection = new ArrayList<>();
+        collection.add(() -> this.role.name());
+
+        return collection;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.id;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

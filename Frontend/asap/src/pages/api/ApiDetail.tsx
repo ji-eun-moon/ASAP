@@ -5,7 +5,7 @@ import useCheckApply from 'hooks/api/api/useCheckApply';
 import ApiTable from 'components/api/ApiTable';
 import JsonName from 'components/api/JsonName';
 import { Button } from '@material-tailwind/react';
-import { ReactComponent as Wallet } from 'assets/icons/Wallet.svg';
+import { ReactComponent as Wallet } from 'assets/icons/Oallet.svg';
 import 'styles/api/ApiDetail.scss';
 
 function ApiDetail() {

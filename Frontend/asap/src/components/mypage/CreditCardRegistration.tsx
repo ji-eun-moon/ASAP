@@ -174,7 +174,7 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
             서비스 이용 요금이 결제됩니다.
           </div>
           <div className="mt-1">
-            * 마이 페이지 - 결제 수단 관리 카드 정보를 변경하실 수 있습니다.
+            * 마이 페이지 - 결제 수단 관리 카드 정보를 변경할 수 있습니다.
           </div>
         </div>
 

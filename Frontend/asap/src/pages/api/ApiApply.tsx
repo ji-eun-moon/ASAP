@@ -5,13 +5,13 @@ import { Button } from '@material-tailwind/react';
 import 'styles/common/Input.scss';
 import 'styles/member/ApiApply.scss';
 import useSetUserInfo from 'hooks/api/api/useSetUserInfo';
-// import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 function ApiApply() {
-  // const location = useLocation();
+  const location = useLocation();
   const { setUserInfo } = useSetUserInfo();
   // const { apiId } = useParams() as { apiId: string };
-  // const apiTitle = location.state;
+  const apiTitle = location.state?.apiTitle;
 
   // 사용자 신청 후 입력 받아야하는 값
   // const [apiTitle, setTitle] = useState<string>('');
@@ -57,12 +57,7 @@ function ApiApply() {
         <div className="contain">
           <p className="text-lg font-bold mb-2 pt-1">API 이름</p>
           <div className="inputcontain">
-            <input
-              placeholder="제목"
-              type="text"
-              // value={apiTitle}
-              // onChange={onTitleHandler}
-            />
+            <input value={apiTitle} type="text" disabled />
           </div>
         </div>
         <div className="contain">

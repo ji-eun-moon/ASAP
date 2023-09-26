@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as Car } from 'assets/images/category/Car.svg';
+import { ReactComponent as Car } from 'assets/images/category/Car2.svg';
 import { ReactComponent as Weather } from 'assets/images/category/Weather.svg';
 import { ReactComponent as Bank } from 'assets/images/category/Bank.svg';
 import { ReactComponent as Map } from 'assets/images/category/Map.svg';

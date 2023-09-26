@@ -1,9 +1,6 @@
 package com.ssafy.project.asap.api.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ssafy.project.asap.api.entity.dto.request.DailyRequest;
-import com.ssafy.project.asap.api.entity.dto.request.GetCategoryRequest;
-import com.ssafy.project.asap.api.entity.dto.request.MonthlyRequest;
+
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.api.entity.dto.response.GuideApiResponse;
@@ -21,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/apis")
@@ -90,8 +88,8 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Object> averageCategory(@RequestBody GetCategoryRequest categoryRequest) {
-        return ResponseEntity.ok(apiService.findCategoryIdsById(categoryRequest));
+    public ResponseEntity<Object> averageCategory(@RequestParam Map<String, String> params) {
+        return ResponseEntity.ok(apiService.findCategoryIdsById(params));
     }
 
     @GetMapping("/usage/monthly")
@@ -102,11 +100,11 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Object> MonthlyUsage(@RequestBody MonthlyRequest monthlyRequest,
-                                                  Authentication authentication)  {
+    public ResponseEntity<Object> MonthlyUsage(@RequestParam Map<String, String> params,
+                                               Authentication authentication)  {
 
         Member member = memberService.findById(authentication.getName());
-        return ResponseEntity.ok(apiService.findMonthlyUsage(monthlyRequest, member.getWalletId()));
+        return ResponseEntity.ok(apiService.findMonthlyUsage(params, member.getWalletId()));
     }
 
     @GetMapping("/providing/monthly")
@@ -117,11 +115,11 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Object> MonthlyProviding(@RequestBody MonthlyRequest monthlyRequest,
+    public ResponseEntity<Object> MonthlyProviding(@RequestParam Map<String, String> params,
                                                Authentication authentication) {
 
         Member member = memberService.findById(authentication.getName());
-        return ResponseEntity.ok(apiService.findMonthlyProviding(monthlyRequest, member.getWalletId()));
+        return ResponseEntity.ok(apiService.findMonthlyProviding(params, member.getWalletId()));
     }
 
     @GetMapping("/usage/daily")
@@ -132,10 +130,10 @@ public class ApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Object> DailyUsage(@RequestBody DailyRequest dailyRequest,
+    public ResponseEntity<Object> DailyUsage(@RequestParam Map<String, String> params,
                                                Authentication authentication)  {
 
         Member member = memberService.findById(authentication.getName());
-        return ResponseEntity.ok(apiService.findDailyUsage(dailyRequest, member.getWalletId()));
+        return ResponseEntity.ok(apiService.findDailyUsage(params, member.getWalletId()));
     }
 }

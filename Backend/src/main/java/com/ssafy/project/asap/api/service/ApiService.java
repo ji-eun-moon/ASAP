@@ -3,9 +3,7 @@ package com.ssafy.project.asap.api.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.project.asap.api.entity.domain.Api;
-import com.ssafy.project.asap.api.entity.dto.request.DailyRequest;
-import com.ssafy.project.asap.api.entity.dto.request.GetCategoryRequest;
-import com.ssafy.project.asap.api.entity.dto.request.MonthlyRequest;
+
 import com.ssafy.project.asap.api.entity.dto.request.RegisterBlockApiRequest;
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
@@ -130,8 +128,8 @@ public class ApiService {
 
     }
 
-    public Object findCategoryIdsById(GetCategoryRequest getCategoryRequest) {
-        Api api = findByApiId(getCategoryRequest.getApiId());
+    public Object findCategoryIdsById(Map<String, String> param) {
+        Api api = findByApiId(Long.parseLong(param.get("apiId")));
 
         String ids = "";
         List<Api> apis = apiRepository.findAllByCategory(api.getCategory());
@@ -140,38 +138,38 @@ public class ApiService {
         }
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("ids", Collections.singletonList(ids));
-        params.put("year", Collections.singletonList(String.valueOf(getCategoryRequest.getYear())));
-        params.put("month", Collections.singletonList(String.valueOf(getCategoryRequest.getMonth())));
+        params.put("year", Collections.singletonList(param.get("year")));
+        params.put("month", Collections.singletonList(param.get("month")));
 
         return serverGetConnect(params, "/api/v1/usage/category/average");
     }
 
-    public Object findMonthlyUsage(MonthlyRequest monthlyRequest, Long walletId) {
+    public Object findMonthlyUsage(Map<String, String> param, Long walletId) {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
-        params.put("year", Collections.singletonList(String.valueOf(monthlyRequest.getYear())));
-        params.put("month", Collections.singletonList(String.valueOf(monthlyRequest.getMonth())));
+        params.put("year", Collections.singletonList(param.get("year")));
+        params.put("month", Collections.singletonList(param.get("month")));
 
 
         return serverGetConnect(params, "/api/v1/usage/monthly/use");
     }
 
-    public Object findMonthlyProviding(MonthlyRequest monthlyRequest, Long walletId) {
+    public Object findMonthlyProviding(Map<String, String> param, Long walletId) {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
-        params.put("year", Collections.singletonList(String.valueOf(monthlyRequest.getYear())));
-        params.put("month", Collections.singletonList(String.valueOf(monthlyRequest.getMonth())));
+        params.put("year", Collections.singletonList(param.get("year")));
+        params.put("month", Collections.singletonList(param.get("month")));
 
         return serverGetConnect(params, "/api/v1/usage/monthly/provide");
     }
 
-    public Object findDailyUsage(DailyRequest dailyRequest, Long walletId) {
+    public Object findDailyUsage(Map<String, String> param, Long walletId) {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
-        params.put("date", Collections.singletonList(String.valueOf(dailyRequest.getDate())));
+        params.put("date", Collections.singletonList(param.get("date")));
 
         return serverGetConnect(params, "/api/v1/usage/daily/use");
     }

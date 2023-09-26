@@ -86,6 +86,8 @@ public class MemberService implements UserDetailsService {
             memberRepository.save(member);
         } catch (Exception e) {
 
+            log.error("SINGUP ERROR = " + e.getMessage());
+
             throw new CustomException(ErrorCode.SIGNUP_DUPLICATED);
 
         }
@@ -171,12 +173,16 @@ public class MemberService implements UserDetailsService {
 
     public Long getWalletId(RegisterAddressRequest request) {
 
+        log.info(request.toString());
+
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io")
                 .path("/block/api/v1/wallet/register")
                 .encode()
                 .build()
                 .toUri();
+
+        log.info(uri.toString());
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, allowHeader);

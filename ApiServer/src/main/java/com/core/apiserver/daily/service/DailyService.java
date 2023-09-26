@@ -60,12 +60,12 @@ public class DailyService {
         dailyRepository.save(daily);
     }
 
-    public List<Map<YearMonth, List<UsageResponse>>> monthlyUsage(MonthlyUsageRequest monthlyUsageRequest) {
+    public Map<YearMonth, List<UsageResponse>> monthlyUsage(MonthlyUsageRequest monthlyUsageRequest) {
 
         List<Total> totals = totalRepository.findAllByUserWallet(walletRepository.findById(monthlyUsageRequest.getUserWalletId()).orElseThrow());
+        Map<YearMonth, List<UsageResponse>> map = new HashMap<>();
 
 
-        List<Map<YearMonth, List<UsageResponse>>> lists = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             List<UsageResponse> usageResponses = new ArrayList<>();
             YearMonth yearMonth = YearMonth.of(monthlyUsageRequest.getYear(), monthlyUsageRequest.getMonth()).minusMonths(i);
@@ -86,13 +86,12 @@ public class DailyService {
 
                 usageResponses.add(new UsageResponse(new ApiResponse(total.getApi()), amount, price));
             }
-            Map<YearMonth, List<UsageResponse>> map = new HashMap<>();
             map.put(yearMonth, usageResponses);
-            lists.add(map);
+
         }
 
 
-        return lists;
+        return map;
     }
 
     public List<UsageResponse> dailyUsage(GetDailyRequest getDailyRequest) {

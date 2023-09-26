@@ -3,6 +3,7 @@ package com.ssafy.project.asap.api.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.api.entity.dto.request.GetCategoryRequest;
 import com.ssafy.project.asap.api.entity.dto.request.RegisterBlockApiRequest;
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
@@ -16,12 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -124,6 +126,41 @@ public class ApiService {
 
         return apiRepository.findByApiId(apiId);
 
+    }
+
+    public Object findCategoryIdsById(GetCategoryRequest getCategoryRequest) throws JsonProcessingException {
+        Api api = findByApiId(getCategoryRequest.getApiId());
+
+        String ids = "";
+        List<Api> apis = apiRepository.findAllByCategory(api.getCategory());
+        for (Api api1 : apis) {
+            ids += api1.getApiId().toString() + ",";
+        }
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("ids", Collections.singletonList(ids));
+        params.put("year", Collections.singletonList(String.valueOf(getCategoryRequest.getYear())));
+        params.put("month", Collections.singletonList(String.valueOf(getCategoryRequest.getMonth())));
+
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("http://localhost:9001")
+                .path("/api/v1/usage/category/average")
+                .encode()
+                .queryParams(params)
+                .build()
+                .toUri();
+
+        log.info(uri.toString());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.AUTHORIZATION, allowHeader);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Object.class);
+        log.info(String.valueOf(responseEntity));
+        return responseEntity.getBody();
     }
 
 }

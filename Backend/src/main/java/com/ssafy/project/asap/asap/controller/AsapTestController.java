@@ -25,7 +25,7 @@ import java.net.URI;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/v1/asap/test")
+@RequestMapping("/api/v1/test")
 @RequiredArgsConstructor
 @Slf4j
 public class AsapTestController {

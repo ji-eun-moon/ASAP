@@ -38,7 +38,7 @@ public class RedisService {
 
     public void setCount(String id){
 
-        ValueOperations<String, Integer> valueOperations = redisTemplate.opsForValue();
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 
         if(valueOperations.get(id) == null){
 
@@ -47,11 +47,11 @@ public class RedisService {
             LocalDateTime midnight = now.toLocalDate().atStartOfDay().plusDays(1);
             Long secondsUntilNight = now.until(midnight, ChronoUnit.SECONDS);
 
-            valueOperations.set(id, 1, secondsUntilNight);
+            valueOperations.set(id, String.valueOf(1), secondsUntilNight);
 
         }
 
-        int curCount = valueOperations.get(id);
+        int curCount = Integer.parseInt(valueOperations.get(id));
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -59,18 +59,18 @@ public class RedisService {
         Long secondsUntilNight = now.until(midnight, ChronoUnit.SECONDS);
 
         redisTemplate.delete(id);
-        valueOperations.set(id, ++curCount, secondsUntilNight);
+        valueOperations.set(id, String.valueOf(++curCount), secondsUntilNight);
 
     }
 
     public Integer getCount(String id){
 
-        ValueOperations<String, Integer> valueOperations = redisTemplate.opsForValue();
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 
         if(valueOperations.get(id) == null){
             return 0;
         }else{
-            return valueOperations.get(id);
+            return Integer.parseInt(valueOperations.get(id));
         }
 
     }

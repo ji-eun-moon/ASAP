@@ -1,10 +1,14 @@
 package com.ssafy.project.asap.redis.service;
 
+import com.ssafy.project.asap.global.exception.CustomException;
+import com.ssafy.project.asap.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -29,6 +33,45 @@ public class RedisService {
         long expireTime = 300L;
 
         valueOperations.set(key, value, expireTime, TimeUnit.SECONDS);
+
+    }
+
+    public void setCount(String id){
+
+        ValueOperations<String, Integer> valueOperations = redisTemplate.opsForValue();
+
+        if(valueOperations.get(id) == null){
+
+            LocalDateTime now = LocalDateTime.now();
+
+            LocalDateTime midnight = now.toLocalDate().atStartOfDay().plusDays(1);
+            Long secondsUntilNight = now.until(midnight, ChronoUnit.SECONDS);
+
+            valueOperations.set(id, 1, secondsUntilNight);
+
+        }
+
+        int curCount = valueOperations.get(id);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        LocalDateTime midnight = now.toLocalDate().atStartOfDay().plusDays(1);
+        Long secondsUntilNight = now.until(midnight, ChronoUnit.SECONDS);
+
+        redisTemplate.delete(id);
+        valueOperations.set(id, ++curCount, secondsUntilNight);
+
+    }
+
+    public Integer getCount(String id){
+
+        ValueOperations<String, Integer> valueOperations = redisTemplate.opsForValue();
+
+        if(valueOperations.get(id) == null){
+            return 0;
+        }else{
+            return valueOperations.get(id);
+        }
 
     }
 

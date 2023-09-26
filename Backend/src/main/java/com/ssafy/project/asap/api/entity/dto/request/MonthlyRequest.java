@@ -9,8 +9,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryIdsRequest {
-    private List<Long> ids;
+public class MonthlyRequest {
     private Integer year;
     private Integer month;
 }

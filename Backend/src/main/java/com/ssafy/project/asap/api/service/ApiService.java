@@ -3,7 +3,9 @@ package com.ssafy.project.asap.api.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.api.entity.dto.request.DailyRequest;
 import com.ssafy.project.asap.api.entity.dto.request.GetCategoryRequest;
+import com.ssafy.project.asap.api.entity.dto.request.MonthlyRequest;
 import com.ssafy.project.asap.api.entity.dto.request.RegisterBlockApiRequest;
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
@@ -128,7 +130,7 @@ public class ApiService {
 
     }
 
-    public Object findCategoryIdsById(GetCategoryRequest getCategoryRequest) throws JsonProcessingException {
+    public Object findCategoryIdsById(GetCategoryRequest getCategoryRequest) {
         Api api = findByApiId(getCategoryRequest.getApiId());
 
         String ids = "";
@@ -141,16 +143,48 @@ public class ApiService {
         params.put("year", Collections.singletonList(String.valueOf(getCategoryRequest.getYear())));
         params.put("month", Collections.singletonList(String.valueOf(getCategoryRequest.getMonth())));
 
+        return serverGetConnect(params, "/api/v1/usage/category/average");
+    }
+
+    public Object findMonthlyUsage(MonthlyRequest monthlyRequest, Long walletId) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
+        params.put("year", Collections.singletonList(String.valueOf(monthlyRequest.getYear())));
+        params.put("month", Collections.singletonList(String.valueOf(monthlyRequest.getMonth())));
+
+
+        return serverGetConnect(params, "/api/v1/usage/monthly/use");
+    }
+
+    public Object findMonthlyProviding(MonthlyRequest monthlyRequest, Long walletId) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
+        params.put("year", Collections.singletonList(String.valueOf(monthlyRequest.getYear())));
+        params.put("month", Collections.singletonList(String.valueOf(monthlyRequest.getMonth())));
+
+        return serverGetConnect(params, "/api/v1/usage/monthly/provide");
+    }
+
+    public Object findDailyUsage(DailyRequest dailyRequest, Long walletId) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
+        params.put("date", Collections.singletonList(String.valueOf(dailyRequest.getDate())));
+
+        return serverGetConnect(params, "/api/v1/usage/daily/use");
+    }
+
+    public Object serverGetConnect(MultiValueMap<String, String> params, String path) {
 
         URI uri = UriComponentsBuilder
                 .fromUriString("http://localhost:9001")
-                .path("/api/v1/usage/category/average")
+                .path(path)
                 .encode()
                 .queryParams(params)
                 .build()
                 .toUri();
-
-        log.info(uri.toString());
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, allowHeader);
@@ -159,8 +193,6 @@ public class ApiService {
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Object.class);
-        log.info(String.valueOf(responseEntity));
         return responseEntity.getBody();
     }
-
 }

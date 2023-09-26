@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.notice.service;
 
+import com.ssafy.project.asap.apply.entity.domain.Apply;
 import com.ssafy.project.asap.apply.entity.dto.request.RejectApplyRequest;
 import com.ssafy.project.asap.apply.repository.ApplyRepository;
 import com.ssafy.project.asap.member.entity.domain.Member;
@@ -25,13 +26,27 @@ public class NoticeService {
     public void saveRejectApply(RejectApplyRequest request){
 
         Notice notice = Notice.builder()
-                .title("'" + request.getTitle() + "'"  + " 건에 대한 거절 사유입니다.")
+                .title("'" + request.getTitle() + "'"  + " 건에 대한 신청이 거절되었습니다.")
                 .isRead(false)
-                .content(request.getContent())
+                .content("'" + request.getContent() + "'" + " 로 인하여 거절되었습니다.")
                 .member(applyRepository.findByApplyId(request.getApplyId()).getMember())
                 .build();
 
         noticeRepository.save(notice);
+    }
+
+    @Transactional
+    public void saveApproveApply(Long applyId){
+
+        Apply apply = applyRepository.findByApplyId(applyId);
+
+        noticeRepository.save(Notice.builder()
+                        .member(apply.getMember())
+                        .isRead(false)
+                        .content("API 신청이 성공적으로 승인되었습니다!")
+                        .title("'" + apply.getTitle() + "'" + " 건에 대한 신청이 승인되었습니다.")
+                .build());
+
     }
 
     @Transactional

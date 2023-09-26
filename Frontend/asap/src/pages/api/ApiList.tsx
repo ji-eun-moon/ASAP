@@ -9,7 +9,6 @@ import SearchBar from 'components/common/SearchBar';
 const activeStyle = {
   backgroundColor: 'rgba(122, 192, 240, 0.37)',
   width: '80%',
-  height: '100%',
   color: '#222222',
   // fontWeight: '700',
   borderRadius: '8px',
@@ -21,7 +20,7 @@ const activeStyle = {
 
 const nonActiveStyle = {
   width: '80%',
-  height: '100%',
+  // height: '60%',
   color: 'grey',
   // fontWeight: '700',
   borderRadius: '8px',
@@ -48,15 +47,19 @@ function ApiList() {
     setSelectedCount(count);
     setSelectedItems(apiList?.filter((item) => item.category === category));
   };
+
   useEffect(() => {
     if (cate) {
+      const check = categories?.find((item) => item.category === cate);
       setSelectedCategory(cate);
+      setSelectedItems(apiList?.filter((item) => item.category === cate));
+      setSelectedCount(check?.count ?? 0);
     } else {
       setSelectedCategory('전체');
+      setSelectedItems(apiList);
+      setSelectedCount(totalCount);
     }
-    setSelectedCount(totalCount);
-    setSelectedItems(apiList);
-  }, [cate, totalCount, apiList]);
+  }, [cate, totalCount, apiList, categories]);
   return (
     <div>
       <Header title="APIs">
@@ -65,15 +68,15 @@ function ApiList() {
       </Header>
 
       {/* 왼쪽 카테고리 선택부분 */}
-      <div className="flex grid grid-cols-12 h-auto">
-        <div className="flex flex-col justify-center col-span-2 items-center border-r">
+      <div className="flex grid grid-cols-12">
+        <div className="flex flex-col col-span-2 items-center border-r">
           <p className="text-2xl w-3/4 mt-12 mb-10 font-bold">카테고리</p>
           {categories?.map((data) => (
             <div
               key={data.category}
               onClick={() => onSelectCategoryHandler(data.category, data.count)}
               aria-hidden="true"
-              className="flex justify-center gap-20 m-1 p-2"
+              className="flex gap-20 m-1 p-2"
               style={
                 selectedCategory === data.category
                   ? activeStyle
@@ -88,8 +91,8 @@ function ApiList() {
           ))}
         </div>
         {/* 오른쪽 상품 카드 부분 */}
-        <div className="flex flex-col col-span-10 ml-10">
-          <div className="text-2xl mt-12 mb-10 font-bold flex pl-5">
+        <div className="flex flex-col col-span-10 ">
+          <div className="text-2xl mt-12 mb-10 ml-16 font-bold flex ">
             {totalCount !== undefined && (
               <p style={{ color: '#7AC0F0' }}>{selectedCount}&nbsp;</p>
             )}{' '}
@@ -105,7 +108,7 @@ function ApiList() {
                       <div
                         onClick={() => navigate(`/api_list/${api.apiId}`)}
                         aria-hidden="true"
-                        className="w-full h-full flex justify-center"
+                        className="w-full h-full flex justify-center m-3"
                       >
                         <ApiListCard
                           category={api.category}
@@ -125,7 +128,7 @@ function ApiList() {
                       <div
                         onClick={() => navigate(`/api_list/${api.apiId}`)}
                         aria-hidden="true"
-                        className="w-full h-full flex justify-center"
+                        className="w-full h-full flex justify-center m-3"
                       >
                         <ApiListCard
                           category={api.category}

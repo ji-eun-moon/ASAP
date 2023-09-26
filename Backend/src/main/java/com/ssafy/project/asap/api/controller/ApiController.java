@@ -1,5 +1,7 @@
 package com.ssafy.project.asap.api.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.project.asap.api.entity.dto.request.GetCategoryRequest;
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.api.entity.dto.response.GuideApiResponse;
@@ -11,10 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -77,4 +76,15 @@ public class ApiController {
 
     }
 
+    @GetMapping("/average/category")
+    @Operation(summary = "카테고리 평균 조회", description = "동일 카테고리의 평균")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "API 상세 정보 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<Object> averageCategory(@RequestBody GetCategoryRequest categoryRequest) throws JsonProcessingException {
+        return ResponseEntity.ok(apiService.findCategoryIdsById(categoryRequest));
+    }
 }

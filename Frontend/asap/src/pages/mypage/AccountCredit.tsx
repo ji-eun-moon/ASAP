@@ -67,7 +67,7 @@ function AccountCredit() {
                 {creditCard
                   ? `${creditCard.cardCompany}카드 (${
                       creditCard.cardNumber
-                        ? creditCard.cardNumber.slice(-4)
+                        ? creditCard.cardNumber.slice(0, 4)
                         : ''
                     })`
                   : '등록된 카드가 없습니다.'}

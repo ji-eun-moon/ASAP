@@ -2,17 +2,13 @@ package com.core.apiserver.api.controller;
 
 import com.core.apiserver.api.entity.dto.request.CreateApiRequest;
 import com.core.apiserver.api.service.ApiService;
-import com.core.apiserver.usage.entity.dto.request.CreateRedisUsageRequest;
 import com.core.apiserver.usage.service.RedisUsageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

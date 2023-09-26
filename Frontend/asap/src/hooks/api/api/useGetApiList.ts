@@ -2,12 +2,15 @@ import axiosInstance from 'utils/axiosInstance';
 import { useState, useEffect } from 'react';
 
 interface IApi {
-  id: string;
+  apiId: string;
   title: string;
+  content: string;
+  tags: string;
+  category: string;
 }
 
 const useGetApiList = () => {
-  const [apiList, setApiList] = useState<IApi[] | null>(null);
+  const [apiList, setApiList] = useState<IApi[]>();
 
   const getApiList = async () => {
     try {

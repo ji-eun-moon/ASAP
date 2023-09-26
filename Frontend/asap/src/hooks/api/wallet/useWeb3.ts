@@ -40,8 +40,7 @@ const useWeb3 = () => {
       });
 
       console.log(receipt, '영수증');
-      console.log('실행 체크');
-
+      console.log(account);
       return account;
     } catch (error) {
       console.error(error);

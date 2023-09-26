@@ -4,9 +4,11 @@ import useAuthStore from 'store/auth/useAuthStore';
 import { Menu, MenuHandler, MenuList } from '@material-tailwind/react';
 import { ReactComponent as Search } from 'assets/icons/Search.svg';
 import { ReactComponent as MyPage } from 'assets/icons/MyPage.svg';
+import logoImage from 'assets/images/logo2.png';
 import NoticeBadge from 'components/notice/NoticeBadge';
 import DropDown from './MyPageDrop';
 import Switch from './Switch';
+import SearchDrop from './SearchDrop';
 
 const activeStyle = {
   color: '#004096',
@@ -23,16 +25,14 @@ function PublicNav() {
 
   return (
     <div>
-      <div className="h-20 bg-gray-50 flex h-full items-center relative">
-        <Link to="/">
-          <img
-            src="/assets/images/logo.png"
-            alt="asap logo"
-            className="h-20 w-40 ms-2"
-          />
-        </Link>
+      <div className="bg-gray-50 flex h-full items-center relative">
+        <div className="z-10">
+          <Link to="/">
+            <img src={logoImage} alt="asap logo" className="h-20 w-50 " />
+          </Link>
+        </div>
 
-        <div className="flex justify-center gap-20 w-full absolute">
+        <div className="flex justify-center gap-20 w-full absolute z-0">
           <NavLink
             to="/api_list"
             className="font-bold text-xl"
@@ -84,12 +84,16 @@ function PublicNav() {
               </div>
             </Link>
           )}
-          <button
-            type="button"
-            className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold"
-          >
-            <Search className="w-5" />
-          </button>
+          <Menu placement="top-start">
+            <MenuHandler>
+              <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
+                <Search className="w-5" />
+              </div>
+            </MenuHandler>
+            <MenuList>
+              <SearchDrop />
+            </MenuList>
+          </Menu>
         </div>
       </div>
     </div>

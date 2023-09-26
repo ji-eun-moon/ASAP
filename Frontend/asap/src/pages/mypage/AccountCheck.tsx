@@ -21,12 +21,16 @@ function AccountCheck() {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="font-extrabold text-xl">비밀번호 확인</div>
-      <div>인증이 필요한 페이지입니다.</div>
-      <div>비밀번호 입력 후 확인 버튼을 클릭해 주세요.</div>
-      <div className="mb-7">
-        <div className="my-3">
+    <div className="flex flex-col justify-center items-center h-screen">
+      <div className="font-extrabold text-4xl mb-3 color-blue">
+        비밀번호 확인
+      </div>
+      <div className="my-6 text-lg">
+        <div>인증이 필요한 페이지입니다.</div>
+        <div>비밀번호 입력 후 확인 버튼을 클릭해 주세요.</div>
+      </div>
+      <div className="flex gap-4">
+        <div>
           <Input
             label="비밀번호"
             value={userPassword}
@@ -39,11 +43,11 @@ function AccountCheck() {
             crossOrigin=""
           />
         </div>
-      </div>
-      <div className="flex justify-center my-9">
-        <Button ripple onClick={onSubmitHandler} className="btn-width">
-          확인
-        </Button>
+        <div className="flex justify-center">
+          <Button ripple onClick={onSubmitHandler} className="btn-width">
+            확인
+          </Button>
+        </div>
       </div>
     </div>
   );

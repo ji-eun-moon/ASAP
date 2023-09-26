@@ -1,5 +1,5 @@
-// import axios from 'axios';
-import axiosInstance from 'utils/axiosInstance';
+import axios from 'axios';
+// import axiosInstance from 'utils/axiosInstance';
 
 interface adminInfo {
   adminId: string;
@@ -9,19 +9,17 @@ interface adminInfo {
 const useAdminLogin = () => {
   const adminLogin = async ({ adminId, adminPassword }: adminInfo) => {
     try {
-      const response = await axiosInstance({
+      const response = await axios({
         method: 'POST',
-        url: '/api/v1/admin/login',
+        url: 'https://j9c202.p.ssafy.io/api/v1/member/login',
         data: {
-          adminId,
-          adminPassword,
+          id: adminId,
+          password: adminPassword,
         },
       });
-      if (response.status === 201) {
-        console.log('관리자 로그인 성공');
-      } else {
-        console.log('관리자 로그인 실패');
-      }
+      sessionStorage.setItem('authToken', response.data);
+      sessionStorage.setItem('loginType', 'user');
+      window.location.href = '/admin/approval';
     } catch (error) {
       console.error('서버 오류:', error);
     }

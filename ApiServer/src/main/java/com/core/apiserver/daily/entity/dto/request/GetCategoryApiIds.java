@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetCategoryApiIds {
-    private List<Long> ids;
+    private long[] ids;
     private Integer year;
     private Integer month;
 }

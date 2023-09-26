@@ -3,6 +3,7 @@ package com.ssafy.project.asap.credit.entity.domain;
 import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -16,15 +17,14 @@ public class Credit extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long creditId;
 
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Column(nullable = false)
     @Setter
     private String cardCompany;
 
-    @Column(nullable = false)
     @Setter
     private String cardNumber;
 

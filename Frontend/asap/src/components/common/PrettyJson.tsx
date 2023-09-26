@@ -35,7 +35,11 @@ function PrettyJson({ jsonData }: Props) {
     return null;
   }
 
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return (
+    <pre style={{ fontFamily: 'Courier New, Nanum Gothic, sans-serif' }}>
+      {JSON.stringify(data, null, 2)}
+    </pre>
+  );
 }
 
 export default PrettyJson;

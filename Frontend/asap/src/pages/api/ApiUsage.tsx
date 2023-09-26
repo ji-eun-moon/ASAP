@@ -33,8 +33,9 @@ function ApiUsage() {
 
   // 복사 함수
   const handleCopyClipBoard = async (text: string | '') => {
+    const formattedJson = JSON.stringify(JSON.parse(text || '{}'), null, 2);
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(formattedJson);
       setIsModalOpen(true);
     } catch (e) {
       setIsModalOpen(true);
@@ -98,7 +99,7 @@ function ApiUsage() {
             <Copy
               className="w-5 h-auto me-2 cursor-pointer"
               onClick={() => {
-                handleCopyClipBoard(apiUsage.inputExample);
+                handleCopyClipBoard(apiUsage?.inputExample);
               }}
             />
           )}
@@ -131,7 +132,7 @@ function ApiUsage() {
             <Copy
               className="w-5 h-auto me-2 cursor-pointer"
               onClick={() => {
-                handleCopyClipBoard(apiUsage.outputExample);
+                handleCopyClipBoard(apiUsage?.outputExample);
               }}
             />
           )}

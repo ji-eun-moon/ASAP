@@ -42,17 +42,10 @@ public class CreditService {
 
     public Credit findByMember(String id){
 
-        Member member = memberRepository.findById(id).get();
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.CREDIT_NOT_FOUND));
 
-        if(member.getCredit() == null){
-
-            throw new CustomException(ErrorCode.CREDIT_NOT_FOUND);
-
-        }else{
-
-            return member.getCredit();
-
-        }
+        return member.getCredit();
 
     }
 

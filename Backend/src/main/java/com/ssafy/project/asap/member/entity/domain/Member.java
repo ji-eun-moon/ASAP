@@ -59,7 +59,7 @@ public class Member extends BaseTime implements UserDetails {
     private final List<Notice> noticeList = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-    private final Credit credit = new Credit();
+    private Credit credit;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private final List<Apply> applyList = new ArrayList<>();

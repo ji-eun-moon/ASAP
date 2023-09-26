@@ -21,5 +21,6 @@ public class FindApiResponse {
     private String content;
     private String tags;
     private String category;
+    private Long price;
 
 }

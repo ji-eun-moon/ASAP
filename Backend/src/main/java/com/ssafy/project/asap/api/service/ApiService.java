@@ -64,6 +64,7 @@ public class ApiService {
                 .content(api.getContent())
                 .output(api.getOutput())
                 .tags(api.getTags())
+                .price(api.getPrice())
                 .category(api.getCategory().getCategory())
                 .memberName(memberRepository.findById(api.getMember().getId())
                         .orElseThrow(() -> new CustomException(ErrorCode.USER_ID_NOT_FOUND)).getName())

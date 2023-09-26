@@ -40,9 +40,9 @@ function JsonName({ jsonData }: Props) {
   ) as (keyof Pair)[];
 
   return (
-    <div className="h-full w-full flex">
+    <div className="h-full w-full flex flex-wrap">
       {data.map((item) => (
-        <div key={item.idx} className="items-center mt-3">
+        <div key={item.idx} className="flex items-center">
           {columns.map((column) => (
             <p key={column} className="ps-2">
               {item[column]}

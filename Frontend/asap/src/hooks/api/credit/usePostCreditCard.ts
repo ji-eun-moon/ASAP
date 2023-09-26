@@ -16,6 +16,7 @@ const usePostCreditCard = () => {
           cardNumber,
         },
       });
+      console.log('post시도');
       console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);

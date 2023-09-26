@@ -6,6 +6,7 @@ import CreditCardRegistration from 'components/mypage/CreditCardRegistration';
 import CardImg from 'assets/images/card.png';
 import useGetCreditCard from 'hooks/api/credit/useGetCreditCard';
 
+// 카드 등록 페이지
 function AccountCredit() {
   const [isModal, setIsModal] = useState<boolean>(false);
   const { loading, creditCard } = useGetCreditCard();
@@ -16,7 +17,7 @@ function AccountCredit() {
       console.log(loading);
     }
   };
-  // 카드 등록 페이지
+
   return (
     <div>
       <Header title="결제 수단 관리" />

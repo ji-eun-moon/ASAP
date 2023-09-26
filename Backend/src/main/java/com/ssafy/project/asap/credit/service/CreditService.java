@@ -34,6 +34,7 @@ public class CreditService {
         Credit credit = Credit.builder()
                 .cardCompany(registerCreditRequest.getCardCompany())
                 .cardNumber(registerCreditRequest.getCardNumber())
+                .member(memberRepository.findById(id).get())
                 .build();
 
         creditRepository.save(credit);
@@ -43,7 +44,7 @@ public class CreditService {
     public Credit findByMember(String id){
 
         Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.CREDIT_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
 
         return member.getCredit();
 

@@ -4,7 +4,6 @@ import useGetApiDetail from 'hooks/api/api/useGetApiDetail';
 import useCheckApply from 'hooks/api/api/useCheckApply';
 import ApiTable from 'components/api/ApiTable';
 import JsonName from 'components/api/JsonName';
-import { Button } from '@material-tailwind/react';
 import CategoryImg from 'components/api/CategoryImg';
 import 'styles/api/ApiDetail.scss';
 
@@ -18,6 +17,7 @@ function ApiDetail() {
   useEffect(() => {
     const fetchApply = async () => {
       if (authToken) {
+        console.log('a');
         const check = await checkApply(apiId);
         if (check === 'NOT_REGISTERED_API') {
           setApply(false);
@@ -33,32 +33,34 @@ function ApiDetail() {
   };
 
   const onApplyHandler = () => {
-    if (authToken) {
-      navigate(`/api_list/${apiId}/apply`, {
-        state: { apiTitle: apiDetail?.title },
-      });
-    } else {
-      navigate('/login');
-    }
+    navigate(`/api_list/${apiId}/apply`, {
+      state: { apiTitle: apiDetail?.title },
+    });
   };
 
   const onTestHandler = () => {
-    if (authToken) {
-      navigate(`/api_list/${apiId}/test`);
-    } else {
-      navigate('/login');
-    }
+    navigate(`/api_list/${apiId}/test`);
+  };
+
+  const onUsageHandler = () => {
+    navigate(`/api_list/${apiId}/usage`);
   };
 
   // 표 데이터
   const headers = ['API', 'API 출처', '제공데이터', '비고'];
   const data = [
-    [
-      apiDetail?.title,
-      apiDetail?.memberName,
-      <JsonName jsonData={apiDetail?.output} />,
-      '',
-    ],
+    {
+      title: { key: 'title', content: apiDetail?.title },
+      memberName: { key: 'memberName', content: apiDetail?.memberName },
+      output: {
+        key: 'output',
+        content: <JsonName jsonData={apiDetail?.output} />,
+      },
+      usage: {
+        key: 'usage',
+        content: <Link to={`/api_list/${apiId}/usage`}>상세보기</Link>,
+      },
+    },
   ];
 
   return (
@@ -97,16 +99,16 @@ function ApiDetail() {
 
       {/* 버튼들 */}
       <div className="buttons">
-        <Button className="api-button">
-          <Link to={`/api_list/${apiId}/usage`}>API 사용법</Link>
-        </Button>
-        <Button className="api-button" onClick={onTestHandler}>
+        <button type="button" className="api-button" onClick={onUsageHandler}>
+          API 사용법
+        </button>
+        <button type="button" className="api-button" onClick={onTestHandler}>
           API 테스트
-        </Button>
+        </button>
         {authToken && apply ? null : (
-          <Button className="api-button" onClick={onApplyHandler}>
+          <button type="button" className="api-button" onClick={onApplyHandler}>
             API 신청하기
-          </Button>
+          </button>
         )}
       </div>
 

@@ -37,7 +37,7 @@ public class PurposeController {
         ;
         try {
             purposeService.register(request, authentication.getName());
-
+            purposeService.createTotal(request.getApiId(), authentication.getName());
             return ResponseEntity.ok("API 사용 신청이 완료되었습니다.");
         } catch (CustomException e) {
 

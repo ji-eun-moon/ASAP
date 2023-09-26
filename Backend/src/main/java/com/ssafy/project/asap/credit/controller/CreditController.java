@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.credit.controller;
 
 import com.ssafy.project.asap.credit.entity.dto.request.RegisterCreditRequest;
+import com.ssafy.project.asap.credit.entity.dto.response.FindCreditResponse;
 import com.ssafy.project.asap.credit.service.CreditService;
 import com.ssafy.project.asap.global.exception.CustomException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,7 +61,11 @@ public class CreditController {
 
         try {
 
-            return ResponseEntity.ok(creditService.findByMember(authentication.getName()));
+            FindCreditResponse findCreditResponse = new FindCreditResponse(creditService.findByMember(authentication.getName()));
+
+            creditService.findByMember(authentication.getName());
+
+            return ResponseEntity.ok(findCreditResponse);
 
         } catch (CustomException e){
 

@@ -5,23 +5,35 @@ import React from 'react';
  * @param width 너비
  * @param height 높이
  * @param title 타이틀
+ * @param fontsize 폰트 크기
  */
 
 interface ChartFrameProps {
   width: string;
   height: string;
   title: string;
+  fontsize: string;
 }
 
-function ChartFrame({ width, height, title }: ChartFrameProps) {
+function ChartFrame({ width, height, title, fontsize }: ChartFrameProps) {
   const frameStyle = {
     width,
     height,
   };
-
+  const fontSizeStyle = {
+    fontSize: fontsize,
+  };
   return (
-    <div className="border" style={frameStyle}>
-      <div className="">{title}</div>
+    <div
+      className="border relative border-gray-400 rounded-lg"
+      style={frameStyle}
+    >
+      <div
+        className="absolute -top-3 left-1/2 transform -translate-x-1/2 font-bold bg-white px-8"
+        style={fontSizeStyle}
+      >
+        {title}
+      </div>
     </div>
   );
 }

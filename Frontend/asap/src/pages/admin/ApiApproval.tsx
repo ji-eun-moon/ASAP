@@ -155,7 +155,7 @@ function ApiApproval() {
   };
 
   /* api hook */
-  const { apis, setLastChanged } = useAdminApiList(); // 전체 api 신청 리스트 받아오기
+  const { apis, setLastChanged, loading } = useAdminApiList(); // 전체 api 신청 리스트 받아오기
   const { adminApiProgress } = useAdminApiProgress(); // 현재 api 상태 불러오기
   const { adminApiRejectReason } = useAdminApiRejectReason(); // api 거절 사유 보내기
   const { adminApiDetail, apiDetail } = useAdminApiDetail(); // api 상세 내용 불러오기
@@ -477,104 +477,115 @@ function ApiApproval() {
 
   return (
     <div>
-      <Header title="API 신청내역" />
+      {loading ? (
+        <div>loading...</div>
+      ) : (
+        <div>
+          <Header title="API 신청내역" />
 
-      <div className="flex justify-arouond w-full mt-8">
-        <div className="border-right w-1/6 flex flex-col justify-center items-center text-center my-4">
-          <Tabs value={selectedItem} orientation="vertical">
-            <TabsHeader className="w-40">
-              {data.map(({ label, value }) => (
-                <Tab
-                  key={value}
-                  value={value}
-                  className="place-items-start"
-                  onClick={() => handleItemClick(label)}
-                >
-                  <button type="button" className=" flex items-center gap-2">
-                    {label}
-                  </button>
-                </Tab>
-              ))}
-            </TabsHeader>
-          </Tabs>
-        </div>
-        <div className="w-5/6 px-8">
-          <div className="my-4 w-full grid grid-cols-5 border-bottom py-3">
-            <div className="col-span-1 text-center text-lg font-bold">
-              신청일자
+          <div className="flex justify-arouond w-full mt-8">
+            <div className="border-right w-1/6 flex flex-col justify-center items-center text-center my-4">
+              <Tabs value={selectedItem} orientation="vertical">
+                <TabsHeader className="w-40">
+                  {data.map(({ label, value }) => (
+                    <Tab
+                      key={value}
+                      value={value}
+                      className="place-items-start"
+                      onClick={() => handleItemClick(label)}
+                    >
+                      <button
+                        type="button"
+                        className=" flex items-center gap-2"
+                      >
+                        {label}
+                      </button>
+                    </Tab>
+                  ))}
+                </TabsHeader>
+              </Tabs>
             </div>
-            <div className="col-span-3 text-center text-lg font-bold">
-              API 제목
-            </div>
-            <div className="col-span-1 text-center text-lg font-bold">상태</div>
-          </div>
-
-          <div className="my-6 pb-3 w-full border-bottom text-center">
-            {selectedItem === '전체 조회' ? allApis() : filterdApis()}
-          </div>
-          {rejectState ? ( // 거절을 눌렀을 때 거절사유 입력 모달 뜨는 부분
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
-              <div className="flex flex-col justify-center content-center font-semibold">
-                <p>거절 사유를 입력하세요</p>
-                <textarea
-                  className="rejectTextarea"
-                  onChange={(e) => handleRejectReason(e)}
-                />
-                <button
-                  type="button"
-                  onClick={handleRejectState}
-                  className="rejectButton"
-                >
-                  완료
-                </button>
+            <div className="w-5/6 px-8">
+              <div className="my-4 w-full grid grid-cols-5 border-bottom py-3">
+                <div className="col-span-1 text-center text-lg font-bold">
+                  신청일자
+                </div>
+                <div className="col-span-3 text-center text-lg font-bold">
+                  API 제목
+                </div>
+                <div className="col-span-1 text-center text-lg font-bold">
+                  상태
+                </div>
               </div>
-            </Modal>
-          ) : (
-            ''
-          )}
-          {approveState ? ( // 승인을 눌렀을 대 승인 카테고리 선택 모달 뜨는 부분
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
-              <div className="flex flex-col justify-center content-center font-semibold">
-                <p className="text-lg m-2">API url을 입력하세요</p>
-                <hr />
-                <input
-                  type="text"
-                  value={changeApi}
-                  onChange={handleChangeApi}
-                />
-                <p className="text-lg m-2">API 카테고리를 선택하세요</p>
-                <hr />
-                {/* <p>{approveCategory}</p> */}
-                <div className="flex justify-items-stretch content-center text-center font-semibold grid grid-cols-2 m-3">
-                  {approveCategory.map((category) => (
+
+              <div className="my-6 pb-3 w-full border-bottom text-center">
+                {selectedItem === '전체 조회' ? allApis() : filterdApis()}
+              </div>
+              {rejectState ? ( // 거절을 눌렀을 때 거절사유 입력 모달 뜨는 부분
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                  <div className="flex flex-col justify-center content-center font-semibold">
+                    <p>거절 사유를 입력하세요</p>
+                    <textarea
+                      className="rejectTextarea"
+                      onChange={(e) => handleRejectReason(e)}
+                    />
                     <button
                       type="button"
-                      onClick={() => handleApproveCategory(category)}
-                      className={`${
-                        selectedCategory === category
-                          ? 'selectedCategory'
-                          : 'noSelectedCategory'
-                      } col-span-1 p-1 justify-self-center`}
+                      onClick={handleRejectState}
+                      className="rejectButton"
                     >
-                      {category}
+                      완료
                     </button>
-                  ))}
-                </div>
-                <hr />
-                <button
-                  type="button"
-                  onClick={handleApproveState}
-                  className="approveButton"
-                >
-                  완료
-                </button>
-              </div>
-            </Modal>
-          ) : (
-            ''
-          )}
+                  </div>
+                </Modal>
+              ) : (
+                ''
+              )}
+              {approveState ? ( // 승인을 눌렀을 대 승인 카테고리 선택 모달 뜨는 부분
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                  <div className="flex flex-col justify-center content-center font-semibold">
+                    <p className="text-lg m-2">API url을 입력하세요</p>
+                    <hr />
+                    <input
+                      type="text"
+                      value={changeApi}
+                      onChange={handleChangeApi}
+                    />
+                    <p className="text-lg m-2">API 카테고리를 선택하세요</p>
+                    <hr />
+                    {/* <p>{approveCategory}</p> */}
+                    <div className="flex justify-items-stretch content-center text-center font-semibold grid grid-cols-2 m-3">
+                      {approveCategory.map((category) => (
+                        <button
+                          type="button"
+                          onClick={() => handleApproveCategory(category)}
+                          className={`${
+                            selectedCategory === category
+                              ? 'selectedCategory'
+                              : 'noSelectedCategory'
+                          } col-span-1 p-1 justify-self-center`}
+                        >
+                          {category}
+                        </button>
+                      ))}
+                    </div>
+                    <hr />
+                    <button
+                      type="button"
+                      onClick={handleApproveState}
+                      className="approveButton"
+                    >
+                      완료
+                    </button>
+                  </div>
+                </Modal>
+              ) : (
+                ''
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

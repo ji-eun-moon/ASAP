@@ -139,9 +139,9 @@ const routes: Route[] = [
   {
     path: '/api_list/:apiId/test',
     element: (
-      <UserRoute>
+      <NoSplRoute>
         <ApiTest />
-      </UserRoute>
+      </NoSplRoute>
     ),
   },
   {
@@ -252,9 +252,9 @@ const routes: Route[] = [
   {
     path: '/admin',
     element: (
-      <AdminRoute>
+      <PublicRoute>
         <AdminLogin />
-      </AdminRoute>
+      </PublicRoute>
     ),
   },
   {

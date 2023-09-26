@@ -19,16 +19,11 @@
   flex-grow: 1;
 }
 
-.table-data {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .data-item {
   padding: 10px;
   border: 1px solid #c5c5c5;
   font-size: 1.125rem;
+  text-align: center;
 }
 
 .col-table-1 {

@@ -1,10 +1,16 @@
 import React from 'react';
 import useAuthStore from 'store/auth/useAuthStore';
+import { useLocation } from 'react-router-dom';
 import SupplierNav from './SupplierNav';
 import PublicNav from './PublicNav';
 
 function NavBar() {
   const { isLoggedIn, loginType } = useAuthStore((state) => state);
+  const location = useLocation();
+
+  if (location.pathname.includes('/admin')) {
+    return null;
+  }
 
   if (isLoggedIn && loginType === 'supplier') {
     return <SupplierNav />;
@@ -14,7 +20,6 @@ function NavBar() {
     return <PublicNav />;
   }
 
-  // 관리자일 때 조건 추가 필요
   return null;
 }
 

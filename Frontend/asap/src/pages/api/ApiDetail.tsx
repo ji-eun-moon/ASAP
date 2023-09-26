@@ -1,43 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useGetApiDetail from 'hooks/api/api/useGetApiDetail';
 import useCheckApply from 'hooks/api/api/useCheckApply';
 import ApiTable from 'components/api/ApiTable';
 import JsonName from 'components/api/JsonName';
-import { Button } from '@material-tailwind/react';
-import { ReactComponent as Wallet } from 'assets/icons/Oallet.svg';
+import CategoryImg from 'components/api/CategoryImg';
 import 'styles/api/ApiDetail.scss';
 
 function ApiDetail() {
   const authToken = sessionStorage.getItem('authToken');
-  const [apply, setApply] = useState<string>('');
+  const navigate = useNavigate();
+  const [apply, setApply] = useState<boolean>(true);
   const { apiId, apiDetail } = useGetApiDetail();
   const { checkApply } = useCheckApply();
 
   useEffect(() => {
     const fetchApply = async () => {
       if (authToken) {
+        console.log('a');
         const check = await checkApply(apiId);
-        setApply(check);
+        if (check === 'NOT_REGISTERED_API') {
+          setApply(false);
+        }
       }
     };
 
     fetchApply();
   }, [authToken, checkApply, apiId]);
 
-  // 카테고리에 따라 사진 구분하기
+  const onListHandler = () => {
+    navigate('/api_list', { state: { category: apiDetail?.category } });
+  };
+
+  const onApplyHandler = () => {
+    navigate(`/api_list/${apiId}/apply`, {
+      state: { apiTitle: apiDetail?.title },
+    });
+  };
+
+  const onTestHandler = () => {
+    navigate(`/api_list/${apiId}/test`);
+  };
+
+  const onUsageHandler = () => {
+    navigate(`/api_list/${apiId}/usage`);
+  };
 
   // 표 데이터
   const headers = ['API', 'API 출처', '제공데이터', '비고'];
   const data = [
-    [
-      apiDetail?.title,
-      apiDetail?.memberName,
-      <JsonName jsonData={apiDetail?.output} />,
-      '',
-    ],
+    {
+      title: { key: 'title', content: apiDetail?.title },
+      memberName: { key: 'memberName', content: apiDetail?.memberName },
+      output: {
+        key: 'output',
+        content: <JsonName jsonData={apiDetail?.output} />,
+      },
+      usage: {
+        key: 'usage',
+        content: <Link to={`/api_list/${apiId}/usage`}>상세보기</Link>,
+      },
+    },
   ];
-  console.log(apiDetail);
 
   return (
     <div className="container mx-auto page-container">
@@ -45,14 +69,19 @@ function ApiDetail() {
       <div className="page-info">
         <Link to="/">HOME</Link>&nbsp;{'>'}&nbsp;
         <Link to="/api_list">APIs</Link>&nbsp;{'>'}&nbsp;
-        {/* <Link>{apiDetail?.category}</Link> */}
+        <button type="button" onClick={onListHandler}>
+          {apiDetail?.category}
+        </button>
+        &nbsp;
+        {'>'}
+        &nbsp;
         <span>{apiDetail?.title}</span>
       </div>
 
       {/* API 설명 */}
       <div className="api-info">
-        <div style={{ flex: '3' }}>
-          <Wallet />
+        <div className="flex justify-center" style={{ flex: '3' }}>
+          <CategoryImg category={apiDetail?.category} />
         </div>
         <div style={{ flex: '7' }}>
           <div className="api-title">{apiDetail?.title}</div>
@@ -70,17 +99,16 @@ function ApiDetail() {
 
       {/* 버튼들 */}
       <div className="buttons">
-        <Button className="api-button">
-          <Link to={`/api_list/${apiId}/usage`}>API 사용법</Link>
-        </Button>
-        {!authToken || apply === 'NOT_REGISTERED_API' ? (
-          <Button className="api-button">
-            <Link to={`/api_list/${apiId}/apply`}>API 신청하기</Link>
-          </Button>
-        ) : (
-          <Button className="api-button">
-            <Link to={`/api_list/${apiId}/test`}>API 테스트</Link>
-          </Button>
+        <button type="button" className="api-button" onClick={onUsageHandler}>
+          API 사용법
+        </button>
+        <button type="button" className="api-button" onClick={onTestHandler}>
+          API 테스트
+        </button>
+        {authToken && apply ? null : (
+          <button type="button" className="api-button" onClick={onApplyHandler}>
+            API 신청하기
+          </button>
         )}
       </div>
 

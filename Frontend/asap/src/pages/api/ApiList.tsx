@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useGetApiList from 'hooks/api/api/useGetApiList';
 import useGetCategoryList from 'hooks/api/api/useGetCategoryList';
 import Header from 'components/common/Header';
@@ -33,10 +33,13 @@ const nonActiveStyle = {
 
 function ApiList() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const cate = location.state?.category;
+
   const { apiList } = useGetApiList(); // apiList 불러오기
   const { categories, totalCount } = useGetCategoryList(); // category 종류 불러오기
 
-  const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedCount, setSelectedCount] = useState(0);
   const [selectedItems, setSelectedItems] = useState(apiList);
 
@@ -46,13 +49,21 @@ function ApiList() {
     setSelectedItems(apiList?.filter((item) => item.category === category));
   };
   useEffect(() => {
+    if (cate) {
+      setSelectedCategory(cate);
+    } else {
+      setSelectedCategory('전체');
+    }
     setSelectedCount(totalCount);
     setSelectedItems(apiList);
-  }, [totalCount, apiList]);
+  }, [cate, totalCount, apiList]);
   return (
     <div>
-      <Header title="APIs" />
-      <SearchBar />
+      <Header title="APIs">
+        {' '}
+        <SearchBar />
+      </Header>
+
       {/* 왼쪽 카테고리 선택부분 */}
       <div className="flex grid grid-cols-12 h-auto">
         <div className="flex flex-col justify-center col-span-2 items-center border-r">
@@ -97,6 +108,7 @@ function ApiList() {
                         className="w-full h-full flex justify-center"
                       >
                         <ApiListCard
+                          category={api.category}
                           title={api.title}
                           content={api.content}
                           tags={api.tags}
@@ -116,6 +128,7 @@ function ApiList() {
                         className="w-full h-full flex justify-center"
                       >
                         <ApiListCard
+                          category={api.category}
                           title={api.title}
                           content={api.content}
                           tags={api.tags}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useGetApiUsage from 'hooks/api/api/useGetApiUsage';
 import { Button, Card } from '@material-tailwind/react';
 import useAuthStore from 'store/auth/useAuthStore';
+import useQueryParamsStore from 'store/api/queryParamsStore';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 import PrettyJson from 'components/common/PrettyJson';
 import Modal from 'components/common/Modal';
@@ -18,7 +19,9 @@ interface Pair {
 function ApiTest() {
   const { apiUsage } = useGetApiUsage();
   const { isLoggedIn } = useAuthStore();
+  const { params, setParam } = useQueryParamsStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const [data, setData] = useState<Pair[]>([]);
 
   const closeModal = () => {
@@ -42,10 +45,11 @@ function ApiTest() {
 
   const onApiTest = () => {
     if (!isLoggedIn) {
-      alert('로그인이 필요한 서비스 입니다.');
+      setModalMessage('로그인이 필요한 서비스입니다.');
+      setIsModalOpen(true);
       return;
     }
-    console.log('API 테스트');
+    console.log(params);
   };
 
   const columns = Object.keys(data[0]).filter(
@@ -56,10 +60,11 @@ function ApiTest() {
   const handleCopyClipBoard = async (text: string | '') => {
     try {
       await navigator.clipboard.writeText(text);
+      setModalMessage('클립보드에 복사되었습니다.');
       setIsModalOpen(true);
     } catch (e) {
+      setModalMessage('복사에 실패하였습니다.');
       setIsModalOpen(true);
-      alert('복사에 실패하였습니다');
     }
   };
 
@@ -92,7 +97,11 @@ function ApiTest() {
                   </pre>
                 ))}
                 <div className="input-container col-span-1">
-                  <input placeholder={item.key} />
+                  <input
+                    placeholder={item.key}
+                    value={params[item.key] || ''}
+                    onChange={(e) => setParam(item.key, e.target.value)}
+                  />
                 </div>
               </div>
             ))}
@@ -131,18 +140,12 @@ function ApiTest() {
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="w-96">
-          <div className="flex justify-start">
-            <p className="text-lg mt-5 font-bold">클립보드에 복사되었습니다.</p>
-          </div>
-          <div className="flex flex-row-reverse my-5">
-            <Button ripple onClick={closeModal} className="bg-blue-500">
-              확인
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        confirm
+        message={modalMessage}
+      />
     </div>
   );
 }

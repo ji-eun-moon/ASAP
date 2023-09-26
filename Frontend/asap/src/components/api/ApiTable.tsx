@@ -1,12 +1,22 @@
 import React from 'react';
 import 'styles/api/ApiTable.scss';
 
+interface TableCell {
+  key: string;
+  content: React.ReactNode;
+}
+
+interface TableRow {
+  [key: string]: TableCell;
+}
+
 interface TableProps {
   headers: string[];
-  data: React.ReactNode[][];
+  data: TableRow[];
 }
 
 function ApiTable({ headers, data }: TableProps) {
+  console.log(data);
   return (
     <table className="api-table">
       <thead>
@@ -20,13 +30,14 @@ function ApiTable({ headers, data }: TableProps) {
       </thead>
       <tbody>
         {data.map((row) => (
-          <tr key={row.join('-')}>
-            {row.map((cell, index) => (
-              <td
-                key={cell?.toString()}
-                className={`data-item col-table-${index + 1}`}
-              >
-                {cell}
+          <tr
+            key={Object.values(row)
+              .map((cell) => cell.key)
+              .join('-')}
+          >
+            {Object.values(row).map((cell, index) => (
+              <td key={cell.key} className={`data-item col-table-${index + 1}`}>
+                {cell.content}
               </td>
             ))}
           </tr>

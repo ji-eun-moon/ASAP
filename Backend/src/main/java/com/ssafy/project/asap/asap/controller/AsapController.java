@@ -56,7 +56,7 @@ public class AsapController {
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io")
-                .path("/block/api/v1/asap/local/search/" + id)
+                .path("/block/api/v1/asap/local/search/" + id + "/23")
                 .queryParams(map)
                 .encode()
                 .build()

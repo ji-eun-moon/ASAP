@@ -1,40 +1,50 @@
 import React, { ChangeEvent, useState } from 'react';
 // import { useParams } from 'react-router-dom';
 import Header from 'components/common/Header';
+import Modal from 'components/common/Modal';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@material-tailwind/react';
 import 'styles/common/Input.scss';
 import 'styles/member/ApiApply.scss';
 import useSetUserInfo from 'hooks/api/api/useSetUserInfo';
-import { useLocation } from 'react-router-dom';
 
 function ApiApply() {
   const location = useLocation();
   const { setUserInfo } = useSetUserInfo();
-  // const { apiId } = useParams() as { apiId: string };
   const apiTitle = location.state?.apiTitle;
 
   // 사용자 신청 후 입력 받아야하는 값
-  // const [apiTitle, setTitle] = useState<string>('');
   const [purpose, setPurpose] = useState<string>('');
   const industrys = ['제조업', '서비스업', '금융업', '유통업', '기타'];
-
   const [industry, setIndustry] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+
+  /* 모달 open/close */
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  /* select box Open */
   const onOpenHandler = () => {
     setIsOpen(!isOpen);
   };
+
+  /* select box 요소 선택 */
   const onChengeItemHandler = (data: string) => {
     setIndustry(data);
     setIsOpen(false);
   };
 
-  // const onTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setTitle(event.target.value);
-  // };
+  /* 사용 목적 */
   const onPurposeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setPurpose(event.target.value);
   };
 
+  /* 신청서 제출 */
   const onSubmitHandler = async () => {
     if (!purpose) {
       alert('목적을 입력해주세요.');
@@ -49,6 +59,12 @@ function ApiApply() {
       purpose,
       industry,
     });
+    await openModal();
+  };
+
+  const onOkHandler = () => {
+    setIsModalOpen(false);
+    window.location.href = '/api_list';
   };
   return (
     <div>
@@ -114,6 +130,32 @@ function ApiApply() {
           </Button>
         </div>
       </div>
+      {isModalOpen ? (
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <div className="flex flex-col justify-center items-center font-bold gap-2.5">
+            <div className="text-center m-1 pt-3">
+              <p style={{ color: '#004FB9' }}>{apiTitle}</p>
+              <p>API 신청이 완료되었습니다</p>
+            </div>
+            <div className="text-xs text-gray-500 flex flex-col gap-1">
+              <Link to="/mypage/keys">
+                • 마이페이지 &gt; 키 관리로 이동하기
+              </Link>
+              <Link to="/myapi">• My API로 이동하기</Link>
+            </div>
+            <button
+              type="button"
+              onClick={onOkHandler}
+              style={{ color: '#ffffff', backgroundColor: '#004AAD' }}
+              className="w-2/6 rounded-md"
+            >
+              확인
+            </button>
+          </div>
+        </Modal>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

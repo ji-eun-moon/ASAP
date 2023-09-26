@@ -16,6 +16,7 @@ interface TableProps {
 }
 
 function ApiTable({ headers, data }: TableProps) {
+  console.log(data);
   return (
     <table className="api-table">
       <thead>

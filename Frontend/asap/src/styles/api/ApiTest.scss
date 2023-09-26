@@ -1,0 +1,21 @@
+.rounded-editor {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.custom-input {
+  position: relative;
+}
+
+.custom-input input {
+  padding-right: 10px;
+}
+
+.required::after {
+  content: '*';
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: red;
+}

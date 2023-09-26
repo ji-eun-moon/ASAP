@@ -8,7 +8,7 @@
 
 .intro-container {
   display: flex;
-  padding: 4% 12%;
+  padding: 4.5% 12%;
   align-items: center;
 }
 
@@ -17,13 +17,13 @@
 }
 
 .image-container {
-  flex: 6;
+  flex: 7;
   height: 100%;
 }
 
 .maintext {
   font-family: 'LINESeedKR-Bd';
-  font-size: 2.6rem;
+  font-size: 2.8rem;
   line-height: 1;
   font-weight: 500;
   padding-bottom: 12px;
@@ -42,6 +42,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 15%;
 }
 
 .main-button:hover {
@@ -49,7 +50,7 @@
 }
 
 .smalltext {
-  font-size: 1.25rem;
+  font-size: 1.28rem;
   line-height: 1.75rem;
   padding-bottom: 20px;
 }
@@ -62,4 +63,8 @@
   font-size: 1.2rem;
   font-weight: 500;
   padding: 0 20px;
+}
+
+.color-text {
+  color: #004096;
 }

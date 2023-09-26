@@ -48,21 +48,24 @@ function AccountCredit() {
                   <div className="flex flex-col items-start">
                     <div className="text-white">
                       {creditCard
-                        ? creditCard.cardCompany
+                        ? `${creditCard.cardCompany}카드`
                         : '등록된 카드가 없습니다.'}
                     </div>
                     <div className="text-white mt-0.5">
                       {creditCard
-                        ? creditCard.cardNumber
+                        ? `${creditCard.cardNumber.slice(
+                            0,
+                            4,
+                          )} ${creditCard.cardNumber.slice(5, 9)} **** ****`
                         : '카드를 등록해주세요.'}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="font-bold text-xl">
+              <div className="font-bold text-lg">
                 {creditCard
-                  ? `${creditCard.cardCompany} (${
+                  ? `${creditCard.cardCompany}카드 (${
                       creditCard.cardNumber
                         ? creditCard.cardNumber.slice(-4)
                         : ''

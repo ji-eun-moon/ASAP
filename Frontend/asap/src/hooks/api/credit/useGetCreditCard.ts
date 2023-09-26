@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axiosInstance from 'utils/axiosInstance';
 // 카드회사, 카드번호 조회
 interface ICardNotice {
@@ -20,12 +20,15 @@ const useGetCreditCard = () => {
       console.log('조회 결과:', response.data);
       setCreditCard(response.data);
     } catch (error) {
-      console.log('서버 오류:', error);
+      console.log('조회 오류:', error);
     } finally {
       setLoading(false); // 요청 완료 시 로딩 상태를 false로 설정
     }
   };
 
+  useEffect(() => {
+    getCreditCard();
+  }, []);
   return { getCreditCard, loading, creditCard };
 };
 

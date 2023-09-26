@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import './CreditCardRegistration.scss';
 import { ReactComponent as Cross } from 'assets/icons/Cross2.svg';
-import useCreditCardStore from 'store/credit/useCreditStore';
 import usePostCreditCard from 'hooks/api/credit/usePostCreditCard';
 import useChangeCard from 'hooks/api/credit/useChangeCreditCard';
+import useGetCreditCard from 'hooks/api/credit/useGetCreditCard';
 
 type CreditCardRegistrationProps = {
   closeModal: () => void;
@@ -11,9 +11,10 @@ type CreditCardRegistrationProps = {
 
 function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   const [checkboxCount, setCheckboxCount] = useState(0);
-  const { mode } = useCreditCardStore();
   const { postCreditCard } = usePostCreditCard();
   const { changeCreditCard } = useChangeCard();
+  const { creditCard } = useGetCreditCard();
+  const isNewRegister = creditCard == null;
 
   // 이용약관 동의 됐을때
   const handleCheckboxClick = () => {
@@ -25,6 +26,9 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   const cardNumberRef3 = useRef<HTMLInputElement>(null);
   const cardNumberRef4 = useRef<HTMLInputElement>(null);
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
   const handleButtonClick = () => {
     if (checkboxCount === 2) {
       const cardCompany = cardCompanyRef.current?.value;
@@ -45,19 +49,36 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
       const userConfirmed = window.confirm('정말로 카드를 등록하시겠습니까?');
 
       if (userConfirmed) {
-        // 사용자가 확인을 선택한 경우에만 통신 실행
-        if (mode === 'register') {
-          postCreditCard({ cardCompany, cardNumber });
-          console.log(cardCompany, cardNumber);
-        } else if (mode === 'update') {
-          changeCreditCard({ cardCompany, cardNumber });
-        }
+        if (isNewRegister) {
+          // 등록되지 않은 상태에서 등록 버튼을 누른 경우
+          // 등록 API 호출
+          const onPostCreditCard = async () => {
+            await postCreditCard({
+              cardCompany,
+              cardNumber,
+            });
+          };
+          onPostCreditCard();
+          console.log('방금 등록된 카드 : ', { cardCompany, cardNumber });
 
-        // 카드 정보가 등록 또는 변경된 후 메시지 표시 및 closeModal 호출
-        if (mode === 'register') {
-          alert('카드 정보가 변경되었습니다.');
-        } else if (mode === 'update') {
+          // 상태를 'registered'로 변경
           alert('카드 정보가 등록되었습니다.');
+          refreshPage();
+        } else {
+          // 등록된 상태에서 버튼을 누른 경우
+          // 변경 API 호출
+          const onChangeCreditCard = async () => {
+            await changeCreditCard({
+              cardCompany,
+              cardNumber,
+            });
+          };
+          onChangeCreditCard();
+          console.log('방금 변경된 카드 : ', { cardCompany, cardNumber });
+
+          // 상태를 'registered'로 유지
+          alert('카드 정보가 변경되었습니다.');
+          refreshPage();
         }
 
         closeModal();
@@ -225,7 +246,7 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
               className="rounded bg-blue-700 text-white py-2 px-5 text-xs w-28 text-center font-bold cursor-pointer"
               onClick={handleButtonClick}
             >
-              {mode === 'register' ? '카드 등록' : '카드 변경'}
+              {isNewRegister ? '카드 등록' : '카드 변경'}
             </div>
           </div>
           <div />

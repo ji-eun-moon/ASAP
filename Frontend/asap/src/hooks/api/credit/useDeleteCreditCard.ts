@@ -6,7 +6,7 @@ const useDeleteCredit = () => {
     try {
       const response = await axiosInstance({
         method: 'DELETE',
-        url: `/api/v1/credit`,
+        url: `/api/v1/credit/delete`,
       });
       console.log('삭제성공', response.data);
     } catch (error) {

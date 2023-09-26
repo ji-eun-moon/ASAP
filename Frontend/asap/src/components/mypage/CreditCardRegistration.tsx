@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
 import './CreditCardRegistration.scss';
 import { ReactComponent as Cross } from 'assets/icons/Cross2.svg';
-import useCreditCardStore from 'store/credit/useCreditStore';
 import usePostCreditCard from 'hooks/api/credit/usePostCreditCard';
 import useChangeCard from 'hooks/api/credit/useChangeCreditCard';
+import useGetCreditCard from 'hooks/api/credit/useGetCreditCard';
 
 type CreditCardRegistrationProps = {
   closeModal: () => void;
@@ -11,9 +11,10 @@ type CreditCardRegistrationProps = {
 
 function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   const [checkboxCount, setCheckboxCount] = useState(0);
-  const { mode } = useCreditCardStore();
   const { postCreditCard } = usePostCreditCard();
   const { changeCreditCard } = useChangeCard();
+  const { creditCard } = useGetCreditCard();
+  const isNewRegister = creditCard == null;
 
   // 이용약관 동의 됐을때
   const handleCheckboxClick = () => {
@@ -25,6 +26,9 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   const cardNumberRef3 = useRef<HTMLInputElement>(null);
   const cardNumberRef4 = useRef<HTMLInputElement>(null);
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
   const handleButtonClick = () => {
     if (checkboxCount === 2) {
       const cardCompany = cardCompanyRef.current?.value;
@@ -41,12 +45,43 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
         return;
       }
 
-      // mode 상태에 따라 카드를 등록하거나 변경
-      if (mode === 'register') {
-        postCreditCard({ cardCompany, cardNumber });
-        console.log(cardCompany, cardNumber);
-      } else if (mode === 'update') {
-        changeCreditCard({ cardCompany, cardNumber });
+      // 사용자에게 확인 대화 상자 표시
+      const userConfirmed = window.confirm('정말로 카드를 등록하시겠습니까?');
+
+      if (userConfirmed) {
+        if (isNewRegister) {
+          // 등록되지 않은 상태에서 등록 버튼을 누른 경우
+          // 등록 API 호출
+          const onPostCreditCard = async () => {
+            await postCreditCard({
+              cardCompany,
+              cardNumber,
+            });
+          };
+          onPostCreditCard();
+          console.log('방금 등록된 카드 : ', { cardCompany, cardNumber });
+
+          // 상태를 'registered'로 변경
+          alert('카드 정보가 등록되었습니다.');
+          refreshPage();
+        } else {
+          // 등록된 상태에서 버튼을 누른 경우
+          // 변경 API 호출
+          const onChangeCreditCard = async () => {
+            await changeCreditCard({
+              cardCompany,
+              cardNumber,
+            });
+          };
+          onChangeCreditCard();
+          console.log('방금 변경된 카드 : ', { cardCompany, cardNumber });
+
+          // 상태를 'registered'로 유지
+          alert('카드 정보가 변경되었습니다.');
+          refreshPage();
+        }
+
+        closeModal();
       }
     } else {
       alert('모든 약관에 동의해주세요.');
@@ -54,8 +89,8 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
   };
 
   return (
-    <div className="ml-28 z-10">
-      <div className="px-8 py-8 credit-modal border-2 rounded">
+    <div className="overlay">
+      <div className="px-8 py-8 credit-modal border-2 rounded bg-white">
         {/* 카드정보 */}
         <div className="flex justify-between cross items-center">
           <p className="text-xl font-bold">카드정보</p>
@@ -75,8 +110,9 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
             <input
               type="text"
               ref={cardCompanyRef}
-              className="credit-input credit-input-number rounded text-center mx-1 card-company"
+              className="company-input credit-input-number rounded text-center mx-1 card-company"
             />
+            <span className="flex items-center">카드</span>
           </div>
         </div>
         {/* 카드번호 */}
@@ -161,8 +197,9 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
               <input
                 type="text"
                 placeholder="여기에 입력해주세요"
-                className="idnumber-input mr-1 rounded-lg pr-2"
+                className="idnumber-input mr-1 rounded-lg"
                 maxLength={6}
+                style={{ textAlign: 'center' }}
               />
             </div>
           </div>
@@ -209,7 +246,7 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
               className="rounded bg-blue-700 text-white py-2 px-5 text-xs w-28 text-center font-bold cursor-pointer"
               onClick={handleButtonClick}
             >
-              {mode === 'register' ? '카드 등록' : '카드 변경'}
+              {isNewRegister ? '카드 등록' : '카드 변경'}
             </div>
           </div>
           <div />

@@ -8,6 +8,7 @@ import SignUp from 'pages/auth/SignUp';
 import LogIn from 'pages/auth/LogIn';
 import FindAccount from 'pages/auth/FindAccount';
 import ChangePw from 'pages/auth/ChangePw';
+import Test from 'pages/test';
 
 // api
 import ApiList from 'pages/api/ApiList';
@@ -262,6 +263,14 @@ const routes: Route[] = [
       <AdminRoute>
         <ApiApproval />
       </AdminRoute>
+    ),
+  },
+  {
+    path: '/test',
+    element: (
+      <AnyRoute>
+        <Test />
+      </AnyRoute>
     ),
   },
 

@@ -1,9 +1,6 @@
 package com.core.apiserver.daily.controller;
 
-import com.core.apiserver.daily.entity.dto.request.DailyUsageRequest;
-import com.core.apiserver.daily.entity.dto.request.GetCategoryApiIds;
-import com.core.apiserver.daily.entity.dto.request.GetDailyRequest;
-import com.core.apiserver.daily.entity.dto.request.MonthlyUsageRequest;
+import com.core.apiserver.daily.entity.dto.request.*;
 import com.core.apiserver.daily.entity.dto.response.ProvidingResponse;
 import com.core.apiserver.daily.entity.dto.response.UsageResponse;
 import com.core.apiserver.daily.service.DailyService;
@@ -15,9 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,31 +29,6 @@ public class DailyController {
 
     private final DailyService dailyService;
 
-    @GetMapping("/monthly/use")
-    @Operation(summary = "월간 조회", description = "월간 사용량 조회")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "3개월간 제공량 조회"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "404", description = "Not Found"),
-            @ApiResponse(responseCode = "500", description = "Server Error")
-    })
-    public ResponseEntity<List<Map<YearMonth, List<UsageResponse>>>> monthlyUsage(@RequestBody MonthlyUsageRequest monthlyUsageRequest) {
-
-        return ResponseEntity.status(200).body(dailyService.monthlyUsage(monthlyUsageRequest));
-    }
-
-    @GetMapping("/monthly/provide")
-    @Operation(summary = "월간 조회", description = "월간 제공량 조회")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "3개월간 제공량 조회"),
-            @ApiResponse(responseCode = "400", description = "Bad Request"),
-            @ApiResponse(responseCode = "404", description = "Not Found"),
-            @ApiResponse(responseCode = "500", description = "Server Error")
-    })
-    public ResponseEntity<Map<YearMonth, List<ProvidingResponse>>> monthlyProviding(@RequestBody MonthlyUsageRequest monthlyUsageRequest) {
-
-        return ResponseEntity.status(200).body(dailyService.monthlyProviding(monthlyUsageRequest));
-    }
 
     @PostMapping("/daily/register")
     @Operation(summary = "일간 생성", description = "일간 사용량 생성")
@@ -79,6 +56,39 @@ public class DailyController {
         return ResponseEntity.status(202).body("");
     }
 
+    @GetMapping("/monthly/use")
+    @Operation(summary = "월간 조회", description = "월간 사용량 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "3개월간 제공량 조회"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<Map<YearMonth, List<UsageResponse>>> monthlyUsage(@RequestParam Map<String, String> params) {
+        MonthlyUsageRequest monthlyUsageRequest = new MonthlyUsageRequest(Long.parseLong(params.get("userWalletId")),
+                Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
+
+        System.out.println(monthlyUsageRequest.getUserWalletId() + ", " + monthlyUsageRequest.getYear() + ", "  + monthlyUsageRequest.getMonth());
+
+        return ResponseEntity.status(200).body(dailyService.monthlyUsage(monthlyUsageRequest));
+    }
+
+    @GetMapping("/monthly/provide")
+    @Operation(summary = "월간 조회", description = "월간 제공량 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "3개월간 제공량 조회"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<Map<YearMonth, List<ProvidingResponse>>> monthlyProviding(@RequestParam Map<String, String> params) {
+
+        MonthlyUsageRequest monthlyUsageRequest = new MonthlyUsageRequest(Long.parseLong(params.get("userWalletId")),
+                Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
+
+        return ResponseEntity.status(200).body(dailyService.monthlyProviding(monthlyUsageRequest));
+    }
+
     @GetMapping ("/daily/use")
     @Operation(summary = "일간 사용량 조회", description = "일간 사용량 조회")
     @ApiResponses(value = {
@@ -87,7 +97,9 @@ public class DailyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> daily(@RequestBody GetDailyRequest getDailyRequest) {
+    public ResponseEntity<?> daily(@RequestParam Map<String, String> params) {
+        GetDailyRequest getDailyRequest = new GetDailyRequest(Long.parseLong(params.get("userWalletId")),
+                LocalDate.parse(params.get("date")));
         return ResponseEntity.status(200).body(dailyService.dailyUsage(getDailyRequest));
     }
 
@@ -99,7 +111,13 @@ public class DailyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> category(@RequestBody GetCategoryApiIds getDailyRequest) {
-        return ResponseEntity.status(200).body(dailyService.categoryAverage(getDailyRequest));
+    public ResponseEntity<?> category(@RequestParam Map<String, String> params) {
+
+        long[] ids = Stream.of(params.get("ids").split(",")).mapToLong(Long::parseLong).toArray();
+
+        System.out.println("ids : " + Arrays.toString(ids));
+
+        GetCategoryApiIds getCategoryApiIds = new GetCategoryApiIds(ids, Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
+        return ResponseEntity.status(200).body(dailyService.categoryAverage(getCategoryApiIds));
     }
 }

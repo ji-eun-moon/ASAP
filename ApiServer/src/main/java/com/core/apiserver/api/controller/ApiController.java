@@ -26,7 +26,7 @@ public class ApiController {
 
     private final ApiService apiService;
     private final RedisUsageService redisUsageService;
-    @Value("${spring.test-header")
+    @Value("${server.test-header)")
     private String testHeader;
 
     @PostMapping("/register")

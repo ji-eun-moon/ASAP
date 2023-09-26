@@ -16,7 +16,9 @@ function Intro({ navigate, text }: IIntrorops) {
     <div className="intro-container">
       <div className="text-container">
         <div className="smalltext">블록체인을 활용한 투명한 API</div>
-        <div className="maintext">ASAP과 함께라면</div>
+        <div className="maintext">
+          <span className="color-text">ASAP</span>과 함께라면
+        </div>
         <div className="boldtext maintext">데이터 연결이 쉬워집니다</div>
         <button
           type="button"

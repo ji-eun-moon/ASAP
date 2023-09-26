@@ -154,7 +154,7 @@ public class ApplyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> approve(@RequestBody ApproveApplyRequest request, Authentication authentication){
+    public ResponseEntity<?> approve(@RequestBody ApproveApplyRequest request){
 
         try {
             Long apiId = applyService.approveProgress(request);

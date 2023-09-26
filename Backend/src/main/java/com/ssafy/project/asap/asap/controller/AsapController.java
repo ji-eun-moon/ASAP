@@ -34,7 +34,7 @@ public class AsapController {
     private String allowHeader;
 
 
-    // https://j9c202.p.ssafy.io/block/api/v1/asap/local/search
+    // https://j9c202.p.ssafy.io/block/api/v1/asap/local/search.address.json
     @GetMapping("/local/search/address.json")
     public ResponseEntity<?> LocalSearch(@RequestBody LocalSearch request, HttpServletRequest httpServletRequest){
 

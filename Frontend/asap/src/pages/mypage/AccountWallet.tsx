@@ -33,13 +33,13 @@ function AccountWallet() {
     <div>
       {/* 헤더 */}
       <Header title="지갑 정보" />
-      <div className="container mx-auto page-container grid grid-cols-4">
+      <div className="container mx-auto  page-container grid grid-cols-12">
         {/* 좌측 사이드바 */}
-        <div className="col-span-1 flex justify-start items-start ml-8">
+        <div className="col-span-2 flex justify-start items-start ml-8">
           <SideBar menus={menus} />
         </div>
         {/* 우측 지갑 정보 */}
-        <div className="col-span-3">
+        <div className="col-span-10">
           <div className="text-2xl font-bold pb-4">등록된 지갑</div>
           <div className="flex justify-between items-center bg-gray-100 rounded-lg pr-5">
             {/* 지갑 이미지 */}

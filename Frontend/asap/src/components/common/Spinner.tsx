@@ -6,7 +6,7 @@ interface Props {
 }
 
 function Spinner({ size }: Props) {
-  return <Spin className={`h-${size} w-${size}`} />;
+  return <Spin className={`h-${size} w-${size} text-gray-100`} />;
 }
 
 export default Spinner;

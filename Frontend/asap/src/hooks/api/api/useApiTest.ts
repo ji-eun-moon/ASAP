@@ -7,22 +7,38 @@ interface ITest {
   params: Record<string, string>;
 }
 const useApiTest = () => {
-  const { setTestResponse, setStatus } = useTestStore();
+  const { setTestResponse, setStatus, setLoading } = useTestStore();
+
+  const extractStatus = (input: string): number => {
+    try {
+      const match = input.match(/"status":(\d+)/);
+      return match ? parseInt(match[1], 10) : 200;
+    } catch {
+      return 200;
+    }
+  };
+
   const apiTest = async ({ url, params }: ITest) => {
     try {
       const response = await axiosInstance({
-        method: 'GET',
+        method: 'POST',
         url,
         data: params,
       });
       setTestResponse(JSON.stringify(response.data));
-      setStatus(response.status);
-      console.log(response);
+      if (typeof response.data === 'string') {
+        setStatus(extractStatus(response.data));
+      } else {
+        setStatus(response.status);
+      }
+      console.log(typeof response.status);
+      setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError: AxiosError = error;
         setTestResponse(JSON.stringify(axiosError));
         setStatus(axiosError.response?.status || 500);
+        setLoading(false);
         console.log('서버 오류:', axiosError);
       } else {
         console.error('An unexpected error occurred:', error);

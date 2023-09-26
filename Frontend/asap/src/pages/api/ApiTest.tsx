@@ -10,6 +10,7 @@ import { Button, Card } from '@material-tailwind/react';
 import Modal from 'components/common/Modal';
 import Editor from '@monaco-editor/react';
 import 'styles/api/ApiTest.scss';
+import Spinner from 'components/common/Spinner';
 
 interface Pair {
   idx: number;
@@ -28,8 +29,8 @@ function ApiTest() {
   const [modalMessage, setModalMessage] = useState('');
   const [data, setData] = useState<Pair[]>([]);
   const { apiTest } = useApiTest();
-  const { testResponse, status } = useTestStore();
-  const { formattedJson, dynamicHeight } = useFormattedJson(testResponse);
+  const { testResponse, status, loading, setLoading } = useTestStore();
+  const { formattedJson } = useFormattedJson(testResponse);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -58,6 +59,7 @@ function ApiTest() {
   }
 
   const onApiTest = () => {
+    setLoading(true);
     const url = apiUsage?.api;
     const newUrl = url?.replace('/asap/', '/test/');
     if (!isLoggedIn) {
@@ -157,7 +159,11 @@ function ApiTest() {
           {/* Result */}
           <div className="bg-gray-300 rounded-lg p-5">
             <div className="flex justify-between items-center mb-3">
-              <div className="text-xl font-bold">Result</div>
+              <div className="text-xl font-bold flex gap-3 items-center">
+                <div>Result</div>
+                {loading && <Spinner size="5" />}
+              </div>
+
               <div>
                 <Copy
                   className="w-5 h-auto me-1 cursor-pointer"
@@ -169,7 +175,7 @@ function ApiTest() {
             </div>
             <div className="rounded-editor">
               <Editor
-                height={dynamicHeight}
+                height="500px"
                 language="json"
                 value={formattedJson}
                 theme="vs-dark"

@@ -14,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -35,18 +32,18 @@ public class AsapTestController {
     @Value("${server.test-header}")
     private String testHeader;
 
-    @GetMapping("/local/search/address.json")
+    @PostMapping("/local/search/address.json")
     public ResponseEntity<?> LocalSearch(@RequestBody LocalSearch request, Authentication authentication){
 
-        String testId = authentication.getName();
+        log.info("LOCALSEARCH START");
+
+        log.info(request.toString());
+
         Long id = memberService.findById(authentication.getName()).getWalletId();
 
-        log.info("testId = " + testId);
-
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-
-        map.put("analyze_type", Collections.singletonList(request.getAnalyze_type()));
         map.put("query", Collections.singletonList(request.getQuery()));
+        map.put("analyze_type", Collections.singletonList(request.getAnalyze_type()));
 
         if(request.getPage() != 0){
             map.put("page", Collections.singletonList(String.valueOf(request.getPage())));
@@ -58,7 +55,7 @@ public class AsapTestController {
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io")
-                .path("/block/api/v1/asap/local/search/" + id)
+                .path("/block/api/v1/asap/local/search/" + id + "/23")
                 .queryParams(map)
                 .encode()
                 .build()

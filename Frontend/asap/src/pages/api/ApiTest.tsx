@@ -11,6 +11,7 @@ import Modal from 'components/common/Modal';
 import Editor from '@monaco-editor/react';
 import 'styles/api/ApiTest.scss';
 import Spinner from 'components/common/Spinner';
+import TooltipHelper from 'components/common/TooltipHelper';
 
 interface Pair {
   idx: number;
@@ -29,7 +30,7 @@ function ApiTest() {
   const [modalMessage, setModalMessage] = useState('');
   const [data, setData] = useState<Pair[]>([]);
   const { apiTest } = useApiTest();
-  const { testResponse, status, loading, setLoading } = useTestStore();
+  const { testResponse, status, loading, setLoading, trial } = useTestStore();
   const { formattedJson } = useFormattedJson(testResponse);
 
   const closeModal = () => {
@@ -71,10 +72,6 @@ function ApiTest() {
     console.log(params);
   };
 
-  const columns = Object.keys(data[0]).filter(
-    (column) => column === 'key' || column === 'type',
-  ) as (keyof Pair)[];
-
   // 복사 함수
   const handleCopyClipBoard = async (text: string | '') => {
     try {
@@ -97,7 +94,10 @@ function ApiTest() {
 
       {/* 무료 테스트 횟수 */}
       <div className="flex justify-end">
-        <div className="font-bold text-lg">무료 테스트 98/100 회</div>
+        <div className="font-bold text-lg flex">
+          <div>무료 테스트 {trial} / 100 회</div>
+          <TooltipHelper message="일 100회 무료 테스트 제공" width="52" />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -110,11 +110,13 @@ function ApiTest() {
                 key={item.idx}
                 className="flex items-center mt-3 grid grid-cols-3"
               >
-                {columns.map((column) => (
-                  <pre key={column} className="ps-2 font-semibold col-span-1">
-                    {item[column]}
-                  </pre>
-                ))}
+                <div className="ps-2 font-semibold col-span-1 flex gap-1">
+                  {item.key}
+                  <TooltipHelper message={item.description} width="72" />
+                </div>
+
+                <div className="ps-2 font-semibold col-span-1">{item.type}</div>
+
                 <div
                   className={`input-container col-span-1 custom-input ${
                     item.required === 'true' ? 'required' : ''

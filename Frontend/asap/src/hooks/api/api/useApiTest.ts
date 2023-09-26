@@ -7,7 +7,7 @@ interface ITest {
   params: Record<string, string>;
 }
 const useApiTest = () => {
-  const { setTestResponse, setStatus, setLoading } = useTestStore();
+  const { setTestResponse, setStatus, setLoading, decTrial } = useTestStore();
 
   const extractStatus = (input: string): number => {
     try {
@@ -25,13 +25,14 @@ const useApiTest = () => {
         url,
         data: params,
       });
+      console.log(response.data);
       setTestResponse(JSON.stringify(response.data));
       if (typeof response.data === 'string') {
         setStatus(extractStatus(response.data));
       } else {
         setStatus(response.status);
+        decTrial();
       }
-      console.log(typeof response.status);
       setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {

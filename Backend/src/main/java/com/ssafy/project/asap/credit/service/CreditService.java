@@ -23,7 +23,9 @@ public class CreditService {
     public void registerCredit(RegisterCreditRequest registerCreditRequest, String id){
 
         creditRepository.findByMemberId(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_ALREADY_REGISTER_CARD));
+                .ifPresent((e) -> {
+                    throw new CustomException(ErrorCode.MEMBER_ALREADY_REGISTER_CARD);
+                });
 
         if(registerCreditRequest.getCardNumber().length() != 16){
             throw new CustomException(ErrorCode.INVALID_CARD_NUMBER);

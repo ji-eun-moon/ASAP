@@ -1,0 +1,35 @@
+import React from 'react';
+import { ReactComponent as MainImage } from 'assets/main/intro.svg';
+import { ReactComponent as Button } from 'assets/main/introbutton.svg';
+import 'styles/main/Intro.scss';
+
+interface IIntrorops {
+  navigate: string;
+  text: string;
+}
+
+function Intro({ navigate, text }: IIntrorops) {
+  const onNavigateHandler = () => {
+    window.location.href = navigate;
+  };
+  return (
+    <div className="intro-container">
+      <div className="text-container">
+        <div className="smalltext">블록체인을 활용한 투명한 API</div>
+        <div className="maintext">ASAP과 함께라면</div>
+        <div className="boldtext maintext">데이터 연결이 쉬워집니다</div>
+        <button
+          type="button"
+          onClick={onNavigateHandler}
+          className="main-button"
+        >
+          <div className="buttontext">{text}</div>
+          <Button className="intro-button" />
+        </button>
+      </div>
+      <MainImage className="image-container" />
+    </div>
+  );
+}
+
+export default Intro;

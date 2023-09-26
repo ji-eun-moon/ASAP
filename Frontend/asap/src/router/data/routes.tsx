@@ -8,6 +8,7 @@ import SignUp from 'pages/auth/SignUp';
 import LogIn from 'pages/auth/LogIn';
 import FindAccount from 'pages/auth/FindAccount';
 import ChangePw from 'pages/auth/ChangePw';
+import Test from 'pages/test';
 
 // api
 import ApiList from 'pages/api/ApiList';
@@ -17,8 +18,7 @@ import ApiTest from 'pages/api/ApiTest';
 import ApiApply from 'pages/api/ApiApply';
 
 // supply
-import ApiSupplySubmit from 'pages/api/ApiSupplySubmit';
-import ApiSupplyList from 'pages/api/ApiSupplyList';
+import ApiSupplySubmit from 'pages/supply/ApiSupplySubmit';
 import SupplyApplyList from 'pages/supply/SupplyApplyList';
 
 // myapi
@@ -139,9 +139,9 @@ const routes: Route[] = [
   {
     path: '/api_list/:apiId/test',
     element: (
-      <UserRoute>
+      <NoSplRoute>
         <ApiTest />
-      </UserRoute>
+      </NoSplRoute>
     ),
   },
   {
@@ -158,7 +158,7 @@ const routes: Route[] = [
     path: '/supply',
     element: (
       <SupplierRoute>
-        <ApiSupplyList />
+        <SupplyApplyList />
       </SupplierRoute>
     ),
   },
@@ -167,14 +167,6 @@ const routes: Route[] = [
     element: (
       <SupplierRoute>
         <ApiSupplySubmit />
-      </SupplierRoute>
-    ),
-  },
-  {
-    path: '/supply/apply_list',
-    element: (
-      <SupplierRoute>
-        <SupplyApplyList />
       </SupplierRoute>
     ),
   },
@@ -248,13 +240,21 @@ const routes: Route[] = [
       </ProtectRoute>
     ),
   },
+  {
+    path: '/mypage/wallet',
+    element: (
+      <ProtectRoute>
+        <AccountWallet />
+      </ProtectRoute>
+    ),
+  },
 
   {
     path: '/admin',
     element: (
-      <AdminRoute>
+      <PublicRoute>
         <AdminLogin />
-      </AdminRoute>
+      </PublicRoute>
     ),
   },
   {
@@ -266,11 +266,11 @@ const routes: Route[] = [
     ),
   },
   {
-    path: '/mypage/wallet',
+    path: '/test',
     element: (
-      <PrivateRoute>
-        <AccountWallet />
-      </PrivateRoute>
+      <AnyRoute>
+        <Test />
+      </AnyRoute>
     ),
   },
 

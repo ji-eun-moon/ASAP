@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import useNoticeList from 'hooks/api/notice/useNoticeList';
 import useNoticeStore from 'store/notice/useNoticeStore';
+import Spinner from 'components/common/Spinner';
 import { ReactComponent as RightArrow } from 'assets/icons/RightArrow.svg';
 import { ReactComponent as LeftArrow } from 'assets/icons/LeftArrow.svg';
 import { ReactComponent as RightArrowDisabled } from 'assets/icons/RightArrowDisabled.svg';
@@ -42,7 +43,9 @@ const NoticeList = forwardRef(() => {
   return (
     <div>
       {loading ? (
-        <p>Loading...</p>
+        <div className="flex justify-center">
+          <Spinner size="12" />
+        </div>
       ) : (
         <div>
           {pageNotices?.map((notice) => (

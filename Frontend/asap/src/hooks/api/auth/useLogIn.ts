@@ -22,8 +22,12 @@ const useLogIn = () => {
       //   서버에서 받은 응답 처리
       if (response.data === 'USER_ID_NOT_FOUND') {
         console.error('로그인 실패:', response.data);
+        alert('아이디를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.');
       } else if (response.data === 'PASSWORD_NOT_AUTHORIZED') {
         console.error('로그인 실패:', response.data);
+        alert(
+          '비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.',
+        );
       } else {
         console.log('로그인 성공:', response.data);
         window.location.replace(prevLocation || defaultRedirect);

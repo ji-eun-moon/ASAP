@@ -11,20 +11,28 @@ interface TableProps {
   left: string;
   right: number | string | React.ReactElement | undefined;
   height: string;
+  leftGrid: string;
+  rightGrid: string;
 }
-function Table({ left, right, height = '55px' }: TableProps) {
+function Table({
+  left,
+  right,
+  height = '55px',
+  leftGrid = '3',
+  rightGrid = '9',
+}: TableProps) {
   return (
     <div className="table-container grid grid-cols-12 justify-start items-center">
       {/* 왼쪽부분 */}
       <div
-        className="col-span-3 left-bgc flex items-center text-gray-600"
+        className={`col-span-${leftGrid} left-bgc flex items-center text-gray-600`}
         style={{ height }}
       >
         <span className="ml-7 text-.base table-text font-bold">{left}</span>
       </div>
       {/* 오른쪽부분 */}
       <div
-        className="col-span-9 right-bgc flex items-center"
+        className={`col-span-${rightGrid} right-bgc flex items-center`}
         style={{ height }}
       >
         <span className="ml-7 text-base table-text font-bold">{right}</span>

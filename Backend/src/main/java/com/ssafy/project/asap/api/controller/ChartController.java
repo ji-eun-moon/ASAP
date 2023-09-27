@@ -93,7 +93,7 @@ public class ChartController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     @Parameters({
-            @Parameter(name = "date", description = "년-월-일", example = "2023-09-01"),
+            @Parameter(name = "apiId", description = "api sequence", example = "12"),
     })
     public ResponseEntity<Object> DailyUsage(@RequestParam Map<String, String> params,
                                              Authentication authentication)  {

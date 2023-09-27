@@ -170,7 +170,7 @@ public class ApiService {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
-        params.put("date", Collections.singletonList(param.get("date")));
+        params.put("apiId", Collections.singletonList(String.valueOf(param.get("apiId"))));
 
         return serverGetConnect(params, "/api/v1/usage/daily/use");
     }

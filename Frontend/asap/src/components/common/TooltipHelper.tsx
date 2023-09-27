@@ -3,12 +3,14 @@ import { Tooltip } from '@material-tailwind/react';
 
 interface ITooltip {
   message: string | React.ReactElement;
-  width: string;
 }
 
-function TooltipHelper({ message, width }: ITooltip) {
+function TooltipHelper({ message }: ITooltip) {
   return (
-    <Tooltip content={<div className={`w-${width}`}>{message}</div>}>
+    <Tooltip
+      placement="top-start"
+      content={<div className="max-w-md">{message}</div>}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

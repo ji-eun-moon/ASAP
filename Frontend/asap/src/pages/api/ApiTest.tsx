@@ -12,6 +12,7 @@ import Editor from '@monaco-editor/react';
 import 'styles/api/ApiTest.scss';
 import Spinner from 'components/common/Spinner';
 import TooltipHelper from 'components/common/TooltipHelper';
+import useTrialCount from 'hooks/api/api/useTrialCount';
 
 interface Pair {
   idx: number;
@@ -26,6 +27,7 @@ function ApiTest() {
   const { apiUsage } = useGetApiUsage();
   const { isLoggedIn } = useAuthStore();
   const { params, setParam } = useQueryParamsStore();
+  const { trialLoading } = useTrialCount();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [data, setData] = useState<Pair[]>([]);
@@ -60,7 +62,6 @@ function ApiTest() {
   }
 
   const onApiTest = () => {
-    setLoading(true);
     const url = apiUsage?.api;
     const newUrl = url?.replace('/asap/', '/test/');
     if (!isLoggedIn) {
@@ -68,8 +69,13 @@ function ApiTest() {
       setIsModalOpen(true);
       return;
     }
+    if (trial === 0) {
+      setModalMessage('일일 테스트 가능량을 초과하였습니다.');
+      setIsModalOpen(true);
+      return;
+    }
+    setLoading(true);
     apiTest({ url: newUrl, params });
-    console.log(params);
   };
 
   // 복사 함수
@@ -93,12 +99,14 @@ function ApiTest() {
       </div>
 
       {/* 무료 테스트 횟수 */}
-      <div className="flex justify-end">
-        <div className="font-bold text-lg flex">
-          <div>무료 테스트 {trial} / 100 회</div>
-          <TooltipHelper message="일 100회 무료 테스트 제공" width="52" />
+      {trialLoading ? null : (
+        <div className="flex justify-end">
+          <div className="font-bold text-lg flex">
+            <div>무료 테스트 {trial} / 100 회</div>
+            <TooltipHelper message="일 100회 무료 테스트 제공" />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="grid grid-cols-2 gap-4">
         {/* Query Params */}
@@ -112,7 +120,7 @@ function ApiTest() {
               >
                 <div className="ps-2 font-semibold col-span-1 flex gap-1">
                   {item.key}
-                  <TooltipHelper message={item.description} width="72" />
+                  <TooltipHelper message={item.description} />
                 </div>
 
                 <div className="ps-2 font-semibold col-span-1">{item.type}</div>

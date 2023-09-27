@@ -132,13 +132,13 @@ public class ApiService {
     public Object findCategoryIdsById(Map<String, String> param) {
         Api api = findByApiId(Long.parseLong(param.get("apiId")));
 
-        String ids = "";
+        StringBuilder ids = new StringBuilder();
         List<Api> apis = apiRepository.findAllByCategory(api.getCategory());
         for (Api api1 : apis) {
-            ids += api1.getApiId().toString() + ",";
+            ids.append(api1.getApiId().toString()).append(",");
         }
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.put("ids", Collections.singletonList(ids));
+        params.put("ids", Collections.singletonList(ids.toString()));
         params.put("year", Collections.singletonList(param.get("year")));
         params.put("month", Collections.singletonList(param.get("month")));
 

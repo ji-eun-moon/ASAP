@@ -3,7 +3,6 @@ package com.ssafy.project.asap.api.controller;
 import com.ssafy.project.asap.api.service.ApiService;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.service.MemberService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

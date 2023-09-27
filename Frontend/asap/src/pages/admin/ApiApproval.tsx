@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'styles/admin/apiApproval.scss';
-
 import useAdminApiList from 'hooks/api/admin/useAdminApiList';
 import useAdminApiProgress from 'hooks/api/admin/useAdminApiProgress';
 import useAdminApiRejectReason from 'hooks/api/admin/useAdminApiRejectReason';
@@ -11,6 +10,7 @@ import Header from 'components/common/Header';
 import Modal from 'components/common/Modal';
 import { Tabs, TabsHeader, Tab, Card } from '@material-tailwind/react';
 import { Collapse, Ripple, initTE } from 'tw-elements';
+import { ReactComponent as TopArrow } from 'assets/icons/TopArrow.svg';
 
 import Table from 'components/mypage/InfoTable';
 import 'styles/common/Input.scss';
@@ -41,6 +41,15 @@ interface ApiDetailProps {
 /* apiDetail 화면 출력 함수 */
 function ApiDetail({ apiDetail }: ApiDetailProps) {
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
+  const headGrid = (head: string) => {
+    if (head === 'description') {
+      return 'col-span-5';
+    }
+    if (head === 'required') {
+      return 'col-span-1';
+    }
+    return 'col-span-2';
+  };
   console.log('tags', apiDetail?.tags);
   return (
     <div className="my-5">
@@ -49,20 +58,52 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
       ) : (
         // {/* 표 테두리 */}
         <div className="border-2">
-          <Table left="API 제목" right={apiDetail?.title} height="55px" />
+          <Table
+            left="API 제목"
+            right={apiDetail?.title}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="EndPoint" right={apiDetail?.api} height="55px" />
+          <Table
+            left="EndPoint"
+            right={apiDetail?.api}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="Method" right={apiDetail?.method} height="55px" />
+          <Table
+            left="Method"
+            right={apiDetail?.method}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="상세 내용" right={apiDetail?.content} height="55px" />
+          <Table
+            left="상세 내용"
+            right={apiDetail?.content}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="1회 요청 비용" right={apiDetail?.price} height="55px" />
+          <Table
+            left="1회 요청 비용"
+            right={apiDetail?.price}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
           <Table
             left="제공 종료 날짜"
             right={apiDetail?.provideDate}
             height="55px"
+            leftGrid="2"
+            rightGrid="10"
           />
           <hr />
           <Table
@@ -72,51 +113,59 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
                 ? JSON.parse(apiDetail.tags).map((tag: string) => <p>#{tag}</p>)
                 : ''
             }
-            height="200px"
+            height="100%"
+            leftGrid="2"
+            rightGrid="10"
           />
 
           <hr />
           <Table
             left="INPUT"
             right={
-              <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
-                <div className="grid grid-cols-5 bg-gray-200">
+              <Card className="w-full h-full container mx-auto my-3 p-5 bg-gray-200">
+                {/* 표 헤더 */}
+                <div className="grid grid-cols-12 bg-gray-200">
                   {TABLE_HEAD.map((head) => (
-                    <p
+                    <div
                       key={head}
-                      className="col-span-1 p-2 font-bold text-xl h-11"
+                      className={`${headGrid(head)} p-2 font-bold text-xl h-11`}
                     >
                       {head}
-                    </p>
+                    </div>
                   ))}
                 </div>
                 <hr className="h-0.5 bg-gray-500" />
                 <JsonTable jsonData={apiDetail.input} />
               </Card>
             }
-            height="200px"
+            height="100%"
+            leftGrid="2"
+            rightGrid="10"
           />
 
           <hr />
           <Table
             left="OUTPUT"
             right={
-              <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
-                <div className="grid grid-cols-5 bg-gray-200">
+              <Card className="w-full h-full container mx-auto my-3 p-5 bg-gray-200">
+                {/* 표 헤더 */}
+                <div className="grid grid-cols-12 bg-gray-200">
                   {TABLE_HEAD.map((head) => (
-                    <p
+                    <div
                       key={head}
-                      className="col-span-1 p-2 font-bold text-xl h-11"
+                      className={`${headGrid(head)} p-2 font-bold text-xl h-11`}
                     >
                       {head}
-                    </p>
+                    </div>
                   ))}
                 </div>
                 <hr className="h-0.5 bg-gray-500" />
                 <JsonTable jsonData={apiDetail.output} />
               </Card>
             }
-            height="200px"
+            height="100%"
+            leftGrid="2"
+            rightGrid="10"
           />
 
           <hr />
@@ -124,6 +173,8 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
             left="API 제공 신청자"
             right={`${apiDetail?.name} (${apiDetail?.id})`}
             height="55px"
+            leftGrid="2"
+            rightGrid="10"
           />
           <hr />
           <Table
@@ -136,6 +187,8 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
                 : ''
             }
             height="55px"
+            leftGrid="2"
+            rightGrid="10"
           />
         </div>
       )}
@@ -145,6 +198,26 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
 
 /* 함수 */
 function ApiApproval() {
+  /* 스크롤 위치 파악 */
+  const [position, setPosition] = useState(0);
+  const onScroll = () => {
+    setPosition(window.scrollY);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+  const onScrollUpHandler = () => {
+    if (!window.scrollY) return;
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   /* 모달 open/close */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
@@ -284,78 +357,80 @@ function ApiApproval() {
     }
 
     return apis.map((api) => (
-      <div className="w-full grid grid-cols-5 my-5" key={api.applyId}>
-        <div className="col-span-1 text-center font-medium">
-          {api.createDate.split('T')[0]}
-        </div>
-        <div className="col-span-3 text-center font-medium">
-          <div
-            role="button"
-            tabIndex={0}
-            className="col-span-3 text-center font-medium"
-            onClick={() => showDetail(api.applyId)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === 'Space') {
-                showDetail(api.applyId);
-              }
-            }}
-          >
-            {api.title}
+      <div>
+        <div className="w-full grid grid-cols-5 my-5" key={api.applyId}>
+          <div className="col-span-1 text-center font-medium">
+            {api.createDate.split('T')[0]}
+          </div>
+          <div className="col-span-3 text-center font-medium">
+            <div
+              role="button"
+              tabIndex={0}
+              className="col-span-3 text-center font-medium"
+              onClick={() => showDetail(api.applyId)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === 'Space') {
+                  showDetail(api.applyId);
+                }
+              }}
+            >
+              {api.title}
+            </div>
+          </div>
+
+          <div className="col-span-1 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                if (api.progress !== '승인' && api.progress !== '거절') {
+                  handleClick(api.applyId, api.title);
+                }
+              }}
+              className={getClassName(api.progress)}
+            >
+              {api.progress}
+            </button>
+            {clicked && api.applyId === nowApiId ? (
+              <ul className="ulTag">
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => changeState(api.applyId, '대기')}
+                  >
+                    대기
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => changeState(api.applyId, '승인')}
+                  >
+                    승인
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => changeState(api.applyId, '진행')}
+                  >
+                    진행
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => changeState(api.applyId, '거절')}
+                  >
+                    거절
+                  </button>
+                </li>
+              </ul>
+            ) : (
+              ''
+            )}
           </div>
         </div>
-
-        <div className="col-span-1 text-center">
-          <button
-            type="button"
-            onClick={() => {
-              if (api.progress !== '승인' && api.progress !== '거절') {
-                handleClick(api.applyId, api.title);
-              }
-            }}
-            className={getClassName(api.progress)}
-          >
-            {api.progress}
-          </button>
-          {clicked && api.applyId === nowApiId ? (
-            <ul className="ulTag">
-              <li>
-                <button
-                  type="button"
-                  onClick={() => changeState(api.applyId, '대기')}
-                >
-                  대기
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => changeState(api.applyId, '승인')}
-                >
-                  승인
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => changeState(api.applyId, '진행')}
-                >
-                  진행
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => changeState(api.applyId, '거절')}
-                >
-                  거절
-                </button>
-              </li>
-            </ul>
-          ) : (
-            ''
-          )}
-        </div>
-        <div className="col-span-5">
+        <div>
           {detailApplyId === api.applyId && isOpened && (
             <ApiDetail apiDetail={apiDetail} />
           )}
@@ -483,8 +558,13 @@ function ApiApproval() {
         <div>
           <Header title="API 신청내역" />
 
-          <div className="flex justify-arouond w-full mt-8">
-            <div className="border-right w-1/6 flex flex-col justify-center items-center text-center my-4">
+          <div className="flex justify-arouond w-full mt-8 h-auto">
+            <div
+              className="leftMenu border-right w-1/6 flex flex-col items-center text-center my-4"
+              style={{ backgroundPositionY: position }}
+              data-hs-scrollspy="#scrollspy-2"
+              data-hs-scrollspy-scrollable-parent="#scrollspy-scrollable-parent-2"
+            >
               <Tabs value={selectedItem} orientation="vertical">
                 <TabsHeader className="w-40">
                   {data.map(({ label, value }) => (
@@ -521,6 +601,16 @@ function ApiApproval() {
               <div className="my-6 pb-3 w-full border-bottom text-center">
                 {selectedItem === '전체 조회' ? allApis() : filterdApis()}
               </div>
+              <div className="topBtnWrap">
+                <button
+                  type="button"
+                  className="topBtn"
+                  onClick={onScrollUpHandler}
+                >
+                  <TopArrow className="w-8 h-auto" />
+                </button>
+              </div>
+
               {rejectState ? ( // 거절을 눌렀을 때 거절사유 입력 모달 뜨는 부분
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                   <div className="flex flex-col justify-center content-center font-semibold">

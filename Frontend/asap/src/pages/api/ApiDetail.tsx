@@ -13,11 +13,10 @@ function ApiDetail() {
   const [apply, setApply] = useState<boolean>(true);
   const { apiId, apiDetail } = useGetApiDetail();
   const { checkApply } = useCheckApply();
-
+  console.log(apiDetail);
   useEffect(() => {
     const fetchApply = async () => {
       if (authToken) {
-        console.log('a');
         const check = await checkApply(apiId);
         if (check === 'NOT_REGISTERED_API') {
           setApply(false);
@@ -47,7 +46,7 @@ function ApiDetail() {
   };
 
   // 표 데이터
-  const headers = ['API', 'API 출처', '제공데이터', '비고'];
+  const headers = ['API', 'API 출처', '제공데이터', '가격 (건당)'];
   const data = [
     {
       title: { key: 'title', content: apiDetail?.title },
@@ -56,9 +55,9 @@ function ApiDetail() {
         key: 'output',
         content: <JsonName jsonData={apiDetail?.output} />,
       },
-      usage: {
-        key: 'usage',
-        content: <Link to={`/api_list/${apiId}/usage`}>상세보기</Link>,
+      price: {
+        key: 'price',
+        content: <span className="price">{apiDetail?.price}</span>,
       },
     },
   ];

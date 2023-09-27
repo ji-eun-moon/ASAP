@@ -24,11 +24,29 @@ function AccountInfo() {
           <br />
           {/* 표 테두리 */}
           <div className="border-2">
-            <Table left="아이디" right={memberInfo?.id} height="55px" />
+            <Table
+              left="아이디"
+              right={memberInfo?.id}
+              height="55px"
+              leftGrid="3"
+              rightGrid="9"
+            />
             <hr />
-            <Table left="이름" right={memberInfo?.name} height="55px" />
+            <Table
+              left="이름"
+              right={memberInfo?.name}
+              height="55px"
+              leftGrid="3"
+              rightGrid="9"
+            />
             <hr />
-            <Table left="이메일" right={memberInfo?.email} height="55px" />
+            <Table
+              left="이메일"
+              right={memberInfo?.email}
+              height="55px"
+              leftGrid="3"
+              rightGrid="9"
+            />
           </div>
           {/* 수정,탈퇴 flex div */}
           <div className="flex justify-end mt-4">

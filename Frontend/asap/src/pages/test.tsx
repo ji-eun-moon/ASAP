@@ -1,4 +1,4 @@
-import ChartFrame from 'components/chart/ChartFrame';
+import ChartFrame from 'components/chart/ChartFramee';
 import LineChart from 'components/chart/LineChart';
 import React from 'react';
 

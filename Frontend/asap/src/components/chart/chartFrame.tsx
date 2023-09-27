@@ -12,16 +12,16 @@ interface ChartFrameProps {
   width: string;
   height: string;
   title: string;
-  fontsize: string;
+  fontSize: string;
 }
 
-function ChartFrame({ width, height, title, fontsize }: ChartFrameProps) {
+function ChartFrame({ width, height, title, fontSize }: ChartFrameProps) {
   const frameStyle = {
     width,
     height,
   };
   const fontSizeStyle = {
-    fontSize: fontsize,
+    fontSize,
   };
   return (
     <div

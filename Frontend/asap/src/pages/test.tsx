@@ -9,7 +9,7 @@ const test = () => {
           width="500px"
           height="500px"
           title="안녕하세요"
-          fontsize="20px"
+          fontSize="20px"
         />
       </div>
     </div>

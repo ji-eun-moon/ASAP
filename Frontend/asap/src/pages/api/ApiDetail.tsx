@@ -13,11 +13,10 @@ function ApiDetail() {
   const [apply, setApply] = useState<boolean>(true);
   const { apiId, apiDetail } = useGetApiDetail();
   const { checkApply } = useCheckApply();
-
+  console.log(apiDetail);
   useEffect(() => {
     const fetchApply = async () => {
       if (authToken) {
-        console.log('a');
         const check = await checkApply(apiId);
         if (check === 'NOT_REGISTERED_API') {
           setApply(false);

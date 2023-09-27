@@ -23,7 +23,7 @@ function Intro({ navigate, text }: IIntrorops) {
         <button
           type="button"
           onClick={onNavigateHandler}
-          className="main-button"
+          className="main-button up"
         >
           <div className="buttontext">{text}</div>
           <Button className="intro-button" />

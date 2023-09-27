@@ -25,4 +25,10 @@ public class WalletService {
         return wallet.getWalletId();
     }
 
+    public String findPwdByAddress(String address) {
+        return walletRepository.findByAddress(address).getPrivateKey();
+    }
+
+
+
 }

@@ -3,6 +3,8 @@ package com.core.apiserver.wallet.controller;
 import com.core.apiserver.global.util.Sha256Util;
 import com.core.apiserver.wallet.entity.dto.CreateWalletRequest;
 
+import com.core.apiserver.wallet.entity.dto.SendEtherRequest;
+import com.core.apiserver.wallet.service.EthereumService;
 import com.core.apiserver.wallet.service.UsageContractService;
 import com.core.apiserver.wallet.service.WalletService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +28,7 @@ public class WalletController {
     private final WalletService walletService;
     private final UsageContractService usageContractService;
     private final Sha256Util sha256Util;
+    private final EthereumService ethereumService;
 
     @GetMapping("/test")
     @Operation(summary = "test", description = "스마트 컨트랙트 test")
@@ -74,5 +77,12 @@ public class WalletController {
     })
     public ResponseEntity<Long> register(@RequestBody CreateWalletRequest createWalletRequest) {
         return ResponseEntity.ok(walletService.register(createWalletRequest));
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<?> sendEther(@RequestBody SendEtherRequest sendEtherRequest) throws IOException, ExecutionException, InterruptedException {
+        ethereumService.sendEther(sendEtherRequest.getFrom(), sendEtherRequest.getPwd(),
+                sendEtherRequest.getTo(), sendEtherRequest.getPrice());
+        return ResponseEntity.status(201).body("");
     }
 }

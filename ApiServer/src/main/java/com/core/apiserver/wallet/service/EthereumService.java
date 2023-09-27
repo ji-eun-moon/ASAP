@@ -25,12 +25,13 @@ import java.util.concurrent.ExecutionException;
 public class EthereumService {
     @Autowired
     private Sha256Util sha256Util;
-
     private String from = "0xb2f25bea384704fc26d60f1bf7490444df21babe";
-    private String contract = "0x60b0f09e73cc508bd2553179dc445586cfb3ca3e";
+
+    private String contract = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+
+    private String pwd = "pass";
 
     // hardcording because of testing
-    private String pwd = "pass";
 
     private Admin web3j = null;
 
@@ -94,10 +95,8 @@ public class EthereumService {
             // transaction에 대한 transaction Hash값 얻기.
             String transactionHash = ethSendTransaction.getTransactionHash();
 
-
-
             // ledger 에 쓰여지기까지 기다리기
-            Thread.sleep(5000);
+            // Thread.sleep(5000);
 
             return transactionHash;
         } else {
@@ -130,6 +129,36 @@ public class EthereumService {
 
 
         return transactionReceipt.getResult();
+    }
+
+
+    public void sendEther(String from, String pwd, String to, BigInteger price) throws IOException, ExecutionException, InterruptedException {
+        PersonalUnlockAccount personalUnlockAccount = web3j.personalUnlockAccount(from, pwd).send();
+
+        if (personalUnlockAccount.accountUnlocked()) {
+
+            // 2. account에 대한 nonce값 가져오기
+            EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
+                    from, DefaultBlockParameterName.LATEST).sendAsync().get();
+
+            BigInteger nonce = ethGetTransactionCount.getTransactionCount();
+            BigInteger legoWei = new BigInteger("1000000000000");
+
+            Transaction transaction =  Transaction.createEtherTransaction(from, nonce, Transaction.DEFAULT_GAS, null, to,
+                    price.multiply(legoWei));
+
+
+            // 4. ethereum Call &
+            EthSendTransaction ethSendTransaction = web3j.ethSendTransaction(transaction).send();
+
+
+            // transaction에 대한 transaction Hash값 얻기.
+            String transactionHash = ethSendTransaction.getTransactionHash();
+            log.info(transactionHash);
+
+        } else {
+            throw new PersonalLockException("check ethereum personal Lock");
+        }
     }
 
 

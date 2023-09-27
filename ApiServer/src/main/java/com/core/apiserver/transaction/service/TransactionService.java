@@ -1,14 +1,12 @@
 package com.core.apiserver.transaction.service;
 
-import com.core.apiserver.api.entity.domain.Api;
-import com.core.apiserver.daily.entity.domain.Daily;
+import com.core.apiserver.global.increase.service.AutoIncreaseService;
 import com.core.apiserver.global.util.Sha256Util;
 import com.core.apiserver.transaction.entity.domain.Transaction;
+import com.core.apiserver.transaction.entity.dto.request.TransactionRequest;
 import com.core.apiserver.transaction.repository.TransactionRepository;
-import com.core.apiserver.usage.entity.domain.MongoUsage;
-import com.core.apiserver.usage.repository.MongoUsageRepository;
-import com.core.apiserver.wallet.entity.domain.Wallet;
 import com.core.apiserver.wallet.service.UsageContractService;
+import com.core.apiserver.wallet.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -29,63 +26,67 @@ import java.util.concurrent.ExecutionException;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final MongoUsageRepository mongoUsageRepository;
     private final UsageContractService usageContractService;
     private final Sha256Util sha256Util;
+    private final AutoIncreaseService autoIncreaseService;
+    private final WalletService walletService;
 
     @Transactional
-    public void register(Daily daily) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
-        Wallet userWallet = daily.getUserWallet();
-        Wallet providerWallet = daily.getProviderWallet();
+    public void register(TransactionRequest transactionRequest) {
+        log.info(transactionRequest.getUserWalletAddress());
+        log.info(transactionRequest.getProviderWalletAddress());
+        log.info(transactionRequest.getApiTitle());
+        log.info(transactionRequest.getStartDate().toString());
+        log.info(transactionRequest.getEndDate().toString());
 
-        Api api = daily.getApi();
-
-        List<MongoUsage> mongoUsages = mongoUsageRepository.findAllByUserWalletIdAndApiId(userWallet.getWalletId(),
-                providerWallet.getWalletId());
-        List<Long> record = new ArrayList<>();
-        for (MongoUsage mongoUsage : mongoUsages){
-            record.add(mongoUsage.getUseAt());
-            mongoUsageRepository.delete(mongoUsage);
-        }
-
-
-//        Transaction transaction = Transaction.builder()
-//                .transactionHash(txHash)
-//                .userWalletAddress(userWallet.getAddress())
-//                .providerWalletAddress(providerWallet.getAddress())
-//                .hash(sha256Util.bytesToHex(shaConvert(jsonObject)))
-//                .usageRecode(record)
-//                .apiTitle(api.getTitle())
-//                .build();
-
-//        transactionRepository.save(transaction);
+        Transaction transaction = Transaction.builder()
+                ._id(autoIncreaseService.generateSequence(Transaction.TRANSACTION_SEQUENCE))
+                .userWalletAddress(transactionRequest.getUserWalletAddress())
+                .providerWalletAddress(transactionRequest.getProviderWalletAddress())
+                .apiTitle(transactionRequest.getApiTitle())
+                .startDate(transactionRequest.getStartDate())
+                .usageRecord(new ArrayList<>())
+                .endDate(transactionRequest.getEndDate())
+                .build();
+        Transaction saveTransaction = transactionRepository.save(transaction);
+        log.info(transaction.toString());
+        log.info(saveTransaction.toString());
     }
 
     @Transactional
-    public void update(String s, List<Long> usageRecords) {
-        Transaction transaction = transactionRepository.findById(s).orElseThrow();
+    public void update(Long ids, List<String> usageRecords) {
+        Transaction transaction = transactionRepository.findById(ids).orElseThrow();
 
         transaction.updateRecord(usageRecords);
         transactionRepository.save(transaction);
     }
+
     @Transactional
+    public void delete() {
+        transactionRepository.delete(transactionRepository.findById(1L).get());
+    }
+
     public void toBlock(Transaction transaction) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
 
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("기간", LocalDate.now().minusDays(1) + "~" + LocalDate.now().minusDays(8));
-        jsonObject.put("사용자 지갑 주소", transaction.getUserWalletAddress());
-        jsonObject.put("API 이름", transaction.getApiTitle());
-        jsonObject.put("제공자 지갑 주소", transaction.getProviderWalletAddress());
-        jsonObject.put("기록", transaction.getUsageRecord());
-
-        String txHash = usageContractService.setUsage(shaConvert(jsonObject));
-        jsonObject.put("트랜잭션", txHash);
-
-        transaction.updateTransactionHash(txHash, sha256Util.bytesToHex(shaConvert(jsonObject)));
-
+        String txHash = usageContractService.setUsage(sha256Util.encryptToBytes(transaction.toString()));
+        transaction.updateTransactionHash(txHash, sha256Util.encrypt(transaction.toString()));
         transactionRepository.save(transaction);
     }
+
+
+//    @Transactional
+//    public void toBlock(Transaction transaction) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
+//
+//
+//
+//
+//        String txHash = usageContractService.setUsage(sha256Util.encryptToBytes(transaction.toString()));
+//        jsonObject.put("트랜잭션", txHash);
+//
+//        transaction.updateTransactionHash(txHash, sha256Util.bytesToHex(shaConvert(jsonObject)));
+//
+//        transactionRepository.save(transaction);
+//    }
 
     public String test() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
 

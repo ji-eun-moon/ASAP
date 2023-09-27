@@ -8,6 +8,7 @@ import com.core.apiserver.daily.entity.dto.request.DailyUsageRequest;
 import com.core.apiserver.daily.entity.dto.request.GetCategoryApiIds;
 import com.core.apiserver.daily.entity.dto.request.GetDailyRequest;
 import com.core.apiserver.daily.entity.dto.request.MonthlyUsageRequest;
+import com.core.apiserver.daily.entity.dto.response.DailyUsageResponse;
 import com.core.apiserver.daily.entity.dto.response.ProvidingResponse;
 import com.core.apiserver.daily.entity.dto.response.UsageResponse;
 import com.core.apiserver.daily.repository.DailyRepository;
@@ -86,6 +87,9 @@ public class DailyService {
 
                 usageResponses.add(new UsageResponse(new ApiResponse(total.getApi()), amount, price));
             }
+            usageResponses.sort((o1, o2) -> {
+                return Double.compare(o2.getPrice(), o1.getPrice());
+            });
             map.put(yearMonth, usageResponses);
 
         }
@@ -94,24 +98,21 @@ public class DailyService {
         return map;
     }
 
-    public List<UsageResponse> dailyUsage(GetDailyRequest getDailyRequest) {
+    public List<DailyUsageResponse> dailyUsage(GetDailyRequest getDailyRequest) {
 
-        List<Total> totals = totalRepository.findAllByUserWallet(walletRepository.findById(getDailyRequest.getUserWalletId()).orElseThrow());
+        Wallet wallet = walletRepository.findById(getDailyRequest.getUserWalletId()).orElseThrow();
+        Api api = apiRepository.findById(getDailyRequest.getApiId()).orElseThrow();
+        List<DailyUsageResponse> usageResponses = new ArrayList<>();
+        List<Daily> dailies = dailyRepository.findAllByUserWalletAndApiAndDateBetweenOrderByDateDesc(wallet,
+                api, LocalDate.now().minusDays(30), LocalDate.now());
 
-        List<UsageResponse> usageResponses = new ArrayList<>();
-        for (Total total : totals) {
-            Optional<Daily> daily = dailyRepository.findByUserWalletAndApiAndDate(total.getUserWallet(),
-                    total.getApi(), getDailyRequest.getDate());
-
-            if (daily.isEmpty()) {
-                continue;
-            }
-
-            Long amount = daily.get().getUseAmount();
-            Long price = amount * total.getApi().getPrice();
-
-            usageResponses.add(new UsageResponse(new ApiResponse(total.getApi()), amount, price));
+        for (Daily daily: dailies) {
+            usageResponses.add(new DailyUsageResponse(daily.getDate(), daily.getUseAmount(),
+                    daily.getUseAmount() * api.getPrice()));
         }
+        usageResponses.sort((o1, o2) -> {
+            return o1.getDate().compareTo(o2.getDate());
+        });
 
         return usageResponses;
     }
@@ -141,6 +142,9 @@ public class DailyService {
                     providingResponses.add(new ProvidingResponse(api.getApiId(), api.getTitle(), amount, price));
                 }
             }
+            providingResponses.sort((o1, o2) -> {
+                return Double.compare(o2.getPrice(), o1.getPrice());
+            });
             map.put(yearMonth, providingResponses);
 
         }

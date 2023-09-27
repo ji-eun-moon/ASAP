@@ -99,7 +99,7 @@ public class DailyController {
     })
     public ResponseEntity<?> daily(@RequestParam Map<String, String> params) {
         GetDailyRequest getDailyRequest = new GetDailyRequest(Long.parseLong(params.get("userWalletId")),
-                LocalDate.parse(params.get("date")));
+                Long.parseLong(params.get("apiId")), LocalDate.now());
         return ResponseEntity.status(200).body(dailyService.dailyUsage(getDailyRequest));
     }
 

@@ -17,4 +17,7 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     List<Daily> findAllByApiAndDateBetween(Api api, LocalDate startDate, LocalDate endDate);
 
+    List<Daily> findAllByUserWalletAndApiAndDateBetweenOrderByDateDesc(Wallet userWallet, Api api,
+                                                                       LocalDate startDate, LocalDate endDate);
+
 }

@@ -1,4 +1,4 @@
-package com.core.apiserver.daily.entity.dto.request;
+package com.core.apiserver.daily.entity.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,9 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetDailyRequest {
-    private Long userWalletId;
-    private Long apiId;
+public class DailyUsageResponse {
+
     private LocalDate date;
+    private Long amount;
+    private Long price;
 }

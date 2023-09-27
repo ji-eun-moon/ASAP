@@ -10,6 +10,7 @@ interface IApi {
   content: string;
   output: string;
   tags: string;
+  price: string;
 }
 
 const useGetApiDetail = () => {

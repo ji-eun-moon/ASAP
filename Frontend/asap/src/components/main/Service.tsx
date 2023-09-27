@@ -13,7 +13,7 @@ function Service() {
     <div className="service-container">
       <Fade cascade damping={0.15}>
         <div className="service-title">ASAP에서는 가능합니다</div>
-        <div className="service-content">
+        <div className="service-content pb-36">
           <div className="service-text">
             <Key className="deco" />
             <div className="content-title">
@@ -28,7 +28,7 @@ function Service() {
           </div>
           <WebKey className="service-image" />
         </div>
-        <div className="service-content">
+        <div className="service-content pb-36">
           <WebBlock className="service-image" />
           <div className="service-text items-end">
             <div>
@@ -44,7 +44,7 @@ function Service() {
             </div>
           </div>
         </div>
-        <div className="service-content">
+        <div className="service-content pb-20">
           <div className="service-text">
             <Chart className="deco" />
             <div className="content-title">

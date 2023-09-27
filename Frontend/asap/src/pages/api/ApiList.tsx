@@ -101,14 +101,14 @@ function ApiList() {
           <div className="grid grid-cols-9 flex justify-center items-center">
             {selectedCategory === '전체'
               ? apiList?.map((api) => (
-                  <div key={api.apiId} className="col-span-3 w-full">
+                  <div key={api.apiId} className="col-span-3 w-full mb-5">
                     {!apiList ? (
                       <div>상품이 없습니다</div>
                     ) : (
                       <div
                         onClick={() => navigate(`/api_list/${api.apiId}`)}
                         aria-hidden="true"
-                        className="w-full h-full flex justify-center m-3"
+                        className="w-full h-full flex justify-center"
                       >
                         <ApiListCard
                           category={api.category}
@@ -121,14 +121,14 @@ function ApiList() {
                   </div>
                 ))
               : selectedItems?.map((api) => (
-                  <div key={api.apiId} className="col-span-3 w-full">
+                  <div key={api.apiId} className="col-span-3 w-full mb-5">
                     {selectedCount === 0 ? (
                       <div>상품이 없습니다</div>
                     ) : (
                       <div
                         onClick={() => navigate(`/api_list/${api.apiId}`)}
                         aria-hidden="true"
-                        className="w-full h-full flex justify-center m-3"
+                        className="w-full h-full flex justify-center"
                       >
                         <ApiListCard
                           category={api.category}

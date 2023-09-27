@@ -20,7 +20,7 @@ function Footer() {
         </div>
         <div>
           <div className="title">문의</div>
-          <div>asap@ssafy.com</div>
+          <div>ssafyc202@gmail.com</div>
         </div>
       </div>
       <div className="right">

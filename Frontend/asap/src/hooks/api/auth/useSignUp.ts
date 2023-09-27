@@ -16,6 +16,7 @@ const useSignUp = () => {
         data: { id, password, name, email },
       });
       // 서버에서 받은 응답 처리
+      console.log(response);
       if (response.status === 200) {
         console.log('회원가입 성공:', response.data);
         // alert('환영합니다.');

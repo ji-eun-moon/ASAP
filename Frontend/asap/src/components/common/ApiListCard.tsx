@@ -10,7 +10,7 @@ interface cardInfo {
 }
 function ApiListCard({ category, title, content, tags }: cardInfo) {
   return (
-    <div className="lg:hover:scale-105 transition-transform bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-xs w-full h-72 flex flex-col justify-center items-center">
+    <div className="lg:hover:scale-105 transition-transform bg-white font-semibold text-center rounded-3xl border shadow-lg p-10 max-w-sm w-full h-72 flex flex-col justify-center items-center cursor-pointer">
       {/* <img src={Car} alt="car logo" className="h-24 w-56" /> */}
       <CategoryImg category={category} />
       <h1 className="text-2xl text-gray-700 mb-1"> {title} </h1>

@@ -5,7 +5,12 @@ const test = () => {
   return (
     <div className="ml-32 mt-32">
       <div>
-        <ChartFrame width="50px" height="50px" title="안녕하세요" />
+        <ChartFrame
+          width="500px"
+          height="500px"
+          title="안녕하세요"
+          fontsize="20px"
+        />
       </div>
     </div>
   );

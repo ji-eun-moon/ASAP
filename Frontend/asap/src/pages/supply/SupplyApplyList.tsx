@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useSupplyApplyList from 'hooks/api/supply/useSupplyApplyList';
 import { useNavigate } from 'react-router-dom';
 import Header from 'components/common/Header';
 import { Tabs, TabsHeader, Tab, Card, Button } from '@material-tailwind/react';
 import { Collapse, Ripple, initTE } from 'tw-elements';
+import { ReactComponent as TopArrow } from 'assets/icons/TopArrow.svg';
 
 import Table from 'components/mypage/InfoTable';
 import 'styles/common/Input.scss';
@@ -18,6 +19,15 @@ function ApiDetail(
   { apiDetail = {} }: any, // eslint-disable-line @typescript-eslint/no-explicit-any
 ) {
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
+  const headGrid = (head: string) => {
+    if (head === 'description') {
+      return 'col-span-5';
+    }
+    if (head === 'required') {
+      return 'col-span-1';
+    }
+    return 'col-span-2';
+  };
   console.log('tags', apiDetail.tags);
   return (
     <div className="my-5">
@@ -81,7 +91,7 @@ function ApiDetail(
                 ? JSON.parse(apiDetail.tags).map((tag: string) => <p>#{tag}</p>)
                 : ''
             }
-            height="200px"
+            height="100%"
             leftGrid="2"
             rightGrid="10"
           />
@@ -90,22 +100,23 @@ function ApiDetail(
           <Table
             left="INPUT"
             right={
-              <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
-                <div className="grid grid-cols-5 bg-gray-200">
+              <Card className="w-full h-full container mx-auto my-3 p-5 bg-gray-200">
+                {/* 표 헤더 */}
+                <div className="grid grid-cols-12 bg-gray-200">
                   {TABLE_HEAD.map((head) => (
-                    <p
+                    <div
                       key={head}
-                      className="col-span-1 p-2 font-bold text-xl h-11"
+                      className={`${headGrid(head)} p-2 font-bold text-xl h-11`}
                     >
                       {head}
-                    </p>
+                    </div>
                   ))}
                 </div>
                 <hr className="h-0.5 bg-gray-500" />
                 <JsonTable jsonData={apiDetail.input} />
               </Card>
             }
-            height="200px"
+            height="100%"
             leftGrid="2"
             rightGrid="10"
           />
@@ -114,22 +125,23 @@ function ApiDetail(
           <Table
             left="OUTPUT"
             right={
-              <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
-                <div className="grid grid-cols-5 bg-gray-200">
+              <Card className="w-full h-full container mx-auto my-3 p-5 bg-gray-200">
+                {/* 표 헤더 */}
+                <div className="grid grid-cols-12 bg-gray-200">
                   {TABLE_HEAD.map((head) => (
-                    <p
+                    <div
                       key={head}
-                      className="col-span-1 p-2 font-bold text-xl h-11"
+                      className={`${headGrid(head)} p-2 font-bold text-xl h-11`}
                     >
                       {head}
-                    </p>
+                    </div>
                   ))}
                 </div>
                 <hr className="h-0.5 bg-gray-500" />
                 <JsonTable jsonData={apiDetail.output} />
               </Card>
             }
-            height="200px"
+            height="100%"
             leftGrid="2"
             rightGrid="10"
           />
@@ -172,6 +184,26 @@ function SupplyApplyList() {
 
   const [detailApplyId, setDetailApplyId] = useState<number | null>(null); // 상세 내용 볼 api Id
   const [isOpened, setIsOpened] = useState(false); // 상세 내용 창이 열렸는지 유무(true/false)
+  /* 스크롤 위치 파악 */
+  const [position, setPosition] = useState(0);
+  const onScroll = () => {
+    setPosition(window.scrollY);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+  const onScrollUpHandler = () => {
+    if (!window.scrollY) return;
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   /* 특정 api의 상세 내용 조회 */
   const showDetail = async (applyId: number) => {
     console.log(applyId);
@@ -320,8 +352,13 @@ function SupplyApplyList() {
     <div>
       <Header title="API 신청내역" />
 
-      <div className="flex justify-arouond w-full mt-8">
-        <div className="border-right w-1/6 flex flex-col justify-center items-center text-center my-4">
+      <div className="flex justify-arouond w-full mt-8 h-auto">
+        <div
+          className="leftMenu border-right w-1/6 flex flex-col items-center text-center my-4"
+          style={{ backgroundPositionY: position }}
+          data-hs-scrollspy="#scrollspy-2"
+          data-hs-scrollspy-scrollable-parent="#scrollspy-scrollable-parent-2"
+        >
           <Tabs value={selectedItem} orientation="vertical">
             <TabsHeader className="w-40">
               {data.map(({ label, value }) => (
@@ -361,6 +398,15 @@ function SupplyApplyList() {
 
           <div className="my-6 pb-3 w-full border-bottom text-center">
             {selectedItem === '전체 조회' ? allApis() : filterdApis()}
+          </div>
+          <div className="topBtnWrap">
+            <button
+              type="button"
+              className="topBtn"
+              onClick={onScrollUpHandler}
+            >
+              <TopArrow className="w-8 h-auto" />
+            </button>
           </div>
         </div>
       </div>

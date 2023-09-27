@@ -72,6 +72,8 @@ public class AsapTestController {
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
 
+            redisService.setCount(authentication.getName());
+
             return ResponseEntity.ok(responseEntity.getBody());
 
         } catch (Exception e) {

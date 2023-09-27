@@ -168,6 +168,8 @@ public class ApplyController {
                             .walletId(api.getMember().getWalletId())
                     .build());
 
+            noticeService.saveApproveApply(request.getApplyId());
+
             return ResponseEntity.ok("승인 완료");
         } catch (CustomException e){
 

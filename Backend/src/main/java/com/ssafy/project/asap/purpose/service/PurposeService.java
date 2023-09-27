@@ -11,6 +11,7 @@ import com.ssafy.project.asap.member.repository.MemberRepository;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import com.ssafy.project.asap.purpose.entity.dto.request.RegisterPurposeRequest;
 import com.ssafy.project.asap.purpose.entity.dto.request.TotalRequest;
+import com.ssafy.project.asap.purpose.entity.dto.response.FindPurposesResponse;
 import com.ssafy.project.asap.purpose.repository.PurposeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -95,5 +98,21 @@ public class PurposeService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Object.class);
         log.info(responseEntity.toString());
+    }
+
+    public List<FindPurposesResponse> findAllByMember(String id){
+
+        List<FindPurposesResponse> list = new ArrayList<>();
+
+        for(Purpose purpose : purposeRepository.findAllByMember(memberRepository.findById(id).get())){
+
+            list.add(FindPurposesResponse.builder()
+                            .title(purpose.getApi().getTitle())
+                    .build());
+
+        }
+
+        return list;
+
     }
 }

@@ -26,20 +26,52 @@ function ApiDetail(
       ) : (
         // {/* 표 테두리 */}
         <div className="border-2">
-          <Table left="API 제목" right={apiDetail?.title} height="55px" />
+          <Table
+            left="API 제목"
+            right={apiDetail?.title}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="EndPoint" right={apiDetail?.api} height="55px" />
+          <Table
+            left="EndPoint"
+            right={apiDetail?.api}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="Method" right={apiDetail?.method} height="55px" />
+          <Table
+            left="Method"
+            right={apiDetail?.method}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="상세 내용" right={apiDetail?.content} height="55px" />
+          <Table
+            left="상세 내용"
+            right={apiDetail?.content}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
-          <Table left="1회 요청 비용" right={apiDetail?.price} height="55px" />
+          <Table
+            left="1회 요청 비용"
+            right={apiDetail?.price}
+            height="55px"
+            leftGrid="2"
+            rightGrid="10"
+          />
           <hr />
           <Table
             left="제공 종료 날짜"
             right={apiDetail?.provideDate}
             height="55px"
+            leftGrid="2"
+            rightGrid="10"
           />
           <hr />
           <Table
@@ -50,6 +82,8 @@ function ApiDetail(
                 : ''
             }
             height="200px"
+            leftGrid="2"
+            rightGrid="10"
           />
 
           <hr />
@@ -72,6 +106,8 @@ function ApiDetail(
               </Card>
             }
             height="200px"
+            leftGrid="2"
+            rightGrid="10"
           />
 
           <hr />
@@ -94,6 +130,8 @@ function ApiDetail(
               </Card>
             }
             height="200px"
+            leftGrid="2"
+            rightGrid="10"
           />
 
           <hr />
@@ -101,6 +139,8 @@ function ApiDetail(
             left="API 제공 신청자"
             right={`${apiDetail?.name} (${apiDetail?.id})`}
             height="55px"
+            leftGrid="2"
+            rightGrid="10"
           />
           <hr />
           <Table
@@ -113,6 +153,8 @@ function ApiDetail(
                 : ''
             }
             height="55px"
+            leftGrid="2"
+            rightGrid="10"
           />
         </div>
       )}

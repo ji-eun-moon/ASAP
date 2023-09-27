@@ -117,7 +117,7 @@ public class ApiService {
         HttpEntity<?> httpEntity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Object.class);
+        restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Object.class);
 
 //        log.info((String) responseEntity.getBody());
 

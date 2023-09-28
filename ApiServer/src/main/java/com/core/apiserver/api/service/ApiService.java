@@ -6,20 +6,29 @@ import com.core.apiserver.api.repository.ApiRepository;
 import com.core.apiserver.total.repository.TotalRepository;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ApiService {
@@ -85,5 +94,35 @@ public class ApiService {
         String result = bf.readLine();
         JSONParser parser = new JSONParser();
         return (JSONObject) parser.parse(result);
+    }
+
+    public Object kakaoLocalKeyword(MultiValueMap<String, String> params) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://dapi.kakao.com")
+                .path("/v2/local/search/keyword")
+                .queryParams(params)
+                .encode()
+                .build()
+                .toUri();
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.AUTHORIZATION, kakaoRestKey); // 이 부분에서 헤더를 설정합니다.
+
+            HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, Object.class);
+
+
+            return responseEntity.getBody();
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            Map<String, String> map = new HashMap<>();
+            map.put("status", e.getMessage());
+            return map;
+        }
     }
 }

@@ -104,6 +104,23 @@ public class ApiService {
                 .build()
                 .toUri();
 
+        return commonForm(uri);
+    }
+
+    public Object kakaoLocalCategory(MultiValueMap<String, String> params) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://dapi.kakao.com")
+                .path("/v2/local/search/category")
+                .queryParams(params)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri);
+    }
+
+    public Object commonForm(URI uri) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.AUTHORIZATION, kakaoRestKey); // 이 부분에서 헤더를 설정합니다.

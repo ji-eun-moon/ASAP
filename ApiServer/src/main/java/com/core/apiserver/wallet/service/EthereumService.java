@@ -27,7 +27,7 @@ public class EthereumService {
     private Sha256Util sha256Util;
     private String from = "0xb2f25bea384704fc26d60f1bf7490444df21babe";
 
-    private String contract = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+    private String contract = "0xcae84b9002db5864266ee39ecd895526c2246dac";
 
     private String pwd = "pass";
 

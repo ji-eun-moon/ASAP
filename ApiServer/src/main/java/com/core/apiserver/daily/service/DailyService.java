@@ -18,6 +18,7 @@ import com.core.apiserver.wallet.entity.domain.Wallet;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ public class DailyService {
     private final WalletRepository walletRepository;
 
     @Transactional
-    public void register(DailyUsageRequest dailyUsageRequest) {
+    public void register(@NotNull DailyUsageRequest dailyUsageRequest) {
 
         Api api = apiRepository.findById(dailyUsageRequest.getApiId()).orElseThrow();
         Wallet userWallet = walletRepository.findById(dailyUsageRequest.getUserWalletId()).orElseThrow();
@@ -51,7 +52,7 @@ public class DailyService {
     }
 
     @Transactional
-    public void update(DailyUsageRequest dailyUsageRequest) {
+    public void update(@NotNull DailyUsageRequest dailyUsageRequest) {
 
         Api api = apiRepository.findById(dailyUsageRequest.getApiId()).orElseThrow();
         Wallet userWallet = walletRepository.findById(dailyUsageRequest.getUserWalletId()).orElseThrow();
@@ -61,7 +62,7 @@ public class DailyService {
         dailyRepository.save(daily);
     }
 
-    public Map<YearMonth, List<UsageResponse>> monthlyUsage(MonthlyUsageRequest monthlyUsageRequest) {
+    public Map<YearMonth, List<UsageResponse>> monthlyUsage(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
 
         List<Total> totals = totalRepository.findAllByUserWallet(walletRepository.findById(monthlyUsageRequest.getUserWalletId()).orElseThrow());
         Map<YearMonth, List<UsageResponse>> map = new HashMap<>();
@@ -98,7 +99,7 @@ public class DailyService {
         return map;
     }
 
-    public List<DailyUsageResponse> dailyUsage(GetDailyRequest getDailyRequest) {
+    public List<DailyUsageResponse> dailyUsage(@NotNull GetDailyRequest getDailyRequest) {
 
         Wallet wallet = walletRepository.findById(getDailyRequest.getUserWalletId()).orElseThrow();
         Api api = apiRepository.findById(getDailyRequest.getApiId()).orElseThrow();
@@ -117,7 +118,7 @@ public class DailyService {
         return usageResponses;
     }
 
-    public Map<YearMonth, List<ProvidingResponse>> monthlyProviding(MonthlyUsageRequest monthlyUsageRequest) {
+    public Map<YearMonth, List<ProvidingResponse>> monthlyProviding(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
         Map<YearMonth, List<ProvidingResponse>> map = new HashMap<>();
         List<Api> apis = apiRepository.findAllByWallet(walletRepository.findById(monthlyUsageRequest.getUserWalletId()).orElseThrow());
         for (int i = 0; i < 3; i++) {
@@ -169,7 +170,7 @@ public class DailyService {
         return map;
     }
 
-    public Long amount(YearMonth yearMonth, Api api) {
+    public Long amount(@NotNull YearMonth yearMonth, Api api) {
         Long amount = 0L;
         List<Daily> dailies = dailyRepository.findAllByApiAndDateBetween(api, yearMonth.atDay(1), yearMonth.atEndOfMonth());
         for (Daily daily: dailies) {

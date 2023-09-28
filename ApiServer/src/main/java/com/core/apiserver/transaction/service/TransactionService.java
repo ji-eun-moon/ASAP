@@ -4,6 +4,7 @@ import com.core.apiserver.global.increase.service.AutoIncreaseService;
 import com.core.apiserver.global.util.Sha256Util;
 import com.core.apiserver.transaction.entity.domain.Transaction;
 import com.core.apiserver.transaction.entity.dto.request.TransactionRequest;
+import com.core.apiserver.transaction.entity.dto.response.TransactionResponse;
 import com.core.apiserver.transaction.repository.TransactionRepository;
 import com.core.apiserver.wallet.service.UsageContractService;
 import com.core.apiserver.wallet.service.WalletService;
@@ -15,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -63,9 +66,23 @@ public class TransactionService {
 
     @Transactional
     public void delete() {
-        transactionRepository.delete(transactionRepository.findById(1L).get());
+        transactionRepository.delete(transactionRepository.findById(2L).orElseThrow());
     }
 
+    public TransactionResponse findTransaction(Map<String, String> params) {
+        log.info(params.get("userWalletAddress"));
+        log.info(params.get("apiTitle"));
+        log.info(params.get("startDate"));
+        log.info(params.get("endDate"));
+
+        Transaction transaction = transactionRepository.findByUserWalletAddressAndApiTitleAndStartDateAndEndDate(
+                params.get("userWalletAddress"), params.get("apiTitle"), LocalDate.parse(params.get("startDate")),
+                LocalDate.parse(params.get("endDate")));
+
+        return new TransactionResponse(transaction, transaction.toString());
+    }
+
+    @Transactional
     public void toBlock(Transaction transaction) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
 
         String txHash = usageContractService.setUsage(sha256Util.encryptToBytes(transaction.toString()));
@@ -75,7 +92,7 @@ public class TransactionService {
 
 
 //    @Transactional
-//    public void toBlock(Transaction transaction) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
+//    public void toBlock(Transaction) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
 //
 //
 //

@@ -34,7 +34,7 @@ public class TransactionController {
     @PostMapping ("")
     public ResponseEntity<String> register(@RequestBody TransactionRequest transactionRequest)  {
         transactionService.register(transactionRequest);
-        return ResponseEntity.ok("저장 완료");
+        return ResponseEntity.status(201).body("저장 완료");
     }
 
     @GetMapping("/all")
@@ -42,7 +42,7 @@ public class TransactionController {
         return ResponseEntity.ok(transactionRepository.findAll());
     }
 
-    @GetMapping("{api-id}")
+    @GetMapping("")
     @Operation(summary = "트랜잭션 조회", description = "시작일과 종료일을 통해 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "API 생성"),
@@ -51,25 +51,26 @@ public class TransactionController {
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<?> get(@RequestParam Map<String, String> params) {
-        return ResponseEntity.ok(transactionRepository.findById(6L).get().toString());
+        return ResponseEntity.ok(transactionService.findTransaction(params));
     }
 
     @PutMapping ("")
     public ResponseEntity<?> updateRecord(@RequestBody RecordsRequest request)  {
         transactionService.update(6L, request.getRecords());
-        return ResponseEntity.ok("저장 완료");
+        return ResponseEntity.status(202).body("저장 완료");
     }
 
     @DeleteMapping ("")
     public ResponseEntity<?> deleteAll()  {
         transactionService.delete();
-        return ResponseEntity.ok("삭제 완료");
+        return ResponseEntity.status(204).body("삭제 완료");
     }
 
     @PostMapping ("/block")
     public ResponseEntity<String> toBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
         transactionService.toBlock(transactionRepository.findById(6L).orElseThrow());
-        return ResponseEntity.ok(transactionRepository.findById(6L).get().toString());
+        return ResponseEntity.status(201).body(transactionRepository.findById(6L).get().toString());
     }
+
 
 }

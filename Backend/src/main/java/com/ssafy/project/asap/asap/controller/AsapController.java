@@ -41,69 +41,76 @@ public class AsapController {
 
 
     // https://j9c202.p.ssafy.io/block/api/v1/asap/local/search.address.json
-    @GetMapping("/local/search/address.json")
-    public ResponseEntity<?> LocalSearch(@RequestBody LocalSearch request, HttpServletRequest httpServletRequest){
-
-        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
-
-        Long id = memberService.checkWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.put("query", Collections.singletonList(request.getQuery()));
-        map.put("analyze_type", Collections.singletonList(request.getAnalyze_type()));
-
-        if(request.getPage() != 0){
-            map.put("page", Collections.singletonList(String.valueOf(request.getPage())));
-        }
-
-        if(request.getSize() != 0){
-            map.put("size", Collections.singletonList(String.valueOf(request.getSize())));
-        }
-
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://j9c202.p.ssafy.io")
-                .path("/block/api/v1/asap/local/search/keyword/" + id + "/23")
-                .queryParams(map)
-                .encode()
-                .build()
-                .toUri();
-
-        log.info(uri.toString());
-
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.AUTHORIZATION, allowHeader); // 이 부분에서 헤더를 설정합니다.
-
-            HttpEntity<?> httpEntity = new HttpEntity<>(headers);
-
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
-
-            return ResponseEntity.ok(responseEntity.getBody());
-
-        } catch (Exception e) {
-            log.info(e.getMessage());
-            return ResponseEntity.ok(e.getMessage());
-        }
-
-    }
-
-    @GetMapping("/local/search/keyword")
-    public ResponseEntity<?> KeywordSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) throws IllegalAccessException {
+    @GetMapping("/local/search/address")
+    public ResponseEntity<?> addressSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) {
 
         log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
         Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
-        purposeService.checkApplyByApiIdAndMemberId(28L, member.getMemberId());
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(23L, member.getMemberId());
+        }
 
         URI uri = UriComponentsBuilder
-                .fromUriString("http://localhost:9001")
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+                .path("/api/v1/asap/local/search/keyword/" + member.getWalletId() + "/23")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param);
+    }
+
+    @GetMapping("/local/search/keyword")
+    public ResponseEntity<?> KeywordSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(28L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
                 .path("/api/v1/asap/local/search/keyword/" + member.getWalletId() + "/28")
                 .queryParams(param)
                 .encode()
                 .build()
                 .toUri();
 
+        return commonForm(uri, param);
+    }
+
+    @GetMapping("/local/search/category")
+    public ResponseEntity<?> CategorySearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) throws IllegalAccessException {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(29L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+                .path("/api/v1/asap/local/search/category/" + member.getWalletId() + "/29")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param);
+    }
+
+    public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param) {
         try {
             HttpHeaders headers = new HttpHeaders();
             if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
@@ -127,7 +134,5 @@ public class AsapController {
             log.info(e.getMessage());
             return ResponseEntity.ok(e.getMessage());
         }
-
     }
-
 }

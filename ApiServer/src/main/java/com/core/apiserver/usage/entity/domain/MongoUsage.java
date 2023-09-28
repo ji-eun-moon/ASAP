@@ -20,6 +20,4 @@ public class MongoUsage {
     private Long userWalletId;
     private Long providerWalletId;
     private Long apiId;
-
-
 }

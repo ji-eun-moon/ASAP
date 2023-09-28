@@ -70,10 +70,6 @@ public class TransactionService {
     }
 
     public TransactionResponse findTransaction(Map<String, String> params) {
-        log.info(params.get("userWalletAddress"));
-        log.info(params.get("apiTitle"));
-        log.info(params.get("startDate"));
-        log.info(params.get("endDate"));
 
         Transaction transaction = transactionRepository.findByUserWalletAddressAndApiTitleAndStartDateAndEndDate(
                 params.get("userWalletAddress"), params.get("apiTitle"), LocalDate.parse(params.get("startDate")),

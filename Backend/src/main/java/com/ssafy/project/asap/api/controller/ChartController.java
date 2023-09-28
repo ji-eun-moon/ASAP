@@ -46,7 +46,7 @@ public class ChartController {
     }
 
     @GetMapping("/usage/monthly")
-    @Operation(summary = "일간 사용량 조회", description = "일간 모든 api 사용량 조회")
+    @Operation(summary = "월간 사용량 조회", description = "월간 모든 api 사용량 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -65,7 +65,7 @@ public class ChartController {
     }
 
     @GetMapping("/providing/monthly")
-    @Operation(summary = "일간 사용량 조회", description = "일간 모든 api 사용량 조회")
+    @Operation(summary = "월간 제공량 조회", description = "월간 모든 api 제공량 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -84,7 +84,7 @@ public class ChartController {
     }
 
     @GetMapping("/usage/daily")
-    @Operation(summary = "일간 사용량 조회", description = "일간 모든 api 사용량 조회")
+    @Operation(summary = "일간 사용량 조회", description = "30일간 해당 api 사용량 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),

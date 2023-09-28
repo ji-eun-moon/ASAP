@@ -46,7 +46,7 @@ public class MemberService implements UserDetailsService {
 
     public Member findById(String id){
 
-        return memberRepository.findById(id).get();
+        return memberRepository.findById(id).orElseThrow();
 
     }
 

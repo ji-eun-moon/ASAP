@@ -178,7 +178,8 @@ public class ApiService {
     public Object serverGetConnect(MultiValueMap<String, String> params, String path) {
 
         URI uri = UriComponentsBuilder
-                .fromUriString("https://j9c202.p.ssafy.io/block")
+                .fromUriString("http://localhost:9001")
+                // .fromUriString("https://j9c202.p.ssafy.io/block")
                 .path(path)
                 .encode()
                 .queryParams(params)

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.project.asap.api.entity.domain.Api;
 
 import com.ssafy.project.asap.api.entity.dto.request.RegisterBlockApiRequest;
+import com.ssafy.project.asap.api.entity.dto.response.ApproveApisResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApiResponse;
 import com.ssafy.project.asap.api.entity.dto.response.FindApisResponse;
 import com.ssafy.project.asap.api.entity.dto.response.GuideApiResponse;
@@ -126,6 +127,21 @@ public class ApiService {
     public Api findByApiId(Long apiId){
 
         return apiRepository.findByApiId(apiId);
+
+    }
+
+    public List<ApproveApisResponse> findAllByMember(String id){
+
+        List<ApproveApisResponse> list = new ArrayList<>();
+
+        for(Api api : apiRepository.findAllByMember(memberRepository.findById(id).get())){
+
+            list.add(ApproveApisResponse.builder()
+                            .title(api.getTitle())
+                    .build());
+        }
+
+        return list;
 
     }
 

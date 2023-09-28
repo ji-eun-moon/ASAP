@@ -75,4 +75,12 @@ public class PurposeController {
 
     }
 
+    @GetMapping("/useList")
+    @Operation(summary = "사용중인 API 리스트", description = "현재 로그인한 회원이 사용신청한 API title 리스트 제공")
+    public ResponseEntity<?> findAllByMember(Authentication authentication){
+
+        return ResponseEntity.ok(purposeService.findAllByMember(authentication.getName()));
+
+    }
+
 }

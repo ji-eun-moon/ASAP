@@ -80,5 +80,12 @@ public class ApiController {
 
     }
 
+    @GetMapping("/offerList")
+    @Operation(summary = "제공중인 API 리스트", description = "현재 나의 제공중인 API title 리스트 제공")
+    public ResponseEntity<?> findAllByMember(Authentication authentication){
+
+        return ResponseEntity.ok(apiService.findAllByMember(authentication.getName()));
+
+    }
 
 }

@@ -216,8 +216,13 @@ public class MemberService implements UserDetailsService {
         Member member = memberRepository.findByAddress(authorization)
                 .orElseThrow(() -> new RuntimeException("올바르지 않은 개인키입니다."));
 
-        return member.getWalletId();
 
+        return member.getWalletId();
+    }
+
+    public Member findMemberByWallet(String authorization) {
+        return memberRepository.findByAddress(authorization)
+                .orElseThrow(() -> new RuntimeException("올바르지 않은 개인키입니다."));
     }
 
     @Override

@@ -43,7 +43,12 @@ public class PurposeService {
 
         purposeRepository.findByApiIdAndMemberId(apiId, memberRepository.findById(id).get().getMemberId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_REGISTERED_API));
+    }
 
+    public void checkApplyByApiIdAndMemberId(Long apiId, Long memberId) {
+        purposeRepository.findByApiAndMember(apiId, memberId).orElseThrow(
+                () -> new CustomException(ErrorCode.NOT_REGISTERED_API)
+        );
     }
 
     @Transactional

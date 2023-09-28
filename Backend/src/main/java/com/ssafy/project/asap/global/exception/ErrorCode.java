@@ -23,7 +23,8 @@ public enum ErrorCode{
     INVALID_CARD_NUMBER(HttpStatus.BAD_REQUEST, "올바른 형식의 카드번호가 아닙니다."),
     MEMBER_ALREADY_REGISTER_CARD(HttpStatus.BAD_REQUEST, "이미 카드를 등록한 상태입니다."),
     CREDIT_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 카드가 존재하지않습니다."),
-    DAILY_TEST_COUNT_OVER(HttpStatus.TOO_MANY_REQUESTS, "일일 테스트 사용량을 초과하였습니다.");
+    DAILY_TEST_COUNT_OVER(HttpStatus.TOO_MANY_REQUESTS, "일일 테스트 사용량을 초과하였습니다."),
+    REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "필수값이 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

@@ -34,7 +34,6 @@ public class ApiService {
 
     private final ApiRepository apiRepository;
     private final WalletRepository walletRepository;
-    private final TotalRepository totalRepository;
 
     @Value("${private-key.kakao.rest-api}")
     public String kakaoRestKey;

@@ -1,21 +1,48 @@
-// 사용자 - 일별 사용량 조회(추가부분)
-// 일간 사용량 조회
-
 import axiosInstance from 'utils/axiosInstance';
+import { useState, useEffect, useCallback } from 'react';
+import useDetailStore from 'store/chart/useDetailStore';
+
+interface IapiId {
+  apiId: number;
+}
+
+interface IDailyUsage {
+  date: string;
+  amount: number;
+  price: number;
+}
+
+/**
+ * 사용자 - 일간 사용량 조회
+ * 30 일간 해당 API 사용량 조회
+ * @returns 30일간 사용량, 일간 사용량 로딩
+ */
 
 const useDailyUsage = () => {
-  const dailyUsage = async () => {
+  const { apiId } = useDetailStore();
+  const [dailyLoading, setDailyLoading] = useState<boolean>(true);
+  const [dailyUsage, setDailyUsage] = useState<IDailyUsage[] | null>();
+
+  const getDailyUsage = useCallback(async (paramsObject: IapiId) => {
     try {
       const response = await axiosInstance({
         method: 'GET',
-        url: '/api/v1/apis/usage/monthly',
+        url: '/api/v1/apis/usage/daily',
+        params: paramsObject,
       });
-      console.log('사용자 월별 사용량 조회 성공', response.data);
+      setDailyUsage(response.data);
+      setDailyLoading(false);
+      console.log('사용자 일별 사용량 조회 성공', response.data);
     } catch (error) {
-      console.log('사용자 월별 사용량 조회 실패', error);
+      console.log('사용자 일별 사용량 조회 실패', error);
     }
-  };
-  return { dailyUsage };
+  }, []);
+
+  useEffect(() => {
+    getDailyUsage({ apiId });
+  }, [getDailyUsage, apiId]);
+
+  return { getDailyUsage, dailyLoading, dailyUsage };
 };
 
 export default useDailyUsage;

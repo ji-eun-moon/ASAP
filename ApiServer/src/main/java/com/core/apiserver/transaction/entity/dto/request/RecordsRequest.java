@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 public class RecordsRequest {
 
-    private List<String> records;
+    private String record;
 }

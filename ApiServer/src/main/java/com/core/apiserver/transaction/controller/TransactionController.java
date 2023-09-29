@@ -31,15 +31,20 @@ public class TransactionController {
 //        return ResponseEntity.ok(transactionService.test());
 //    }
 
-    @PostMapping ("")
-    public ResponseEntity<String> register(@RequestBody TransactionRequest transactionRequest)  {
-        transactionService.register(transactionRequest);
-        return ResponseEntity.status(201).body("저장 완료");
-    }
+//    @PostMapping ("")
+//    public ResponseEntity<String> register(@RequestBody TransactionRequest transactionRequest)  {
+//        transactionService.register(transactionRequest);
+//        return ResponseEntity.status(201).body("저장 완료");
+//    }
 
     @GetMapping("/all")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(transactionRepository.findAll());
+    }
+
+    @GetMapping("/{ids}")
+    public ResponseEntity<?> getIds(@PathVariable("ids") Long ids) {
+        return ResponseEntity.ok(transactionRepository.findById(ids).orElseThrow());
     }
 
     @GetMapping("")
@@ -54,15 +59,15 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.findTransaction(params));
     }
 
-    @PutMapping ("")
-    public ResponseEntity<?> updateRecord(@RequestBody RecordsRequest request)  {
-        transactionService.update(6L, request.getRecords());
+    @PutMapping ("/{ids}")
+    public ResponseEntity<?> updateRecord(@PathVariable("ids") Long ids, @RequestBody RecordsRequest request)  {
+        transactionService.update(ids, request.getRecord());
         return ResponseEntity.status(202).body("저장 완료");
     }
 
-    @DeleteMapping ("")
-    public ResponseEntity<?> deleteAll()  {
-        transactionService.delete();
+    @DeleteMapping ("/{ids}")
+    public ResponseEntity<?> deleteAll(@PathVariable("ids") Long ids)  {
+        transactionService.delete(ids);
         return ResponseEntity.status(204).body("삭제 완료");
     }
 
@@ -72,5 +77,9 @@ public class TransactionController {
         return ResponseEntity.status(201).body(transactionRepository.findById(6L).get().toString());
     }
 
-
+    @PostMapping("/test/{ids}")
+    public ResponseEntity<?> makeTransaction(@PathVariable("ids") Long ids) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
+        transactionService.saveData();
+        return ResponseEntity.status(201).body(transactionRepository.findById(ids));
+    }
 }

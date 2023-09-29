@@ -9,7 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.TimeZone;
 
 
 @Service
@@ -28,11 +33,7 @@ public class RedisUsageService {
 
     @Transactional
     public void delete() {
-        Iterable<RedisUsage> redisUsages = usageRepository.findAll();
-        for (RedisUsage redisUsage: redisUsages) {
-            log.info(String.valueOf(redisUsage.getId()));
-            mongoUsageService.save(new CreateMongoUsageRequest(redisUsage));
-        }
         usageRepository.deleteAll();
     }
+
 }

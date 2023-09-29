@@ -14,4 +14,6 @@ public interface TotalRepository extends JpaRepository<Total, Long> {
     List<Total> findAllByUserWallet(Wallet wallet);
 
     List<Total> findAllByApi(Api api);
+
+    Optional<Total> findByUserWalletWalletIdAndApiApiId(Long userWalletId, Long apiId);
 }

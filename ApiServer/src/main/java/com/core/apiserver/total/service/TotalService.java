@@ -2,6 +2,7 @@ package com.core.apiserver.total.service;
 
 import com.core.apiserver.api.entity.domain.Api;
 import com.core.apiserver.api.repository.ApiRepository;
+import com.core.apiserver.daily.entity.domain.Daily;
 import com.core.apiserver.total.entity.domain.Total;
 import com.core.apiserver.total.entity.dto.request.FindTotalRequest;
 import com.core.apiserver.total.entity.dto.request.TotalRequest;
@@ -55,5 +56,13 @@ public class TotalService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Transactional
+    public void updateAmount(Daily daily) {
+        Total total = totalRepository.findByUserWalletAndApi(daily.getUserWallet(), daily.getApi()).orElseThrow(() ->
+                new IllegalArgumentException("누계 정보가 없습니다."));
+        total.updateAmount(daily.getUseAmount());
+        totalRepository.save(total);
     }
 }

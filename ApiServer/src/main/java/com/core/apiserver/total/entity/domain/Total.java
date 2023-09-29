@@ -33,4 +33,8 @@ public class Total {
     private Api api;
 
     private Long useAmount;
+
+    public void updateAmount(Long useAmount) {
+        this.useAmount += useAmount;
+    }
 }

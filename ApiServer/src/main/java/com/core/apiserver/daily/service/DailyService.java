@@ -37,18 +37,24 @@ public class DailyService {
     private final WalletRepository walletRepository;
 
     @Transactional
-    public void register(@NotNull DailyUsageRequest dailyUsageRequest) {
+    public Daily register(@NotNull DailyUsageRequest dailyUsageRequest) {
 
         Api api = apiRepository.findById(dailyUsageRequest.getApiId()).orElseThrow();
         Wallet userWallet = walletRepository.findById(dailyUsageRequest.getUserWalletId()).orElseThrow();
 
-        dailyRepository.save(Daily.builder()
+        return dailyRepository.save(Daily.builder()
                         .userWallet(userWallet)
                         .providerWallet(api.getWallet())
                         .api(api)
                         .useAmount(dailyUsageRequest.getAmount())
                         .date(dailyUsageRequest.getDate())
                 .build());
+    }
+
+    @Transactional
+    public void updateAmount(Daily daily, Long amount) {
+        daily.updateAmount(amount);
+        dailyRepository.save(daily);
     }
 
     @Transactional

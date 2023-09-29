@@ -33,8 +33,12 @@ public class Transaction {
     private LocalDate endDate;
 
 
-    public void updateRecord(List<String> usageRecords) {
-        this.usageRecord.addAll(usageRecords);
+    public void updateRecord(String usageRecords) {
+        this.usageRecord.add(usageRecords);
+    }
+
+    public void updateRecords(List<String> usageRecord) {
+        this.usageRecord.addAll(usageRecord);
     }
 
     public void updateTransactionHash(String txHash, String hash) {

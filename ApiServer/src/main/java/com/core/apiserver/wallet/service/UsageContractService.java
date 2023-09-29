@@ -43,8 +43,8 @@ public class UsageContractService {
         System.out.println(txHash);
 
         // 3. getReceipt
-        TransactionReceipt receipt = ethereumService.getReceipt(txHash);
-        System.out.println("receipt = " + receipt);
+//        TransactionReceipt receipt = ethereumService.getReceipt(txHash);
+//        System.out.println("receipt = " + receipt);
 
         return txHash;
     }

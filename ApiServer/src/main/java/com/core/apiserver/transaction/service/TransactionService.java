@@ -6,20 +6,24 @@ import com.core.apiserver.transaction.entity.domain.Transaction;
 import com.core.apiserver.transaction.entity.dto.request.TransactionRequest;
 import com.core.apiserver.transaction.entity.dto.response.TransactionResponse;
 import com.core.apiserver.transaction.repository.TransactionRepository;
+import com.core.apiserver.usage.entity.domain.RedisUsage;
 import com.core.apiserver.wallet.service.UsageContractService;
 import com.core.apiserver.wallet.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -32,10 +36,12 @@ public class TransactionService {
     private final UsageContractService usageContractService;
     private final Sha256Util sha256Util;
     private final AutoIncreaseService autoIncreaseService;
-    private final WalletService walletService;
 
     @Transactional
-    public void register(TransactionRequest transactionRequest) {
+    public void register(TransactionRequest transactionRequest, LocalDateTime time) {
+
+        List<String> list = new ArrayList<>();
+        list.add(String.valueOf(time));
         log.info(transactionRequest.getUserWalletAddress());
         log.info(transactionRequest.getProviderWalletAddress());
         log.info(transactionRequest.getApiTitle());
@@ -48,7 +54,7 @@ public class TransactionService {
                 .providerWalletAddress(transactionRequest.getProviderWalletAddress())
                 .apiTitle(transactionRequest.getApiTitle())
                 .startDate(transactionRequest.getStartDate())
-                .usageRecord(new ArrayList<>())
+                .usageRecord(list)
                 .endDate(transactionRequest.getEndDate())
                 .build();
         Transaction saveTransaction = transactionRepository.save(transaction);
@@ -56,8 +62,10 @@ public class TransactionService {
         log.info(saveTransaction.toString());
     }
 
+
+
     @Transactional
-    public void update(Long ids, List<String> usageRecords) {
+    public void update(Long ids, String usageRecords) {
         Transaction transaction = transactionRepository.findById(ids).orElseThrow();
 
         transaction.updateRecord(usageRecords);
@@ -65,8 +73,8 @@ public class TransactionService {
     }
 
     @Transactional
-    public void delete() {
-        transactionRepository.delete(transactionRepository.findById(2L).orElseThrow());
+    public void delete(Long ids) {
+        transactionRepository.delete(transactionRepository.findById(ids).orElseThrow());
     }
 
     public TransactionResponse findTransaction(Map<String, String> params) {
@@ -86,46 +94,32 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
+    @Transactional
+    public void saveData() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
 
-//    @Transactional
-//    public void toBlock(Transaction) throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
-//
-//
-//
-//
-//        String txHash = usageContractService.setUsage(sha256Util.encryptToBytes(transaction.toString()));
-//        jsonObject.put("트랜잭션", txHash);
-//
-//        transaction.updateTransactionHash(txHash, sha256Util.bytesToHex(shaConvert(jsonObject)));
-//
-//        transactionRepository.save(transaction);
-//    }
+        String[] strings = {"17", "18", "19", "20", "21", "22", "23"};
+        long[] longs = {186, 966, 38, 890, 896, 303, 801};
+        List<String> list = new ArrayList<>();
 
-    public String test() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
+        for (int i = 0; i < 7; i++) {
+            long startStamp = Timestamp.valueOf(LocalDateTime.parse("2023-09-" + strings[i] + "T00:00:00")).getTime();
+            long endStamp = Timestamp.valueOf(LocalDateTime.parse("2023-09-" + strings[i] + "T23:59:59.999999")).getTime();
 
-        List<String> strings = new ArrayList<>();
-        strings.add("2023-09-17T01:01:01.768");
-        strings.add("2023-09-18T12:23:01.531");
-        strings.add("2023-09-19T15:01:01.123");
+            long diff = endStamp - startStamp;
+            long remain = diff / longs[i];
+            for (int j = 0; j < longs[i]; j++) {
+                list.add(String.valueOf(LocalDateTime.ofInstant(Instant.ofEpochMilli(startStamp + remain*j), TimeZone.getDefault().toZoneId())));
+            }
+        }
 
-        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("기간", LocalDate.now().minusDays(1) + "~" + LocalDate.now().minusDays(8));
-        jsonObject.put("기간", "2023-09-17,2023-09-23");
-        jsonObject.put("사용자 지갑", "0xf3a7315df842bb2ac45a8e026b344656d50d1cf4");
-        jsonObject.put("제공자 지갑", "0x119b72a2ecc218c8998b6709f49ed2d7ee0fba1e");
-        jsonObject.put("API 제목", "카카오 지도 API");
-        jsonObject.put("사용량", strings);
-
-
-        String txHash = usageContractService.setUsage(shaConvert(jsonObject));
-        jsonObject.put("트랜잭션", "TransactionHash");
-
-        return jsonObject.toJSONString();
-    }
-
-    public byte[] shaConvert(JSONObject jsonObject) throws NoSuchAlgorithmException {
-        byte[] bytes = sha256Util.encryptToBytes(jsonObject.toJSONString());
-        log.info(sha256Util.bytesToHex(bytes));
-        return bytes;
+        toBlock(transactionRepository.save(Transaction.builder()
+                        ._id(2L)
+                        .userWalletAddress("0xb2f25bea384704fc26d60f1bf7490444df21babe")
+                        .providerWalletAddress("0x0D80Eac820347F66B5E9F0dEBacd4DAc7A736A6C")
+                        .apiTitle("키워드로 장소 검색하기")
+                        .startDate(LocalDate.parse("2023-09-17"))
+                        .endDate(LocalDate.parse("2023-09-23"))
+                        .usageRecord(list)
+                .build()));
     }
 }

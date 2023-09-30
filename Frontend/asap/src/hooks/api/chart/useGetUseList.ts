@@ -1,5 +1,6 @@
 import axiosInstance from 'utils/axiosInstance';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import useDetailStore from 'store/chart/useDetailStore';
 
 interface IApi {
   apiId: number;
@@ -14,24 +15,26 @@ interface IApi {
 const useGetUseList = () => {
   const [useListLoading, setUseListLoading] = useState<boolean>(true);
   const [useList, setUseList] = useState<IApi[] | null>();
+  const { setApiId } = useDetailStore();
 
-  const getUseList = async () => {
+  const getUseList = useCallback(async () => {
     try {
       const response = await axiosInstance({
         method: 'GET',
         url: '/api/v1/purpose/useList',
       });
-      setUseListLoading(false);
       setUseList(response.data);
+      setApiId(response.data[0].apiId);
+      setUseListLoading(false);
       console.log(response.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [setApiId]);
 
   useEffect(() => {
     getUseList();
-  }, []);
+  }, [getUseList]);
 
   return { useListLoading, useList };
 };

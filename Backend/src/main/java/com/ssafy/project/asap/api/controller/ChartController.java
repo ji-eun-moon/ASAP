@@ -100,4 +100,21 @@ public class ChartController {
         Member member = memberService.findById(authentication.getName());
         return ResponseEntity.ok(apiService.findDailyUsage(params, member.getWalletId()));
     }
+
+    @GetMapping("/providing/daily")
+    @Operation(summary = "일간 제공량 조회", description = "30일간 api 전체 제공량 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    @Parameters({
+            @Parameter(name = "JWT token", description = "토큰"),
+    })
+    public ResponseEntity<Object> DailyProviding(Authentication authentication)  {
+
+        Member member = memberService.findById(authentication.getName());
+        return ResponseEntity.ok(apiService.findDailyProviding(member.getWalletId()));
+    }
 }

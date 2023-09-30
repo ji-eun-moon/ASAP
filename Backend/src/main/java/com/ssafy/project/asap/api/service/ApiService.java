@@ -192,6 +192,14 @@ public class ApiService {
         return serverGetConnect(params, "/api/v1/usage/daily/use");
     }
 
+    public Object findDailyProviding(Long walletId) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("walletId", Collections.singletonList(String.valueOf(walletId)));
+
+        return serverGetConnect(params, "/api/v1/usage/daily/provide");
+    }
+
     public Object serverGetConnect(MultiValueMap<String, String> params, String path) {
 
         URI uri = UriComponentsBuilder

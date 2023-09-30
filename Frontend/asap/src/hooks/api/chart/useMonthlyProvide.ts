@@ -58,19 +58,19 @@ const useMonthlyProvide = () => {
         setMonthlyProvide(monthlyData);
         // monthlyData를 기반으로 스토어 상태 업데이트
         if (monthlyData[0]) {
-          setTwoBeforeMonthDate(monthlyData[0].month);
-          setTwoBeforeMonthUsage(monthlyData[0].data);
+          setMonthDate(monthlyData[0].month);
+          setMonthUsage(monthlyData[0].data);
         }
         if (monthlyData[1]) {
           setOneBeforeMonthDate(monthlyData[1].month);
           setOneBeforeMonthUsage(monthlyData[1].data);
         }
         if (monthlyData[2]) {
-          setMonthDate(monthlyData[2].month);
-          setMonthUsage(monthlyData[2].data);
+          setTwoBeforeMonthDate(monthlyData[2].month);
+          setTwoBeforeMonthUsage(monthlyData[2].data);
         }
         setMonthlyLoading(false);
-        console.log('사용자 월별 제공량 조회 성공', response.data);
+        // console.log('사용자 월별 제공량 조회 성공', response.data);
       } catch (error) {
         console.log('사용자 월별 제공량 조회 실패', error);
       }

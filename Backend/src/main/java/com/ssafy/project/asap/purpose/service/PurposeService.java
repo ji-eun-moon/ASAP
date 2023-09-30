@@ -23,6 +23,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,4 +125,11 @@ public class PurposeService {
         return list;
 
     }
+
+    public List<Purpose> findAllByApiAndCreateDateAfter(Long apiId) {
+        Api api = apiRepository.findByApiId(apiId);
+        LocalDateTime sevenDaysAgo = LocalDate.now().minusDays(7).atStartOfDay();
+        return purposeRepository.findAllByCreateDateAfter(sevenDaysAgo);
+    }
+
 }

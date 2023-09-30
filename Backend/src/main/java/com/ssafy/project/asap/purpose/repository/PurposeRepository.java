@@ -1,6 +1,7 @@
 package com.ssafy.project.asap.purpose.repository;
 
 
+import com.ssafy.project.asap.api.entity.domain.Api;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +34,6 @@ public interface PurposeRepository extends JpaRepository<Purpose, Long> {
             "WHERE p.api.apiId = :apiId and p.member.memberId = :memberId")
     Optional<Purpose> findByApiAndMember(@Param("apiId") Long apiId,@Param("memberId") Long memberId);
 
+    List<Purpose> findAllByCreateDateAfter(LocalDateTime createDate);
 
 }

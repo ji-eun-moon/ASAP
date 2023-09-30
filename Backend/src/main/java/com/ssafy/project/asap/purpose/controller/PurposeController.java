@@ -83,4 +83,13 @@ public class PurposeController {
 
     }
 
+    @GetMapping("/new/{apiId}")
+    @Operation(summary = "신규 사용자 리스트", description = "해당 apiId의 신규 사용자 리스트 조회")
+    public ResponseEntity<?> findByApiIdDate(@PathVariable("apiId") Long apiId){
+
+        log.info("Controller");
+
+        return ResponseEntity.ok(purposeService.findAllByApiAndCreateDateAfter(apiId));
+
+    }
 }

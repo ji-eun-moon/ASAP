@@ -137,6 +137,7 @@ public class ApiService {
         for(Api api : apiRepository.findAllByMember(memberRepository.findById(id).get())){
 
             list.add(ApproveApisResponse.builder()
+                            .apiId(api.getApiId())
                             .title(api.getTitle())
                     .build());
         }

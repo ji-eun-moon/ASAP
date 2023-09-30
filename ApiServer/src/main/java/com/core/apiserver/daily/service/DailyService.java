@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.Year;
 import java.time.YearMonth;
 import java.util.*;
 
@@ -158,6 +157,33 @@ public class DailyService {
 
         return map;
     }
+
+    public Map<LocalDate, List<ProvidingResponse>> dailyProviding(Map<String, String> map) {
+        List<Daily> dailies = dailyRepository.findByProviderWalletIdAndDateBetween(Long.parseLong(map.get("walletId")),
+                LocalDate.now().minusDays(30), LocalDate.now());
+
+        Map<LocalDate, List<ProvidingResponse>> dateMap = new HashMap<>();
+
+        for (Daily daily: dailies) {
+            if (!dateMap.containsKey(daily.getDate())) {
+                dateMap.put(daily.getDate(), new ArrayList<>());
+            }
+            List<ProvidingResponse> providingResponses = dateMap.get(daily.getDate());
+            if (providingResponses.contains(daily.getApi())) {
+                providingResponses.get(providingResponses.indexOf(daily.getApi())).update(daily.getUseAmount(),
+                        Long.valueOf(daily.getApi().getPrice()));
+            } else {
+                providingResponses.add(new ProvidingResponse(daily.getApi().getApiId(), daily.getApi().getTitle(),
+                        daily.getUseAmount(), daily.getApi().getPrice() * daily.getUseAmount()));
+            }
+            dateMap.put(daily.getDate(), providingResponses);
+        }
+
+
+        return dateMap;
+    }
+
+
 
     public Map<YearMonth, Long> categoryAverage(GetCategoryApiIds getCategoryApiIds) {
         List<Api> apis = new ArrayList<>();

@@ -120,4 +120,16 @@ public class DailyController {
         GetCategoryApiIds getCategoryApiIds = new GetCategoryApiIds(ids, Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
         return ResponseEntity.status(200).body(dailyService.categoryAverage(getCategoryApiIds));
     }
+
+    @GetMapping ("/daily/provide")
+    @Operation(summary = "일간 제공량 조회", description = "일간 api마다 제공량 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "일간 사용량 조회"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> dailyProviding(@RequestParam Map<String, String> params) {
+        return ResponseEntity.status(200).body(dailyService.dailyProviding(params));
+    }
 }

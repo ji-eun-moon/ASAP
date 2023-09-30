@@ -111,8 +111,11 @@ public class PurposeService {
 
         for(Purpose purpose : purposeRepository.findAllByMember(memberRepository.findById(id).get())){
 
+            Api api = purpose.getApi();
+
             list.add(FindPurposesResponse.builder()
-                            .title(purpose.getApi().getTitle())
+                    .title(api.getTitle())
+                    .apiId(api.getApiId())
                     .build());
 
         }

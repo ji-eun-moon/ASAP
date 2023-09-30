@@ -6,7 +6,7 @@ import lombok.Builder;
 @Builder
 public class FindPurposesResponse {
 
-    @JsonProperty("title")
     private String title;
+    private Long apiId;
 
 }

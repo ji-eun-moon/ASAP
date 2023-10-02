@@ -9,9 +9,11 @@ import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
+import com.ssafy.project.asap.purpose.entity.domain.PurposeIndustry;
 import com.ssafy.project.asap.purpose.entity.dto.request.RegisterPurposeRequest;
 import com.ssafy.project.asap.purpose.entity.dto.request.TotalRequest;
 import com.ssafy.project.asap.purpose.entity.dto.response.FindPurposesDateResponse;
+import com.ssafy.project.asap.purpose.entity.dto.response.FindPurposesIndustryResponse;
 import com.ssafy.project.asap.purpose.entity.dto.response.FindPurposesResponse;
 import com.ssafy.project.asap.purpose.repository.PurposeRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +26,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -127,56 +131,56 @@ public class PurposeService {
     }
 
     public List<FindPurposesDateResponse> findAllByApiAndCreateDate(Long apiId) {
-        LocalDateTime sevenDaysAgo = LocalDate.now().minusDays(7).atStartOfDay();
+        LocalDate endDate = LocalDate.now().withDayOfMonth(1); // 현재 월의 1일
+        LocalDate startDate = endDate.minusMonths(2); // 2달 전
+        LocalDate currentDate = startDate;
 
-        // purposeRepository를 통해 Object[] 형태의 데이터를 가져옵니다.
-        List<Object[]> resultList = purposeRepository.findAllByApiAndCreateDate(apiId, sevenDaysAgo);
+        Map<String, Long> dataMap = new HashMap<>();
+        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("yyyy-MM");
 
-        // 날짜와 카운트를 매핑할 Map을 생성합니다.
-        Map<LocalDate, Long> dateCountMap = new HashMap<>();
-
-        // 결과를 날짜와 카운트로 매핑하고 Map에 저장합니다.
-        for (Object[] result : resultList) {
-            if (result.length >= 2) {
-                String dateStr = result[0].toString();
-                int count = Integer.parseInt(result[1].toString());
-                LocalDate date = LocalDate.parse(dateStr);
-                dateCountMap.put(date, (long) count);
-            }
+        // 초기화: 빈 달 데이터를 0으로 채우기
+        while (!currentDate.isAfter(endDate)) {
+            String formattedDate = currentDate.format(monthFormatter);
+            dataMap.put(formattedDate, 0L);
+            currentDate = currentDate.plusMonths(1);
         }
 
-        // 모든 날짜에 대한 루프를 실행하여 누락된 날짜를 0으로 초기화한 후 Map에 추가합니다.
-        LocalDate currentDate = LocalDate.now();
-        LocalDate endDate = currentDate.minusDays(7);
-        List<FindPurposesDateResponse> responseList = new ArrayList<>();
-
-        while (!currentDate.isBefore(endDate)) {
-            if (!dateCountMap.containsKey(currentDate)) {
-                dateCountMap.put(currentDate, 0L);
-            }
-            currentDate = currentDate.minusDays(1);
+        // 실제 데이터 조회
+        for (Object[] objects : purposeRepository.findAllByApiAndCreateDate(apiId, startDate.atStartOfDay())) {
+            String date = objects[0].toString();
+            Long count = Long.valueOf(objects[1].toString());
+            dataMap.put(date, count);
         }
 
-        // Map을 FindPurposesDateResponse 객체로 변환하여 최종 결과를 리스트에 추가합니다.
-        for (Map.Entry<LocalDate, Long> entry : dateCountMap.entrySet()) {
-            LocalDate date = entry.getKey();
-            Long count = entry.getValue();
-            responseList.add(FindPurposesDateResponse.builder()
-                    .date(date)
-                    .count(count)
+        // 결과 생성
+        List<FindPurposesDateResponse> list = new ArrayList<>();
+        for (Map.Entry<String, Long> entry : dataMap.entrySet()) {
+            list.add(FindPurposesDateResponse.builder()
+                    .date(entry.getKey())
+                    .count(entry.getValue())
                     .build());
         }
 
-        Collections.sort(responseList, (o1, o2) -> {
-            if(o1.getDate().isBefore(o2.getDate())){
-                return 1;
-            }else{
-                return -1;
-            }
-        });
+        Collections.sort(list, Comparator.comparing(FindPurposesDateResponse::getDate));
 
-        return responseList;
+        return list;
     }
 
+    public List<FindPurposesIndustryResponse> findPurposesIndustryResponses(Long apiId){
+
+        List<FindPurposesIndustryResponse> list = new ArrayList<>();
+
+        for(Object[] objects : purposeRepository.findAllByApiAndIndustry(apiId)){
+
+            list.add(FindPurposesIndustryResponse.builder()
+                            .industry((PurposeIndustry) objects[0])
+                            .count(Long.parseLong(objects[1].toString()))
+                    .build());
+
+        }
+
+        return list;
+
+    }
 
 }

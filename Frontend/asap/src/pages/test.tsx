@@ -1,6 +1,6 @@
 import ChartFrame from 'components/chart/ChartFramee';
 import LineChart from 'components/chart/LineChart';
-import PieChart from 'components/chart/PieChart2';
+import PieChart from 'components/chart/PieChart';
 import React from 'react';
 
 const test = () => {

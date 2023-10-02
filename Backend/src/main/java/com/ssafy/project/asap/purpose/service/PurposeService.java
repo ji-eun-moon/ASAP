@@ -26,9 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -128,24 +126,54 @@ public class PurposeService {
 
     }
 
-    public List<FindPurposesDateResponse> findAllByApiAndCreateDate(Long apiId) throws JsonProcessingException {
+    public List<FindPurposesDateResponse> findAllByApiAndCreateDate(Long apiId) {
         LocalDateTime sevenDaysAgo = LocalDate.now().minusDays(7).atStartOfDay();
 
         // purposeRepository를 통해 Object[] 형태의 데이터를 가져옵니다.
         List<Object[]> resultList = purposeRepository.findAllByApiAndCreateDate(apiId, sevenDaysAgo);
 
-        List<FindPurposesDateResponse> responseList = new ArrayList<>();
+        // 날짜와 카운트를 매핑할 Map을 생성합니다.
+        Map<LocalDate, Long> dateCountMap = new HashMap<>();
 
+        // 결과를 날짜와 카운트로 매핑하고 Map에 저장합니다.
         for (Object[] result : resultList) {
             if (result.length >= 2) {
-
-                // 리스트에 추가합니다.
-                responseList.add(FindPurposesDateResponse.builder()
-                                .date(LocalDate.parse(result[0].toString()))
-                                .count(Long.parseLong(result[1].toString()))
-                        .build());
+                String dateStr = result[0].toString();
+                int count = Integer.parseInt(result[1].toString());
+                LocalDate date = LocalDate.parse(dateStr);
+                dateCountMap.put(date, (long) count);
             }
         }
+
+        // 모든 날짜에 대한 루프를 실행하여 누락된 날짜를 0으로 초기화한 후 Map에 추가합니다.
+        LocalDate currentDate = LocalDate.now();
+        LocalDate endDate = currentDate.minusDays(7);
+        List<FindPurposesDateResponse> responseList = new ArrayList<>();
+
+        while (!currentDate.isBefore(endDate)) {
+            if (!dateCountMap.containsKey(currentDate)) {
+                dateCountMap.put(currentDate, 0L);
+            }
+            currentDate = currentDate.minusDays(1);
+        }
+
+        // Map을 FindPurposesDateResponse 객체로 변환하여 최종 결과를 리스트에 추가합니다.
+        for (Map.Entry<LocalDate, Long> entry : dateCountMap.entrySet()) {
+            LocalDate date = entry.getKey();
+            Long count = entry.getValue();
+            responseList.add(FindPurposesDateResponse.builder()
+                    .date(date)
+                    .count(count)
+                    .build());
+        }
+
+        Collections.sort(responseList, (o1, o2) -> {
+            if(o1.getDate().isBefore(o2.getDate())){
+                return 1;
+            }else{
+                return -1;
+            }
+        });
 
         return responseList;
     }

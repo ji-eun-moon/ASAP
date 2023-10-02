@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from 'components/common/Footer';
 import useAuthStore from 'store/auth/useAuthStore';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -25,7 +26,12 @@ function PrivateRoute({ children }: Props) {
     return <Navigate to="/login" />;
   }
 
-  return children;
+  return (
+    <div>
+      {children}
+      <Footer />
+    </div>
+  );
 }
 
 export default PrivateRoute;

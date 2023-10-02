@@ -50,5 +50,6 @@ public class BatchService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
         log.info((String) responseEntity.getBody());
+
     }
 }

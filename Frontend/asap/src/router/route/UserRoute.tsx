@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from 'components/common/Footer';
 import useAuthStore from 'store/auth/useAuthStore';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -20,7 +21,12 @@ function UserRoute({ children }: Props) {
   sessionStorage.removeItem('isAuthenticated');
 
   if (isLoggedIn && loginType === 'user') {
-    return children;
+    return (
+      <div>
+        {children}
+        <Footer />
+      </div>
+    );
   }
 
   if (!isLoggedIn) {

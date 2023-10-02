@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from 'components/common/Footer';
 import useAuthStore from 'store/auth/useAuthStore';
 import { Navigate } from 'react-router-dom';
 
@@ -17,7 +18,14 @@ function PublicRoute({ children }: Props) {
 
   // 페이지 접근시 인증 초기화
   sessionStorage.removeItem('isAuthenticated');
-  return isLoggedIn ? <Navigate to="/" /> : children;
+  return isLoggedIn ? (
+    <Navigate to="/" />
+  ) : (
+    <div>
+      {children}
+      <Footer />
+    </div>
+  );
 }
 
 export default PublicRoute;

@@ -1,19 +1,18 @@
 import React from 'react';
-// import useSupplierChart from 'hooks/api/chart/useSupplierChart';
-import useGetSupplyList from 'hooks/api/api/useGetSupplyList';
+import SupplierMonthly from 'components/myapi/supplier/SupplierMonthly';
+import SupplierDetail from 'components/myapi/supplier/SupplierDetail';
+import useCategoryAvg from 'hooks/api/chart/useCategoryAvg';
 
 function SupplierApi() {
-  // const { supplierChart } = useSupplierChart();
-  const { getSupplyList } = useGetSupplyList(); // 제공자 제공 api 리스트 받기
-
+  const { categoryAvg } = useCategoryAvg();
   return (
     <div>
-      <button
-        type="button"
-        style={{ border: '1px solid' }}
-        onClick={getSupplyList}
-      >
-        제공 api 리스트 받기 테스트
+      {/* 제공자 월별 통계 */}
+      <SupplierMonthly />
+      {/* 제공자 상세 통계 */}
+      <SupplierDetail />
+      <button type="button" onClick={() => categoryAvg}>
+        click
       </button>
     </div>
   );

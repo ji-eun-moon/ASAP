@@ -165,10 +165,10 @@ public class DailyService {
         for (Daily daily: dailies) {
             if (dateMap.containsKey(daily.getDate())) {
                 DailyProvidingResponse DailyProvidingResponse = dateMap.get(daily.getDate());
-                DailyProvidingResponse.update(daily.getUseAmount(), Long.valueOf(daily.getApi().getPrice()));
+                DailyProvidingResponse.update(daily.getUseAmount(), daily.getUseAmount() * Long.valueOf(daily.getApi().getPrice()));
                 dateMap.put(daily.getDate(), DailyProvidingResponse);
             } else {
-                dateMap.put(daily.getDate(), new DailyProvidingResponse(daily.getUseAmount(), Long.valueOf(daily.getApi().getPrice())));
+                dateMap.put(daily.getDate(), new DailyProvidingResponse(daily.getUseAmount(), daily.getUseAmount() * Long.valueOf(daily.getApi().getPrice())));
             }
         }
 

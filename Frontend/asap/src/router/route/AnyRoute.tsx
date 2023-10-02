@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from 'components/common/Footer';
 
 interface Props {
   children: React.ReactElement;
@@ -13,7 +14,12 @@ interface Props {
 function AnyRoute({ children }: Props) {
   // 페이지 접근시 인증 초기화
   sessionStorage.removeItem('isAuthenticated');
-  return children;
+  return (
+    <div>
+      {children}
+      <Footer />
+    </div>
+  );
 }
 
 export default AnyRoute;

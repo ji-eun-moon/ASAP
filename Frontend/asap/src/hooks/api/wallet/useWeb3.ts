@@ -48,7 +48,18 @@ const useWeb3 = () => {
     }
   };
 
-  return { createAccount, getBalance };
+  const getTransaction = async (hash: string) => {
+    try {
+      const tx = await web3.eth.getTransaction(hash);
+      console.log(tx);
+      return tx.input;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
+  return { createAccount, getBalance, getTransaction };
 };
 
 export default useWeb3;

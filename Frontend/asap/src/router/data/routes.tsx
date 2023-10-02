@@ -36,6 +36,9 @@ import AccountCredit from 'pages/mypage/AccountCredit';
 import AccountPay from 'pages/mypage/AccountPay';
 import AccountWallet from 'pages/mypage/AccountWallet';
 
+// blockchain
+import CheckUsage from 'pages/blockchain/CheckUsage';
+
 // admin
 import AdminLogin from 'pages/admin/AdminLogin';
 import ApiApproval from 'pages/admin/ApiApproval';
@@ -177,6 +180,16 @@ const routes: Route[] = [
     element: (
       <PrivateRoute>
         <MyApi />
+      </PrivateRoute>
+    ),
+  },
+
+  // 블록체인 검증
+  {
+    path: '/check',
+    element: (
+      <PrivateRoute>
+        <CheckUsage />
       </PrivateRoute>
     ),
   },

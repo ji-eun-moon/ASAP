@@ -6,6 +6,7 @@ import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.service.MemberService;
 import com.ssafy.project.asap.purpose.service.PurposeService;
+import com.ssafy.project.asap.redis.service.RedisService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,7 @@ public class AsapController {
 
     private final MemberService memberService;
     private final PurposeService purposeService;
+    private final RedisService redisService;
     @Value("${server.allow-header}")
     private String allowHeader;
     @Value("${server.test-header}")
@@ -42,7 +45,7 @@ public class AsapController {
 
     // https://j9c202.p.ssafy.io/block/api/v1/asap/local/search.address.json
     @GetMapping("/local/search/address")
-    public ResponseEntity<?> addressSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> addressSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
 
         log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
@@ -61,11 +64,11 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param);
+        return commonForm(uri, param, authentication);
     }
 
     @GetMapping("/local/search/keyword")
-    public ResponseEntity<?> KeywordSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<?> KeywordSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
 
         log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
@@ -84,11 +87,11 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param);
+        return commonForm(uri, param, authentication);
     }
 
     @GetMapping("/local/search/category")
-    public ResponseEntity<?> CategorySearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) throws IllegalAccessException {
+    public ResponseEntity<?> CategorySearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) throws IllegalAccessException {
 
         log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
@@ -107,14 +110,16 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param);
+        return commonForm(uri, param, authentication);
     }
 
-    public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param) {
+    public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param, Authentication authentication) {
+
         try {
             HttpHeaders headers = new HttpHeaders();
             if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
                 log.info("테스트로 진행");
+                redisService.setCount(authentication.getName());
                 headers.set(HttpHeaders.AUTHORIZATION, testHeader);
             } else {
                 headers.set(HttpHeaders.AUTHORIZATION, allowHeader); // 이 부분에서 헤더를 설정합니다.

@@ -2,7 +2,7 @@ import BarChart from 'components/chart/BarChart';
 import ChartFrame from 'components/chart/ChartFramee';
 import LineChart from 'components/chart/LineChart';
 import PieChart from 'components/chart/PieChart';
-import CurvedLineChart from 'components/chart/CurvedLineChart';
+// import CurvedLineChart from 'components/chart/CurvedLineChart';
 import React from 'react';
 
 const test = () => {
@@ -50,7 +50,7 @@ const test = () => {
           }
         />
       </div>
-      <div className=" ml-10">
+      {/* <div className=" ml-10">
         <ChartFrame
           width="500px"
           height="500px"
@@ -58,7 +58,7 @@ const test = () => {
           fontSize="20px"
           chart={<CurvedLineChart />}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import useGetOfferList from 'hooks/api/chart/useGetOfferList';
 import useDetailStore from 'store/chart/useDetailStore';
 import Spinner from 'components/common/Spinner';
+import CurvedLineChart from 'components/chart/CurvedLineChart';
 
 function SupplierDetail() {
   const { offerListLoading, offerList } = useGetOfferList();
@@ -33,7 +34,9 @@ function SupplierDetail() {
       </div>
 
       {/* 제공 차트 */}
-      <div className="col-span-5">차트가 들어갑니다.</div>
+      <div className="col-span-5">
+        <CurvedLineChart />
+      </div>
     </div>
   );
 }

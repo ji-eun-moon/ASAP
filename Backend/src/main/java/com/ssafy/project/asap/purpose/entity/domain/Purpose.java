@@ -6,12 +6,14 @@ import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class Purpose extends BaseTime {
 
     @Id
@@ -29,10 +31,7 @@ public class Purpose extends BaseTime {
     @Column(nullable = false)
     private String purpose;
 
-    @Column(nullable = false)
-    private String industry;
-
-    @Column(nullable = false)
-    private String unit;
+    @Enumerated(EnumType.STRING)
+    private PurposeIndustry industry;
 
 }

@@ -1,8 +1,10 @@
 package com.ssafy.project.asap.mail.controller;
 
+import com.ssafy.project.asap.global.exception.CustomException;
+import com.ssafy.project.asap.global.exception.ErrorCode;
 import com.ssafy.project.asap.mail.dto.request.EmailRequest;
 import com.ssafy.project.asap.mail.service.MailService;
-import com.ssafy.project.asap.member.entity.dto.request.CheckMemberEmailRequest;
+import com.ssafy.project.asap.member.entity.dto.request.CheckEmailRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,9 +37,17 @@ public class MailController {
     })
     public ResponseEntity<?> authEmail(@RequestBody EmailRequest emailRequest) throws MessagingException {
         
-        mailService.authEmail(emailRequest.getEmail());
+        try {
+            mailService.authEmail(emailRequest.getEmail());
+
+            return ResponseEntity.ok("이메일 전송 완료");
+
+        } catch (MessagingException e){
+
+            return ResponseEntity.ok(ErrorCode.EMAIL_NOT_SEND);
+
+        }
         
-        return ResponseEntity.status(200).body("이메일 전송 완료");
     }
 
 
@@ -45,17 +55,26 @@ public class MailController {
     @Operation(summary = "이메일 인증 확인", description = "이메일 인증 메일 코드 확인")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "이메일 인증 성공", content = @Content(schema = @Schema(
-                    implementation = CheckMemberEmailRequest.class
+                    implementation = CheckEmailRequest.class
             ))),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Boolean> authEmail(@RequestBody CheckMemberEmailRequest checkMemberEmailRequest) {
+    public ResponseEntity<?> authEmail(@RequestBody CheckEmailRequest checkEmailRequest) {
 
         // 레디스에 있는 암호 코드랑 비교
+        try {
+            mailService.checkAuthEmail(checkEmailRequest);
 
-        return ResponseEntity.ok(true);
+            return ResponseEntity.ok("이메일 인증 성공");
+
+        } catch (CustomException e) {
+
+            return ResponseEntity.ok(e.getErrorCode());
+
+        }
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.credit.entity.dto.response;
 
+import com.ssafy.project.asap.credit.entity.domain.Credit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FindCreditResponse {
-    private String cardCompany = "국민은행";
-    private String cardNumber = "1234-5678-1234-5678";
+    private String cardCompany;
+    private String cardNumber;
+
+    public FindCreditResponse(Credit credit) {
+
+        this.cardCompany = credit.getCardCompany();
+        this.cardNumber = credit.getCardNumber();
+
+    }
 }

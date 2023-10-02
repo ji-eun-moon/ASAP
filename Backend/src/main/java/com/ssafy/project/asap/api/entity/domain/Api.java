@@ -1,14 +1,16 @@
 package com.ssafy.project.asap.api.entity.domain;
 
+import com.ssafy.project.asap.category.entity.domain.Category;
 import com.ssafy.project.asap.global.common.BaseTime;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class Api extends BaseTime {
 
     @Id
@@ -29,11 +32,17 @@ public class Api extends BaseTime {
     @Column(nullable = false)
     private String api;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String input;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
+    private String inputExample;
+
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
     private String output;
+
+    @Column(columnDefinition = "JSON NOT NULL", nullable = false)
+    private String outputExample;
 
     @Column(nullable = false)
     private Long price;
@@ -45,8 +54,20 @@ public class Api extends BaseTime {
     private String content;
 
     @Column(nullable = false)
-    private LocalDateTime provideDate;
+    private LocalDate provideDate;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ApiMethod method;
+
+    @Column
+    private String tags;
 
     @OneToMany(mappedBy = "api", cascade = CascadeType.ALL)
-    List<Purpose> purposeList = new ArrayList<>();
+    private final List<Purpose> purposeList = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 }

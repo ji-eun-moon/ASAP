@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GetCategoryApiIds {
     private long[] ids;
+    private Long apiId;
     private Integer year;
     private Integer month;
 }

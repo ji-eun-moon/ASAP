@@ -37,6 +37,10 @@ public class Transaction {
         this.usageRecord.add(usageRecords);
     }
 
+    public void updateApiTitle(String apiTitle) {
+        this.apiTitle = apiTitle;
+    }
+
     public void updateRecords(List<String> usageRecord) {
         this.usageRecord.addAll(usageRecord);
     }

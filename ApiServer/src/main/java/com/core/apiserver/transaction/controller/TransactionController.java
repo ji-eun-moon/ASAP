@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -55,13 +56,19 @@ public class TransactionController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<?> get(@RequestParam Map<String, String> params) {
+    public ResponseEntity<?> get(@RequestParam Map<String, String> params) throws UnsupportedEncodingException {
         return ResponseEntity.ok(transactionService.findTransaction(params));
     }
 
     @PutMapping ("/{ids}")
     public ResponseEntity<?> updateRecord(@PathVariable("ids") Long ids, @RequestBody RecordsRequest request)  {
         transactionService.update(ids, request.getRecord());
+        return ResponseEntity.status(202).body("저장 완료");
+    }
+
+    @PutMapping ("/api-title/{ids}")
+    public ResponseEntity<?> updateApiTitle(@PathVariable("ids") Long ids, @RequestBody RecordsRequest request)  {
+        transactionService.updateApiTitle(ids, request.getRecord());
         return ResponseEntity.status(202).body("저장 완료");
     }
 

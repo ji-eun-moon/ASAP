@@ -8,6 +8,7 @@ import com.core.apiserver.daily.entity.dto.request.DailyUsageRequest;
 import com.core.apiserver.daily.entity.dto.request.GetCategoryApiIds;
 import com.core.apiserver.daily.entity.dto.request.GetDailyRequest;
 import com.core.apiserver.daily.entity.dto.request.MonthlyUsageRequest;
+import com.core.apiserver.daily.entity.dto.response.CategoryResponse;
 import com.core.apiserver.daily.entity.dto.response.DailyUsageResponse;
 import com.core.apiserver.daily.entity.dto.response.ProvidingResponse;
 import com.core.apiserver.daily.entity.dto.response.UsageResponse;
@@ -185,19 +186,24 @@ public class DailyService {
 
 
 
-    public Map<YearMonth, Long> categoryAverage(GetCategoryApiIds getCategoryApiIds) {
+    public Map<YearMonth, CategoryResponse> categoryAverage(GetCategoryApiIds getCategoryApiIds) {
         List<Api> apis = new ArrayList<>();
-        Map<YearMonth, Long> map = new HashMap<>();
+        Map<YearMonth, CategoryResponse> map = new HashMap<>();
         for (int i = 0; i < 5; i++) {
             YearMonth yearMonth = YearMonth.of(getCategoryApiIds.getYear(), getCategoryApiIds.getMonth()).minusMonths(i);
             Long amount = 0L;
+            Long myApiAmount = 0L;
             for (Long id : getCategoryApiIds.getIds()) {
                 apis.add(apiRepository.findById(id).orElseThrow());
-                for (Api api: apis) {
+                for (Api api : apis) {
+                    if (api.getApiId().equals(getCategoryApiIds.getApiId())) {
+                        myApiAmount = amount(yearMonth, api);
+                    }
                     amount += amount(yearMonth, api);
                 }
             }
-            map.put(yearMonth, amount);
+
+            map.put(yearMonth, new CategoryResponse(amount, myApiAmount));
         }
         return map;
     }

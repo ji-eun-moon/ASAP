@@ -73,6 +73,13 @@ public class TransactionService {
     }
 
     @Transactional
+    public void updateApiTitle(Long ids, String updateTitle) {
+        Transaction transaction = transactionRepository.findById(ids).orElseThrow();
+        transaction.updateApiTitle(updateTitle);
+        transactionRepository.save(transaction);
+    }
+
+    @Transactional
     public void delete(Long ids) {
         transactionRepository.delete(transactionRepository.findById(ids).orElseThrow());
     }

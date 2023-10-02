@@ -117,7 +117,8 @@ public class DailyController {
 
         System.out.println("ids : " + Arrays.toString(ids));
 
-        GetCategoryApiIds getCategoryApiIds = new GetCategoryApiIds(ids, Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
+        GetCategoryApiIds getCategoryApiIds = new GetCategoryApiIds(ids, Long.parseLong(params.get("apiId")), Integer.parseInt(params.get("year")),
+                Integer.parseInt(params.get("month")));
         return ResponseEntity.status(200).body(dailyService.categoryAverage(getCategoryApiIds));
     }
 

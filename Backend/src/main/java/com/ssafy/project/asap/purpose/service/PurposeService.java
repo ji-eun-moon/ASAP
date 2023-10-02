@@ -11,6 +11,7 @@ import com.ssafy.project.asap.member.repository.MemberRepository;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import com.ssafy.project.asap.purpose.entity.dto.request.RegisterPurposeRequest;
 import com.ssafy.project.asap.purpose.entity.dto.request.TotalRequest;
+import com.ssafy.project.asap.purpose.entity.dto.response.FindPurposesDateResponse;
 import com.ssafy.project.asap.purpose.entity.dto.response.FindPurposesResponse;
 import com.ssafy.project.asap.purpose.repository.PurposeRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -126,10 +128,30 @@ public class PurposeService {
 
     }
 
-    public List<Purpose> findAllByApiAndCreateDateAfter(Long apiId) {
-        Api api = apiRepository.findByApiId(apiId);
+    public List<FindPurposesDateResponse> findAllByApiAndCreateDate(Long apiId) throws JsonProcessingException {
         LocalDateTime sevenDaysAgo = LocalDate.now().minusDays(7).atStartOfDay();
-        return purposeRepository.findAllByCreateDateAfter(sevenDaysAgo);
+
+        // purposeRepository를 통해 Object[] 형태의 데이터를 가져옵니다.
+        List<Object[]> resultList = purposeRepository.findAllByApiAndCreateDate(apiId, sevenDaysAgo);
+
+        List<FindPurposesDateResponse> responseList = new ArrayList<>();
+
+        for (Object[] result : resultList) {
+            if (result.length >= 2) {
+                String dateStr = result[0].toString();
+                int count = Integer.parseInt(result[1].toString());
+
+                // FindPurposesDateResponse 객체를 생성하고 데이터를 매핑합니다.
+                LocalDate date = LocalDate.parse(dateStr);
+                FindPurposesDateResponse response = new FindPurposesDateResponse(date, (long) count);
+
+                // 리스트에 추가합니다.
+                responseList.add(response);
+            }
+        }
+
+        return responseList;
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.purpose.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.project.asap.api.entity.dto.request.RegisterApiRequest;
 import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.purpose.entity.dto.request.RegisterPurposeRequest;
@@ -85,11 +86,11 @@ public class PurposeController {
 
     @GetMapping("/new/{apiId}")
     @Operation(summary = "신규 사용자 리스트", description = "해당 apiId의 신규 사용자 리스트 조회")
-    public ResponseEntity<?> findByApiIdDate(@PathVariable("apiId") Long apiId){
+    public ResponseEntity<?> findByApiIdDate(@PathVariable("apiId") Long apiId) throws JsonProcessingException {
 
         log.info("Controller");
 
-        return ResponseEntity.ok(purposeService.findAllByApiAndCreateDateAfter(apiId));
+        return ResponseEntity.ok(purposeService.findAllByApiAndCreateDate(apiId));
 
     }
 }

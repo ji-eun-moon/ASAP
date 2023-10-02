@@ -86,11 +86,20 @@ public class PurposeController {
 
     @GetMapping("/new/{apiId}")
     @Operation(summary = "신규 사용자 리스트", description = "해당 apiId의 신규 사용자 리스트 조회")
-    public ResponseEntity<?> findByApiIdDate(@PathVariable("apiId") Long apiId) throws JsonProcessingException {
+    public ResponseEntity<?> findByApiIdDate(@PathVariable("apiId") Long apiId){
 
         log.info("Controller");
 
         return ResponseEntity.ok(purposeService.findAllByApiAndCreateDate(apiId));
 
     }
+
+    @GetMapping("/rate/{apiId}")
+    @Operation(summary = "사용자 산업군 비율", description = "해당 apiId의 사용자들의 각 산업군의 인원")
+    public ResponseEntity<?> rate(@PathVariable("apiId") Long apiId){
+
+        return ResponseEntity.ok(purposeService.findPurposesIndustryResponses(apiId));
+
+    }
+
 }

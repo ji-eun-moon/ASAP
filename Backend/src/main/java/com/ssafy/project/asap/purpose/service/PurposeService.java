@@ -138,15 +138,12 @@ public class PurposeService {
 
         for (Object[] result : resultList) {
             if (result.length >= 2) {
-                String dateStr = result[0].toString();
-                int count = Integer.parseInt(result[1].toString());
-
-                // FindPurposesDateResponse 객체를 생성하고 데이터를 매핑합니다.
-                LocalDate date = LocalDate.parse(dateStr);
-                FindPurposesDateResponse response = new FindPurposesDateResponse(date, (long) count);
 
                 // 리스트에 추가합니다.
-                responseList.add(response);
+                responseList.add(FindPurposesDateResponse.builder()
+                                .date(LocalDate.parse(result[0].toString()))
+                                .count(Long.parseLong(result[1].toString()))
+                        .build());
             }
         }
 

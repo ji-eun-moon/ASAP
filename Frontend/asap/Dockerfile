@@ -7,7 +7,7 @@ COPY package.json .
 # 명령어 실행 (의존성 설치)
 RUN npm install
 # 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사한다.
-# COPY . .
+COPY . .
 
 # 각각의 명령어들은 한줄 한줄씩 캐싱되어 실행된다.
 # npm install과 COPY . . 를 동시에 수행하면

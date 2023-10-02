@@ -35,10 +35,16 @@ public interface PurposeRepository extends JpaRepository<Purpose, Long> {
             "WHERE p.api.apiId = :apiId and p.member.memberId = :memberId")
     Optional<Purpose> findByApiAndMember(@Param("apiId") Long apiId,@Param("memberId") Long memberId);
 
-    @Query("SELECT DATE(p.createDate) AS date, COUNT(p) as count " +
+    @Query("SELECT DATE_FORMAT(p.createDate, '%Y-%m') AS month, COUNT(p) as count " +
             "FROM Purpose p " +
             "WHERE p.api.apiId = :apiId AND p.createDate > :date " +
-            "GROUP BY DATE(p.createDate)")
+            "GROUP BY DATE_FORMAT(p.createDate, '%Y-%m')")
     List<Object[]> findAllByApiAndCreateDate(@Param("apiId") Long apiId, @Param("date") LocalDateTime date);
+
+
+    @Query("select p.industry, count(p) " +
+            "from Purpose  p " +
+            "group by p.industry")
+    List<Object[]> findAllByApiAndIndustry(@Param("apiId") Long apiId);
 
 }

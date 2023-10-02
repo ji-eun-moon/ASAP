@@ -2,7 +2,7 @@ package com.ssafy.project.asap.purpose.entity.dto.response;
 
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Builder
 @Getter
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 public class FindPurposesDateResponse {
 
-    private LocalDate date;
+    private String date;
     private Long count;
 
 }

@@ -193,19 +193,24 @@ public class ApiService {
         return serverGetConnect(params, "/api/v1/usage/daily/use");
     }
 
-    public Object findDailyProviding(Long walletId) {
+    public Object findDailyProviding(Map<String, String> param, Long walletId) {
 
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.put("walletId", Collections.singletonList(String.valueOf(walletId)));
+        if (apiRepository.findByApiId(Long.valueOf(param.get("apiId"))).getMember().getWalletId().equals(walletId)) {
 
-        return serverGetConnect(params, "/api/v1/usage/daily/provide");
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.put("apiId", Collections.singletonList(param.get("apiId")));
+
+            return serverGetConnect(params, "/api/v1/usage/daily/provide");
+        } else {
+         throw new CustomException(ErrorCode.NOT_API_OWNER);
+        }
     }
 
     public Object serverGetConnect(MultiValueMap<String, String> params, String path) {
 
         URI uri = UriComponentsBuilder
-//                .fromUriString("http://localhost:9001")
-                .fromUriString("https://j9c202.p.ssafy.io/block")
+                .fromUriString("http://localhost:9001")
+//                .fromUriString("https://j9c202.p.ssafy.io/block")
                 .path(path)
                 .encode()
                 .queryParams(params)

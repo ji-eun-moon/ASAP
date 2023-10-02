@@ -111,10 +111,11 @@ public class ChartController {
     })
     @Parameters({
             @Parameter(name = "JWT token", description = "토큰"),
+            @Parameter(name = "api-id", description = "API 아이디")
     })
-    public ResponseEntity<Object> DailyProviding(Authentication authentication)  {
+    public ResponseEntity<Object> DailyProviding(@RequestParam Map<String, String> param, Authentication authentication)  {
 
         Member member = memberService.findById(authentication.getName());
-        return ResponseEntity.ok(apiService.findDailyProviding(member.getWalletId()));
+        return ResponseEntity.ok(apiService.findDailyProviding(param, member.getWalletId()));
     }
 }

@@ -2,6 +2,7 @@ import BarChart from 'components/chart/BarChart';
 import ChartFrame from 'components/chart/ChartFramee';
 import LineChart from 'components/chart/LineChart';
 import PieChart from 'components/chart/PieChart';
+import CurvedLineChart from 'components/chart/CurvedLineChart';
 import React from 'react';
 
 const test = () => {
@@ -47,6 +48,15 @@ const test = () => {
               value={sampleValue}
             />
           }
+        />
+      </div>
+      <div className=" ml-10">
+        <ChartFrame
+          width="500px"
+          height="500px"
+          title="차트 테스트"
+          fontSize="20px"
+          chart={<CurvedLineChart />}
         />
       </div>
     </div>

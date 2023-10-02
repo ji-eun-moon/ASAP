@@ -1,15 +1,17 @@
 package com.ssafy.project.asap.purpose.entity.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class FindPurposesDateResponse {
 
-    private LocalDate registerDate;
-    private Long number;
+    private LocalDate date;
+    private Long count;
 
 }

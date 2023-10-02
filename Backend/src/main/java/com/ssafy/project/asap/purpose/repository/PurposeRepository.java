@@ -4,6 +4,7 @@ package com.ssafy.project.asap.purpose.repository;
 import com.ssafy.project.asap.api.entity.domain.Api;
 import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
+import com.ssafy.project.asap.purpose.entity.dto.response.FindPurposesDateResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,6 +35,10 @@ public interface PurposeRepository extends JpaRepository<Purpose, Long> {
             "WHERE p.api.apiId = :apiId and p.member.memberId = :memberId")
     Optional<Purpose> findByApiAndMember(@Param("apiId") Long apiId,@Param("memberId") Long memberId);
 
-    List<Purpose> findAllByCreateDateAfter(LocalDateTime createDate);
+    @Query("SELECT DATE(p.createDate) AS date, COUNT(p) as count " +
+            "FROM Purpose p " +
+            "WHERE p.api.apiId = :apiId AND p.createDate > :date " +
+            "GROUP BY DATE(p.createDate)")
+    List<Object[]> findAllByApiAndCreateDate(@Param("apiId") Long apiId, @Param("date") LocalDateTime date);
 
 }

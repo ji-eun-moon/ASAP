@@ -35,8 +35,8 @@ public class BatchService {
     public void serverGetConnect(String path) {
 
         URI uri = UriComponentsBuilder
-                .fromUriString("http://localhost:9001")
-//                .fromUriString("https://j9c202.p.ssafy.io/block")
+//                .fromUriString("http://localhost:9001")
+                .fromUriString("https://j9c202.p.ssafy.io/block")
                 .path(path)
                 .encode()
                 .build()

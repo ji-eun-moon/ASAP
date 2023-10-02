@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.20;
 
 contract Usage {
-    struct UserInfo {
-        address user;
-    }
-
     mapping(address => bytes32) public usageHashes;
 
     function setUsage(bytes32 usageHash) public {
@@ -17,5 +13,7 @@ contract Usage {
         return usageHashes[msg.sender];
     }
 
-
+    function getUsage2(address sender) public view returns (bytes32) {
+        return usageHashes[sender];
+    }
 }

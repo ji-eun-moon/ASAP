@@ -1,24 +1,26 @@
 package com.ssafy.project.asap.api.entity.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class FindApiResponse {
 
     private Long apiId;
-    private Long memberId;
-    private String api;
+    private String memberName;
     private String input;
+    private String inputExample;
     private String output;
-    private Long price;
-    private String address;
+    private String outputExample;
     private String title;
     private String content;
-    private LocalDateTime provideDate;
-    private LocalDateTime createDate;
+    private String tags;
+    private String category;
+    private Long price;
 
 }

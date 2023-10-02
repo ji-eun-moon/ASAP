@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.global.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,6 +10,12 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
+
+    @Value("${mail.admin.password}")
+    private String password;
+
+    @Value("${mail.admin.id}")
+    private String id;
 
     @Bean
     public JavaMailSender javaMailSender(){
@@ -22,8 +29,8 @@ public class MailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("victoryddh");
-        mailSender.setPassword("alqyptmtsfjvucqd");
+        mailSender.setUsername(id);
+        mailSender.setPassword(password);
         mailSender.setDefaultEncoding("utf-8");
         mailSender.setJavaMailProperties(properties);
 

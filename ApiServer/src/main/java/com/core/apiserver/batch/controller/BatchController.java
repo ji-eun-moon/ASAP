@@ -27,15 +27,21 @@ public class BatchController {
         return ResponseEntity.status(201).body("성공적");
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteRedis() {
+    @PostMapping("/redis-process")
+    public ResponseEntity<?> processRedis() {
         batchService.processRedisData();
-        return ResponseEntity.status(204).body("성공적");
+        return ResponseEntity.status(201).body("성공적");
     }
 
-    @PostMapping("/make-transaction")
-    public ResponseEntity<?> toBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
+    @PostMapping("/transaction-process")
+    public ResponseEntity<?> processBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
         batchService.processTransactionBlock();
+        return ResponseEntity.status(201).body("성공적");
+    }
+
+    @PostMapping("/credit-process")
+    public ResponseEntity<?> processCredit() throws IOException, ExecutionException, InterruptedException {
+        batchService.processCredit();
         return ResponseEntity.status(201).body("성공적");
     }
 }

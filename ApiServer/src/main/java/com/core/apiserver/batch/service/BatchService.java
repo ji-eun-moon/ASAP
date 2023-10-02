@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -55,7 +56,8 @@ public class BatchService {
     private String pwd = "pass";
 
     // redis 데이터 처리 - 30분
-    @Scheduled(fixedRate = 1000 * 60 * 30)
+//    @Scheduled(fixedRate = 1000 * 60 * 30)
+    @Transactional
     public void processRedisData() {
         log.info("redis 처리 시작");
         Iterable<RedisUsage> redisUsages = redisUsageRepository.findAll();
@@ -80,8 +82,8 @@ public class BatchService {
 
             if (transaction.isEmpty()) {
                 transactionService.register(new TransactionRequest(wallet.getAddress(), api.getWallet().getAddress(),
-                        api.getTitle(), redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())),
-                        redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())).plusDays(6)),
+                                api.getTitle(), redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())),
+                                redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())).plusDays(6)),
                         redisUsage.getUseAt());
             } else {
                 transactionService.update(transaction.get().get_id(), String.valueOf(redisUsage.getUseAt()));
@@ -91,7 +93,8 @@ public class BatchService {
     }
 
     // 트랜잭션 블록 생성 - 매주 일요일
-    @Scheduled(cron = "0 0 1 * * 0")
+//    @Scheduled(cron = "0 0 1 * * 0")
+    @Transactional
     public void processTransactionBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
         List<Transaction> transactions = transactionRepository.findAllByTransactionHashAndEndDate(null,
                 LocalDate.now().minusDays(dateCalculate(LocalDate.now()) + 1));
@@ -104,7 +107,8 @@ public class BatchService {
 
     // 결제 - 매월 1일에 실행
 
-    @Scheduled(cron = "0 0 1 1 * ?")
+    //    @Scheduled(cron = "0 0 1 1 * ?")
+    @Transactional
     public void processCredit() throws IOException, ExecutionException, InterruptedException {
 
         YearMonth current = YearMonth.now().minusMonths(1);
@@ -130,11 +134,15 @@ public class BatchService {
         }
 
         for (Wallet wallet : usageMap.keySet()) {
-            ethereumService.sendEther(wallet.getAddress(), wallet.getPrivateKey(), from, BigInteger.valueOf(usageMap.get(wallet)));
+            if (!wallet.getAddress().equals(from)) {
+                ethereumService.sendEther(wallet.getAddress(), wallet.getPrivateKey(), from, BigInteger.valueOf(usageMap.get(wallet)));
+            }
         }
 
         for (String walletAddress : provideMap.keySet()) {
-            ethereumService.sendEther(from, pwd, walletAddress, BigInteger.valueOf(provideMap.get(walletAddress)));
+            if (!walletAddress.equals(from)) {
+                ethereumService.sendEther(from, pwd, walletAddress, BigInteger.valueOf(provideMap.get(walletAddress)));
+            }
         }
 
     }

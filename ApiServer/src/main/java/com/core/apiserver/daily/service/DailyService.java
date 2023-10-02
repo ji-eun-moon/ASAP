@@ -102,6 +102,42 @@ public class DailyService {
         return map;
     }
 
+    public Map<YearMonth, List<UsageResponse>> oneMonthlyUsage(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
+
+        List<Total> totals = totalRepository.findAllByUserWallet(walletRepository.findById(monthlyUsageRequest.getUserWalletId()).orElseThrow());
+        Map<YearMonth, List<UsageResponse>> map = new HashMap<>();
+        List<UsageResponse> usageResponses = new ArrayList<>();
+
+        YearMonth yearMonth = YearMonth.of(monthlyUsageRequest.getYear(), monthlyUsageRequest.getMonth());
+
+        for (Total total : totals) {
+            List<Daily> dailies = dailyRepository.findAllByUserWalletAndApiAndDateBetween(total.getUserWallet(),
+                    total.getApi(),
+                    yearMonth.atDay(1), yearMonth.atEndOfMonth());
+
+            Long amount = 0L;
+
+            for (Daily d : dailies) {
+                amount += d.getUseAmount();
+            }
+            Long price = amount * total.getApi().getPrice();
+            if (amount == 0) {
+                continue;
+            }
+
+            usageResponses.add(new UsageResponse(new ApiResponse(total.getApi()), amount, price));
+        }
+        usageResponses.sort((o1, o2) -> {
+            return Double.compare(o2.getPrice(), o1.getPrice());
+        });
+        map.put(yearMonth, usageResponses);
+
+
+
+
+        return map;
+    }
+
     public List<DailyUsageResponse> dailyUsage(@NotNull GetDailyRequest getDailyRequest) {
 
         Wallet wallet = walletRepository.findById(getDailyRequest.getUserWalletId()).orElseThrow();

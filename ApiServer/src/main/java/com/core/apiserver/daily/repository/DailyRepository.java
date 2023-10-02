@@ -31,8 +31,8 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     @Query("SELECT d " +
             "FROM Daily d " +
-            "WHERE d.providerWallet.walletId = :providerWallet and d.date between :startDate and :endDate")
-    List<Daily> findByProviderWalletIdAndDateBetween(@Param("providerWallet") Long userWalletId,
+            "WHERE d.api.apiId = :apiId and d.date between :startDate and :endDate")
+    List<Daily> findAllByApiIdAndDateBetween(@Param("apiId") Long apiId,
                                                       @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 }

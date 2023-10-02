@@ -8,10 +8,7 @@ import com.core.apiserver.daily.entity.dto.request.DailyUsageRequest;
 import com.core.apiserver.daily.entity.dto.request.GetCategoryApiIds;
 import com.core.apiserver.daily.entity.dto.request.GetDailyRequest;
 import com.core.apiserver.daily.entity.dto.request.MonthlyUsageRequest;
-import com.core.apiserver.daily.entity.dto.response.CategoryResponse;
-import com.core.apiserver.daily.entity.dto.response.DailyUsageResponse;
-import com.core.apiserver.daily.entity.dto.response.ProvidingResponse;
-import com.core.apiserver.daily.entity.dto.response.UsageResponse;
+import com.core.apiserver.daily.entity.dto.response.*;
 import com.core.apiserver.daily.repository.DailyRepository;
 import com.core.apiserver.total.entity.domain.Total;
 import com.core.apiserver.total.repository.TotalRepository;
@@ -159,27 +156,21 @@ public class DailyService {
         return map;
     }
 
-    public Map<LocalDate, List<ProvidingResponse>> dailyProviding(Map<String, String> map) {
-        List<Daily> dailies = dailyRepository.findByProviderWalletIdAndDateBetween(Long.parseLong(map.get("walletId")),
+    public Map<LocalDate, DailyProvidingResponse> dailyProviding(Map<String, String> map) {
+        List<Daily> dailies = dailyRepository.findAllByApiIdAndDateBetween(Long.parseLong(map.get("apiId")),
                 LocalDate.now().minusDays(30), LocalDate.now());
 
-        Map<LocalDate, List<ProvidingResponse>> dateMap = new HashMap<>();
+        Map<LocalDate, DailyProvidingResponse> dateMap = new HashMap<>();
 
         for (Daily daily: dailies) {
-            if (!dateMap.containsKey(daily.getDate())) {
-                dateMap.put(daily.getDate(), new ArrayList<>());
-            }
-            List<ProvidingResponse> providingResponses = dateMap.get(daily.getDate());
-            if (providingResponses.contains(daily.getApi())) {
-                providingResponses.get(providingResponses.indexOf(daily.getApi())).update(daily.getUseAmount(),
-                        Long.valueOf(daily.getApi().getPrice()));
+            if (dateMap.containsKey(daily.getDate())) {
+                DailyProvidingResponse DailyProvidingResponse = dateMap.get(daily.getDate());
+                DailyProvidingResponse.update(daily.getUseAmount(), Long.valueOf(daily.getApi().getPrice()));
+                dateMap.put(daily.getDate(), DailyProvidingResponse);
             } else {
-                providingResponses.add(new ProvidingResponse(daily.getApi().getApiId(), daily.getApi().getTitle(),
-                        daily.getUseAmount(), daily.getApi().getPrice() * daily.getUseAmount()));
+                dateMap.put(daily.getDate(), new DailyProvidingResponse(daily.getUseAmount(), Long.valueOf(daily.getApi().getPrice())));
             }
-            dateMap.put(daily.getDate(), providingResponses);
         }
-
 
         return dateMap;
     }

@@ -37,19 +37,20 @@ function CheckUsage() {
     console.log(formatDate(startDate));
   }
 
-  const onSelectAPI = (selectedTitle: string) => {
+  const onSelectAPI = () => {
     setDatabase(null);
     setTransaction(null);
-    setApiTitle(selectedTitle);
+    setStartDate(null);
+    setEndDate(null);
   };
 
   const onCheckHandler = async () => {
-    if (startDate && endDate) {
+    if (startDate && endDate && apiTitle) {
       const formattedStartDate = formatDate(startDate);
       const formattedEndDate = formatDate(endDate);
 
       const data = await checkUsage({
-        apiTitle: '키워드로 장소 검색하기',
+        apiTitle,
         startDate: formattedStartDate,
         endDate: formattedEndDate,
       });
@@ -82,6 +83,7 @@ function CheckUsage() {
             <Dropdown
               options={useList}
               apiTitle={apiTitle}
+              setApiTitle={setApiTitle}
               onSelect={onSelectAPI}
             />
           ) : null}

@@ -5,12 +5,16 @@ import com.ssafy.project.asap.member.entity.domain.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
 public class Payment extends BaseTime {
 
     @Id
@@ -29,5 +33,8 @@ public class Payment extends BaseTime {
 
     @Column(nullable = false)
     private String cardNumber;
+
+    @Column(nullable = false)
+    private LocalDate payDate;
 
 }

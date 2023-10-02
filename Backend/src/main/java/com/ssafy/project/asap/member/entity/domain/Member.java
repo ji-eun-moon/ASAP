@@ -9,8 +9,11 @@ import com.ssafy.project.asap.payment.entity.domain.Payment;
 import com.ssafy.project.asap.purpose.entity.domain.Purpose;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -18,49 +21,54 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Member extends BaseTime {
+@Getter
+public class Member extends BaseTime implements UserDetails {
 
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Getter
     @Column(nullable = false, unique = true)
     private String id;
 
-    @Getter
     @Column(nullable = false)
     private String email;
 
-    @Getter
     @Column(nullable = false)
     private String password;
 
-    @Getter
     @Column(nullable = false)
     private String name;
 
     @Column(unique = true)
+    @Setter
     private String address;
 
+    @Column(unique = true)
+    @Setter
+    private Long walletId;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @OneToMany(mappedBy = "member")
-    private List<Payment> paymentList = new ArrayList<>();
+    private final List<Payment> paymentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Notice> noticeList = new ArrayList<>();
+    private final List<Notice> noticeList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private Credit credit;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Credit> creditList = new ArrayList<>();
+    private final List<Apply> applyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Apply> applyList = new ArrayList<>();
+    private final List<Api> apiList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Api> apiList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Purpose> purposeList = new ArrayList<>();
+    private final List<Purpose> purposeList = new ArrayList<>();
 
     public void setPassword(String password) {
         this.password = password;
@@ -72,5 +80,41 @@ public class Member extends BaseTime {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        System.out.println(this.role.name());
+
+        Collection<GrantedAuthority> collection = new ArrayList<>();
+        collection.add(() -> this.role.name());
+
+        return collection;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.id;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

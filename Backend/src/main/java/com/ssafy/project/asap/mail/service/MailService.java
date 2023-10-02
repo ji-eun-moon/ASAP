@@ -1,5 +1,9 @@
 package com.ssafy.project.asap.mail.service;
 
+import com.ssafy.project.asap.global.exception.CustomException;
+import com.ssafy.project.asap.global.exception.ErrorCode;
+import com.ssafy.project.asap.member.entity.dto.request.CheckEmailRequest;
+import com.ssafy.project.asap.redis.service.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +19,7 @@ import java.util.Random;
 public class MailService {
 
     private final JavaMailSender javaMailSender;
+    private final RedisService redisService;
 
     public void authEmail(String email) throws MessagingException {
 
@@ -48,10 +53,13 @@ public class MailService {
         log.info("pwd = " + pwd);
 
         javaMailSender.send(message);
+
+        redisService.setValue(email, pwd);
+
     }
 
 
-    public static String createCode(){
+    public String createCode(){
         Random random = new Random();
         StringBuilder key = new StringBuilder();
 
@@ -67,6 +75,16 @@ public class MailService {
 
         }
         return key.toString();
+    }
+
+    public void checkAuthEmail(CheckEmailRequest checkEmailRequest){
+
+        if (!redisService.getValue(checkEmailRequest.getEmail()).equals(checkEmailRequest.getCode())) {
+
+            throw new CustomException(ErrorCode.EMAIL_CODE_NOT_AUTHORIZED);
+
+        }
+
     }
 
 }

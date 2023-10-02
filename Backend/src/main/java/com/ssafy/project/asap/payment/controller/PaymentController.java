@@ -1,7 +1,8 @@
 package com.ssafy.project.asap.payment.controller;
 
 import com.ssafy.project.asap.payment.entity.dto.request.RegisterPaymentRequest;
-import com.ssafy.project.asap.payment.entity.dto.response.FindPaymentResponse;
+import com.ssafy.project.asap.payment.entity.dto.response.FindPaymentsResponse;
+import com.ssafy.project.asap.payment.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import java.util.List;
 @Tag(name="Payment", description = "결제 내역 API")
 public class PaymentController {
 
+    private final PaymentService paymentService;
+
     @GetMapping("/list")
     @Operation(summary = "결제 내역", description = "회원이 결제한 내역을 조회")
     @ApiResponses(value = {
@@ -29,15 +33,9 @@ public class PaymentController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<List<FindPaymentResponse>> findAll() {
+    public ResponseEntity<List<FindPaymentsResponse>> findAll(Authentication authentication) {
 
-        List<FindPaymentResponse> paymentResponses = new ArrayList<>();
-
-        paymentResponses.add(new FindPaymentResponse());
-        paymentResponses.add(new FindPaymentResponse());
-        paymentResponses.add(new FindPaymentResponse());
-
-        return ResponseEntity.status(200).body(paymentResponses);
+        return ResponseEntity.ok(paymentService.findAllByMember(authentication.getName()));
     }
 
     @PostMapping("/approve")

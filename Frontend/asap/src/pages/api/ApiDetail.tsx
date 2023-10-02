@@ -74,7 +74,7 @@ function ApiDetail() {
         &nbsp;
         {'>'}
         &nbsp;
-        <span>{apiDetail?.title}</span>
+        <span className="font-bold">{apiDetail?.title}</span>
       </div>
 
       {/* API 설명 */}
@@ -82,7 +82,7 @@ function ApiDetail() {
         <div className="flex justify-center" style={{ flex: '3' }}>
           <CategoryImg category={apiDetail?.category} />
         </div>
-        <div style={{ flex: '7' }}>
+        <div style={{ flex: '7' }} className="pr-10">
           <div className="api-title">{apiDetail?.title}</div>
           <div className="pb-10">
             {apiDetail?.tags &&

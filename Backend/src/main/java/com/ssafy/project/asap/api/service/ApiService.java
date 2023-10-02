@@ -156,6 +156,7 @@ public class ApiService {
         }
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("ids", Collections.singletonList(ids.toString()));
+        params.put("apiId", Collections.singletonList(param.get("apiId")));
         params.put("year", Collections.singletonList(param.get("year")));
         params.put("month", Collections.singletonList(param.get("month")));
 

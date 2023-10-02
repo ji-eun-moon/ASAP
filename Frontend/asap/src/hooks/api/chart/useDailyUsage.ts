@@ -19,24 +19,28 @@ interface IDailyUsage {
  */
 
 const useDailyUsage = () => {
-  const { apiId } = useDetailStore();
+  const { apiId, setDailyUsageStore } = useDetailStore();
   const [dailyLoading, setDailyLoading] = useState<boolean>(true);
   const [dailyUsage, setDailyUsage] = useState<IDailyUsage[] | null>();
 
-  const getDailyUsage = useCallback(async (paramsObject: IapiId) => {
-    try {
-      const response = await axiosInstance({
-        method: 'GET',
-        url: '/api/v1/apis/usage/daily',
-        params: paramsObject,
-      });
-      setDailyUsage(response.data);
-      setDailyLoading(false);
-      console.log('사용자 일별 사용량 조회 성공', response.data);
-    } catch (error) {
-      console.log('사용자 일별 사용량 조회 실패', error);
-    }
-  }, []);
+  const getDailyUsage = useCallback(
+    async (paramsObject: IapiId) => {
+      try {
+        const response = await axiosInstance({
+          method: 'GET',
+          url: '/api/v1/apis/usage/daily',
+          params: paramsObject,
+        });
+        setDailyUsage(response.data);
+        setDailyUsageStore(response.data);
+        setDailyLoading(false);
+        console.log('사용자 일별 사용량 조회 성공', response.data);
+      } catch (error) {
+        console.log('사용자 일별 사용량 조회 실패', error);
+      }
+    },
+    [setDailyUsageStore],
+  );
 
   useEffect(() => {
     getDailyUsage({ apiId });

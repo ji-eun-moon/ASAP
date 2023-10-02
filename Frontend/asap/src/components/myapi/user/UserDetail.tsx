@@ -1,23 +1,19 @@
 import React from 'react';
 import useGetUseList from 'hooks/api/chart/useGetUseList';
-import useDailyUsage from 'hooks/api/chart/useDailyUsage';
 import useDetailStore from 'store/chart/useDetailStore';
-import Spinner from 'components/common/Spinner';
+import DailyChart from './DailyChart';
 
 function UserDetail() {
   const { useListLoading, useList } = useGetUseList();
-  const { dailyLoading } = useDailyUsage();
   const { apiId, setApiId } = useDetailStore();
 
   return (
     <div className="container mx-auto mt-12 grid grid-cols-6 gap-5">
-      {/* 제공중 리스트 */}
+      {/* 사용중 리스트 */}
       <div className="border rounded-lg border-gray-300 p-4 col-span-1">
-        {useListLoading ? (
-          <Spinner size="12" />
-        ) : (
+        {useListLoading ? null : (
           <div>
-            <div className="font-bold text-2xl">API 제공 상세</div>
+            <div className="font-bold text-2xl">API 사용 상세</div>
             {useList?.map((use) => (
               <div
                 key={use.apiId}
@@ -35,7 +31,9 @@ function UserDetail() {
       </div>
 
       {/* 제공 차트 */}
-      <div className="col-span-5">차트가 들어갑니다.{dailyLoading}</div>
+      <div className="col-span-5">
+        <DailyChart />
+      </div>
     </div>
   );
 }

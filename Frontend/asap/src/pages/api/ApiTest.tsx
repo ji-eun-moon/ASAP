@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useGetApiUsage from 'hooks/api/api/useGetApiUsage';
 import useApiTest from 'hooks/api/api/useApiTest';
 import useFormattedJson from 'hooks/custom/useFormattedJson';
+import useGetWallet from 'hooks/api/wallet/useGetWallet';
 import useAuthStore from 'store/auth/useAuthStore';
 import useQueryParamsStore from 'store/api/queryParamsStore';
 import useTestStore from 'store/api/useTestStore';
@@ -25,6 +26,7 @@ interface Pair {
 
 function ApiTest() {
   const { apiUsage } = useGetApiUsage();
+  const { wallet } = useGetWallet();
   const { isLoggedIn } = useAuthStore();
   const { params, setParam } = useQueryParamsStore();
   const { trialLoading } = useTrialCount();
@@ -63,7 +65,6 @@ function ApiTest() {
 
   const onApiTest = () => {
     const url = apiUsage?.api;
-    const newUrl = url?.replace('/asap/', '/test/');
     if (!isLoggedIn) {
       setModalMessage('로그인이 필요한 서비스입니다.');
       setIsModalOpen(true);
@@ -75,7 +76,9 @@ function ApiTest() {
       return;
     }
     setLoading(true);
-    apiTest({ url: newUrl, params });
+    if (wallet) {
+      apiTest({ url, params, wallet });
+    }
   };
 
   // 복사 함수
@@ -108,9 +111,19 @@ function ApiTest() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-4">
-        {/* Query Params */}
+      <div className="grid grid-cols-2 gap-5">
         <div className="flex flex-col gap-4">
+          {/* Headers */}
+          <div className="text-xl font-bold text-blue flex">
+            Headers
+            <TooltipHelper message="지갑 주소" />
+          </div>
+          <Card className="bg-gray-200 rounded-lg p-5 flex mb-4">
+            <div className="input-container custom-input w-full">
+              <input placeholder="headers" value={wallet || ''} />
+            </div>
+          </Card>
+          {/* Query Params */}
           <div className="text-xl font-bold text-blue">Query Params</div>
           <Card className="p-5 bg-gray-200">
             {data.map((item) => (
@@ -155,19 +168,21 @@ function ApiTest() {
         <div className="flex flex-col gap-4">
           <div className="text-xl font-bold text-blue">Response</div>
 
-          <div className="bg-gray-300 rounded-lg p-5 flex gap-5 items-center">
-            <div
-              className={`w-5 h-5 rounded-full ${
-                status && status.toString().startsWith('2')
-                  ? 'bg-green-600'
-                  : 'bg-red-600'
-              }`}
-            />
-            <div className="font-bold">{status}</div>
-          </div>
+          <Card className="bg-gray-200 rounded-lg p-5">
+            <div className="flex gap-5 items-center">
+              <div
+                className={`w-5 h-5 rounded-full ${
+                  status && status.toString().startsWith('2')
+                    ? 'bg-green-600'
+                    : 'bg-red-600'
+                }`}
+              />
+              <div className="font-bold">{status}</div>
+            </div>
+          </Card>
 
           {/* Result */}
-          <div className="bg-gray-300 rounded-lg p-5">
+          <Card className="bg-gray-200 rounded-lg p-5">
             <div className="flex justify-between items-center mb-3">
               <div className="text-xl font-bold flex gap-3 items-center">
                 <div>Result</div>
@@ -192,7 +207,7 @@ function ApiTest() {
                 options={editorOptions}
               />
             </div>
-          </div>
+          </Card>
         </div>
       </div>
 

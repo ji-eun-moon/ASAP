@@ -86,12 +86,14 @@ function HowToUse({ authority }: HowToUseProps) {
         )}
 
         <div className="how-to-use center">
-          <div className="flex items-baseline pb-5">
-            <div className="title-text">How To Use</div>
-            <Question className="w-12 h-auto" />
-          </div>
           <div className="center">
-            <Cards authority={authority} />
+            <div className="flex-col flex">
+              <div className="flex items-baseline pb-5">
+                <div className="title-text">How To Use</div>
+                <Question className="w-12 h-auto" />
+              </div>
+              <Cards authority={authority} />
+            </div>
           </div>
         </div>
       </Fade>

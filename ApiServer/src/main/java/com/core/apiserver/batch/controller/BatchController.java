@@ -1,5 +1,6 @@
 package com.core.apiserver.batch.controller;
 
+import com.core.apiserver.batch.dto.RegisterPaymentRequest;
 import com.core.apiserver.batch.service.BatchService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,12 @@ public class BatchController {
     @PostMapping("/credit-process")
     public ResponseEntity<?> processCredit() throws IOException, ExecutionException, InterruptedException {
         batchService.processCredit();
+        return ResponseEntity.status(201).body("성공적");
+    }
+
+    @PostMapping("/payment-process")
+    public ResponseEntity<?> processPayment() {
+        batchService.serverPostConnect(new RegisterPaymentRequest("0xb2f25bea384704fc26d60f1bf7490444df21babe", 12345L));
         return ResponseEntity.status(201).body("성공적");
     }
 }

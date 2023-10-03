@@ -192,6 +192,41 @@ public class DailyService {
         return map;
     }
 
+    public Map<YearMonth, List<ProvidingResponse>> oneMonthlyProviding(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
+        Map<YearMonth, List<ProvidingResponse>> map = new HashMap<>();
+        List<Api> apis = apiRepository.findAllByWallet(walletRepository.findById(monthlyUsageRequest.getUserWalletId()).orElseThrow());
+
+        YearMonth yearMonth = YearMonth.of(monthlyUsageRequest.getYear(), monthlyUsageRequest.getMonth());
+        List<ProvidingResponse> providingResponses = new ArrayList<>();
+        for (Api api : apis) {
+            List<Total> totals = totalRepository.findAllByApi(api);
+            for (Total total : totals) {
+                List<Daily> dailies = dailyRepository.findAllByApiAndDateBetween(api,
+                        yearMonth.atDay(1), yearMonth.atEndOfMonth());
+
+                Long amount = 0L;
+
+                for (Daily d : dailies) {
+                    amount += d.getUseAmount();
+                }
+                Long price = amount * api.getPrice();
+                if (amount == 0) {
+                    continue;
+                }
+
+                providingResponses.add(new ProvidingResponse(api.getApiId(), api.getTitle(), amount, price));
+            }
+        }
+        providingResponses.sort((o1, o2) -> {
+            return Double.compare(o2.getPrice(), o1.getPrice());
+        });
+        map.put(yearMonth, providingResponses);
+
+
+
+        return map;
+    }
+
     public Map<LocalDate, DailyProvidingResponse> dailyProviding(Map<String, String> map) {
         List<Daily> dailies = dailyRepository.findAllByApiIdAndDateBetween(Long.parseLong(map.get("apiId")),
                 LocalDate.now().minusDays(30), LocalDate.now());
@@ -214,23 +249,19 @@ public class DailyService {
 
 
     public Map<YearMonth, CategoryResponse> categoryAverage(GetCategoryApiIds getCategoryApiIds) {
-        List<Api> apis = new ArrayList<>();
         Map<YearMonth, CategoryResponse> map = new HashMap<>();
         for (int i = 0; i < 5; i++) {
             YearMonth yearMonth = YearMonth.of(getCategoryApiIds.getYear(), getCategoryApiIds.getMonth()).minusMonths(i);
             Long amount = 0L;
             Long myApiAmount = 0L;
             for (Long id : getCategoryApiIds.getIds()) {
-                apis.add(apiRepository.findById(id).orElseThrow());
-                for (Api api : apis) {
-                    if (api.getApiId().equals(getCategoryApiIds.getApiId())) {
-                        myApiAmount = amount(yearMonth, api);
-                    }
-                    amount += amount(yearMonth, api);
+                Api api = apiRepository.findById(id).orElseThrow();
+                if (api.getApiId().equals(getCategoryApiIds.getApiId())) {
+                    myApiAmount = amount(yearMonth, api);
                 }
+                amount += amount(yearMonth, api);
             }
-
-            map.put(yearMonth, new CategoryResponse(amount, myApiAmount));
+            map.put(yearMonth, new CategoryResponse(amount/getCategoryApiIds.getIds().length, myApiAmount));
         }
         return map;
     }

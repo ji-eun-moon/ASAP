@@ -2,36 +2,34 @@ package com.core.apiserver.batch.service;
 
 import com.core.apiserver.api.entity.domain.Api;
 import com.core.apiserver.api.repository.ApiRepository;
+import com.core.apiserver.batch.dto.RegisterPaymentRequest;
 import com.core.apiserver.daily.entity.domain.Daily;
 import com.core.apiserver.daily.entity.dto.request.DailyUsageRequest;
 import com.core.apiserver.daily.repository.DailyRepository;
 import com.core.apiserver.daily.service.DailyService;
-import com.core.apiserver.total.entity.domain.Total;
-import com.core.apiserver.total.repository.TotalRepository;
 import com.core.apiserver.total.service.TotalService;
 import com.core.apiserver.transaction.entity.domain.Transaction;
 import com.core.apiserver.transaction.entity.dto.request.TransactionRequest;
 import com.core.apiserver.transaction.repository.TransactionRepository;
 import com.core.apiserver.transaction.service.TransactionService;
 import com.core.apiserver.usage.entity.domain.RedisUsage;
-import com.core.apiserver.usage.entity.dto.response.RedisUsageResponse;
 import com.core.apiserver.usage.repository.RedisUsageRepository;
 import com.core.apiserver.wallet.entity.domain.Wallet;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import com.core.apiserver.wallet.service.EthereumService;
-import jnr.constants.platform.Local;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -137,6 +135,7 @@ public class BatchService {
             if (!wallet.getAddress().equals(from)) {
                 ethereumService.sendEther(wallet.getAddress(), wallet.getPrivateKey(), from, BigInteger.valueOf(usageMap.get(wallet)));
             }
+            serverPostConnect(new RegisterPaymentRequest(wallet.getAddress(), usageMap.get(wallet)));
         }
 
         for (String walletAddress : provideMap.keySet()) {
@@ -145,6 +144,27 @@ public class BatchService {
             }
         }
 
+    }
+
+//    @PostMapping
+///api/v1/payment/approve
+    public void serverPostConnect(RegisterPaymentRequest request) {
+
+        URI uri = UriComponentsBuilder
+//                .fromUriString("http://localhost:9000")
+                .fromUriString("https://j9c202.p.ssafy.io")
+                .path("/api/v1/payment/approve")
+                .encode()
+                .build()
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(request, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
+        log.info((String) responseEntity.getBody());
     }
 
 

@@ -9,7 +9,7 @@ interface IDailyUsage {
 }
 
 interface Props {
-  data: IDailyUsage[];
+  data?: IDailyUsage[];
 }
 
 function LineGradient({ data }: Props) {
@@ -62,9 +62,11 @@ function LineGradient({ data }: Props) {
   useEffect(() => {
     if (!chartRef.current) return undefined;
 
-    const dateList = data.map((item) => item.date);
-    const amountList = data.map((item) => item.amount);
-    const priceList = data.map((item) => item.price);
+    const dateList = Array.isArray(data) ? data.map((item) => item.date) : [];
+    const amountList = Array.isArray(data)
+      ? data.map((item) => item.amount)
+      : [];
+    const priceList = Array.isArray(data) ? data.map((item) => item.price) : [];
 
     const options = {
       visualMap: [
@@ -135,5 +137,9 @@ function LineGradient({ data }: Props) {
 
   return <div ref={chartRef} style={{ width: '100%', height: '700px' }} />;
 }
+
+LineGradient.defaultProps = {
+  data: [],
+};
 
 export default LineGradient;

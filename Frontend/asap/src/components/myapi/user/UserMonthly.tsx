@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import useMonthlyUsage from 'hooks/api/chart/useMonthlyUsage';
 import useMonthlyStore from 'store/chart/useMonthlyStore';
 import Spinner from 'components/common/Spinner';
@@ -6,8 +7,9 @@ import { Card, Button } from '@material-tailwind/react';
 import SelectDate from '../common/SelectDate';
 
 function UserMonthly() {
+  const navigate = useNavigate();
   const { monthlyLoading } = useMonthlyUsage(); // 사용자 월별 api 사용량 받기
-  const { totalAmount, totalPrice } = useMonthlyStore();
+  const { totalAmount, totalPrice, year, month } = useMonthlyStore();
 
   // 사용 요금과 사용 가격 1000 단위로 쉼표
   const formattedTotalAmount = totalAmount.toLocaleString();
@@ -45,7 +47,13 @@ function UserMonthly() {
             </div>
           </Card>
           <div className="mt-4 flex justify-end">
-            <Button>상세 보기</Button>
+            <Button
+              onClick={() =>
+                navigate(`/myapi/detail?year=${year}&month=${month}`)
+              }
+            >
+              상세 보기
+            </Button>
           </div>
         </div>
       )}

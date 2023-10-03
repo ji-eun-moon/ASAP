@@ -23,6 +23,7 @@ import SupplyApplyList from 'pages/supply/SupplyApplyList';
 
 // myapi
 import MyApi from 'pages/myapi/MyApi';
+import MyApiDetail from 'pages/myapi/MyApiDetail';
 
 // help
 import HelpPage from 'pages/help/HelpPage';
@@ -180,6 +181,14 @@ const routes: Route[] = [
     element: (
       <PrivateRoute>
         <MyApi />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/myapi/detail',
+    element: (
+      <PrivateRoute>
+        <MyApiDetail />
       </PrivateRoute>
     ),
   },

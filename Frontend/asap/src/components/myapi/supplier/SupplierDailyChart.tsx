@@ -3,7 +3,7 @@ import useDailyProvide from 'hooks/api/chart/useDailyProvide';
 import LineGradient from 'components/chart/LineGradient';
 import useDetailStore from 'store/chart/useDetailStore';
 
-function DailyChart() {
+function SupplierDailyChart() {
   const { dailyLoading } = useDailyProvide();
   const { dailyUsageStore, apiTitle } = useDetailStore();
 
@@ -21,4 +21,4 @@ function DailyChart() {
   );
 }
 
-export default DailyChart;
+export default SupplierDailyChart;

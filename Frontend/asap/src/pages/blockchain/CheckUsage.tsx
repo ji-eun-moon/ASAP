@@ -5,7 +5,7 @@ import useGetUseList from 'hooks/api/chart/useGetUseList';
 import Header from 'components/common/Header';
 import Calendar from 'components/blockchain/Calendar';
 import Dropdown from 'components/blockchain/Dropdown';
-import { ReactComponent as Explain } from 'assets/icons/Explain.svg';
+import explainIcon from 'assets/icons/Explain.png';
 import { ReactComponent as Cal } from 'assets/icons/Calendar.svg';
 import 'styles/blockchain/CheckUsage.scss';
 // import Loading from 'components/common/Loading';
@@ -72,7 +72,11 @@ function CheckUsage() {
       <Header title="사용량 검증하기" />
       <div className="container mx-auto page-container">
         <div className="explain">
-          <Explain className="w-7 h-auto mr-4" />
+          <img
+            src={explainIcon}
+            alt="explainIcon"
+            className="w-7 h-auto mr-4"
+          />
           <div>사용법 확인하기</div>
         </div>
         <div className="flex items-center my-8">
@@ -121,6 +125,7 @@ function CheckUsage() {
             </button>
           ) : null}
         </div>
+        <hr />
         <div className="flex items-start my-4">
           <div className="text-xl font-bold w-3/12">블록에 저장된 데이터</div>
           <div className="check-back data w-9/12">

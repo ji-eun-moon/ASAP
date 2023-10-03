@@ -5,17 +5,105 @@ import menus from 'router/data/mypage-menus';
 import CreditCardRegistration from 'components/mypage/CreditCardRegistration';
 import CardImg from 'assets/images/card.png';
 import useGetCreditCard from 'hooks/api/credit/useGetCreditCard';
+import usePaymentList from 'hooks/api/payment/usePaymentList';
+import Spinner from 'components/common/Spinner';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from 'store/auth/useAuthStore';
+import Modal from 'components/common/Modal';
 
 // 카드 등록 페이지
 function AccountCredit() {
+  const navigate = useNavigate();
   const [isModal, setIsModal] = useState<boolean>(false);
   const { loading, creditCard } = useGetCreditCard();
+  const { paymentListLoading, paymentList } = usePaymentList();
+  const { setLoginType, loginType } = useAuthStore();
+
+  // 알림창 모달
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [redirectTo, setRedirectTo] = useState<string | null>(null);
+
+  // 알림창 모달 닫기
+  const closeModal = () => {
+    if (redirectTo) {
+      navigate(redirectTo);
+      setRedirectTo(null);
+    }
+    setIsModalOpen(false);
+  };
 
   const handleButtonClick = () => {
     setIsModal(!isModal);
     if (loading) {
       console.log(loading);
     }
+  };
+
+  // 결제 상세 내역으로 이동
+  const goDetail = (date: string) => {
+    const [year, month] = date.split('-');
+    const targetURL = `/myapi/detail?year=${year}&month=${month}`;
+    if (loginType === 'supplier') {
+      setModalMessage('사용자 모드로 전환 후 이동합니다.');
+      setIsModalOpen(true);
+      setRedirectTo(targetURL);
+      setLoginType('user');
+    } else {
+      navigate(targetURL);
+    }
+  };
+
+  // 카드 번호 포맷팅
+  const formatCardNumber = (cardNumber: string) => {
+    if (cardNumber.length !== 16) return cardNumber;
+    const firstFour = cardNumber.slice(0, 4);
+    const lastFour = cardNumber.slice(-4);
+    return `${firstFour}-****-****-${lastFour}`;
+  };
+
+  // 결제 내역 출력
+  const renderPaymentList = () => {
+    if (paymentListLoading) {
+      return (
+        <div className="flex justify-center">
+          <Spinner size="12" />
+        </div>
+      );
+    }
+
+    if (paymentList && paymentList.length === 0) {
+      return (
+        <div className="flex justify-center items-center p-2">
+          결제내역이 없습니다.
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        {paymentList?.map((pay) => (
+          <div className="grid grid-cols-12 items-center">
+            <div className="col-span-2 p-2">{pay.payDate}</div>
+            <div className="col-span-2 p-2">{pay.cardCompany}</div>
+            <div className="col-span-4 p-2">
+              {formatCardNumber(pay.cardNumber)}
+            </div>
+            <div className="col-span-2 p-2">{pay.price.toLocaleString()}</div>
+            <div className="col-span-2 p-2 flex justify-center items-center">
+              <div
+                className="bg-gray-600 text-white py-1 rounded w-28 cursor-pointer"
+                aria-hidden="true"
+                onClick={() => goDetail(pay.payDate)}
+              >
+                상세보기
+              </div>
+            </div>
+            <hr />
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -104,22 +192,18 @@ function AccountCredit() {
               </div>
               <div className="col-span-2 bg-blue-300 text-white p-2">비고</div>
             </div>
+
             {/* Row */}
-            <div className=" grid grid-cols-12 items-center">
-              <div className="col-span-2 p-2">2023.09.01</div>
-              <div className="col-span-2 p-2">삼성카드</div>
-              <div className="col-span-4 p-2">4556 - **** - **** - 5168</div>
-              <div className="col-span-2 p-2">127,800</div>
-              <div className="col-span-2 p-2 flex justify-center items-center">
-                <div className="bg-gray-600 text-white py-1 rounded w-28 cursor-pointer">
-                  상세보기
-                </div>
-              </div>
-              <hr />
-            </div>
+            {renderPaymentList()}
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        confirm
+        message={modalMessage}
+      />
     </div>
   );
 }

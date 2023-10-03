@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import JsonTable from 'components/common/JsonTable';
-import { Card } from '@material-tailwind/react';
+import { Card, Button } from '@material-tailwind/react';
 import useOutputStore from 'store/supply/useOutputStore';
 import useSubmitStore from 'store/supply/useSubmitStore';
 import 'styles/common/Input.scss';
-import { ReactComponent as Add } from 'assets/icons/Add.svg';
 
 function SubmitOutput() {
   const [isChecked, setIsChecked] = useState(false);
@@ -25,6 +24,8 @@ function SubmitOutput() {
     setDescription,
     setPairs,
     setJsonOutput,
+    updatePair,
+    deletePair,
   } = useOutputStore();
 
   const { setOutput } = useSubmitStore();
@@ -89,6 +90,10 @@ function SubmitOutput() {
     return 'col-span-2';
   };
 
+  useEffect(() => {
+    setOutput(jsonOutput);
+  }, [jsonOutput, setOutput]);
+
   return (
     <div className="flex">
       <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
@@ -106,7 +111,12 @@ function SubmitOutput() {
         <hr className="h-0.5 bg-gray-500" />
 
         {/* 추가한 output 쌍 */}
-        <JsonTable jsonData={jsonOutput} />
+        <JsonTable
+          jsonData={jsonOutput}
+          isEditMode
+          updatePair={updatePair}
+          deletePair={deletePair}
+        />
 
         {/* output 쌍 추가 */}
         <div className="grid grid-cols-12">
@@ -147,18 +157,21 @@ function SubmitOutput() {
               </div>
             </div>
           </div>
-          <div className="table-input-container col-span-5">
+          <div className="table-input-container col-span-4">
             <textarea
               placeholder="description"
               value={description}
               onChange={onDescriptionHandler}
             />
           </div>
+          {/* Input 쌍 추가 버튼 */}
+          <div className="flex justify-center items-center">
+            <Button onClick={handleAddPair} className="bg-blue">
+              추가
+            </Button>
+          </div>
         </div>
       </Card>
-      <div className="flex items-end">
-        <Add type="button" onClick={handleAddPair} className="w-6 my-5 ms-5" />
-      </div>
     </div>
   );
 }

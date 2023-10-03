@@ -138,12 +138,12 @@ public class DailyService {
         return map;
     }
 
-    public Map<YearMonth, List<ProvidingResponse>> monthlyProviding(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
-        Map<YearMonth, List<ProvidingResponse>> map = new HashMap<>();
+    public Map<YearMonth, List<UsageResponse>> monthlyProviding(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
+        Map<YearMonth, List<UsageResponse>> map = new HashMap<>();
         List<Api> apis = apiRepository.findAllByWallet(walletRepository.findById(monthlyUsageRequest.getUserWalletId()).orElseThrow());
         for (int i = 0; i < 3; i++) {
             YearMonth yearMonth = YearMonth.of(monthlyUsageRequest.getYear(), monthlyUsageRequest.getMonth()).minusMonths(i);
-            List<ProvidingResponse> providingResponses = new ArrayList<>();
+            List<UsageResponse> usageResponses = new ArrayList<>();
             for (Api api : apis) {
                 List<Total> totals = totalRepository.findAllByApi(api);
                 for (Total total : totals) {
@@ -160,25 +160,25 @@ public class DailyService {
                         continue;
                     }
 
-                    providingResponses.add(new ProvidingResponse(api.getApiId(), api.getTitle(), amount, price));
+                    usageResponses.add(new UsageResponse(new ApiResponse(api), amount, price));
                 }
             }
-            providingResponses.sort((o1, o2) -> {
+            usageResponses.sort((o1, o2) -> {
                 return Double.compare(o2.getPrice(), o1.getPrice());
             });
-            map.put(yearMonth, providingResponses);
+            map.put(yearMonth, usageResponses);
 
         }
 
         return map;
     }
 
-    public Map<YearMonth, List<ProvidingResponse>> oneMonthlyProviding(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
-        Map<YearMonth, List<ProvidingResponse>> map = new HashMap<>();
+    public Map<YearMonth, List<UsageResponse>> oneMonthlyProviding(@NotNull MonthlyUsageRequest monthlyUsageRequest) {
+        Map<YearMonth, List<UsageResponse>> map = new HashMap<>();
         List<Api> apis = apiRepository.findAllByWallet(walletRepository.findById(monthlyUsageRequest.getUserWalletId()).orElseThrow());
 
         YearMonth yearMonth = YearMonth.of(monthlyUsageRequest.getYear(), monthlyUsageRequest.getMonth());
-        List<ProvidingResponse> providingResponses = new ArrayList<>();
+        List<UsageResponse> usageResponses = new ArrayList<>();
         for (Api api : apis) {
             List<Total> totals = totalRepository.findAllByApi(api);
             for (Total total : totals) {
@@ -195,13 +195,13 @@ public class DailyService {
                     continue;
                 }
 
-                providingResponses.add(new ProvidingResponse(api.getApiId(), api.getTitle(), amount, price));
+                usageResponses.add(new UsageResponse(new ApiResponse(api), amount, price));
             }
         }
-        providingResponses.sort((o1, o2) -> {
+        usageResponses.sort((o1, o2) -> {
             return Double.compare(o2.getPrice(), o1.getPrice());
         });
-        map.put(yearMonth, providingResponses);
+        map.put(yearMonth, usageResponses);
 
 
 

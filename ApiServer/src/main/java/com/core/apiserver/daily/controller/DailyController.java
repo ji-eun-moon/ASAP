@@ -98,7 +98,7 @@ public class DailyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Map<YearMonth, List<ProvidingResponse>>> monthlyProviding(@RequestParam Map<String, String> params) {
+    public ResponseEntity<?> monthlyProviding(@RequestParam Map<String, String> params) {
 
         MonthlyUsageRequest monthlyUsageRequest = new MonthlyUsageRequest(Long.parseLong(params.get("userWalletId")),
                 Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
@@ -114,7 +114,7 @@ public class DailyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Map<YearMonth, List<ProvidingResponse>>> oneMonthlyProviding(@RequestParam Map<String, String> params) {
+    public ResponseEntity<?> oneMonthlyProviding(@RequestParam Map<String, String> params) {
 
         MonthlyUsageRequest monthlyUsageRequest = new MonthlyUsageRequest(Long.parseLong(params.get("userWalletId")),
                 Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));

@@ -8,7 +8,7 @@ import Dropdown from 'components/blockchain/Dropdown';
 import explainIcon from 'assets/icons/Explain.png';
 import { ReactComponent as Cal } from 'assets/icons/Calendar.svg';
 import 'styles/blockchain/CheckUsage.scss';
-// import Loading from 'components/common/Loading';
+// import Spinner from 'components/common/Spinner';
 // import { SHA256 } from 'crypto-js';
 
 function CheckUsage() {
@@ -19,10 +19,8 @@ function CheckUsage() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [database, setDatabase] = useState<string | null>(null);
-  // const [dataDetail, setDataDetail] = useState<string[]>([]);
   const [transaction, setTransaction] = useState<string | null>(null);
   const [apiTitle, setApiTitle] = useState<string | null>(null);
-  // const apiTitles = useList?.map((item) => item.title);
 
   const formatDate = (dateString: Date): string => {
     const date = new Date(dateString);

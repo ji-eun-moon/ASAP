@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as MainImage } from 'assets/main/intro.svg';
+import mainImg from 'assets/main/intro.png';
 import { ReactComponent as Button } from 'assets/main/introbutton.svg';
 import 'styles/main/Intro.scss';
 
@@ -29,7 +29,9 @@ function Intro({ navigate, text }: IIntrorops) {
           <Button className="intro-button" />
         </button>
       </div>
-      <MainImage className="image-container" />
+      <div className="image-container">
+        <img src={mainImg} alt="mainImg" />
+      </div>
     </div>
   );
 }

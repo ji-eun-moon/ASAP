@@ -1,5 +1,5 @@
 .service-container {
-  padding: 5% 12%;
+  padding: 5% 12% 0 12%;
 }
 
 .service-title {
@@ -8,7 +8,7 @@
   font-size: 2.1rem;
   line-height: 2.25rem;
   color: #004096;
-  padding-bottom: 10%;
+  padding: 3% 0 12% 0;
   width: 100%;
   text-align: center;
 }
@@ -23,7 +23,6 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  padding-bottom: 15%;
 }
 
 .service-text {

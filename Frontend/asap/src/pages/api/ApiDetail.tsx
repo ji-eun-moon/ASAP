@@ -46,7 +46,7 @@ function ApiDetail() {
   };
 
   // 표 데이터
-  const headers = ['API', 'API 출처', '제공데이터', '비고'];
+  const headers = ['API', 'API 출처', '제공데이터', '가격 (건당)'];
   const data = [
     {
       title: { key: 'title', content: apiDetail?.title },
@@ -55,9 +55,9 @@ function ApiDetail() {
         key: 'output',
         content: <JsonName jsonData={apiDetail?.output} />,
       },
-      usage: {
-        key: 'usage',
-        content: <Link to={`/api_list/${apiId}/usage`}>상세보기</Link>,
+      price: {
+        key: 'price',
+        content: <span className="price">{apiDetail?.price}</span>,
       },
     },
   ];
@@ -74,7 +74,7 @@ function ApiDetail() {
         &nbsp;
         {'>'}
         &nbsp;
-        <span>{apiDetail?.title}</span>
+        <span className="font-bold">{apiDetail?.title}</span>
       </div>
 
       {/* API 설명 */}
@@ -82,7 +82,7 @@ function ApiDetail() {
         <div className="flex justify-center" style={{ flex: '3' }}>
           <CategoryImg category={apiDetail?.category} />
         </div>
-        <div style={{ flex: '7' }}>
+        <div style={{ flex: '7' }} className="pr-10">
           <div className="api-title">{apiDetail?.title}</div>
           <div className="pb-10">
             {apiDetail?.tags &&

@@ -23,6 +23,7 @@ import SupplyApplyList from 'pages/supply/SupplyApplyList';
 
 // myapi
 import MyApi from 'pages/myapi/MyApi';
+import MyApiDetail from 'pages/myapi/MyApiDetail';
 
 // help
 import HelpPage from 'pages/help/HelpPage';
@@ -35,6 +36,9 @@ import AccountKey from 'pages/mypage/AccountKey';
 import AccountCredit from 'pages/mypage/AccountCredit';
 import AccountPay from 'pages/mypage/AccountPay';
 import AccountWallet from 'pages/mypage/AccountWallet';
+
+// blockchain
+import CheckUsage from 'pages/blockchain/CheckUsage';
 
 // admin
 import AdminLogin from 'pages/admin/AdminLogin';
@@ -177,6 +181,24 @@ const routes: Route[] = [
     element: (
       <PrivateRoute>
         <MyApi />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/myapi/detail',
+    element: (
+      <PrivateRoute>
+        <MyApiDetail />
+      </PrivateRoute>
+    ),
+  },
+
+  // 블록체인 검증
+  {
+    path: '/check',
+    element: (
+      <PrivateRoute>
+        <CheckUsage />
       </PrivateRoute>
     ),
   },

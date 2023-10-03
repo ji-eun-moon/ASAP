@@ -6,7 +6,7 @@ interface QueryParamsState {
 }
 
 const useQueryParamsStore = create<QueryParamsState>((set) => ({
-  params: {},
+  params: { test: 'asap' },
   setParam: (key, value) =>
     set((state) => ({ params: { ...state.params, [key]: value } })),
 }));

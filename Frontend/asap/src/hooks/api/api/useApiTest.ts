@@ -1,10 +1,11 @@
 import axios, { AxiosError } from 'axios';
-import axiosInstance from 'utils/axiosInstance';
+// import axiosInstance from 'utils/axiosInstance';
 import useTestStore from 'store/api/useTestStore';
 
 interface ITest {
   url: string | undefined;
   params: Record<string, string>;
+  wallet: string;
 }
 const useApiTest = () => {
   const { setTestResponse, setStatus, setLoading, decTrial } = useTestStore();
@@ -18,12 +19,15 @@ const useApiTest = () => {
     }
   };
 
-  const apiTest = async ({ url, params }: ITest) => {
+  const apiTest = async ({ url, params, wallet }: ITest) => {
     try {
-      const response = await axiosInstance({
-        method: 'POST',
+      const response = await axios({
+        method: 'GET',
         url,
-        data: params,
+        params,
+        headers: {
+          Authorization: wallet,
+        },
       });
       console.log(response.data);
       setTestResponse(JSON.stringify(response.data));

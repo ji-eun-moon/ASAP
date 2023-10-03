@@ -1,15 +1,15 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import JsonTable from 'components/common/JsonTable';
-import { Card } from '@material-tailwind/react';
+import { Card, Button } from '@material-tailwind/react';
 import useInputStore from 'store/supply/useInputStore';
 import useSubmitStore from 'store/supply/useSubmitStore';
 import 'styles/common/Input.scss';
-import { ReactComponent as Add } from 'assets/icons/Add.svg';
 
 function SubmitInput() {
   const [isChecked, setIsChecked] = useState(false);
 
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
+  const { setInput } = useSubmitStore();
   const {
     key,
     name,
@@ -26,9 +26,9 @@ function SubmitInput() {
     setDescription,
     setPairs,
     setJsonOutput,
+    updatePair,
+    deletePair,
   } = useInputStore();
-
-  const { setInput } = useSubmitStore();
 
   // input 쌍 추가
   const handleAddPair = () => {
@@ -50,7 +50,6 @@ function SubmitInput() {
 
     setJsonOutput(jsonData); // 스토어에 저장
     setInput(jsonData); // 제출할 데이터에 저장
-    console.log(jsonData);
 
     // 저장 후 값 초기화
     setKey('');
@@ -92,6 +91,10 @@ function SubmitInput() {
     return 'col-span-2';
   };
 
+  useEffect(() => {
+    setInput(jsonOutput);
+  }, [jsonOutput, setInput]);
+
   return (
     <div className="flex">
       <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
@@ -109,7 +112,12 @@ function SubmitInput() {
         <hr className="h-0.5 bg-gray-500" />
 
         {/* 추가한 input 쌍 */}
-        <JsonTable jsonData={jsonOutput} />
+        <JsonTable
+          jsonData={jsonOutput}
+          isEditMode
+          updatePair={updatePair}
+          deletePair={deletePair}
+        />
 
         {/* input 쌍 추가 */}
         <div className="grid grid-cols-12">
@@ -150,20 +158,21 @@ function SubmitInput() {
               </div>
             </div>
           </div>
-          <div className="table-input-container col-span-5">
+          <div className="table-input-container col-span-4">
             <textarea
               placeholder="description"
               value={description}
               onChange={onDescriptionHandler}
             />
           </div>
+          {/* Input 쌍 추가 버튼 */}
+          <div className="flex justify-center items-center">
+            <Button onClick={handleAddPair} className="bg-blue">
+              추가
+            </Button>
+          </div>
         </div>
       </Card>
-
-      {/* Input 쌍 추가 버튼 */}
-      <div className="flex items-end">
-        <Add type="button" onClick={handleAddPair} className="w-6 my-5 ms-5" />
-      </div>
     </div>
   );
 }

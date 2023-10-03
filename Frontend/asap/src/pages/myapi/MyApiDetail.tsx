@@ -48,10 +48,10 @@ function MyApiDetail() {
                       {detail.apiResponse.title}
                     </td>
                     <td className="border border-gray-300 p-2 text-center">
-                      {detail.amount}
+                      {detail.amount.toLocaleString()}
                     </td>
                     <td className="border border-gray-300 p-2 text-center">
-                      {detail.apiResponse.price}
+                      {detail.apiResponse.price.toLocaleString()}
                     </td>
                   </tr>
                 ))}

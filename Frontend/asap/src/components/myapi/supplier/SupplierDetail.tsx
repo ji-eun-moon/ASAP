@@ -7,7 +7,7 @@ import SupplierDailyChart from './SupplierDailyChart';
 
 function SupplierDetail() {
   const { offerListLoading, offerList } = useGetOfferList();
-  const { apiId, setApiId, setApiTitle } = useDetailStore();
+  const { apiId, setApiId, setApiTitle, apiTitle } = useDetailStore();
 
   const handleItemClick = (id: number, title: string) => {
     setApiId(id);
@@ -42,16 +42,22 @@ function SupplierDetail() {
 
       {/* 제공 차트 */}
       <div className="col-span-5">
-        <div className=" ml-10">
+        <div className="font-bold text-3xl mb-12">
+          <span className="ms-12">&apos;{apiTitle}&apos;</span>{' '}
+          <span>조회</span>
+        </div>
+        <div className="ml-10">
           <ChartFrame
             width="500px"
             height="500px"
-            title="차트 테스트"
+            title="동일 카테고리 API 평균"
             fontSize="20px"
             chart={<CurvedLineChart />}
           />
         </div>
-        <SupplierDailyChart />
+        <div className="mt-16">
+          <SupplierDailyChart />
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-// import axiosInstance from 'utils/axiosInstance';
 import useTestStore from 'store/api/useTestStore';
 
 interface ITest {
@@ -35,8 +34,8 @@ const useApiTest = () => {
         setStatus(extractStatus(response.data));
       } else {
         setStatus(response.status);
-        decTrial();
       }
+      decTrial();
       setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -45,6 +44,7 @@ const useApiTest = () => {
         setStatus(axiosError.response?.status || 500);
         setLoading(false);
         console.log('서버 오류:', axiosError);
+        decTrial();
       } else {
         console.error('An unexpected error occurred:', error);
       }

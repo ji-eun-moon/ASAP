@@ -5,7 +5,7 @@ import UserDailyChart from './UserDailyChart';
 
 function UserDetail() {
   const { useListLoading, useList } = useGetUseList();
-  const { apiId, setApiId, setApiTitle } = useDetailStore();
+  const { apiId, setApiId, setApiTitle, apiTitle } = useDetailStore();
 
   const handleItemClick = (id: number, title: string) => {
     setApiId(id);
@@ -38,9 +38,15 @@ function UserDetail() {
         )}
       </div>
 
-      {/* 제공 차트 */}
+      {/* 사용 차트 */}
       <div className="col-span-5">
-        <UserDailyChart />
+        <div className="font-bold text-3xl mb-12">
+          <span className="ms-12">&apos;{apiTitle}&apos;</span>{' '}
+          <span>조회</span>
+        </div>
+        <div className="mt-16">
+          <UserDailyChart />
+        </div>
       </div>
     </div>
   );

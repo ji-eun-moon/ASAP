@@ -1,8 +1,11 @@
 import React from 'react';
 import useGetOfferList from 'hooks/api/chart/useGetOfferList';
 import useDetailStore from 'store/chart/useDetailStore';
+<<<<<<< HEAD
 import CurvedLineChart from 'components/chart/CurvedLineChart';
 import ChartFrame from 'components/chart/ChartFramee';
+=======
+>>>>>>> a6a6a79be5ae43ee78c69f78a8f38f595227176c
 
 function SupplierDetail() {
   const { offerListLoading, offerList } = useGetOfferList();

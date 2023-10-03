@@ -3,7 +3,7 @@ import { Button } from '@material-tailwind/react';
 import menus from 'router/data/mypage-menus';
 import Header from 'components/common/Header';
 import SideBar from 'components/nav/SideBar';
-import { ReactComponent as Wallet } from 'assets/icons/Oallet.svg';
+import walletIcon from 'assets/icons/Wallet.png';
 import useGetWallet from 'hooks/api/wallet/useGetWallet';
 import useWeb3 from 'hooks/api/wallet/useWeb3';
 import useAccountInfo from 'hooks/api/mypage/useAccountInfo';
@@ -44,7 +44,7 @@ function AccountWallet() {
           <div className="flex justify-between items-center bg-gray-100 rounded-lg pr-5">
             {/* 지갑 이미지 */}
             <div className="w-1/3 flex justify-center">
-              <Wallet className="w-7/12" />
+              <img src={walletIcon} alt="walletIcon" className="w-7/12" />
             </div>
             {/* 지갑 정보 - 주소 */}
             <div className="w-2/3 pr-8 flex flex-col">

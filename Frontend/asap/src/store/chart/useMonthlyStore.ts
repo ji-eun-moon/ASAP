@@ -62,10 +62,10 @@ const useMonthlyStore = create<IMonthlyStore>((set) => ({
   ...getCurrentYearAndMonth(), // 현재 날짜 기준으로 year, month 초기값 설정
   twoBeforeMonthDate: '',
   oneBeforeMonthDate: '',
-  monthDate: '',
+  monthDate: '', // 날짜 텍스트
   twoBeforeMonthUsage: null,
   oneBeforeMonthUsage: null,
-  monthUsage: null,
+  monthUsage: null, // 월별 사용량
   twoBeforeTotalAmount: 0,
   twoBeforeTotalPrice: 0,
   oneBeforeTotalAmount: 0,

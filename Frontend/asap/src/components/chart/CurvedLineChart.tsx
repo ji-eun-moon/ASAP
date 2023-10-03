@@ -144,7 +144,7 @@ function CurvedLineChart() {
       },
       legend: {
         orient: 'horizontal',
-        bottom: 20,
+        bottom: 2,
         data: ['My API', 'Category Average'],
       },
       xAxis: {
@@ -156,7 +156,7 @@ function CurvedLineChart() {
         type: 'value',
       },
       grid: {
-        top: '20%',
+        top: '10%',
         bottom: '20%',
       },
       series: [
@@ -200,7 +200,7 @@ function CurvedLineChart() {
       style={{
         width: '100%',
         height: '400px',
-        padding: '5px',
+        padding: '5px 5px 5px 10px',
       }}
     />
   );

@@ -195,6 +195,16 @@ public class ApiService {
         return serverGetConnect(params, "/api/v1/usage/monthly/provide");
     }
 
+    public Object findOneMonthlyProviding(Map<String, String> param, Long walletId) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
+        params.put("year", Collections.singletonList(param.get("year")));
+        params.put("month", Collections.singletonList(param.get("month")));
+
+        return serverGetConnect(params, "/api/v1/usage/monthly/provide/one");
+    }
+
     public Object findDailyUsage(Map<String, String> param, Long walletId) {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();

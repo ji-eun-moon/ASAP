@@ -64,7 +64,7 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param, authentication);
+        return commonForm(uri, param, httpServletRequest);
     }
 
     @GetMapping("/local/search/keyword")
@@ -87,7 +87,7 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param, authentication);
+        return commonForm(uri, param, httpServletRequest);
     }
 
     @GetMapping("/local/search/category")
@@ -110,16 +110,19 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param, authentication);
+        return commonForm(uri, param, httpServletRequest);
     }
 
-    public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param, Authentication authentication) {
+    public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) {
 
         try {
             HttpHeaders headers = new HttpHeaders();
             if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
                 log.info("테스트로 진행");
-                redisService.setCount(authentication.getName());
+
+                String id = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)).getId();
+                redisService.setCount(id);
+
                 headers.set(HttpHeaders.AUTHORIZATION, testHeader);
             } else {
                 headers.set(HttpHeaders.AUTHORIZATION, allowHeader); // 이 부분에서 헤더를 설정합니다.

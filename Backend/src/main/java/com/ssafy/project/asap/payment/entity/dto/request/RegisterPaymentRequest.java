@@ -4,15 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterPaymentRequest {
 
-    private String cardCompany;
-    private String cardNumber;
-    private LocalDateTime createAt;
-    private Float fee;
+    private String address;
+    private Long price;
+
 }

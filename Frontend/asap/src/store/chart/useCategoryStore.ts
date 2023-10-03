@@ -53,6 +53,7 @@ interface CategoryStore {
 }
 
 const getCurrentYearAndMonth = () => {
+  console.log('store 들어옴');
   const date = new Date();
   return {
     year: date.getFullYear().toString(),

@@ -197,9 +197,9 @@ const routes: Route[] = [
   {
     path: '/check',
     element: (
-      <PrivateRoute>
+      <UserRoute>
         <CheckUsage />
-      </PrivateRoute>
+      </UserRoute>
     ),
   },
 

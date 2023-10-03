@@ -1,5 +1,4 @@
 import React from 'react';
-import 'styles/blockchain/Dropdown.scss';
 
 interface ApiInfo {
   title: string;

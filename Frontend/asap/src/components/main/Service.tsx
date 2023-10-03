@@ -1,8 +1,8 @@
 import React from 'react';
 import 'styles/main/Service.scss';
-import { ReactComponent as Key } from 'assets/main/key.svg';
-import { ReactComponent as BlockChain } from 'assets/main/Blockchain.svg';
-import { ReactComponent as Chart } from 'assets/main/Chart.svg';
+import blockchain from 'assets/main/Blockchain.png';
+import key from 'assets/main/key.png';
+import chart from 'assets/main/Chart.png';
 import { ReactComponent as WebChart } from 'assets/main/WebChart.svg';
 import { ReactComponent as WebKey } from 'assets/main/WebKey.svg';
 import { ReactComponent as WebBlock } from 'assets/main/WebBlock.svg';
@@ -15,7 +15,9 @@ function Service() {
         <div className="service-title">ASAP에서는 가능합니다</div>
         <div className="service-content pb-36">
           <div className="service-text">
-            <Key className="deco" />
+            <div className="deco">
+              <img src={key} alt="key" />
+            </div>
             <div className="content-title">
               다양한 API를 <br />
               <span className="color-text">하나</span>의 개인키로
@@ -32,7 +34,9 @@ function Service() {
           <WebBlock className="service-image" />
           <div className="service-text items-end">
             <div>
-              <BlockChain className="deco" />
+              <div className="deco">
+                <img src={blockchain} alt="blockchain" />
+              </div>
               <div className="content-title items-start">
                 <span className="color-text">블록체인</span>을 사용하여 <br />
                 사용량을 투명하게
@@ -46,7 +50,9 @@ function Service() {
         </div>
         <div className="service-content pb-20">
           <div className="service-text">
-            <Chart className="deco" />
+            <div className="deco">
+              <img src={chart} alt="chart" />
+            </div>
             <div className="content-title">
               내가 제공하고 사용한
               <br /> <span className="color-text">API</span>를 한눈에

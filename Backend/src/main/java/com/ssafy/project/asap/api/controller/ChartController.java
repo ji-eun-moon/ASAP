@@ -64,6 +64,25 @@ public class ChartController {
         return ResponseEntity.ok(apiService.findMonthlyUsage(params, member.getWalletId()));
     }
 
+    @GetMapping("/usage/monthly/one")
+    @Operation(summary = "월간 사용량 조회", description = "월간 모든 api 사용량 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    @Parameters({
+            @Parameter(name = "year", description = "년"),
+            @Parameter(name = "month", description = "월")
+    })
+    public ResponseEntity<Object> oneMonthlyUsage(@RequestParam Map<String, String> params,
+                                               Authentication authentication)  {
+
+        Member member = memberService.findById(authentication.getName());
+        return ResponseEntity.ok(apiService.findOneMonthUsage(params, member.getWalletId()));
+    }
+
     @GetMapping("/providing/monthly")
     @Operation(summary = "월간 제공량 조회", description = "월간 모든 api 제공량 조회")
     @ApiResponses(value = {

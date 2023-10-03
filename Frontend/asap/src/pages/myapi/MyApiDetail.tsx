@@ -16,10 +16,54 @@ function MyApiDetail() {
 
   return (
     <div className="container mx-auto page-container">
-      <div>
-        {year}년 {month}월 API {loginType === 'supplier' ? '제공' : '사용'} 내역
+      <div className="text-4xl font-bold">
+        <span className="color-blue">
+          {year}년 {month}월{' '}
+        </span>{' '}
+        API {loginType === 'supplier' ? '제공' : '사용'} 내역
       </div>
-      {monthlyLoading ? <Spinner size="12" /> : <div>ggg</div>}
+      {monthlyLoading ? (
+        <div className="flex justify-center mt-12">
+          <Spinner size="12" />
+        </div>
+      ) : (
+        <div className="mt-12">
+          {monthlyDetail && monthlyDetail.length > 0 ? (
+            <table className="w-full mt-4 border-collapse border border-gray-300">
+              <thead className="bg-blue-50">
+                <tr>
+                  <th className="border border-gray-300 p-2">API 이름</th>
+                  <th className="border border-gray-300 p-2">
+                    {loginType === 'supplier' ? '제공량 (건)' : '사용량 (건)'}
+                  </th>
+                  <th className="border border-gray-300 p-2">
+                    {loginType === 'supplier' ? '수익 (원)' : '사용 요금 (원)'}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {monthlyDetail.map((detail) => (
+                  <tr key={detail.apiResponse.apiId}>
+                    <td className="border border-gray-300 p-2 text-center">
+                      {detail.apiResponse.title}
+                    </td>
+                    <td className="border border-gray-300 p-2 text-center">
+                      {detail.amount}
+                    </td>
+                    <td className="border border-gray-300 p-2 text-center">
+                      {detail.apiResponse.price}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-gray-600 text-center text-2xl">
+              조회 내역이 없습니다.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

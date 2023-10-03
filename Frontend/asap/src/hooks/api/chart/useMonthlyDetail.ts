@@ -34,6 +34,7 @@ const useMonthlyDetail = () => {
   const getMonthlyDetail = useCallback(
     async (paramsObject: monthly) => {
       try {
+        setMonthlyLoading(true);
         if (loginType === 'user') {
           const response = await axiosInstance({
             method: 'GET',
@@ -49,10 +50,11 @@ const useMonthlyDetail = () => {
             setMonthDate(monthlyData[0].month);
             setMonthlyDetail(monthlyData[0].data);
           }
+          console.log(response.data, '사용자');
         } else {
           const response = await axiosInstance({
             method: 'GET',
-            url: '/api/v1/apis/provide/monthly/one',
+            url: '/api/v1/apis/providing/monthly/one',
             params: paramsObject,
           });
           const monthlyData: Array<{ month: string; data: IMonthlyUsage[] }> =
@@ -63,6 +65,7 @@ const useMonthlyDetail = () => {
             setMonthDate(monthlyData[0].month);
             setMonthlyDetail(monthlyData[0].data);
           }
+          console.log(response.data, '제공자');
         }
         setMonthlyLoading(false);
       } catch (error) {

@@ -5,7 +5,7 @@ import useDetailStore from 'store/chart/useDetailStore';
 
 function SupplierDailyChart() {
   const { dailyLoading } = useDailyProvide();
-  const { dailyUsageStore, apiTitle } = useDetailStore();
+  const { dailyUsageStore } = useDetailStore();
 
   if (dailyLoading) {
     return null;
@@ -13,10 +13,7 @@ function SupplierDailyChart() {
 
   return (
     <div>
-      <div className="font-bold text-3xl mb-12">
-        <span className="ms-20">&apos;{apiTitle}&apos;</span> <span>조회</span>
-      </div>
-      {dailyUsageStore && <LineGradient data={dailyUsageStore} />}
+      <div>{dailyUsageStore && <LineGradient data={dailyUsageStore} />}</div>
     </div>
   );
 }

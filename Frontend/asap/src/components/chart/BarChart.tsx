@@ -45,6 +45,7 @@ function BarChart({ title, content, value }: BarChartProps) {
           {
             data: styledValue,
             type: 'bar',
+            barWidth: '50px', // 여기에 추가
           },
         ],
         tooltip: {

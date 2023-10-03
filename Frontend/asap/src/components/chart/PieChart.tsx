@@ -11,7 +11,7 @@ import * as echarts from 'echarts';
 interface PieChartProps {
   title: string | null;
   content: string[];
-  value: number[];
+  value: string[] | number[];
 }
 function PieChart({ title, content, value }: PieChartProps) {
   const chartRef = useRef(null);

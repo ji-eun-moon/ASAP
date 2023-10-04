@@ -145,23 +145,21 @@ public class DailyService {
             YearMonth yearMonth = YearMonth.of(monthlyUsageRequest.getYear(), monthlyUsageRequest.getMonth()).minusMonths(i);
             List<UsageResponse> usageResponses = new ArrayList<>();
             for (Api api : apis) {
-                List<Total> totals = totalRepository.findAllByApi(api);
-                for (Total total : totals) {
-                    List<Daily> dailies = dailyRepository.findAllByApiAndDateBetween(api,
-                            yearMonth.atDay(1), yearMonth.atEndOfMonth());
+                List<Daily> dailies = dailyRepository.findAllByApiAndDateBetween(api,
+                        yearMonth.atDay(1), yearMonth.atEndOfMonth());
 
-                    Long amount = 0L;
+                Long amount = 0L;
 
-                    for (Daily d : dailies) {
-                        amount += d.getUseAmount();
-                    }
-                    Long price = amount * api.getPrice();
-                    if (amount == 0) {
-                        continue;
-                    }
-
-                    usageResponses.add(new UsageResponse(new ApiResponse(api), amount, price));
+                for (Daily d : dailies) {
+                    amount += d.getUseAmount();
                 }
+                Long price = amount * api.getPrice();
+                if (amount == 0) {
+                    continue;
+                }
+
+                usageResponses.add(new UsageResponse(new ApiResponse(api), amount, price));
+
             }
             usageResponses.sort((o1, o2) -> {
                 return Double.compare(o2.getPrice(), o1.getPrice());
@@ -180,23 +178,20 @@ public class DailyService {
         YearMonth yearMonth = YearMonth.of(monthlyUsageRequest.getYear(), monthlyUsageRequest.getMonth());
         List<UsageResponse> usageResponses = new ArrayList<>();
         for (Api api : apis) {
-            List<Total> totals = totalRepository.findAllByApi(api);
-            for (Total total : totals) {
-                List<Daily> dailies = dailyRepository.findAllByApiAndDateBetween(api,
-                        yearMonth.atDay(1), yearMonth.atEndOfMonth());
+            List<Daily> dailies = dailyRepository.findAllByApiAndDateBetween(api,
+                    yearMonth.atDay(1), yearMonth.atEndOfMonth());
 
-                Long amount = 0L;
+            Long amount = 0L;
 
-                for (Daily d : dailies) {
-                    amount += d.getUseAmount();
-                }
-                Long price = amount * api.getPrice();
-                if (amount == 0) {
-                    continue;
-                }
-
-                usageResponses.add(new UsageResponse(new ApiResponse(api), amount, price));
+            for (Daily d : dailies) {
+                amount += d.getUseAmount();
             }
+            Long price = amount * api.getPrice();
+            if (amount == 0) {
+                continue;
+            }
+
+            usageResponses.add(new UsageResponse(new ApiResponse(api), amount, price));
         }
         usageResponses.sort((o1, o2) -> {
             return Double.compare(o2.getPrice(), o1.getPrice());

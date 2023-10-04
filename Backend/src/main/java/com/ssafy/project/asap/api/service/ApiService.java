@@ -80,6 +80,7 @@ public class ApiService {
         return GuideApiResponse.builder()
                 .title(api.getTitle())
                 .api(api.getApi())
+                .method(api.getMethod())
                 .input(api.getInput())
                 .inputExample(api.getInputExample())
                 .output(api.getOutput())

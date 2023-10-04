@@ -113,6 +113,30 @@ public class AsapController {
         return commonForm(uri, param, httpServletRequest);
     }
 
+    @GetMapping("/web/search")
+    public ResponseEntity<?> kakaoWebSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(31L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+//                .fromUriString("http://localhost:9001")
+                .path("/api/v1/asap/web/search/" + member.getWalletId() + "/31")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param, httpServletRequest);
+    }
+
     public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) {
 
         try {

@@ -37,15 +37,11 @@ public class OpenApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<JSONObject> kakaoLocal(HttpServletRequest httpServletRequest,
-                                                 @RequestParam Map<String, String> param,
+    public ResponseEntity<?> kakaoLocal(HttpServletRequest httpServletRequest,
+                                                 @RequestParam MultiValueMap<String, String> param,
                                                  @PathVariable(value = "wallet-id") Long walletId,
-                                                 @PathVariable(value = "api-id") Long apiId) throws Exception {
-        if (param.get("query").isEmpty()) {
-            throw new IllegalArgumentException("query 값은 필수 입니다.");
-        }
+                                                 @PathVariable(value = "api-id") Long apiId) {
 
-        System.out.println("header : " + httpServletRequest.getHeader("Authorization"));
         if (httpServletRequest.getHeader("Authorization").equals(allowHeader)) {
             CreateRedisUsageRequest createRedisUsageRequest = new CreateRedisUsageRequest(walletId,
                     apiService.findProviderIdById(apiId), apiId);

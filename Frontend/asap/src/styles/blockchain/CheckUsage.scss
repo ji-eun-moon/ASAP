@@ -4,11 +4,9 @@
   font-size: 1.2rem;
   line-height: 1.75rem;
   width: 100%;
-  // font-weight: 600;
 }
 
 .pick-date {
-  // background-color: #eaeaea;
   border: 1px solid #eaeaea;
   color: #7a7a7a;
   border-radius: 5px;
@@ -100,5 +98,19 @@
 
   &:hover {
     background-color: #79b9e4;
+  }
+}
+
+.load-more-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  background-color: #ffffff;
+  color: #bbbbbb;
+  border-radius: 20px;
+
+  &:hover {
+    background-color: #d5d5d5;
+    color: #ffffff;
   }
 }

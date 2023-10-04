@@ -20,10 +20,12 @@ const useCheckPw = () => {
         setCheckedPw(true);
         sessionStorage.setItem('isAuthenticated', 'true');
         window.location.replace(prevLocation || defaultRedirect);
+        return true;
       }
     } catch (error) {
       console.log(error);
     }
+    return false;
   };
 
   return { checkPw, checkedPw };

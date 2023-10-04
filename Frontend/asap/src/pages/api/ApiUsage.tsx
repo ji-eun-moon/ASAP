@@ -63,9 +63,19 @@ function ApiUsage() {
       {/* EndPoint */}
       <div className="mb-5">
         <p className="text-lg font-bold mb-2 text-blue-700">ENDPOINT</p>
+
         <div className="flex grid grid-cols-10">
-          <div className="flex justify-between items-center border p-2 rounded-lg col-span-9 me-2">
-            <div className="ms-2">{apiUsage?.api}</div>
+          <div className="flex justify-between items-center border border-2 p-2 rounded-lg col-span-9 me-2">
+            <div className="flex items-center">
+              <p
+                className={`${
+                  apiUsage?.method === 'GET' ? 'bg-blue' : 'bg-green-600'
+                }  p-2 px-5 text-white font-bold rounded-lg`}
+              >
+                {apiUsage?.method}
+              </p>
+              <div className="ms-2">{apiUsage?.api}</div>
+            </div>
             {apiUsage && (
               <Copy
                 className="w-5 h-auto me-2 cursor-pointer"

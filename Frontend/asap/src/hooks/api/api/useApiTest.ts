@@ -5,6 +5,7 @@ interface ITest {
   url: string | undefined;
   params: Record<string, string>;
   wallet: string;
+  method: string | undefined;
 }
 const useApiTest = () => {
   const { setTestResponse, setStatus, setLoading, decTrial } = useTestStore();
@@ -18,16 +19,28 @@ const useApiTest = () => {
     }
   };
 
-  const apiTest = async ({ url, params, wallet }: ITest) => {
+  const apiTest = async ({ url, params, wallet, method }: ITest) => {
     try {
-      const response = await axios({
-        method: 'GET',
-        url,
-        params,
-        headers: {
-          Authorization: wallet,
-        },
-      });
+      let response;
+      if (method === 'GET') {
+        response = await axios({
+          method: 'GET',
+          url,
+          params,
+          headers: {
+            Authorization: wallet,
+          },
+        });
+      } else {
+        response = await axios({
+          method: 'POST',
+          url,
+          data: params,
+          headers: {
+            Authorization: wallet,
+          },
+        });
+      }
       console.log(response.data);
       setTestResponse(JSON.stringify(response.data));
       if (typeof response.data === 'string') {

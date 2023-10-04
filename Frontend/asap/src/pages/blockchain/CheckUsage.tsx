@@ -13,7 +13,6 @@ import { ReactComponent as Cal } from 'assets/icons/Calendar.svg';
 import Swal from 'sweetalert2';
 import 'styles/blockchain/CheckUsage.scss';
 import Spinner from 'components/common/Spinner';
-import ScrollToTop from 'components/common/ScrollToTop';
 
 function CheckUsage() {
   const { checkUsage } = useCheckUsage();
@@ -162,7 +161,7 @@ function CheckUsage() {
           <div>사용법 확인하기</div>
         </button>
         <div className="flex justify-center">
-          <HowToUse isOpen={isOpen} />
+          <HowToUse isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         <div className="flex items-center my-8">
           <div className="text-xl font-bold pr-7 w-3/12">
@@ -316,7 +315,6 @@ function CheckUsage() {
           </div>
         </div>
       </div>
-      <ScrollToTop />
     </div>
   );
 }

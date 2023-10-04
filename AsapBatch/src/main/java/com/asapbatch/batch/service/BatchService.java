@@ -32,6 +32,12 @@ public class BatchService {
         serverGetConnect("/api/v1/batch/credit-process");
     }
 
+    @Scheduled(cron = "0 0 2 * * *")
+    public void processTotal() {
+        serverGetConnect("/api/v1/batch/total-process");
+    }
+
+
     public void serverGetConnect(String path) {
 
         URI uri = UriComponentsBuilder

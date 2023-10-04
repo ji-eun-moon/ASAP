@@ -29,7 +29,7 @@ const useGetUseList = () => {
         setApiTitle(response.data[0].title);
       }
       setUseListLoading(false);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }

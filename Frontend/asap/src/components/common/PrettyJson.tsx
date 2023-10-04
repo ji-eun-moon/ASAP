@@ -36,7 +36,10 @@ function PrettyJson({ jsonData }: Props) {
   }
 
   return (
-    <pre style={{ fontFamily: 'Courier New, Nanum Gothic, sans-serif' }}>
+    <pre
+      style={{ fontFamily: 'Courier New, Nanum Gothic, sans-serif' }}
+      className="whitespace-pre-wrap"
+    >
       {JSON.stringify(data, null, 2)}
     </pre>
   );

@@ -19,11 +19,11 @@ const useIndustryRate = () => {
       if (response.data && Array.isArray(response.data)) {
         const industries = response.data.map((item) => item.industry);
         const counts = response.data.map((item) => item.count);
-        console.log('확인', industries, counts);
+        // console.log('확인', industries, counts);
         setIndustry(industries);
         setCount(counts);
       }
-      console.log('산업군 비율 조회 성공', response.data);
+      // console.log('산업군 비율 조회 성공', response.data);
     } catch (error) {
       console.log('산업군 비율 조회 실패', error);
     }

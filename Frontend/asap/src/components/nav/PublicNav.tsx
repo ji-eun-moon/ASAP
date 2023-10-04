@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import useAuthStore from 'store/auth/useAuthStore';
 import { Menu, MenuHandler, MenuList } from '@material-tailwind/react';
 import { ReactComponent as Search } from 'assets/icons/Search.svg';
@@ -24,6 +24,9 @@ function PublicNav() {
   const { searchDropdown, toggleSearchDropdown } = useSearchStore();
   const { isLoggedIn } = useAuthStore((state) => state);
   const MyPageRef = React.createRef();
+
+  const location = useLocation();
+  const isMyPage = location.pathname.includes('/mypage');
 
   return (
     <div>
@@ -50,11 +53,19 @@ function PublicNav() {
             MyAPI
           </NavLink>
           <NavLink
-            to="/help"
+            to="/check"
             className="font-bold text-xl"
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
-            고객 지원
+            Check
+          </NavLink>
+          {/* 마이 페이지로 이동 */}
+          <NavLink
+            to="/mypage/account"
+            className="font-bold text-xl"
+            style={isMyPage ? activeStyle : undefined}
+          >
+            My Page
           </NavLink>
         </div>
 

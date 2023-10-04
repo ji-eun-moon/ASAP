@@ -16,7 +16,7 @@ function ApiApply() {
 
   // 사용자 신청 후 입력 받아야하는 값
   const [purpose, setPurpose] = useState<string>('');
-  const industrys = ['제조업', '서비스업', '금융업', '유통업', '기타'];
+  const industrys = ['제조업', '서비스업', '금융업', '유통업', 'IT', '기타'];
   const [industry, setIndustry] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,7 +66,7 @@ function ApiApply() {
 
   const onOkHandler = () => {
     setIsModalOpen(false);
-    window.location.href = '/api_list';
+    window.location.href = `/api_list/${apiId}`;
   };
   return (
     <div>

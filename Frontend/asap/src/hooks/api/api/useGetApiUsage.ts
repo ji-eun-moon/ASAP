@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import useTestStore from 'store/api/useTestStore';
 
 interface apiItem {
+  method: string;
   title: string;
   api: string;
   input: string;

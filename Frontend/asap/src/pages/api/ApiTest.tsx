@@ -28,13 +28,14 @@ function ApiTest() {
   const { apiUsage } = useGetApiUsage();
   const { wallet } = useGetWallet();
   const { isLoggedIn } = useAuthStore();
-  const { params, setParam } = useQueryParamsStore();
+  const { params, setParam, resetParams } = useQueryParamsStore();
   const { trialLoading } = useTrialCount();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [data, setData] = useState<Pair[]>([]);
   const { apiTest } = useApiTest();
-  const { testResponse, status, loading, setLoading, trial } = useTestStore();
+  const { testResponse, status, loading, setLoading, trial, resetStatus } =
+    useTestStore();
   const { formattedJson } = useFormattedJson(testResponse);
 
   const closeModal = () => {
@@ -57,7 +58,12 @@ function ApiTest() {
     } catch (error) {
       console.error('Invalid JSON data:', error);
     }
-  }, [apiUsage?.input]);
+    // 언마운트 될 때 스토어 값 초기화
+    return () => {
+      resetStatus();
+      resetParams();
+    };
+  }, [apiUsage?.input, resetParams, resetStatus]);
 
   if (!data || data.length === 0) {
     return null;
@@ -77,7 +83,7 @@ function ApiTest() {
     }
     setLoading(true);
     if (wallet) {
-      apiTest({ url, params, wallet });
+      apiTest({ url, params, wallet, method: apiUsage?.method });
     }
   };
 
@@ -185,6 +191,13 @@ function ApiTest() {
           <Card className="bg-gray-200 rounded-lg p-5">
             <div className="flex justify-between items-center mb-3">
               <div className="text-xl font-bold flex gap-3 items-center">
+                <p
+                  className={`${
+                    apiUsage?.method === 'GET' ? 'bg-blue' : 'bg-green-600'
+                  }  p-2 px-5 text-white font-bold rounded-lg text-sm`}
+                >
+                  {apiUsage?.method}
+                </p>
                 <div>Result</div>
                 {loading && <Spinner size="5" />}
               </div>

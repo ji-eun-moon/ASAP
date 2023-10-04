@@ -179,6 +179,10 @@ public class PurposeService {
 
         }
 
+        list.sort((o1, o2) -> {
+            return Long.compare(o2.getCount(), o1.getCount());
+        });
+
         return list;
 
     }

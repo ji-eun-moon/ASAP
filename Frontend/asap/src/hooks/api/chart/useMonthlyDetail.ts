@@ -41,7 +41,6 @@ const useMonthlyDetail = () => {
             url: '/api/v1/apis/usage/monthly/one',
             params: paramsObject,
           });
-          console.log(response.data);
           const monthlyData: Array<{ month: string; data: IMonthlyUsage[] }> =
             Object.keys(response.data).map((key) => {
               return { month: key, data: response.data[key] };
@@ -50,7 +49,6 @@ const useMonthlyDetail = () => {
             setMonthDate(monthlyData[0].month);
             setMonthlyDetail(monthlyData[0].data);
           }
-          console.log(response.data, '사용자');
         } else {
           const response = await axiosInstance({
             method: 'GET',
@@ -65,7 +63,6 @@ const useMonthlyDetail = () => {
             setMonthDate(monthlyData[0].month);
             setMonthlyDetail(monthlyData[0].data);
           }
-          console.log(response.data, '제공자');
         }
         setMonthlyLoading(false);
       } catch (error) {

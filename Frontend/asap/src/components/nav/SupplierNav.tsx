@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useAuthStore from 'store/auth/useAuthStore';
+import useSearchStore from 'store/search/useSearchStore';
 import { Menu, MenuHandler, MenuList } from '@material-tailwind/react';
 import { ReactComponent as Search } from 'assets/icons/Search.svg';
 import { ReactComponent as MyPage } from 'assets/icons/MyPage.svg';
@@ -20,6 +21,7 @@ const activeStyle = {
 };
 
 function SupplierNav() {
+  const { searchDropdown, toggleSearchDropdown } = useSearchStore();
   const { isLoggedIn } = useAuthStore((state) => state);
   const MyPageRef = React.createRef();
 
@@ -65,7 +67,11 @@ function SupplierNav() {
           {isLoggedIn && <NoticeBadge />}
 
           {isLoggedIn ? (
-            <Menu placement="top-start">
+            <Menu
+              placement="top-start"
+              open={searchDropdown}
+              handler={toggleSearchDropdown}
+            >
               <MenuHandler>
                 <button
                   type="button"
@@ -87,11 +93,14 @@ function SupplierNav() {
           )}
           <Menu placement="top-start">
             <MenuHandler>
-              <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
+              <button
+                type="button"
+                className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold"
+              >
                 <Search className="w-5" />
-              </div>
+              </button>
             </MenuHandler>
-            <MenuList>
+            <MenuList className="bg-gray-200 w-full">
               <SearchDrop />
             </MenuList>
           </Menu>

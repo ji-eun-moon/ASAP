@@ -10,7 +10,6 @@ import Header from 'components/common/Header';
 import Modal from 'components/common/Modal';
 import { Tabs, TabsHeader, Tab, Button } from '@material-tailwind/react';
 import { Collapse, Ripple, initTE } from 'tw-elements';
-import { ReactComponent as TopArrow } from 'assets/icons/TopArrow.svg';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 
 import Table from 'components/mypage/InfoTable';
@@ -276,14 +275,6 @@ function ApiApproval() {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
-  const onScrollUpHandler = () => {
-    if (!window.scrollY) return;
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
 
   /* api hook */
   const { apis, setLastChanged, loading } = useAdminApiList(); // 전체 api 신청 리스트 받아오기
@@ -682,17 +673,6 @@ function ApiApproval() {
               {/* 왼쪽 네브바 눌렀을 때 조회되는 리스트 부분 */}
               <div className="my-6 pb-3 w-full border-bottom">
                 {selectedItem === '전체 조회' ? allApis() : filterdApis()}
-              </div>
-
-              {/* 오른쪽 하단 페이지 위로 올리는 버튼 */}
-              <div className="topBtnWrap">
-                <button
-                  type="button"
-                  className="topBtn"
-                  onClick={onScrollUpHandler}
-                >
-                  <TopArrow className="w-8 h-auto" />
-                </button>
               </div>
 
               {/* 거절을 눌렀을 때 거절사유 입력 모달 뜨는 부분 */}

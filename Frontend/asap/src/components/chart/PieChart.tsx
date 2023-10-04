@@ -23,6 +23,10 @@ function PieChart({ title, content, value }: PieChartProps) {
       const option = {
         title: {
           text: title,
+          textStyle: {
+            // 이 부분을 추가
+            color: '#000000',
+          },
           left: 'center', // 타이틀의 위치
           top: '5%',
         },

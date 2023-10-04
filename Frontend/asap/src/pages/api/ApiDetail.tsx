@@ -33,7 +33,7 @@ function ApiDetail() {
 
   const onApplyHandler = () => {
     navigate(`/api_list/${apiId}/apply`, {
-      state: { apiTitle: apiDetail?.title },
+      state: { apiId, apiTitle: apiDetail?.title },
     });
   };
 

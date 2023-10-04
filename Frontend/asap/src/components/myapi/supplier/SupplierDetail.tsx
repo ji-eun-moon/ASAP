@@ -22,9 +22,12 @@ function SupplierDetail() {
     industryRate(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiId]);
   return (
-    <div className="container mx-auto mt-12 grid grid-cols-6 gap-5">
+    <div
+      className="container mx-auto mt-12 grid grid-cols-9 gap-10 flex justify-center"
+      style={{ width: '85%' }}
+    >
       {/* 제공중 리스트 */}
-      <div className="border rounded-lg border-gray-300 p-4 col-span-1 min-h-screen">
+      <div className="border rounded-lg border-gray-300 p-4 col-span-2 min-h-screen">
         {offerListLoading ? null : (
           <div>
             <div className="font-bold text-2xl">API 제공 상세</div>
@@ -48,7 +51,7 @@ function SupplierDetail() {
       </div>
 
       {/* 제공 차트 */}
-      <div className="col-span-5">
+      <div className="col-span-7">
         <div className="font-bold text-3xl mb-12">
           <span className="ms-12">&apos;{apiTitle}&apos;</span>{' '}
           <span>조회</span>
@@ -57,8 +60,8 @@ function SupplierDetail() {
           <div className="w-full flex justify-evenly">
             <div>
               <ChartFrame
-                width="500px"
-                height="500px"
+                width="450px"
+                height="450px"
                 title="신규 사용자"
                 fontSize="20px"
                 chart={<LineChart />}
@@ -66,22 +69,20 @@ function SupplierDetail() {
             </div>
             <div>
               <ChartFrame
-                width="500px"
-                height="500px"
+                width="450px"
+                height="450px"
                 title="산업군 비율"
                 fontSize="20px"
-                chart={
-                  <PieChart title="piChart" content={industry} value={count} />
-                }
+                chart={<PieChart title="" content={industry} value={count} />}
               />
             </div>
           </div>
 
-          <div className="mt-16" style={{ width: '95%' }}>
+          <div className="mt-16" style={{ width: '94%' }}>
             <ChartFrame
               width="100%"
-              height="500px"
-              title="동일 카테고리 API 평균"
+              height="430px"
+              title="동일 카테고리 API 제공량 비교"
               fontSize="20px"
               chart={<CurvedLineChart />}
             />

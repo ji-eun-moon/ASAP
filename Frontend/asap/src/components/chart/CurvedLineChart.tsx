@@ -79,7 +79,7 @@ function CurvedLineChart() {
       legend: {
         orient: 'horizontal',
         bottom: 2,
-        data: ['My API', 'Category Average'],
+        data: ['내 API 제공량', '동일 카테고리 평균 제공량'],
       },
       xAxis: {
         type: 'category',
@@ -95,23 +95,23 @@ function CurvedLineChart() {
       },
       series: [
         {
-          name: 'My API',
+          name: '내 API 제공량',
           type: 'line',
           smooth: true,
           seriesLayoutBy: 'row',
           emphasis: { focus: 'series' },
-          color: '#5470C6',
-          areaStyle: { opacity: 0.5, color: '#5470C6' },
+          color: '#F94144',
+          areaStyle: { opacity: 0.25, color: '#F94144' },
           data: myApiArr,
         },
         {
-          name: 'Category Average',
+          name: '동일 카테고리 평균 제공량',
           type: 'line',
           smooth: true,
           seriesLayoutBy: 'row',
           emphasis: { focus: 'series' },
-          color: '#EE6666',
-          areaStyle: { opacity: 0.5, color: '#EE6666' },
+          color: '#F9C74F',
+          areaStyle: { opacity: 0.25, color: '#F9C74F' },
 
           data: categoryAvgArr,
         },

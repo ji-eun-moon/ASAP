@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import useLogIn from 'hooks/api/auth/useLogIn';
 import { Input, Button } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
@@ -28,7 +28,8 @@ function LogIn() {
     setUserPassword(event.target.value);
   };
 
-  const onSubmitHandler = async () => {
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!userId) {
       openModal();
       return;
@@ -84,64 +85,66 @@ function LogIn() {
       <div className="flex justify-center my-8">
         <p className="font-bold text-6xl text-blue">LogIn</p>
       </div>
-      <div className="mb-7">
-        <p className="text-lg font-extrabold text-blue">아이디</p>
-        <div className="my-3">
-          <Input
-            label="아이디"
-            value={userId}
-            onChange={onIdHandler}
-            className="pr-20"
-            containerProps={{
-              className: 'min-w-0',
-            }}
-            crossOrigin=""
-          />
+      <form onSubmit={onSubmitHandler}>
+        <div className="mb-7">
+          <p className="text-lg font-extrabold text-blue">아이디</p>
+          <div className="my-3">
+            <Input
+              label="아이디"
+              value={userId}
+              onChange={onIdHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
         </div>
-      </div>
-      <div className="mb-7">
-        <p className="text-lg font-extrabold text-blue">비밀번호</p>
-        <div className="my-3">
-          <Input
-            label="비밀번호"
-            value={userPassword}
-            type="password"
-            onChange={onPasswordHandler}
-            className="pr-20"
-            containerProps={{
-              className: 'min-w-0',
-            }}
-            crossOrigin=""
-          />
+        <div className="mb-7">
+          <p className="text-lg font-extrabold text-blue">비밀번호</p>
+          <div className="my-3">
+            <Input
+              label="비밀번호"
+              value={userPassword}
+              type="password"
+              onChange={onPasswordHandler}
+              className="pr-20"
+              containerProps={{
+                className: 'min-w-0',
+              }}
+              crossOrigin=""
+            />
+          </div>
         </div>
-      </div>
-      <div className="flex items-center my-3">
-        <p className="text-lg font-extrabold text-blue">계정 선택</p>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <Button
-          onClick={() => setLoginType('user')}
-          className={`col-span-1 text-base font-bold ${
-            loginType === 'user' ? 'bg-blue-500' : 'bg-gray-300'
-          }`}
-        >
-          사용자
-        </Button>
-        <Button
-          onClick={() => setLoginType('supplier')}
-          className={`col-span-1 text-base font-bold ${
-            loginType === 'supplier' ? 'bg-blue-500' : 'bg-gray-300'
-          }`}
-        >
-          제공자
-        </Button>
-      </div>
-      {/* 로그인 버튼 */}
-      <div className="flex justify-center my-9">
-        <Button ripple onClick={onSubmitHandler} className="btn-width">
-          로그인
-        </Button>
-      </div>
+        <div className="flex items-center my-3">
+          <p className="text-lg font-extrabold text-blue">계정 선택</p>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Button
+            onClick={() => setLoginType('user')}
+            className={`col-span-1 text-base font-bold ${
+              loginType === 'user' ? 'bg-blue-500' : 'bg-gray-300'
+            }`}
+          >
+            사용자
+          </Button>
+          <Button
+            onClick={() => setLoginType('supplier')}
+            className={`col-span-1 text-base font-bold ${
+              loginType === 'supplier' ? 'bg-blue-500' : 'bg-gray-300'
+            }`}
+          >
+            제공자
+          </Button>
+        </div>
+        {/* 로그인 버튼 */}
+        <div className="flex justify-center my-9">
+          <Button ripple type="submit" className="btn-width">
+            로그인
+          </Button>
+        </div>
+      </form>
 
       <hr className="line-blue" />
 

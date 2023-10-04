@@ -38,6 +38,6 @@ public class Daily {
     private LocalDate date;
 
     public void updateAmount(Long amount) {
-        this.useAmount += amount;
+        this.useAmount = amount;
     }
 }

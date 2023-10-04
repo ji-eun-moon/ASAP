@@ -90,6 +90,17 @@ public class BatchService {
         redisUsageRepository.deleteAll(redisUsages);
     }
 
+    // 데일리 데이터 토탈 집계 - 매일 새벽 2시
+    @Transactional
+    public void processTotal() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        List<Daily> dailies = dailyRepository.findAllByDate(yesterday);
+
+        for (Daily daily : dailies) {
+            totalService.updateAmount(daily);
+        }
+    }
+
     // 트랜잭션 블록 생성 - 매주 일요일
 //    @Scheduled(cron = "0 0 1 * * 0")
     @Transactional
@@ -171,37 +182,34 @@ public class BatchService {
 
     public void dataMake() {
         Random random = new Random();
-
         for (int i = 0; i < 188; i++) {
-            Optional<Daily> daily1 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 23L, LocalDate.now().minusDays(i));
-            Optional<Daily> daily2 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 28L, LocalDate.now().minusDays(i));
-            Optional<Daily> daily3 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 29L, LocalDate.now().minusDays(i));
-
+            Optional<Daily> daily1 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 30L, LocalDate.now().minusDays(i));
+            Optional<Daily> daily2 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 31L, LocalDate.now().minusDays(i));
+            long randLong = random.nextLong(20);
+            long randLong2 = 0L;
+            if (randLong > 0) {
+                randLong2 = random.nextLong(randLong);
+            } else {
+                randLong2 = random.nextLong(20);
+            }
             if (daily1.isEmpty()) {
-                Daily saveDaily1 = dailyService.register(new DailyUsageRequest(999999L, 23L, random.nextLong(1000),
+                Daily saveDaily1 = dailyService.register(new DailyUsageRequest(999999L, 30L, randLong2 * (188-i),
                         LocalDate.now().minusDays(i)));
 
                 totalService.updateAmount(saveDaily1);
             } else {
+                dailyService.updateAmount(daily1.get(), randLong2 * (188-i));
                 totalService.updateAmount(daily1.get());
             }
 
             if (daily2.isEmpty()) {
-                Daily saveDaily2 = dailyService.register(new DailyUsageRequest(999999L, 28L, random.nextLong(1000),
+                Daily saveDaily2 = dailyService.register(new DailyUsageRequest(999999L, 31L, randLong * (188-i),
                         LocalDate.now().minusDays(i)));
 
                 totalService.updateAmount(saveDaily2);
             } else {
+                dailyService.updateAmount(daily2.get(), randLong * (188-i));
                 totalService.updateAmount(daily2.get());
-            }
-
-            if (daily3.isEmpty()) {
-                Daily saveDaily3 = dailyService.register(new DailyUsageRequest(999999L, 29L, random.nextLong(1000),
-                        LocalDate.now().minusDays(i)));
-
-                totalService.updateAmount(saveDaily3);
-            } else {
-                totalService.updateAmount(daily3.get());
             }
 
         }

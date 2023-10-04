@@ -34,6 +34,12 @@ public class BatchController {
         return ResponseEntity.status(201).body("성공적");
     }
 
+    @PostMapping("/total-process")
+    public ResponseEntity<?> processTotal() {
+        batchService.processTotal();
+        return ResponseEntity.status(202).body("성공적");
+    }
+
     @PostMapping("/transaction-process")
     public ResponseEntity<?> processBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
         batchService.processTransactionBlock();

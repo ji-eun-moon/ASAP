@@ -3,12 +3,9 @@ package com.core.apiserver.api.service;
 import com.core.apiserver.api.entity.domain.Api;
 import com.core.apiserver.api.entity.dto.request.CreateApiRequest;
 import com.core.apiserver.api.repository.ApiRepository;
-import com.core.apiserver.total.repository.TotalRepository;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -102,6 +99,32 @@ public class ApiService {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://dapi.kakao.com")
                 .path("/v2/search/web")
+                .queryParams(params)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri);
+    }
+
+    public Object kakaoImageSearch(MultiValueMap<String, String> params) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://dapi.kakao.com")
+                .path("/v2/search/image")
+                .queryParams(params)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri);
+    }
+
+    public Object kakaoBookSearch(MultiValueMap<String, String> params) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://dapi.kakao.com")
+                .path("/v2/search/book")
                 .queryParams(params)
                 .encode()
                 .build()

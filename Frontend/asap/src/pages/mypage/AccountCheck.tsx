@@ -4,7 +4,7 @@ import useCheckPw from 'hooks/api/auth/useCheckPw';
 import Modal from 'components/common/Modal';
 
 function AccountCheck() {
-  const { checkPw, checkedPw } = useCheckPw();
+  const { checkPw } = useCheckPw();
   const [userPassword, setUserPassword] = useState<string>(''); // 입력한 비밀 번호
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열기
   const [modalMessage, setModalMessage] = useState(''); // 모달 메시지
@@ -24,8 +24,9 @@ function AccountCheck() {
       setIsModalOpen(true);
       return;
     }
-    await checkPw({ password: userPassword });
-    if (!checkedPw) {
+    const checkPwSuccess = await checkPw({ password: userPassword });
+
+    if (!checkPwSuccess) {
       setModalMessage('비밀번호를 다시 입력해주세요.');
       setIsModalOpen(true);
       setUserPassword('');

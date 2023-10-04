@@ -8,6 +8,7 @@ import com.ssafy.project.asap.notice.entity.domain.Notice;
 import com.ssafy.project.asap.notice.entity.dto.response.FindNoticesResponse;
 import com.ssafy.project.asap.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
@@ -31,6 +33,8 @@ public class NoticeService {
                 .content("'" + request.getContent() + "'" + " 로 인하여 거절되었습니다.")
                 .member(applyRepository.findByApplyId(request.getApplyId()).getMember())
                 .build();
+        
+        log.info("거절 승인 메시지 완료");
 
         noticeRepository.save(notice);
     }

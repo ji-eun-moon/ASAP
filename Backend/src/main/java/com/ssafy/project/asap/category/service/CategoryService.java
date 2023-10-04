@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,7 @@ public class CategoryService {
 
     }
 
-    public List<CategoryListResponse> categoryList(){
+    public List<CategoryListResponse> categoryList() {
 
         List<Category> list = categoryRepository.findAll();
 
@@ -53,8 +54,20 @@ public class CategoryService {
                         .builder()
                         .category(category.getCategory())
                         .count((long) category.getApiList().size())
-                        .build())
-                .collect(Collectors.toList());
+                        .build()).sorted(Comparator.comparing(CategoryListResponse::getCount)).collect(Collectors.toList());
+
+        CategoryListResponse categoryListResponse = null;
+        for (CategoryListResponse c : categoryListResponseList) {
+            if (c.getCategory().equals("기타")) {
+                categoryListResponse = new CategoryListResponse(c.getCategory(), c.getCount());
+                categoryListResponseList.remove(c);
+                break;
+            }
+        }
+
+        if(categoryListResponse != null){
+            categoryListResponseList.add(categoryListResponse);
+        }
 
         return categoryListResponseList;
     }

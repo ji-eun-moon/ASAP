@@ -97,6 +97,19 @@ public class ApiService {
         return commonForm(uri);
     }
 
+    public Object kakaoWebSearch(MultiValueMap<String, String> params) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://dapi.kakao.com")
+                .path("/v2/search/web")
+                .queryParams(params)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri);
+    }
+
     public Object commonForm(URI uri) {
         try {
             HttpHeaders headers = new HttpHeaders();

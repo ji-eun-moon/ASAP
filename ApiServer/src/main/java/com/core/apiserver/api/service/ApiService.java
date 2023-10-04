@@ -124,7 +124,7 @@ public class ApiService {
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://dapi.kakao.com")
-                .path("/v2/search/book")
+                .path("/v3/search/book")
                 .queryParams(params)
                 .encode()
                 .build()

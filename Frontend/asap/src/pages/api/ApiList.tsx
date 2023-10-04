@@ -41,7 +41,7 @@ function ApiList() {
     [key: string]: number;
   }>({}); // 카테고리별 상품 개수
 
-  const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedCount, setSelectedCount] = useState(0);
   const [selectedItems, setSelectedItems] = useState(apiList);
 
@@ -58,7 +58,16 @@ function ApiList() {
   useEffect(() => {
     let filteredItems = apiList || [];
 
-    const effectiveCategory = selectedCategory || cate;
+    // 정렬 기준 카테고리 설정
+    let effectiveCategory = '';
+
+    if (cate && !selectedCategory) {
+      effectiveCategory = cate;
+    } else if (!selectedCategory) {
+      effectiveCategory = '전체';
+    } else {
+      effectiveCategory = selectedCategory;
+    }
 
     // 카테고리에 따른 필터링
     if (effectiveCategory && effectiveCategory !== '전체') {

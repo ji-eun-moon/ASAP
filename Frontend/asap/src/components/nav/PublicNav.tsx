@@ -6,6 +6,7 @@ import { ReactComponent as Search } from 'assets/icons/Search.svg';
 import { ReactComponent as MyPage } from 'assets/icons/MyPage.svg';
 import logoImage from 'assets/images/logo2.png';
 import NoticeBadge from 'components/notice/NoticeBadge';
+import useSearchStore from 'store/search/useSearchStore';
 import DropDown from './MyPageDrop';
 import Switch from './Switch';
 import SearchDrop from './SearchDrop';
@@ -20,6 +21,7 @@ const activeStyle = {
 };
 
 function PublicNav() {
+  const { searchDropdown, toggleSearchDropdown } = useSearchStore();
   const { isLoggedIn } = useAuthStore((state) => state);
   const MyPageRef = React.createRef();
 
@@ -84,13 +86,20 @@ function PublicNav() {
               </div>
             </Link>
           )}
-          <Menu placement="top-start">
+          <Menu
+            placement="top-start"
+            open={searchDropdown}
+            handler={toggleSearchDropdown}
+          >
             <MenuHandler>
-              <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
+              <button
+                type="button"
+                className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold"
+              >
                 <Search className="w-5" />
-              </div>
+              </button>
             </MenuHandler>
-            <MenuList>
+            <MenuList className="bg-gray-200 w-full">
               <SearchDrop />
             </MenuList>
           </Menu>

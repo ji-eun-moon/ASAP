@@ -26,6 +26,7 @@
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
+    "react-transition-group": "^4.4.5",
     "sass": "^1.66.1",
     "slick-carousel": "^1.8.1",
     "tslib": "^2.6.2",
@@ -64,7 +65,9 @@
     ]
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.2",
     "@types/react-datepicker": "^4.15.0",
+    "@types/react-transition-group": "^4.4.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.2.0",

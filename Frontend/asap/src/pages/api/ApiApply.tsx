@@ -11,6 +11,7 @@ import useSetUserInfo from 'hooks/api/api/useSetUserInfo';
 function ApiApply() {
   const location = useLocation();
   const { setUserInfo } = useSetUserInfo();
+  const apiId = location.state?.apiId;
   const apiTitle = location.state?.apiTitle;
 
   // 사용자 신청 후 입력 받아야하는 값
@@ -46,6 +47,7 @@ function ApiApply() {
 
   /* 신청서 제출 */
   const onSubmitHandler = async () => {
+    console.log(apiId);
     if (!purpose) {
       alert('목적을 입력해주세요.');
       return;
@@ -55,7 +57,7 @@ function ApiApply() {
       return;
     }
     await setUserInfo({
-      apiId: '6',
+      apiId,
       purpose,
       industry,
     });

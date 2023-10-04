@@ -13,9 +13,9 @@ function UserDetail() {
   };
 
   return (
-    <div className="container mx-auto mt-12 grid grid-cols-6 gap-5">
+    <div className="container mx-auto mt-12 grid grid-cols-9 gap-10">
       {/* 사용중 리스트 */}
-      <div className="border rounded-lg border-gray-300 p-4 col-span-1 min-h-screen">
+      <div className="border rounded-lg border-gray-300 p-4 col-span-2 min-h-screen">
         {useListLoading ? null : (
           <div>
             <div className="font-bold text-2xl">API 사용 상세</div>
@@ -39,7 +39,7 @@ function UserDetail() {
       </div>
 
       {/* 사용 차트 */}
-      <div className="col-span-5">
+      <div className="col-span-7">
         <div className="font-bold text-3xl mb-12">
           <span className="ms-12">&apos;{apiTitle}&apos;</span>{' '}
           <span>조회</span>

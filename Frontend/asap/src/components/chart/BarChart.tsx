@@ -31,6 +31,10 @@ function BarChart({ title, content, value }: BarChartProps) {
       const option = {
         title: {
           text: title,
+          textStyle: {
+            // 이 부분을 추가
+            color: '#000000',
+          },
           left: 'center',
           top: '5%',
         },

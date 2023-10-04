@@ -51,7 +51,7 @@ function SupplierMonthly() {
       const otherItems = monthUsage.slice(5);
 
       const totalOtherValue = otherItems.reduce(
-        (accum, item) => accum + item.amount * item.price,
+        (accum, item) => accum + item.price,
         0,
       );
 

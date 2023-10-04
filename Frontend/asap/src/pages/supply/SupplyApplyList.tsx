@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Header from 'components/common/Header';
 import { Tabs, TabsHeader, Tab, Card, Button } from '@material-tailwind/react';
 import { Collapse, Ripple, initTE } from 'tw-elements';
-import { ReactComponent as TopArrow } from 'assets/icons/TopArrow.svg';
 
 import Table from 'components/mypage/InfoTable';
 import 'styles/common/Input.scss';
@@ -28,7 +27,6 @@ function ApiDetail(
     }
     return 'col-span-2';
   };
-  console.log('tags', apiDetail.tags);
   return (
     <div className="my-5">
       {!apiDetail ? (
@@ -88,7 +86,9 @@ function ApiDetail(
             left="관련 태그"
             right={
               apiDetail.tags
-                ? JSON.parse(apiDetail.tags).map((tag: string) => <p>#{tag}</p>)
+                ? JSON.parse(apiDetail.tags).map((tag: string) => (
+                    <p key={tag}>#{tag}</p>
+                  ))
                 : ''
             }
             height="100%"
@@ -195,14 +195,6 @@ function SupplyApplyList() {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
-  const onScrollUpHandler = () => {
-    if (!window.scrollY) return;
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
 
   /* 특정 api의 상세 내용 조회 */
   const showDetail = async (applyId: number) => {
@@ -398,15 +390,6 @@ function SupplyApplyList() {
 
           <div className="my-6 pb-3 w-full border-bottom text-center">
             {selectedItem === '전체 조회' ? allApis() : filterdApis()}
-          </div>
-          <div className="topBtnWrap">
-            <button
-              type="button"
-              className="topBtn"
-              onClick={onScrollUpHandler}
-            >
-              <TopArrow className="w-8 h-auto" />
-            </button>
           </div>
         </div>
       </div>

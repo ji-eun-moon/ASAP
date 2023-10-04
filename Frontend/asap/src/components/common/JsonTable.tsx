@@ -126,7 +126,12 @@ function JsonTable({
       {data.map((item) => (
         <div key={item.idx} className="grid grid-cols-12 items-center mt-3">
           {columns.map((column) => (
-            <p key={column} className={`${columnGrid(column)} ps-2 border-5`}>
+            <p
+              key={column}
+              className={`${columnGrid(column)} border-5 ${
+                column === 'required' ? 'text-center' : 'ps-2'
+              }`}
+            >
               {item[column]}
             </p>
           ))}

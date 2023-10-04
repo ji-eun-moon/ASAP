@@ -68,7 +68,7 @@ function SupplierMonthly() {
   const barChartValue = [twoBeforeTotalPrice, oneBeforeTotalPrice, totalPrice];
 
   return (
-    <div className="container mx-auto mt-20">
+    <div className="container mx-auto mt-20" style={{ width: '83%' }}>
       {monthlyLoading ? (
         <div className="flex justify-center">
           <Spinner size="12" />

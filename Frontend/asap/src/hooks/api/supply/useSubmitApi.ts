@@ -5,7 +5,7 @@ interface ApiInfo {
   content: string;
   input: string;
   output: string;
-  price: number;
+  price: number | string;
   api: string;
   tags: string[];
   provideDate: string;

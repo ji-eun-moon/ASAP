@@ -36,10 +36,7 @@ function ApiSupply() {
   } = useSubmitStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const [modalMessage, setModalMessage] = useState('');
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -53,9 +50,11 @@ function ApiSupply() {
   };
 
   const onPriceHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    setPrice(value);
+    const valueStr = event.target.value;
+    const valueNum = parseInt(valueStr, 10);
+    setPrice(valueNum);
   };
+
   const onApiHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setApi(event.target.value);
   };
@@ -64,30 +63,70 @@ function ApiSupply() {
     setMethod(event.target.value);
   };
 
+  // 유효한 JSON인지 확인
+  const isValidJSON = (str: string) => {
+    try {
+      const parsed = JSON.parse(str);
+      if (Array.isArray(parsed)) {
+        if (parsed.length === 0) return false;
+
+        const allEmptyObjects = parsed.every(
+          (item) =>
+            item && typeof item === 'object' && Object.keys(item).length === 0,
+        );
+        if (allEmptyObjects) return false;
+      } else if (
+        Object.keys(parsed).length === 0 &&
+        parsed.constructor === Object
+      ) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
   // 제출 submit 함수
   const onSubmitHandler = () => {
     if (!title) {
-      openModal();
+      setModalMessage('API 이름은 필수 입력값입니다.');
+      setIsModalOpen(true);
       return;
     }
     if (!content) {
-      openModal();
+      setModalMessage('상세 내용은 10자 이상으로 입력해주세요.');
+      setIsModalOpen(true);
       return;
     }
     if (!api) {
-      openModal();
+      setModalMessage('EndPoint는 필수 입력값입니다.');
+      setIsModalOpen(true);
       return;
     }
     if (!input || !output) {
-      openModal();
+      setModalMessage('input 값과 output 값은 각각 한개 이상 입력해주세요.');
+      setIsModalOpen(true);
       return;
     }
-    if (!inputExample || !outputExample) {
-      openModal();
+    if (!isValidJSON(inputExample)) {
+      setModalMessage('INPUT 예시는 유효한 JSON 형식이어야 합니다.');
+      setIsModalOpen(true);
+      return;
+    }
+    if (!isValidJSON(outputExample)) {
+      setModalMessage('OUTPUT 예시는 유효한 JSON 형식이어야 합니다.');
+      setIsModalOpen(true);
+      return;
+    }
+    if (!price) {
+      setModalMessage('가격은 필수 입력 값입니다.');
+      setIsModalOpen(true);
       return;
     }
     if (!tags) {
-      openModal();
+      setModalMessage('태그는 필수 입력 값입니다.');
+      setIsModalOpen(true);
       return;
     }
     submitApi({
@@ -105,75 +144,14 @@ function ApiSupply() {
     });
   };
 
-  // 모달 메시지
-  const modalMessage = () => {
-    if (!title) {
-      return (
-        <div className="flex justify-start">
-          <p className="text-lg mt-5 font-bold">API 이름은 필수값입니다.</p>
-        </div>
-      );
-    }
-    if (!content) {
-      return (
-        <div className="flex justify-start">
-          <p className="text-lg mt-5 font-bold">
-            상세 내용은 10자 이상으로 입력해주세요.
-          </p>
-        </div>
-      );
-    }
-    if (!input || !output) {
-      return (
-        <div className="flex justify-start">
-          <p className="text-lg mt-5 font-bold">
-            input 값과 output 값은 각각 한개 이상 입력해주세요.
-          </p>
-        </div>
-      );
-    }
-    if (!api) {
-      return (
-        <div className="flex justify-start">
-          <p className="text-lg mt-5 font-bold">
-            EndPoint는 필수 입력값입니다.
-          </p>
-        </div>
-      );
-    }
-    if (!inputExample || !outputExample) {
-      return (
-        <div className="flex justify-start">
-          <p className="text-lg mt-5 font-bold">
-            INPUT 예시와 OUTPUT 예시는 필수 입력값입니다.
-          </p>
-        </div>
-      );
-    }
-    if (!tags) {
-      return (
-        <div className="flex justify-start">
-          <p className="text-lg mt-5 font-bold">
-            태그는 1개 이상 입력해주세요.
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <div>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="w-96">
-          {modalMessage()}
-          <div className="flex flex-row-reverse my-5">
-            <Button ripple onClick={closeModal} className="bg-blue-500">
-              확인
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        confirm
+        message={modalMessage}
+      />
       <Header title="API 제공 신청하기" />
       <div className="container mx-auto page-container">
         <div className="mb-5">
@@ -251,10 +229,11 @@ function ApiSupply() {
             <div className="input-container flex w-96">
               <input
                 placeholder="price"
-                value={price}
+                value={price || ''}
                 onChange={onPriceHandler}
                 type="number"
                 step="1"
+                min={0}
               />
               <p className="self-center">원</p>
             </div>

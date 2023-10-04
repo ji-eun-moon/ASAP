@@ -1,12 +1,20 @@
 import React, { ChangeEvent, useState, useEffect } from 'react';
 import JsonTable from 'components/common/JsonTable';
-import { Card, Button } from '@material-tailwind/react';
+import { Card } from '@material-tailwind/react';
 import useInputStore from 'store/supply/useInputStore';
 import useSubmitStore from 'store/supply/useSubmitStore';
 import 'styles/common/Input.scss';
+import { ReactComponent as Add } from 'assets/icons/Add.svg';
+import Modal from 'components/common/Modal';
 
 function SubmitInput() {
   const [isChecked, setIsChecked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
   const { setInput } = useSubmitStore();
@@ -32,6 +40,21 @@ function SubmitInput() {
 
   // input 쌍 추가
   const handleAddPair = () => {
+    if (!key) {
+      setModalMessage('key는 필수 입력 값입니다.');
+      setIsModalOpen(true);
+      return;
+    }
+    if (!name) {
+      setModalMessage('name은 필수 입력 값입니다.');
+      setIsModalOpen(true);
+      return;
+    }
+    if (!type) {
+      setModalMessage('type은 필수 입력 값입니다.');
+      setIsModalOpen(true);
+      return;
+    }
     // 새로운 인덱스 설정
     const newIdx = pairs.length > 0 ? pairs[pairs.length - 1].idx + 1 : 1;
 
@@ -97,6 +120,12 @@ function SubmitInput() {
 
   return (
     <div className="flex">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        confirm
+        message={modalMessage}
+      />
       <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
         {/* 표 헤더 */}
         <div className="grid grid-cols-12 bg-gray-200">
@@ -158,18 +187,17 @@ function SubmitInput() {
               </div>
             </div>
           </div>
-          <div className="table-input-container col-span-4">
+          <div className="table-input-container col-span-5 flex">
             <textarea
               placeholder="description"
               value={description}
               onChange={onDescriptionHandler}
             />
-          </div>
-          {/* Input 쌍 추가 버튼 */}
-          <div className="flex justify-center items-center">
-            <Button onClick={handleAddPair} className="bg-blue">
-              추가
-            </Button>
+            {/* Input 쌍 추가 버튼 */}
+            <Add
+              onClick={handleAddPair}
+              className="w-6 h-auto self-center ml-2 cursor-pointer"
+            />
           </div>
         </div>
       </Card>

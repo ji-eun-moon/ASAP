@@ -39,6 +39,15 @@ function PieChart({ title, content, value }: PieChartProps) {
             // name: 'Access From',
             type: 'pie',
             radius: '50%',
+            color: [
+              '#ea8181', // 빨
+              '#91cc75', // 초
+              '#f8ea72', // 노
+              '#5470c6', // 파
+              '#b154c6', // 보
+              '#6ec2e6', // 하늘
+              '#ea72c8', // 분홍
+            ],
             data: content.map((item, index) => {
               return { name: item, value: value[index] };
             }),

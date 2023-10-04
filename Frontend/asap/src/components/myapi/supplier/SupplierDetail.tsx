@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useGetOfferList from 'hooks/api/chart/useGetOfferList';
 import useDetailStore from 'store/chart/useDetailStore';
-import CurvedLineChart from 'components/chart/CurvedLineChart';
 import ChartFrame from 'components/chart/ChartFramee';
+import CurvedLineChart from 'components/chart/CurvedLineChart';
+import LineChart from 'components/chart/LineChart';
+import PieChart from 'components/chart/PieChart';
+import useIndustryRate from 'hooks/api/chart/useIndustryRate';
+import useIndustryRateStore from 'store/chart/useIndustryRateStore';
 import SupplierDailyChart from './SupplierDailyChart';
 
 function SupplierDetail() {
   const { offerListLoading, offerList } = useGetOfferList();
   const { apiId, setApiId, setApiTitle, apiTitle } = useDetailStore();
-
+  const { industry, count } = useIndustryRateStore();
+  const { industryRate } = useIndustryRate();
   const handleItemClick = (id: number, title: string) => {
     setApiId(id);
     setApiTitle(title);
   };
-
+  useEffect(() => {
+    industryRate(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiId]);
   return (
     <div className="container mx-auto mt-12 grid grid-cols-6 gap-5">
       {/* 제공중 리스트 */}
@@ -46,17 +53,42 @@ function SupplierDetail() {
           <span className="ms-12">&apos;{apiTitle}&apos;</span>{' '}
           <span>조회</span>
         </div>
-        <div className="ml-10">
-          <ChartFrame
-            width="500px"
-            height="500px"
-            title="동일 카테고리 API 평균"
-            fontSize="20px"
-            chart={<CurvedLineChart />}
-          />
-        </div>
-        <div className="mt-16">
-          <SupplierDailyChart />
+        <div className="flex flex-col items-center justify-around">
+          <div className="w-full flex justify-evenly">
+            <div>
+              <ChartFrame
+                width="500px"
+                height="500px"
+                title="신규 사용자"
+                fontSize="20px"
+                chart={<LineChart />}
+              />
+            </div>
+            <div>
+              <ChartFrame
+                width="500px"
+                height="500px"
+                title="산업군 비율"
+                fontSize="20px"
+                chart={
+                  <PieChart title="piChart" content={industry} value={count} />
+                }
+              />
+            </div>
+          </div>
+
+          <div className="mt-16" style={{ width: '95%' }}>
+            <ChartFrame
+              width="100%"
+              height="500px"
+              title="동일 카테고리 API 평균"
+              fontSize="20px"
+              chart={<CurvedLineChart />}
+            />
+          </div>
+          <div className="mt-16" style={{ width: '95%' }}>
+            <SupplierDailyChart />
+          </div>
         </div>
       </div>
     </div>

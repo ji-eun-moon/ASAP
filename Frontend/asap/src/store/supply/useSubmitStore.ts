@@ -6,7 +6,7 @@ interface ISubmitStore {
   content: string;
   input: string;
   output: string;
-  price: number;
+  price: number | string;
   api: string;
   tag: string;
   tags: string[];
@@ -33,7 +33,7 @@ const useSubmitStore = create<ISubmitStore>((set) => ({
   content: '',
   input: '',
   output: '',
-  price: 0,
+  price: '',
   api: '',
   tag: '',
   tags: [],

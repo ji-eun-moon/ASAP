@@ -180,7 +180,6 @@ function ApiList() {
                     <ApiListCard
                       category={api.category}
                       title={api.title}
-                      content={api.content}
                       tags={api.tags}
                     />
                   </div>

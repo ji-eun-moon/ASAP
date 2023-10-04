@@ -8,26 +8,54 @@ function LineChart() {
   const newUserData = useNewUser();
 
   const {
+    fourBeforeMonthDate,
+    threeBeforeMonthDate,
     twoBeforeMonthDate,
     oneBeforeMonthDate,
     monthDate,
+    fourBeforeMonthCount,
+    threeBeforeMonthCount,
     twoBeforeMonthCount,
     oneBeforeMonthCount,
     monthCount,
   } = useNewUserStore();
 
   const dateArr = useMemo(
-    () => [twoBeforeMonthDate, oneBeforeMonthDate, monthDate],
-    [twoBeforeMonthDate, oneBeforeMonthDate, monthDate],
+    () => [
+      fourBeforeMonthDate,
+      threeBeforeMonthDate,
+      twoBeforeMonthDate,
+      oneBeforeMonthDate,
+      monthDate,
+    ],
+    [
+      fourBeforeMonthDate,
+      threeBeforeMonthDate,
+      twoBeforeMonthDate,
+      oneBeforeMonthDate,
+      monthDate,
+    ],
   );
   const countArr = useMemo(
-    () => [twoBeforeMonthCount, oneBeforeMonthCount, monthCount],
-    [twoBeforeMonthCount, oneBeforeMonthCount, monthCount],
+    () => [
+      fourBeforeMonthCount,
+      threeBeforeMonthCount,
+      twoBeforeMonthCount,
+      oneBeforeMonthCount,
+      monthCount,
+    ],
+    [
+      fourBeforeMonthCount,
+      threeBeforeMonthCount,
+      twoBeforeMonthCount,
+      oneBeforeMonthCount,
+      monthCount,
+    ],
   );
 
   // count 값 최대값 계산
   const maxCount = Math.max(...countArr);
-
+  console.log('최대값', maxCount);
   // count값이 5보다 적을때, 클때 계산
   const yAxisConfig = useMemo(() => {
     if (maxCount <= 5) {
@@ -38,8 +66,12 @@ function LineChart() {
         interval: 1,
       };
     }
+    const roundedMax = Math.ceil(maxCount / 5) * 5; // maxCount를 5의 배수로 올림
     return {
       type: 'value',
+      min: 0,
+      max: roundedMax,
+      interval: Math.ceil(roundedMax / 5),
     };
   }, [maxCount]);
 

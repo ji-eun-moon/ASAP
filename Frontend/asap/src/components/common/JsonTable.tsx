@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@material-tailwind/react';
+import { ReactComponent as Edit } from 'assets/icons/Edit.svg';
 import Modal from './Modal';
 import 'styles/common/Input.scss';
 
@@ -31,6 +32,17 @@ function JsonTable({
 }: JsonTableProps) {
   const [data, setData] = useState<Pair[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const closeAlert = () => {
+    setIsAlertOpen(false);
+  };
 
   // 현재 편집 중인 Pair 항목의 idx
   const [editingIdx, setEditingIdx] = useState<number>();
@@ -71,6 +83,21 @@ function JsonTable({
 
   // 수정 사항 스토어에 저장
   const handleSaveChanges = () => {
+    if (!editData?.key) {
+      setAlertMessage('key는 필수 입력 값입니다.');
+      setIsAlertOpen(true);
+      return;
+    }
+    if (!editData?.name) {
+      setAlertMessage('name은 필수 입력 값입니다.');
+      setIsAlertOpen(true);
+      return;
+    }
+    if (!editData?.type) {
+      setAlertMessage('type은 필수 입력 값입니다.');
+      setIsAlertOpen(true);
+      return;
+    }
     if (editingIdx !== undefined && editData && updatePair) {
       updatePair(editingIdx, editData);
       setIsModalOpen(false);
@@ -82,10 +109,6 @@ function JsonTable({
     if (editingIdx && deletePair) {
       deletePair(editingIdx);
     }
-    setIsModalOpen(false);
-  };
-
-  const closeModal = () => {
     setIsModalOpen(false);
   };
 
@@ -110,9 +133,6 @@ function JsonTable({
 
   const columnGrid = (column: string) => {
     if (column === 'description') {
-      if (isEditMode) {
-        return 'col-span-4';
-      }
       return 'col-span-5';
     }
     if (column === 'required') {
@@ -126,20 +146,22 @@ function JsonTable({
       {data.map((item) => (
         <div key={item.idx} className="grid grid-cols-12 items-center mt-3">
           {columns.map((column) => (
-            <p
+            <div
               key={column}
-              className={`${columnGrid(column)} border-5 ${
+              className={`${columnGrid(column)} border-5 flex justify-between ${
                 column === 'required' ? 'text-center' : 'ps-2'
               }`}
             >
               {item[column]}
-            </p>
-          ))}
-          {isEditMode && (
-            <div className="flex justify-center items-center">
-              <Button onClick={() => handleEditClick(item.idx)}>수정</Button>
+
+              {isEditMode && column === 'description' && (
+                <Edit
+                  onClick={() => handleEditClick(item.idx)}
+                  className="w-5 h-auto self-center mr-2 cursor-pointer"
+                />
+              )}
             </div>
-          )}
+          ))}
         </div>
       ))}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -191,15 +213,20 @@ function JsonTable({
             />
           </div>
           <div className="flex justify-center gap-2 mt-5">
-            <Button onClick={handleSaveChanges} className="bg-blue">
-              수정
-            </Button>
+            <Button onClick={handleSaveChanges}>수정</Button>
             <Button onClick={handleDelete} className="bg-red-600">
               삭제
             </Button>
           </div>
         </div>
       </Modal>
+      {/* 알림 모달 */}
+      <Modal
+        isOpen={isAlertOpen}
+        onClose={closeAlert}
+        confirm
+        message={alertMessage}
+      />
     </div>
   );
 }

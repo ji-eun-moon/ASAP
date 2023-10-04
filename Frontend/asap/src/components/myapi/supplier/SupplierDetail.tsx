@@ -54,7 +54,7 @@ function SupplierDetail() {
       <div className="col-span-7">
         <div className="font-bold text-3xl mb-12">
           <span className="ms-12">&apos;{apiTitle}&apos;</span>{' '}
-          <span>조회</span>
+          <span>통계</span>
         </div>
         <div className="flex flex-col items-center justify-around">
           <div className="w-full flex justify-evenly">

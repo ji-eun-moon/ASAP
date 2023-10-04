@@ -52,7 +52,7 @@ function UserMonthly() {
       monthlyPieChartValue.push(totalOtherValue);
     }
   } else {
-    monthlyPieChartContent = ['제공 내역이 없습니다'];
+    monthlyPieChartContent = ['사용 내역이 없습니다'];
     monthlyPieChartValue = [0];
   }
 
@@ -96,8 +96,8 @@ function UserMonthly() {
               <div className="flex col-span-1">
                 <PieChart
                   title={
-                    monthlyPieChartContent[0] === '제공 내역이 없습니다'
-                      ? `${month}월 API 제공 내역이 없습니다`
+                    monthlyPieChartContent[0] === '사용 내역이 없습니다'
+                      ? `${month}월 API 사용 내역이 없습니다`
                       : `${month}월 API 지출 비율`
                   }
                   content={monthlyPieChartContent}

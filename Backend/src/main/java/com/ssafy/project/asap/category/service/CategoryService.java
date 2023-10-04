@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +53,7 @@ public class CategoryService {
                         .builder()
                         .category(category.getCategory())
                         .count((long) category.getApiList().size())
-                        .build()).sorted(Comparator.comparing(CategoryListResponse::getCount)).collect(Collectors.toList());
+                        .build()).sorted((o1, o2) -> o2.getCount().compareTo(o1.getCount())).collect(Collectors.toList());
 
         CategoryListResponse categoryListResponse = null;
         for (CategoryListResponse c : categoryListResponseList) {

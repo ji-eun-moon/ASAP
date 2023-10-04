@@ -56,16 +56,25 @@ const useMonthlyProvide = () => {
             return { month: key, data: response.data[key] };
           });
         setMonthlyProvide(monthlyData);
+
+        // 날짜 기준으로 monthlyData 정렬
+        monthlyData.sort((a, b) => {
+          return new Date(b.month).getTime() - new Date(a.month).getTime();
+        });
+
         // monthlyData를 기반으로 스토어 상태 업데이트
         if (monthlyData[0]) {
+          console.log(monthlyData[0]);
           setMonthDate(monthlyData[0].month);
           setMonthUsage(monthlyData[0].data);
         }
         if (monthlyData[1]) {
+          console.log(monthlyData[1], '한달전');
           setOneBeforeMonthDate(monthlyData[1].month);
           setOneBeforeMonthUsage(monthlyData[1].data);
         }
         if (monthlyData[2]) {
+          console.log(monthlyData[2], '두달전');
           setTwoBeforeMonthDate(monthlyData[2].month);
           setTwoBeforeMonthUsage(monthlyData[2].data);
         }

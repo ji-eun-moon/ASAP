@@ -1,17 +1,28 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import 'styles/common/SearchBar.scss';
 import { ReactComponent as Search } from 'assets/icons/Search2.svg';
 
 function SearchBar() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const searchKeyword = queryParams.get('search') || '';
   const [input, setInput] = useState<string>('');
+
   const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
   };
+
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(input);
-    // 검색 axios
+    navigate(`/api_list?search=${input}`);
   };
+
+  useEffect(() => {
+    setInput(searchKeyword);
+  }, [searchKeyword]);
 
   return (
     <div className="search-container">

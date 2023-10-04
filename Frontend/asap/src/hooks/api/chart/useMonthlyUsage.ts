@@ -56,6 +56,12 @@ const useMonthlyUsage = () => {
             return { month: key, data: response.data[key] };
           });
         setMonthlyUsage(monthlyData);
+
+        // 날짜 기준으로 monthlyData 정렬
+        monthlyData.sort((a, b) => {
+          return new Date(b.month).getTime() - new Date(a.month).getTime();
+        });
+
         // monthlyData를 기반으로 스토어 상태 업데이트
         if (monthlyData[0]) {
           setMonthDate(monthlyData[0].month);

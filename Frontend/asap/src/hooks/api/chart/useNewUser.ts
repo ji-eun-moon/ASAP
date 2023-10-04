@@ -32,31 +32,24 @@ const useNewUser = () => {
       if (response.data[0]) {
         setFourBeforeMonthDate(response.data[0].date);
         setFourBeforeMonthCount(response.data[0].count);
-        console.log('네달전', response.data[0]);
       }
       if (response.data[1]) {
         setThreeBeforeMonthDate(response.data[1].date);
         setThreeBeforeMonthCount(response.data[1].count);
-        console.log('세달전', response.data[1]);
       }
       if (response.data[2]) {
         setTwoBeforeMonthDate(response.data[2].date);
         setTwoBeforeMonthCount(response.data[2].count);
-        console.log('두달전', response.data[2]);
       }
       if (response.data[3]) {
         setOneBeforeMonthDate(response.data[3].date);
         setOneBeforeMonthCount(response.data[3].count);
-        console.log('한달전', response.data[3]);
       }
       if (response.data[4]) {
         setMonthDate(response.data[4].date);
         setMonthCount(response.data[4].count);
-        console.log('지금달', response.data[4]);
       }
       setNewUserLoading(false);
-
-      console.log('신규 사용자 조회 성공', response.data);
     } catch (error) {
       console.log('신규 사용자 조회 실패', error);
     }

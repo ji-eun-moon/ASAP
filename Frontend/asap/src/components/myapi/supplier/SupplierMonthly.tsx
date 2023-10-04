@@ -69,34 +69,33 @@ function SupplierMonthly() {
 
   return (
     <div className="container mx-auto mt-20" style={{ width: '83%' }}>
-      {monthlyLoading ? (
-        <div className="flex justify-center">
-          <Spinner size="12" />
-        </div>
-      ) : (
-        <div>
-          <div className="font-bold text-3xl">API 제공 통계</div>
-          {/* 날짜 선택 */}
-          <SelectDate />
-          <Card className="p-5">
-            {/* 사용량, 사용 요금 */}
-            <div className="grid grid-cols-2 gap-4 text-black">
-              <div className="col-span-1 flex justify-center border border-blue-600 text-lg p-2 rounded-lg gap-3">
-                <p>당월 제공량</p>
-                <p>
-                  <span className="text-blue-700">{formattedTotalAmount}</span>{' '}
-                  건
-                </p>
-              </div>
-              <div className="col-span-1 flex justify-center border border-blue-600 text-lg p-2 rounded-lg gap-3">
-                <p>당월 제공 요금</p>
-                <p>
-                  <span className="text-blue-700">{formattedTotalPrice}</span>{' '}
-                  원
-                </p>
-              </div>
+      <div>
+        <div className="font-bold text-3xl">API 제공 통계</div>
+        {/* 날짜 선택 */}
+        <SelectDate />
+        <Card className="p-5">
+          {/* 사용량, 사용 요금 */}
+          <div className="grid grid-cols-2 gap-4 text-black">
+            <div className="col-span-1 flex justify-center border border-blue-600 text-lg p-2 rounded-lg gap-3">
+              <p>당월 제공량</p>
+              <p>
+                <span className="text-blue-700">{formattedTotalAmount}</span> 건
+              </p>
             </div>
-            {/* 차트 컨테이너 */}
+            <div className="col-span-1 flex justify-center border border-blue-600 text-lg p-2 rounded-lg gap-3">
+              <p>당월 제공 요금</p>
+              <p>
+                <span className="text-blue-700">{formattedTotalPrice}</span> 원
+              </p>
+            </div>
+          </div>
+
+          {/* 차트 컨테이너 */}
+          {monthlyLoading ? (
+            <div className="flex justify-center items-center h-72">
+              <Spinner size="12" />
+            </div>
+          ) : (
             <div className="mt-8 grid grid-cols-2">
               {/* 좌상단 파이차트 */}
               <div className="flex col-span-1">
@@ -119,18 +118,18 @@ function SupplierMonthly() {
                 />
               </div>
             </div>
-          </Card>
-          <div className="mt-4 flex justify-end">
-            <Button
-              onClick={() =>
-                navigate(`/myapi/detail?year=${year}&month=${month}`)
-              }
-            >
-              상세 보기
-            </Button>
-          </div>
+          )}
+        </Card>
+        <div className="mt-4 flex justify-end">
+          <Button
+            onClick={() =>
+              navigate(`/myapi/detail?year=${year}&month=${month}`)
+            }
+          >
+            상세 보기
+          </Button>
         </div>
-      )}
+      </div>
     </div>
   );
 }

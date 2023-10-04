@@ -2,10 +2,12 @@ import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'styles/common/SearchBar.scss';
 import { ReactComponent as Search } from 'assets/icons/Search2.svg';
+import useSearchStore from 'store/search/useSearchStore';
 
 function SearchBar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { setSearchDropdown } = useSearchStore();
   const queryParams = new URLSearchParams(location.search);
   const searchKeyword = queryParams.get('search') || '';
   const [input, setInput] = useState<string>('');
@@ -17,6 +19,7 @@ function SearchBar() {
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(input);
+    setSearchDropdown(false);
     navigate(`/api_list?search=${input}`);
   };
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import routes from 'router/routes';
+import routes from 'router/data/routes';
 
-import NavBar from 'components/common/NavBar';
+import NavBar from 'components/nav/NavBar';
 
 function App() {
   return (
-    <div>
+    <div className="font-container">
       <BrowserRouter>
         <NavBar />
         <Routes>

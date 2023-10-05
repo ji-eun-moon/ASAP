@@ -34,6 +34,14 @@
         "tsx": "never",
         "json": "never"
       }
+    ],
+    "no-console": "off",
+    "no-alert": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "labelAttributes": ["htmlFor"]
+      }
     ]
   },
   "settings": {

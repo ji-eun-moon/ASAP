@@ -146,13 +146,13 @@ public class AsapController {
         if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
             log.info("어딘가에 기록");
         } else {
-            purposeService.checkApplyByApiIdAndMemberId(34L, member.getMemberId());
+            purposeService.checkApplyByApiIdAndMemberId(35L, member.getMemberId());
         }
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io/block")
 //                .fromUriString("http://localhost:9001")
-                .path("/api/v1/asap/image/search/" + member.getWalletId() + "/34")
+                .path("/api/v1/asap/image/search/" + member.getWalletId() + "/35")
                 .queryParams(param)
                 .encode()
                 .build()
@@ -177,6 +177,30 @@ public class AsapController {
                 .fromUriString("https://j9c202.p.ssafy.io/block")
 //                .fromUriString("http://localhost:9001")
                 .path("/api/v1/asap/book/search/" + member.getWalletId() + "/33")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param, httpServletRequest);
+    }
+
+    @GetMapping("/mobility/directions")
+    public ResponseEntity<?> kakaoMobilityDirections(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(34L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+//                .fromUriString("http://localhost:9001")
+                .path("/api/v1/asap/mobility/directions/" + member.getWalletId() + "/34")
                 .queryParams(param)
                 .encode()
                 .build()

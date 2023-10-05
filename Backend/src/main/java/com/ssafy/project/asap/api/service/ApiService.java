@@ -16,6 +16,7 @@ import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -41,7 +42,7 @@ public class ApiService {
 
         List<FindApisResponse> list = new ArrayList<>();
 
-        for(Api api : apiRepository.findAll()){
+        for(Api api : apiRepository.findAll(Sort.by(Sort.Direction.DESC, "modifyDate"))){
             list.add(FindApisResponse.builder()
                     .apiId(api.getApiId())
                     .title(api.getTitle())

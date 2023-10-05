@@ -6,6 +6,8 @@ import Spinner from 'components/common/Spinner';
 import { Card, Button } from '@material-tailwind/react';
 import PieChart from 'components/chart/PieChart';
 import BarChart from 'components/chart/BarChart';
+import useBatchTime from 'hooks/api/chart/useBatchTime';
+import TooltipHelper from 'components/common/TooltipHelper';
 import SelectDate from '../common/SelectDate';
 
 /**
@@ -15,6 +17,8 @@ import SelectDate from '../common/SelectDate';
 function SupplierMonthly() {
   const navigate = useNavigate();
   const { monthlyLoading } = useMonthlyProvide();
+  const { batchTime, batchTimeLoading } = useBatchTime();
+  console.log(batchTimeLoading);
   const {
     totalAmount,
     totalPrice,
@@ -67,7 +71,12 @@ function SupplierMonthly() {
   return (
     <div className="container mx-auto mt-20" style={{ width: '83%' }}>
       <div>
-        <div className="font-bold text-3xl">API 제공 통계</div>
+        <div className="flex">
+          <div className="font-bold text-3xl flex">
+            <div className="mr-1">API 제공 통계</div>
+            <TooltipHelper message="통계 데이터는 5분 마다 갱신됩니다." />
+          </div>
+        </div>
         {/* 날짜 선택 */}
         <SelectDate />
         <Card className="p-5">
@@ -117,7 +126,14 @@ function SupplierMonthly() {
             </div>
           )}
         </Card>
-        <div className="mt-4 flex justify-end">
+        <div className="mt-4 flex justify-between">
+          <div>
+            {batchTimeLoading ? (
+              <Spinner size="8" />
+            ) : (
+              <div>조회 기준 시간 : {batchTime}</div>
+            )}
+          </div>
           <Button
             onClick={() =>
               navigate(`/myapi/detail?year=${year}&month=${month}`)

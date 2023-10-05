@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import * as echarts from 'echarts';
 import useCategoryStore from 'store/chart/useCategoryStore';
 import useCategoryAvg from 'hooks/api/chart/useCategoryAvg';
+import Spinner from 'components/common/Spinner';
 
 function CurvedLineChart() {
   const chartRef = useRef(null);
-  const categoryAvgData = useCategoryAvg();
-
+  const { categoryAvgLoading } = useCategoryAvg();
+  console.log(categoryAvgLoading);
   const {
     monthDate,
     oneBeforeMonthDate,
@@ -125,7 +126,11 @@ function CurvedLineChart() {
     const chart = echarts.init(chartRef.current);
     chart.setOption(options);
     return () => chart.dispose();
-  }, [categoryAvgData, options]);
+  }, [categoryAvgLoading, options]);
+
+  if (categoryAvgLoading) {
+    return <Spinner size="12" />;
+  }
 
   return (
     <div

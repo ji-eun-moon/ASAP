@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import useAuthStore from 'store/auth/useAuthStore';
 import * as echarts from 'echarts';
 
@@ -16,47 +16,10 @@ function LineGradient({ data }: Props) {
   const chartRef = useRef<HTMLDivElement | null>(null);
   const { loginType } = useAuthStore((state) => state);
 
-  const getTitle = useCallback(() => {
-    if (loginType === 'supplier') {
-      return [
-        {
-          left: 'center',
-          text: '최근 30일 제공량',
-          textStyle: {
-            fontWeight: 'bold',
-            fontSize: 18,
-          },
-        },
-        {
-          top: '50%',
-          left: 'center',
-          text: '최근 30일 수익',
-          textStyle: {
-            fontWeight: 'bold',
-            fontSize: 18,
-          },
-        },
-      ];
-    }
-    return [
-      {
-        left: 'center',
-        text: '최근 30일 요청량',
-        textStyle: {
-          fontWeight: 'bold',
-          fontSize: 18,
-        },
-      },
-      {
-        top: '50%',
-        left: 'center',
-        text: '최근 30일 사용 요금',
-        textStyle: {
-          fontWeight: 'bold',
-          fontSize: 18,
-        },
-      },
-    ];
+  const seriesName = useMemo(() => {
+    return loginType === 'supplier'
+      ? ['제공량 (건)', '수익 (원)']
+      : ['요청량 (건)', '사용 요금 (원)'];
   }, [loginType]);
 
   useEffect(() => {
@@ -68,6 +31,9 @@ function LineGradient({ data }: Props) {
       : [];
     const priceList = Array.isArray(data) ? data.map((item) => item.price) : [];
 
+    const maxAmount = Math.max(...amountList);
+    const maxPrice = Math.max(...priceList);
+
     const options = {
       visualMap: [
         {
@@ -75,18 +41,16 @@ function LineGradient({ data }: Props) {
           type: 'continuous',
           seriesIndex: 0,
           min: 0,
-          max: 400,
+          max: dateList.length - 1,
         },
         {
           show: false,
           type: 'continuous',
           seriesIndex: 1,
-          dimension: 0,
           min: 0,
           max: dateList.length - 1,
         },
       ],
-      title: getTitle(),
       tooltip: {
         trigger: 'axis',
       },
@@ -94,37 +58,43 @@ function LineGradient({ data }: Props) {
         {
           data: dateList,
         },
-        {
-          data: dateList,
-          gridIndex: 1,
-        },
       ],
       yAxis: [
-        {},
         {
-          gridIndex: 1,
-        },
-      ],
-      grid: [
-        {
-          bottom: '60%',
+          type: 'value',
+          name: seriesName[0],
+          max: maxAmount,
+          min: 0,
+          interval: Math.round(maxAmount / 7),
         },
         {
-          top: '60%',
+          type: 'value',
+          name: seriesName[1],
+          max: maxPrice,
+          min: 0,
+          interval: Math.round(maxPrice / 7),
         },
       ],
       series: [
         {
+          name: seriesName[0],
           type: 'line',
           showSymbol: false,
           data: amountList,
+          yAxisIndex: 0,
+          lineStyle: {
+            color: '#1E3A8A',
+          },
         },
         {
+          name: seriesName[1],
           type: 'line',
           showSymbol: false,
           data: priceList,
-          xAxisIndex: 1,
           yAxisIndex: 1,
+          lineStyle: {
+            color: '#1E3A8A',
+          },
         },
       ],
     };
@@ -133,9 +103,9 @@ function LineGradient({ data }: Props) {
     chart.setOption(options);
 
     return () => chart.dispose();
-  }, [data, getTitle]);
+  }, [data, seriesName]);
 
-  return <div ref={chartRef} style={{ width: '100%', height: '700px' }} />;
+  return <div ref={chartRef} style={{ width: '100%', height: '400px' }} />;
 }
 
 LineGradient.defaultProps = {

@@ -14,6 +14,7 @@ interface IDetailStore {
   setDailyUsageStore: (dailyUsageStore: IDailyUsage[]) => void; // eslint-disable-line no-unused-vars
   setApiId: (apiId: number) => void; // eslint-disable-line no-unused-vars
   setApiTitle: (apiTitle: string) => void; // eslint-disable-line no-unused-vars
+  resetApiDetails: () => void; // eslint-disable-line no-unused-vars
 }
 
 const useDetailStore = create<IDetailStore>((set) => ({
@@ -24,6 +25,12 @@ const useDetailStore = create<IDetailStore>((set) => ({
   setApiTitle: (apiTitle: string) => set({ apiTitle }),
   setDailyUsageStore: (dailyUsageStore: IDailyUsage[]) =>
     set({ dailyUsageStore }),
+  resetApiDetails: () => {
+    set({
+      apiId: undefined,
+      apiTitle: '',
+    });
+  },
 }));
 
 export default useDetailStore;

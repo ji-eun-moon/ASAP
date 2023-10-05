@@ -36,6 +36,12 @@ interface IMonthlyStore {
   totalAmount: number;
   totalPrice: number;
 
+  // 차트에 필요한 데이터
+  monthlyPieChartContent: string[];
+  monthlyPieChartValue: number[];
+  barChartContent: string[];
+  barChartValue: number[];
+
   setTwoBeforeMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
   setOneBeforeMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
   setMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
@@ -72,6 +78,10 @@ const useMonthlyStore = create<IMonthlyStore>((set) => ({
   oneBeforeTotalPrice: 0,
   totalAmount: 0,
   totalPrice: 0,
+  monthlyPieChartContent: [],
+  monthlyPieChartValue: [],
+  barChartContent: [],
+  barChartValue: [],
   setTwoBeforeMonthDate: (monthDate: string) =>
     set({ twoBeforeMonthDate: monthDate }),
   setOneBeforeMonthDate: (monthDate: string) =>

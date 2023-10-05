@@ -37,10 +37,6 @@ const useMonthlyUsage = () => {
     setTwoBeforeMonthUsage,
   } = useMonthlyStore();
   const [monthlyLoading, setMonthlyLoading] = useState<boolean>(true);
-  const [monthlyUsage, setMonthlyUsage] = useState<Array<{
-    month: string;
-    data: IMonthlyUsage[];
-  }> | null>();
 
   const getMonthlyUsage = useCallback(
     async (paramsObject: monthly) => {
@@ -55,7 +51,6 @@ const useMonthlyUsage = () => {
           Object.keys(response.data).map((key) => {
             return { month: key, data: response.data[key] };
           });
-        setMonthlyUsage(monthlyData);
 
         // 날짜 기준으로 monthlyData 정렬
         monthlyData.sort((a, b) => {
@@ -75,10 +70,12 @@ const useMonthlyUsage = () => {
           setTwoBeforeMonthDate(monthlyData[2].month);
           setTwoBeforeMonthUsage(monthlyData[2].data);
         }
+
         setMonthlyLoading(false);
         // console.log('사용자 월별 사용량 조회 성공', response.data);
       } catch (error) {
         console.log('사용자 월별 사용량 조회 실패', error);
+        setMonthlyLoading(false);
       }
     },
     [
@@ -100,7 +97,6 @@ const useMonthlyUsage = () => {
 
   return {
     monthlyLoading,
-    monthlyUsage,
   };
 };
 

@@ -72,12 +72,16 @@ function PieChart({ title, content, value }: PieChartProps) {
     const myChart = echarts.init(chartRef.current);
     myChart.setOption(option);
 
-    // 차트 컴포넌트 크기를 동적으로 조정
-    window.addEventListener('resize', () => {
+    const resizeHandler = () => {
       myChart.resize();
-    });
+    };
 
-    return () => myChart.dispose();
+    window.addEventListener('resize', resizeHandler);
+
+    return () => {
+      myChart.dispose();
+      window.removeEventListener('resize', resizeHandler);
+    };
   }, [title, content, value]);
 
   return (
@@ -91,4 +95,4 @@ function PieChart({ title, content, value }: PieChartProps) {
   );
 }
 
-export default PieChart;
+export default React.memo(PieChart);

@@ -39,8 +39,6 @@ interface IMonthlyStore {
   // 차트에 필요한 데이터
   monthlyPieChartContent: string[];
   monthlyPieChartValue: number[];
-  barChartContent: string[];
-  barChartValue: number[];
 
   setTwoBeforeMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
   setOneBeforeMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
@@ -50,6 +48,8 @@ interface IMonthlyStore {
   setMonthUsage: (monthUsage: IMonthlyUsage[]) => void; // eslint-disable-line no-unused-vars
   setYear: (year: string) => void; // eslint-disable-line no-unused-vars
   setMonth: (month: string) => void; // eslint-disable-line no-unused-vars
+  setMonthlyPieChartContent: (monthUsage: IMonthlyUsage[]) => void; // eslint-disable-line no-unused-vars
+  setMonthlyPieChartValue: (monthUsage: IMonthlyUsage[]) => void; // eslint-disable-line no-unused-vars
 }
 
 /**
@@ -80,8 +80,6 @@ const useMonthlyStore = create<IMonthlyStore>((set) => ({
   totalPrice: 0,
   monthlyPieChartContent: [],
   monthlyPieChartValue: [],
-  barChartContent: [],
-  barChartValue: [],
   setTwoBeforeMonthDate: (monthDate: string) =>
     set({ twoBeforeMonthDate: monthDate }),
   setOneBeforeMonthDate: (monthDate: string) =>
@@ -112,6 +110,39 @@ const useMonthlyStore = create<IMonthlyStore>((set) => ({
   },
   setYear: (year) => set({ year }),
   setMonth: (month) => set({ month }),
+  setMonthlyPieChartContent: (monthUsage: IMonthlyUsage[]) => {
+    let content: string[] = [];
+    // 처음 5개 항목만 가져옵니다.
+    const topItems = monthUsage.slice(0, 5);
+    content = topItems.map((item) => item.apiResponse.title);
+    // 6번째 항목부터는 '기타'로 표기합니다.
+    if (monthUsage.length > 5) {
+      content.push('기타');
+    }
+    if (!monthUsage.length) {
+      content.push('내역이 없습니다.');
+    }
+    set({ monthlyPieChartContent: content });
+  },
+  setMonthlyPieChartValue: (monthUsage: IMonthlyUsage[]) => {
+    let value: number[] = [];
+    // 처음 5개 항목만 가져옵니다.
+    const topItems = monthUsage.slice(0, 5);
+    value = topItems.map((item) => item.price);
+    // 6번째 항목부터는 '기타' 항목
+    if (monthUsage.length > 5) {
+      const otherItems = monthUsage.slice(5);
+      const totalOtherValue = otherItems.reduce(
+        (accum, item) => accum + item.price,
+        0,
+      );
+      value.push(totalOtherValue);
+    }
+    if (!monthUsage.length) {
+      value.push(0);
+    }
+    set({ monthlyPieChartValue: value });
+  },
 }));
 
 export default useMonthlyStore;

@@ -41,7 +41,6 @@ const useApiTest = () => {
           },
         });
       }
-      console.log(response.data);
       setTestResponse(JSON.stringify(response.data));
       if (typeof response.data === 'string') {
         setStatus(extractStatus(response.data));
@@ -53,6 +52,10 @@ const useApiTest = () => {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError: AxiosError = error;
+        // axiosError의 config.params에서 'test'를 제거
+        if (axiosError.config && axiosError.config.params) {
+          delete axiosError.config.params.test;
+        }
         setTestResponse(JSON.stringify(axiosError));
         setStatus(axiosError.response?.status || 500);
         setLoading(false);

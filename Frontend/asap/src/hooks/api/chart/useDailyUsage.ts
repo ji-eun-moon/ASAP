@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import useDetailStore from 'store/chart/useDetailStore';
 
 interface IapiId {
-  apiId: number;
+  apiId: number | undefined;
 }
 
 interface IDailyUsage {

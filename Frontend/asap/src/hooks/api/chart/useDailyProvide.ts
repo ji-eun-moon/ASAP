@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import useDetailStore from 'store/chart/useDetailStore';
 
 interface IapiId {
-  apiId: number;
+  apiId: number | undefined;
 }
 
 interface IDailyUsage {
@@ -37,7 +37,7 @@ const useDailyProvide = () => {
 
         // console.log('사용자 일별 제공량 조회 성공', response.data);
       } catch (error) {
-        console.log('사용자 일별 사용량 조회 실패', error);
+        console.log('제공자 일별 사용량 조회 실패', error);
       }
     },
     [setDailyUsageStore],

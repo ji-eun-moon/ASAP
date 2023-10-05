@@ -7,7 +7,7 @@ import useDetailStore from 'store/chart/useDetailStore';
 import useCategoryStore from 'store/chart/useCategoryStore';
 
 interface categoryAvgInfo {
-  apiId: number;
+  apiId: number | undefined;
   year: string;
   month: string;
 }

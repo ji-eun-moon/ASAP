@@ -55,7 +55,7 @@ function LineChart() {
 
   // count 값 최대값 계산
   const maxCount = Math.max(...countArr);
-  console.log('최대값', maxCount);
+
   // count값이 5보다 적을때, 클때 계산
   const yAxisConfig = useMemo(() => {
     if (maxCount <= 5) {
@@ -101,10 +101,10 @@ function LineChart() {
   );
 
   useEffect(() => {
-    if (chartRef.current) {
-      const chart = echarts.init(chartRef.current);
-      chart.setOption(options);
-    }
+    if (!chartRef.current) return undefined;
+    const chart = echarts.init(chartRef.current);
+    chart.setOption(options);
+    return () => chart.dispose();
   }, [newUserData, options]);
 
   return (

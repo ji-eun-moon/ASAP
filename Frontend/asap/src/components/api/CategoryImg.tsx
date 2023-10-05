@@ -5,6 +5,7 @@ import { ReactComponent as Bank } from 'assets/images/category/Bank.svg';
 import { ReactComponent as Map } from 'assets/images/category/Map.svg';
 import { ReactComponent as Card } from 'assets/images/category/Card.svg';
 import { ReactComponent as Etc } from 'assets/images/category/Etc.svg';
+import book from 'assets/images/category/Book.png';
 
 interface Props {
   category: string | undefined;
@@ -25,6 +26,9 @@ function CategoryImg({ category }: Props) {
   }
   if (category === '카드') {
     return <Card className="w-56 h-auto" />;
+  }
+  if (category === '도서') {
+    return <img src={book} alt="book" className="w-56 h-auto" />;
   }
   return <Etc className="w-56 h-auto" />;
 }

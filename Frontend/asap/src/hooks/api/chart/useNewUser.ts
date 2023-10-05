@@ -66,9 +66,11 @@ const useNewUser = () => {
     setMonthCount,
     apiId,
   ]);
+
   useEffect(() => {
     newUser();
-  }, [newUser]);
+  }, [newUser, apiId]);
+
   return { newUserLoading, newUser };
 };
 

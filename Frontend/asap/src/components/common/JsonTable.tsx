@@ -152,14 +152,29 @@ function JsonTable({
                 column === 'required' ? 'text-center' : 'ps-2'
               }`}
             >
-              {item[column]}
-
+              {column !== 'description' && item[column]}
+              {column === 'description' && (
+                <div className="grid grid-cols-4 w-full">
+                  <div className="col-span-3 text-left pr-1">
+                    {item.description || ''}
+                  </div>
+                  {isEditMode && (
+                    <div className="col-span-1 flex justify-end pr-2">
+                      <Edit
+                        onClick={() => handleEditClick(item.idx)}
+                        className="w-5 h-auto cursor-pointer"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}{' '}
+              {/* {item[column]}
               {isEditMode && column === 'description' && (
                 <Edit
                   onClick={() => handleEditClick(item.idx)}
                   className="w-5 h-auto self-center mr-2 cursor-pointer"
                 />
-              )}
+              )} */}
             </div>
           ))}
         </div>

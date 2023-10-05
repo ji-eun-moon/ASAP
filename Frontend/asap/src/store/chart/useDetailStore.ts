@@ -8,7 +8,7 @@ interface IDailyUsage {
 
 interface IDetailStore {
   // axios 요청할 apiId
-  apiId: number;
+  apiId: number | undefined;
   apiTitle: string;
   dailyUsageStore: IDailyUsage[] | null;
   setDailyUsageStore: (dailyUsageStore: IDailyUsage[]) => void; // eslint-disable-line no-unused-vars
@@ -17,7 +17,7 @@ interface IDetailStore {
 }
 
 const useDetailStore = create<IDetailStore>((set) => ({
-  apiId: 23,
+  apiId: undefined,
   apiTitle: '',
   dailyUsageStore: null,
   setApiId: (apiId: number) => set({ apiId }),

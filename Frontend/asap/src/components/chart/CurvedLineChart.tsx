@@ -121,10 +121,10 @@ function CurvedLineChart() {
   );
 
   useEffect(() => {
-    if (chartRef.current) {
-      const chart = echarts.init(chartRef.current);
-      chart.setOption(options);
-    }
+    if (!chartRef.current) return undefined;
+    const chart = echarts.init(chartRef.current);
+    chart.setOption(options);
+    return () => chart.dispose();
   }, [categoryAvgData, options]);
 
   return (

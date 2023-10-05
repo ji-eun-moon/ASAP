@@ -23,6 +23,7 @@ function CheckUsage() {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [apiTitle, setApiTitle] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [testOpen, setTestOpen] = useState<boolean>(false);
 
   const [displayedChars, setDisplayedChars] = useState<number>(1482);
   const [loading, setLoading] = useState<boolean>(false);
@@ -53,6 +54,12 @@ function CheckUsage() {
     const day = String(date.getDate()).padStart(2, '0');
 
     return `${year}-${month}-${day}`;
+  };
+
+  // HowToUse
+  const onCloseHandler = () => {
+    setTestOpen(false);
+    setIsOpen(false);
   };
 
   // 복사하기
@@ -161,7 +168,12 @@ function CheckUsage() {
           <div>사용법 확인하기</div>
         </button>
         <div className="flex justify-center">
-          <HowToUse isOpen={isOpen} setIsOpen={setIsOpen} />
+          <HowToUse
+            isOpen={isOpen}
+            testOpen={testOpen}
+            setTestOpen={setTestOpen}
+            onCloseHandler={onCloseHandler}
+          />
         </div>
         <div className="flex items-center my-8">
           <div className="text-xl font-bold pr-7 w-3/12">

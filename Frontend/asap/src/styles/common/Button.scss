@@ -12,3 +12,19 @@ button {
     font-weight: 600;
   }
 }
+
+.supply-button {
+  padding: 7px 13px;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  line-height: 1.25rem;
+}
+
+.black-back {
+  background-color: #000000;
+
+  &:hover {
+    background-color: #353535;
+  }
+}

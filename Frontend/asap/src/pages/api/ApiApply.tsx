@@ -135,21 +135,22 @@ function ApiApply() {
       {isModalOpen ? (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="flex flex-col justify-center items-center font-bold gap-2.5">
-            <div className="text-center m-1 pt-3">
+            <div className="text-xl text-center m-1 pt-3">
               <p style={{ color: '#004FB9' }}>{apiTitle}</p>
               <p>API 신청이 완료되었습니다</p>
             </div>
-            <div className="text-xs text-gray-500 flex flex-col gap-1">
-              <Link to="/mypage/keys">
+            <div className="text-base flex flex-col gap-1">
+              <Link to="/mypage/keys" className="move-text">
                 • 마이페이지 &gt; 키 관리로 이동하기
               </Link>
-              <Link to="/myapi">• My API로 이동하기</Link>
+              <Link to="/myapi" className="move-text">
+                • My API로 이동하기
+              </Link>
             </div>
             <button
               type="button"
               onClick={onOkHandler}
-              style={{ color: '#ffffff', backgroundColor: '#004AAD' }}
-              className="w-2/6 rounded-md"
+              className="w-2/6 rounded-md check-button"
             >
               확인
             </button>

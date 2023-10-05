@@ -36,7 +36,7 @@ function SearchBar() {
             type="text"
             className="w-11/12 border-none outline-none"
             onChange={handleInput}
-            placeholder="원하시는 상품명 혹은 키워드를 입력하세요."
+            placeholder="원하시는 상품명을 입력하세요."
           />
           <button type="submit">
             <Search className="w-6" />

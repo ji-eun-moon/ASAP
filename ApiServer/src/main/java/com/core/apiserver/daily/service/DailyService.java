@@ -239,8 +239,9 @@ public class DailyService {
         }
 
         for (Daily daily: dailies) {
-            dateMap.get(daily.getDate()).update(daily.getUseAmount(), daily.getUseAmount() * daily.getApi().getPrice());
+            dateMap.get(daily.getDate()).update(daily.getUseAmount(), daily.getApi().getPrice());
         }
+
         List<DailyUsageResponse> list = new ArrayList<>();
         for (LocalDate localDate : dateMap.keySet()) {
             list.add(new DailyUsageResponse(localDate, dateMap.get(localDate).getAmount(), dateMap.get(localDate).getPrice()));

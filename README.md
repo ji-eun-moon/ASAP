@@ -82,31 +82,31 @@
 
 <strong style="font-size:20px">손쉬운 API 사용법 조회 </strong>
 
-<img src="./assets/사용법 조회.gif" width=600px></img>
+<img src="./assets/사용법 조회.gif" width=900px></img>
 
 <br>
 
 <strong style="font-size:20px">사용 신청 전 테스트 제공 </strong>
 
-<img src="./assets/테스트.gif" width=700px></img>
+<img src="./assets/테스트.gif" width=900px></img>
 
 <br>
 
 <strong style="font-size:20px"> 사용·제공량 시각화 자료로 제공 </strong>
 
-<img src="./assets/시각화 자료.gif" width=800></img>
+<img src="./assets/시각화 자료.gif" width=900px></img>
 
 <br>
 
 <strong style="font-size:20px"> 블록체인으로 사용량 검증 서비스 제공</strong>
 
-<img src="./assets/블록체인 검증.gif" width=400></img>
+<img src="./assets/블록체인 검증.gif" width=900px></img>
 
 <br>
 
 <strong style="font-size:20px"> 간편한 API 신청 서비스 제공 </strong>
 
-<img src="./assets/제공 신청 페이지.gif" width=400></img>
+<img src="./assets/제공 신청 페이지.gif" width=900px></img>
 
 <br>
 
@@ -114,4 +114,4 @@
 
 <br>
 
-<img src="./assets/서비스 아키텍처.png" width=400></img>
+<img src="./assets/서비스 아키텍처.png" width=900px></img>

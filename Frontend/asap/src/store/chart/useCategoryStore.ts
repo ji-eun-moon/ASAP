@@ -38,6 +38,8 @@ interface CategoryStore {
 
   setYear: (year: string) => void; // eslint-disable-line no-unused-vars
   setMonth: (month: string) => void; // eslint-disable-line no-unused-vars
+
+  resetApiCategory: () => void; // eslint-disable-line no-unused-vars
 }
 
 const getCurrentYearAndMonth = () => {
@@ -90,6 +92,22 @@ const useCategoryStore = create<CategoryStore>((set) => ({
 
   setYear: (year) => set({ year }),
   setMonth: (month) => set({ month }),
+
+  resetApiCategory: () => {
+    set({
+      fourBeforeMonthDate: '',
+      threeBeforeMonthDate: '',
+      twoBeforeMonthDate: '',
+      oneBeforeMonthDate: '',
+      monthDate: '',
+
+      fourBeforeMonthUsage: null,
+      threeBeforeMonthUsage: null,
+      twoBeforeMonthUsage: null,
+      oneBeforeMonthUsage: null,
+      monthUsage: null,
+    });
+  },
 }));
 
 export default useCategoryStore;

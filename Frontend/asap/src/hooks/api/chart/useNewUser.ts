@@ -52,6 +52,7 @@ const useNewUser = () => {
       setNewUserLoading(false);
     } catch (error) {
       console.log('신규 사용자 조회 실패', error);
+      setNewUserLoading(false);
     }
   }, [
     setFourBeforeMonthDate,

@@ -1,27 +1,29 @@
-# ASAP (API Supply Application Platform)
+# 🖥️ [ASAP (API Supply Application Platform)](https://j9c202.p.ssafy.io/) 🖥️
 
 ### 블록체인을 활용한 API 통합·중개 서비스
 
-<img src="./assets/logo.jpg" width="300px" height="200px" />
+<img src="./assets/logo.jpg" width="300px" height="170px" />
 
 <br>
 
-## 목차
+## 📅 목차
 
-#### 1. [프로젝트 개발 기간](#프로젝트-개발-기간)
+### 1. [프로젝트 개발 기간](#프로젝트-개발-기간)
 
-#### 2. [프로젝트 기획 배경](#프로젝트-기획-배경)
+### 2. [프로젝트 기획 배경](#프로젝트-기획-배경)
 
-#### 3. [프로젝트 소개](#프로젝트-소개)
+### 3. [프로젝트 소개](#프로젝트-소개)
 
-#### 4. [서비스 제공 화면](#서비스-제공-화면)
+### 4. [주요 기능 소개](#주요기능-소개)
 
-#### 5. [서비스 아키텍처](#서비스-아키텍처)
+### 5. [서비스 제공 화면](#서비스-제공-화면)
 
-#### 6. [기술 스택](#기술-스택)
+### 6. [서비스 아키텍처](#서비스-아키텍처)
+
+### 7. [기술 스택](#기술-스택)
 
 <br>
-   m jki80                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                               
 ## 프로젝트 개발 기간
 
 <br>
@@ -111,12 +113,11 @@
 <br>
 <br>
 
-### 간편한 API 신청 서비스 제공 
+### 간편한 API 신청 서비스 제공
 
 <img src="./assets/제공 신청 페이지.gif" width=800px></img>
 
 <br>
-
 
 ## 서비스 아키텍처
 
@@ -126,9 +127,26 @@
 
 <br>
 
+## ERD
+
+<br>
+
+<div align="center"><img src="./assets/ERD.png" width=800px></img></div>
+
+<br>
+
 ## 기술 스택
 
+### Front
 
+<img src="https://img.shields.io/badge/REACT-#61DAFB?style=for-the-badge&logo=React&logoColor=white">
 
+### Back
 
-## 
+### BlockChain
+
+### CI/CD
+
+### 협업 툴
+
+##

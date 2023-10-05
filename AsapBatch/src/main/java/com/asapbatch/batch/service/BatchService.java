@@ -17,12 +17,12 @@ public class BatchService {
     @Value("${server.allow-header}")
     private String allowHeader;
 
-    @Scheduled(fixedRate = 1000 * 60 * 10)
+    @Scheduled(fixedRate = 1000 * 60 * 5)
     public void processRedis() {
         serverGetConnect("/api/v1/batch/redis-process");
     }
 
-    @Scheduled(cron = "0 0 1 * * 0")
+    @Scheduled(cron = "0 0 3 * * 0")
     public void processTransaction() {
         serverGetConnect("/api/v1/batch/transaction-process");
     }

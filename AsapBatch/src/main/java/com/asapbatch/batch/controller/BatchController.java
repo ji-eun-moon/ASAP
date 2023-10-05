@@ -20,6 +20,6 @@ public class BatchController {
     public ResponseEntity<?> getBatchTime() {
 
 
-        return ResponseEntity.ok(batchService.batchTime.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 hh시 mm분 ss초")));
+        return ResponseEntity.ok(batchService.batchTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     }
 }

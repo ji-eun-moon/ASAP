@@ -22,7 +22,7 @@ public class BatchService {
     public LocalDateTime batchTime;
 
 
-    @Scheduled(fixedRate = 1000 * 60 * 5)
+    @Scheduled(fixedRate = 1000 * 60 * 3)
     public void processRedis() {
         serverGetConnect("/api/v1/batch/redis-process");
         batchTime = LocalDateTime.now();

@@ -2,7 +2,7 @@
 
 ### 블록체인을 활용한 API 통합·중개 서비스
 
-![Alt text](assets/logo.jpg)
+<img src="/assets/logo.jpg" width="450px" height="300px" />
 
 <br>
 

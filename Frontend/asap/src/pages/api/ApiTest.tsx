@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FormEvent } from 'react';
 import useGetApiUsage from 'hooks/api/api/useGetApiUsage';
 import useApiTest from 'hooks/api/api/useApiTest';
 import useFormattedJson from 'hooks/custom/useFormattedJson';
@@ -69,7 +69,8 @@ function ApiTest() {
     return null;
   }
 
-  const onApiTest = () => {
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const url = apiUsage?.api;
     if (!isLoggedIn) {
       setModalMessage('로그인이 필요한 서비스입니다.');
@@ -118,7 +119,7 @@ function ApiTest() {
       )}
 
       <div className="grid grid-cols-2 gap-5">
-        <div className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={onSubmitHandler}>
           {/* Headers */}
           <div className="text-xl font-bold text-blue flex">
             Headers
@@ -160,15 +161,11 @@ function ApiTest() {
           </Card>
 
           <div className="flex justify-center my-8">
-            <Button
-              ripple
-              className="bg-blue text-base w-44"
-              onClick={onApiTest}
-            >
+            <Button ripple type="submit" className="bg-blue text-base w-44">
               TEST
             </Button>
           </div>
-        </div>
+        </form>
 
         {/* Response */}
         <div className="flex flex-col gap-4">
@@ -188,7 +185,13 @@ function ApiTest() {
           </Card>
 
           {/* Result */}
-          <Card className="bg-gray-200 rounded-lg p-5">
+          <Card
+            className={`bg-gray-200 rounded-lg p-5 ${
+              loading
+                ? 'ring-blue-700 ring-1 ring-offset-2  blinking-effect'
+                : ''
+            }`}
+          >
             <div className="flex justify-between items-center mb-3">
               <div className="text-xl font-bold flex gap-3 items-center">
                 <p

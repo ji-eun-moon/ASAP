@@ -48,23 +48,25 @@
 
 <br>
 
-> <strong>API 사용자</strong>
+> <strong style="font-size:20px">API 사용자</strong>
 
-1. 다양한 API를 하나의 플랫폼에서 통합적으로 이용 가능
+<span style="font-size:20px">- 다양한 API를 하나의 플랫폼에서 통합적으로 이용 가능</span>
 
-2. API를 찾고 연동하는 시간을 절약하여 개발시간 단축 가능
+<span style="font-size:20px">- API를 찾고 연동하는 시간을 절약하여 개발시간 단축 가능</span>
 
-3. 투명한 결제 프로세스를 통하여 비즈니스 효율성 증가 및 관리 비용 감소
+<span style="font-size:20px">- 투명한 결제 프로세스를 통하여 비즈니스 효율성 증가 및 관리 비용 감소
+</span>
 
 <br>
 
-> <strong>API 제공자</strong>
+> <strong style="font-size:20px">API 제공자</strong>
 
-1. 사용자 친화적 접근성으로 새로운 고객 및 시장 진입 가능
+<span style="font-size:20px">- 사용자 친화적 접근성으로 새로운 고객 및 시장 진입 가능</span>
 
-2. 제공되는 API 사용 데이터 통계를 통해 서비스 가용성 및 성능 모니터링
+<span style="font-size:20px">- 제공되는 API 사용 데이터 통계를 통해 서비스 가용성 및 성능 모니터링</span>
 
-3. 블록체인 기술을 통한 공정한 사용 요금 산정으로 사용자와의 신뢰성 증가
+<span style="font-size:20px">- 블록체인 기술을 통한 공정한 사용 요금 산정으로 사용자와의 신뢰성
+</span>
 
 <br>
 

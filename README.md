@@ -76,7 +76,7 @@
 
 <strong style="font-size:20px">다양한 API 조회 </string>
 
-<img src="./assets/메인화면.gif" width=400px data-align="center"/>
+<img src="./assets/메인화면.gif" width="400px" data-align="center"/>
 
 <br>
 

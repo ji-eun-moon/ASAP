@@ -2,7 +2,7 @@
 
 ### 블록체인을 활용한 API 통합·중개 서비스
 
-<img src="./assets/logo.jpg" width="300px" height="200px" />
+<p align="center"><img src="./assets/logo.jpg" width="300px" height="200px" /></p>
 
 <br>
 
@@ -76,7 +76,7 @@
 
 <strong style="font-size:20px">다양한 API 조회 </string>
 
-<p align="center"><img src="./assets/메인화면.gif" width="400px"/></p>
+<img src="./assets/메인화면.gif" width="400px"/>
 
 <br>
 

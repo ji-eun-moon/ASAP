@@ -7,18 +7,13 @@ import SearchBar from 'components/common/SearchBar';
 import { Fade } from 'react-awesome-reveal';
 import Cards from 'components/main/Cards';
 
-// Carousel 사용시
-// import useGetApiList from 'hooks/api/api/useGetApiList';
-// import Carousel from 'components/common/Carousel';
-
 interface HowToUseProps {
   authority: string;
 }
 
 function HowToUse({ authority }: HowToUseProps) {
   const navigate = useNavigate();
-  // const { apiList } = useGetApiList();
-  const categoryList = ['계좌', '지도', '차량', '카드'];
+  const categoryList = ['지도', '검색', '도서', '차량'];
   const onCategoryHandler = (page: string) => {
     navigate('/api_list', { state: { category: page } });
   };
@@ -97,7 +92,6 @@ function HowToUse({ authority }: HowToUseProps) {
           </div>
         </div>
       </Fade>
-      {/* <Carousel apiList={apiList} /> */}
     </div>
   );
 }

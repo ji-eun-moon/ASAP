@@ -671,7 +671,7 @@ function ApiApproval() {
               </div>
 
               {/* 왼쪽 네브바 눌렀을 때 조회되는 리스트 부분 */}
-              <div className="my-6 pb-3 w-full border-bottom">
+              <div className="my-6 w-full border-bottom">
                 {selectedItem === '전체 조회' ? allApis() : filterdApis()}
               </div>
 

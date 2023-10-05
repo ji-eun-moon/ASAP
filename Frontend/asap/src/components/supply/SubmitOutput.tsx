@@ -1,13 +1,20 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import JsonTable from 'components/common/JsonTable';
 import { Card } from '@material-tailwind/react';
 import useOutputStore from 'store/supply/useOutputStore';
 import useSubmitStore from 'store/supply/useSubmitStore';
 import 'styles/common/Input.scss';
 import { ReactComponent as Add } from 'assets/icons/Add.svg';
+import Modal from 'components/common/Modal';
 
 function SubmitOutput() {
   const [isChecked, setIsChecked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
   const {
     key,
@@ -25,11 +32,29 @@ function SubmitOutput() {
     setDescription,
     setPairs,
     setJsonOutput,
+    updatePair,
+    deletePair,
   } = useOutputStore();
 
   const { setOutput } = useSubmitStore();
 
   const handleAddPair = () => {
+    if (!key) {
+      setModalMessage('key는 필수 입력 값입니다.');
+      setIsModalOpen(true);
+      return;
+    }
+    if (!name) {
+      setModalMessage('name은 필수 입력 값입니다.');
+      setIsModalOpen(true);
+      return;
+    }
+    if (!type) {
+      setModalMessage('type은 필수 입력 값입니다.');
+      setIsModalOpen(true);
+      return;
+    }
+
     // 인덱스 추가
     const newIdx = pairs.length > 0 ? pairs[pairs.length - 1].idx + 1 : 1;
 
@@ -89,8 +114,18 @@ function SubmitOutput() {
     return 'col-span-2';
   };
 
+  useEffect(() => {
+    setOutput(jsonOutput);
+  }, [jsonOutput, setOutput]);
+
   return (
     <div className="flex">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        confirm
+        message={modalMessage}
+      />
       <Card className="w-full h-full container mx-auto p-5 bg-gray-200">
         {/* 표 헤더 */}
         <div className="grid grid-cols-12 bg-gray-200">
@@ -106,7 +141,12 @@ function SubmitOutput() {
         <hr className="h-0.5 bg-gray-500" />
 
         {/* 추가한 output 쌍 */}
-        <JsonTable jsonData={jsonOutput} />
+        <JsonTable
+          jsonData={jsonOutput}
+          isEditMode
+          updatePair={updatePair}
+          deletePair={deletePair}
+        />
 
         {/* output 쌍 추가 */}
         <div className="grid grid-cols-12">
@@ -147,18 +187,20 @@ function SubmitOutput() {
               </div>
             </div>
           </div>
-          <div className="table-input-container col-span-5">
+          <div className="table-input-container col-span-5 flex">
             <textarea
               placeholder="description"
               value={description}
               onChange={onDescriptionHandler}
             />
+            {/* Input 쌍 추가 버튼 */}
+            <Add
+              onClick={handleAddPair}
+              className="w-6 h-auto self-center ml-2 cursor-pointer"
+            />
           </div>
         </div>
       </Card>
-      <div className="flex items-end">
-        <Add type="button" onClick={handleAddPair} className="w-6 my-5 ms-5" />
-      </div>
     </div>
   );
 }

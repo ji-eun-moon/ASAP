@@ -35,12 +35,10 @@ const useMonthlyUsage = () => {
     setMonthUsage,
     setOneBeforeMonthUsage,
     setTwoBeforeMonthUsage,
+    setMonthlyPieChartContent,
+    setMonthlyPieChartValue,
   } = useMonthlyStore();
   const [monthlyLoading, setMonthlyLoading] = useState<boolean>(true);
-  const [monthlyUsage, setMonthlyUsage] = useState<Array<{
-    month: string;
-    data: IMonthlyUsage[];
-  }> | null>();
 
   const getMonthlyUsage = useCallback(
     async (paramsObject: monthly) => {
@@ -55,24 +53,29 @@ const useMonthlyUsage = () => {
           Object.keys(response.data).map((key) => {
             return { month: key, data: response.data[key] };
           });
-        setMonthlyUsage(monthlyData);
-        // monthlyData를 기반으로 스토어 상태 업데이트
-        if (monthlyData[0]) {
-          setMonthDate(monthlyData[0].month);
-          setMonthUsage(monthlyData[0].data);
-        }
-        if (monthlyData[1]) {
-          setOneBeforeMonthDate(monthlyData[1].month);
-          setOneBeforeMonthUsage(monthlyData[1].data);
-        }
-        if (monthlyData[2]) {
-          setTwoBeforeMonthDate(monthlyData[2].month);
-          setTwoBeforeMonthUsage(monthlyData[2].data);
-        }
+
+        // 날짜 기준으로 monthlyData 정렬
+        monthlyData.sort((a, b) => {
+          return new Date(b.month).getTime() - new Date(a.month).getTime();
+        });
+
+        setMonthDate(monthlyData[0].month);
+        setMonthUsage(monthlyData[0].data);
+
+        setOneBeforeMonthDate(monthlyData[1].month);
+        setOneBeforeMonthUsage(monthlyData[1].data);
+
+        setMonthlyPieChartContent(monthlyData[0].data);
+        setMonthlyPieChartValue(monthlyData[0].data);
+
+        setTwoBeforeMonthDate(monthlyData[2].month);
+        setTwoBeforeMonthUsage(monthlyData[2].data);
+
         setMonthlyLoading(false);
         // console.log('사용자 월별 사용량 조회 성공', response.data);
       } catch (error) {
         console.log('사용자 월별 사용량 조회 실패', error);
+        setMonthlyLoading(false);
       }
     },
     [
@@ -82,6 +85,8 @@ const useMonthlyUsage = () => {
       setMonthDate,
       setOneBeforeMonthDate,
       setTwoBeforeMonthDate,
+      setMonthlyPieChartContent,
+      setMonthlyPieChartValue,
     ],
   );
 
@@ -94,7 +99,6 @@ const useMonthlyUsage = () => {
 
   return {
     monthlyLoading,
-    monthlyUsage,
   };
 };
 

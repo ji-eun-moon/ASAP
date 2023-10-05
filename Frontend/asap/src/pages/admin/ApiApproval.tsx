@@ -8,20 +8,23 @@ import useAdminApiApprove from 'hooks/api/admin/useAdminApiApprove';
 
 import Header from 'components/common/Header';
 import Modal from 'components/common/Modal';
-import { Tabs, TabsHeader, Tab, Card } from '@material-tailwind/react';
+import { Tabs, TabsHeader, Tab, Button } from '@material-tailwind/react';
 import { Collapse, Ripple, initTE } from 'tw-elements';
-import { ReactComponent as TopArrow } from 'assets/icons/TopArrow.svg';
+import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 
 import Table from 'components/mypage/InfoTable';
 import 'styles/common/Input.scss';
 import JsonTable from 'components/common/JsonTable';
+import PrettyJson from 'components/common/PrettyJson';
 
 initTE({ Collapse, Ripple });
 
 interface APIDetail {
   api: string;
   input: string;
+  inputExample: string;
   output: string;
+  outputExample: string;
   price: number;
   progress: string;
   title: string;
@@ -40,6 +43,12 @@ interface ApiDetailProps {
 
 /* apiDetail 화면 출력 함수 */
 function ApiDetail({ apiDetail }: ApiDetailProps) {
+  console.log('디테일 값', apiDetail);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const TABLE_HEAD = ['key', 'name', 'type', 'required', 'description'];
   const headGrid = (head: string) => {
     if (head === 'description') {
@@ -50,7 +59,18 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
     }
     return 'col-span-2';
   };
-  console.log('tags', apiDetail?.tags);
+  // 복사 함수
+  const handleCopyClipBoardJSON = async (text: string | '') => {
+    const formattedJson = JSON.stringify(JSON.parse(text || '{}'), null, 2);
+    try {
+      await navigator.clipboard.writeText(formattedJson);
+      setIsModalOpen(true);
+    } catch (e) {
+      setIsModalOpen(true);
+      alert('복사에 실패하였습니다');
+    }
+  };
+
   return (
     <div className="my-5">
       {!apiDetail ? (
@@ -110,7 +130,9 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
             left="관련 태그"
             right={
               apiDetail.tags
-                ? JSON.parse(apiDetail.tags).map((tag: string) => <p>#{tag}</p>)
+                ? JSON.parse(apiDetail.tags).map((tag: string) => (
+                    <p key={tag}>#{tag}</p>
+                  ))
                 : ''
             }
             height="100%"
@@ -122,9 +144,8 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
           <Table
             left="INPUT"
             right={
-              <Card className="w-full h-full container mx-auto my-3 p-5 bg-gray-200">
-                {/* 표 헤더 */}
-                <div className="grid grid-cols-12 bg-gray-200">
+              <div style={{ margin: '5px 10px 5px 0px' }}>
+                <div className="grid grid-cols-12 bg-blue-50">
                   {TABLE_HEAD.map((head) => (
                     <div
                       key={head}
@@ -135,8 +156,24 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
                   ))}
                 </div>
                 <hr className="h-0.5 bg-gray-500" />
-                <JsonTable jsonData={apiDetail.input} />
-              </Card>
+                <JsonTable jsonData={apiDetail?.input} />
+
+                {/* Input Example */}
+                <div className="my-8 bg-gray-300 rounded-lg p-5">
+                  <div className="flex justify-between">
+                    <p className="mb-2 font-bold">입력부</p>
+                    {apiDetail && (
+                      <Copy
+                        className="w-5 h-auto me-2 cursor-pointer"
+                        onClick={() => {
+                          handleCopyClipBoardJSON(apiDetail?.inputExample);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <PrettyJson jsonData={apiDetail?.inputExample} />
+                </div>
+              </div>
             }
             height="100%"
             leftGrid="2"
@@ -147,9 +184,8 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
           <Table
             left="OUTPUT"
             right={
-              <Card className="w-full h-full container mx-auto my-3 p-5 bg-gray-200">
-                {/* 표 헤더 */}
-                <div className="grid grid-cols-12 bg-gray-200">
+              <div style={{ margin: '5px 10px 5px 0px' }}>
+                <div className="grid grid-cols-12 bg-blue-50">
                   {TABLE_HEAD.map((head) => (
                     <div
                       key={head}
@@ -160,13 +196,43 @@ function ApiDetail({ apiDetail }: ApiDetailProps) {
                   ))}
                 </div>
                 <hr className="h-0.5 bg-gray-500" />
-                <JsonTable jsonData={apiDetail.output} />
-              </Card>
+                <JsonTable jsonData={apiDetail?.output} />
+
+                {/* Output Example */}
+                <div className="my-8 bg-gray-300 rounded-lg p-5">
+                  <div className="flex justify-between">
+                    <p className="mb-2 font-bold">출력부</p>
+                    {apiDetail && (
+                      <Copy
+                        className="w-5 h-auto me-2 cursor-pointer"
+                        onClick={() => {
+                          handleCopyClipBoardJSON(apiDetail?.outputExample);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <PrettyJson jsonData={apiDetail?.outputExample} />
+                </div>
+              </div>
             }
             height="100%"
             leftGrid="2"
             rightGrid="10"
           />
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <div className="w-96">
+              <div className="flex justify-start">
+                <p className="text-lg mt-5 font-bold">
+                  클립보드에 복사되었습니다.
+                </p>
+              </div>
+              <div className="flex flex-row-reverse my-5">
+                <Button ripple onClick={closeModal} className="bg-blue-500">
+                  확인
+                </Button>
+              </div>
+            </div>
+          </Modal>
 
           <hr />
           <Table
@@ -209,23 +275,6 @@ function ApiApproval() {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
-  const onScrollUpHandler = () => {
-    if (!window.scrollY) return;
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  /* 모달 open/close */
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   /* api hook */
   const { apis, setLastChanged, loading } = useAdminApiList(); // 전체 api 신청 리스트 받아오기
@@ -237,11 +286,24 @@ function ApiApproval() {
   const [stateApis, setStateApis] = useState(apis); // 상태에 따른 api 리스트
   const [nowApiId, setNowApiId] = useState(-1); // 현재 선택된 api ID
   const [nowApiTitle, setNowApiTitle] = useState(''); // 현재 선택된 api Title
-  const [rejectState, setRejectState] = useState(false); // 거절 상태(true/false)
+  const [wantRejectState, setWantRejectState] = useState(false); // 거절 하고싶은상태(true/false)
   const [rejectReason, setRejectReason] = useState(''); // 거절 이유
-  const [approveState, setApproveState] = useState(false); // 승인 상태(true/false)
+  const [wantApproveState, setWantApproveState] = useState(false); // 승인 하고싶은상태(true/false)
   const [selectedCategory, setSelectedCategory] = useState(''); // 승인 카테고리
   const [changeApi, setChangeApi] = useState(''); // API 사용가능하게 변경한 new api
+  const [clicked, setClicked] = useState(false); // 클릭 상태(true/false)
+
+  /* 모달 open/close */
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setClicked(false);
+    setWantApproveState(false);
+    setWantRejectState(false);
+  };
 
   /* 거절 상태 관리 */
   const handleRejectState = async () => {
@@ -250,7 +312,9 @@ function ApiApproval() {
       title: nowApiTitle,
       content: rejectReason,
     });
-    setRejectState(false); // 거절 상태 false로 돌려놓음(거절 상태에 따라 거절 사유를 입력할 수 있도록 밑에서 설정해놓았기 때문)
+    adminApiProgress({ applyId: nowApiId, progress: '거절' });
+
+    // setRejectState(false); // 거절 상태 false로 돌려놓음(거절 상태에 따라 거절 사유를 입력할 수 있도록 밑에서 설정해놓았기 때문)
     closeModal();
     window.location.reload();
   };
@@ -262,14 +326,21 @@ function ApiApproval() {
 
   /* 승인 상태 관리 */
   const handleApproveState = async () => {
-    adminApiApprove({
-      applyId: nowApiId,
-      category: selectedCategory,
-      api: changeApi,
-    });
-    setApproveState(false); // 승인 상태 false로 돌려놓음(승인 상태에 따라 카테고리 고를 수 있도록 밑에서 설정해놓았기 때문)
-    closeModal();
-    window.location.reload();
+    if (changeApi) {
+      adminApiApprove({
+        applyId: nowApiId,
+        category: selectedCategory,
+        api: changeApi,
+      });
+      adminApiProgress({ applyId: nowApiId, progress: '승인' });
+
+      // setApproveState(true); // 승인 상태 false로 돌려놓음(승인 상태에 따라 카테고리 고를 수 있도록 밑에서 설정해놓았기 때문)
+      closeModal();
+      window.location.reload();
+      // setApproveState(false);
+    } else {
+      alert('url을 입력하세요');
+    }
   };
   /* 승인 카테고리 관리 */
   const handleApproveCategory = (category: string) => {
@@ -281,17 +352,17 @@ function ApiApproval() {
   const changeState = (applyId: number, newState: string) => {
     const doChange = async () => {
       console.log(applyId, newState);
-      adminApiProgress({ applyId, progress: newState });
       // await adminApiList();
       await setLastChanged(new Date().getTime());
       if (newState === '거절') {
-        setRejectState(true);
+        setWantRejectState(true);
         openModal();
       } else if (newState === '승인') {
-        setApproveState(true);
+        setWantApproveState(true);
         openModal();
       } else {
         window.location.reload();
+        adminApiProgress({ applyId, progress: newState });
       }
     };
     doChange();
@@ -312,7 +383,6 @@ function ApiApproval() {
     }
   };
 
-  const [clicked, setClicked] = useState(false); // 클릭 상태(true/false)
   /* 특정 api 클릭 시 변경 될 부분 */
   const handleClick = (applyId: number, title: string) => {
     setClicked(!clicked);
@@ -346,7 +416,6 @@ function ApiApproval() {
   };
 
   const handleChangeApi = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('changeAPI', e.target.value);
     setChangeApi(e.target.value);
   };
 
@@ -357,7 +426,7 @@ function ApiApproval() {
     }
 
     return apis.map((api) => (
-      <div>
+      <div key={api.applyId}>
         <div className="w-full grid grid-cols-5 my-5" key={api.applyId}>
           <div className="col-span-1 text-center font-medium">
             {api.createDate.split('T')[0]}
@@ -559,6 +628,7 @@ function ApiApproval() {
           <Header title="API 신청내역" />
 
           <div className="flex justify-arouond w-full mt-8 h-auto">
+            {/* 왼쪽 네브바 조회 누르는 부분 */}
             <div
               className="leftMenu border-right w-1/6 flex flex-col items-center text-center my-4"
               style={{ backgroundPositionY: position }}
@@ -585,6 +655,8 @@ function ApiApproval() {
                 </TabsHeader>
               </Tabs>
             </div>
+
+            {/* 오른쪽 신청일자,  API 제목, 상태 부분 */}
             <div className="w-5/6 px-8">
               <div className="my-4 w-full grid grid-cols-5 border-bottom py-3">
                 <div className="col-span-1 text-center text-lg font-bold">
@@ -598,20 +670,13 @@ function ApiApproval() {
                 </div>
               </div>
 
-              <div className="my-6 pb-3 w-full border-bottom text-center">
+              {/* 왼쪽 네브바 눌렀을 때 조회되는 리스트 부분 */}
+              <div className="my-6 w-full border-bottom">
                 {selectedItem === '전체 조회' ? allApis() : filterdApis()}
               </div>
-              <div className="topBtnWrap">
-                <button
-                  type="button"
-                  className="topBtn"
-                  onClick={onScrollUpHandler}
-                >
-                  <TopArrow className="w-8 h-auto" />
-                </button>
-              </div>
 
-              {rejectState ? ( // 거절을 눌렀을 때 거절사유 입력 모달 뜨는 부분
+              {/* 거절을 눌렀을 때 거절사유 입력 모달 뜨는 부분 */}
+              {wantRejectState ? (
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                   <div className="flex flex-col justify-center content-center font-semibold">
                     <p>거절 사유를 입력하세요</p>
@@ -631,15 +696,21 @@ function ApiApproval() {
               ) : (
                 ''
               )}
-              {approveState ? ( // 승인을 눌렀을 대 승인 카테고리 선택 모달 뜨는 부분
+              {/* 승인을 눌렀을 대 승인 카테고리 선택 모달 뜨는 부분 */}
+              {wantApproveState ? (
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
                   <div className="flex flex-col justify-center content-center font-semibold">
                     <p className="text-lg m-2">API url을 입력하세요</p>
-                    <hr />
+
                     <input
                       type="text"
                       value={changeApi}
                       onChange={handleChangeApi}
+                      style={{
+                        border: '0.5px solid #cecece',
+                        borderRadius: '5px',
+                      }}
+                      placeholder="&nbsp;url 주소를 입력하세요"
                     />
                     <p className="text-lg m-2">API 카테고리를 선택하세요</p>
                     <hr />
@@ -647,6 +718,7 @@ function ApiApproval() {
                     <div className="flex justify-items-stretch content-center text-center font-semibold grid grid-cols-2 m-3">
                       {approveCategory.map((category) => (
                         <button
+                          key={category}
                           type="button"
                           onClick={() => handleApproveCategory(category)}
                           className={`${

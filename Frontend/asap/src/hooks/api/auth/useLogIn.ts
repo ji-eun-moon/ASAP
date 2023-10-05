@@ -9,7 +9,12 @@ interface LoginInfo {
 const useLogIn = () => {
   const logIn = async ({ id, password, loginType }: LoginInfo) => {
     const prevLocation = sessionStorage.getItem('prevLocation');
-    const defaultRedirect = '/';
+    let defaultRedirect = '/';
+    if (loginType === 'user') {
+      defaultRedirect = '/api_list';
+    } else {
+      defaultRedirect = '/myapi';
+    }
     try {
       const response = await axios({
         method: 'POST',
@@ -29,7 +34,6 @@ const useLogIn = () => {
           '비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.',
         );
       } else {
-        console.log('로그인 성공:', response.data);
         window.location.replace(prevLocation || defaultRedirect);
       }
     } catch (error) {

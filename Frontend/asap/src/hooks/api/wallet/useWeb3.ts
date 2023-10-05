@@ -6,10 +6,10 @@ const useWeb3 = () => {
   );
 
   // 코인베이스 계정 가져오기
-  const getCoinBase = async () => {
-    const coinBase = await web3.eth.getCoinbase();
-    return coinBase;
-  };
+  // const getCoinBase = async () => {
+  //   const coinBase = await web3.eth.getCoinbase();
+  //   return coinBase;
+  // };
 
   // 잔액 조회하기
   const getBalance = async (account: string) => {
@@ -19,9 +19,9 @@ const useWeb3 = () => {
 
   const createAccount = async (password: string) => {
     try {
-      const coinBase = await getCoinBase();
-      const bal = await web3.eth.getBalance(coinBase);
-      console.log('coinBase: ', coinBase, 'balance: ', bal);
+      // const coinBase = await getCoinBase();
+      // const bal = await web3.eth.getBalance(coinBase);
+      // console.log('coinBase: ', coinBase, 'balance: ', bal);
 
       // 비밀번호로 계정 생성하기
       const account = await web3.eth.personal.newAccount(password);

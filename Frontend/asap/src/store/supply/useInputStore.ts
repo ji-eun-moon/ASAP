@@ -25,6 +25,8 @@ interface PairStore {
   setDescription: (description: string) => void; // eslint-disable-line no-unused-vars
   toggleRequired: () => void; // eslint-disable-line no-unused-vars
   resetRequired: () => void; // eslint-disable-line no-unused-vars
+  updatePair: (idx: number, updatedData: Pair) => void; // eslint-disable-line no-unused-vars
+  deletePair: (idx: number) => void; // eslint-disable-line no-unused-vars
 }
 
 const useInputStore = create<PairStore>((set) => ({
@@ -46,6 +48,28 @@ const useInputStore = create<PairStore>((set) => ({
   resetRequired: () => set(() => ({ required: 'false' })),
   setDescription: (description) => set({ description }),
   setJsonOutput: (jsonOutput) => set({ jsonOutput }),
+  updatePair: (idx, updatedData) => {
+    set((state) => {
+      const updatedPairs = state.pairs.map((pair) =>
+        pair.idx === idx ? { ...pair, ...updatedData } : pair,
+      );
+      const jsonData = JSON.stringify(updatedPairs, null, 2);
+      return {
+        pairs: updatedPairs,
+        jsonOutput: jsonData,
+      };
+    });
+  },
+  deletePair: (idx) => {
+    set((state) => {
+      const filteredPairs = state.pairs.filter((pair) => pair.idx !== idx);
+      const jsonData = JSON.stringify(filteredPairs, null, 2);
+      return {
+        pairs: filteredPairs,
+        jsonOutput: jsonData,
+      };
+    });
+  },
 }));
 
 export default useInputStore;

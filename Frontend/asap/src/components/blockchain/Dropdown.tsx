@@ -8,19 +8,21 @@ interface ApiInfo {
 interface DropdownProps {
   options: ApiInfo[] | null;
   apiTitle: string | null;
-  onSelect: (selectedTitle: string) => void;
+  setApiTitle: React.Dispatch<React.SetStateAction<string | null>>;
+  onSelect(): void;
 }
 
-function Dropdown({ options, apiTitle, onSelect }: DropdownProps) {
+function Dropdown({ options, apiTitle, setApiTitle, onSelect }: DropdownProps) {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSelect(e.target.value);
+    setApiTitle(e.target.value);
+    onSelect();
   };
 
   return (
     <select
       value={apiTitle || ''}
       onChange={handleSelect}
-      className="appearance-none border rounded py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none"
+      className="custom-select appearance-none border rounded py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none"
     >
       <option value="" disabled>
         API를 선택하세요

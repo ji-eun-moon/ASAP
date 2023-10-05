@@ -13,7 +13,7 @@ function ApiDetail() {
   const [apply, setApply] = useState<boolean>(true);
   const { apiId, apiDetail } = useGetApiDetail();
   const { checkApply } = useCheckApply();
-  console.log(apiDetail);
+
   useEffect(() => {
     const fetchApply = async () => {
       if (authToken) {
@@ -33,7 +33,7 @@ function ApiDetail() {
 
   const onApplyHandler = () => {
     navigate(`/api_list/${apiId}/apply`, {
-      state: { apiTitle: apiDetail?.title },
+      state: { apiId, apiTitle: apiDetail?.title },
     });
   };
 

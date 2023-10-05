@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios';
-// import axiosInstance from 'utils/axiosInstance';
 import useTestStore from 'store/api/useTestStore';
 
 interface ITest {
   url: string | undefined;
   params: Record<string, string>;
   wallet: string;
+  method: string | undefined;
 }
 const useApiTest = () => {
   const { setTestResponse, setStatus, setLoading, decTrial } = useTestStore();
@@ -19,32 +19,48 @@ const useApiTest = () => {
     }
   };
 
-  const apiTest = async ({ url, params, wallet }: ITest) => {
+  const apiTest = async ({ url, params, wallet, method }: ITest) => {
     try {
-      const response = await axios({
-        method: 'GET',
-        url,
-        params,
-        headers: {
-          Authorization: wallet,
-        },
-      });
-      console.log(response.data);
+      let response;
+      if (method === 'GET') {
+        response = await axios({
+          method: 'GET',
+          url,
+          params,
+          headers: {
+            Authorization: wallet,
+          },
+        });
+      } else {
+        response = await axios({
+          method: 'POST',
+          url,
+          data: params,
+          headers: {
+            Authorization: wallet,
+          },
+        });
+      }
       setTestResponse(JSON.stringify(response.data));
       if (typeof response.data === 'string') {
         setStatus(extractStatus(response.data));
       } else {
         setStatus(response.status);
-        decTrial();
       }
+      decTrial();
       setLoading(false);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError: AxiosError = error;
+        // axiosError의 config.params에서 'test'를 제거
+        if (axiosError.config && axiosError.config.params) {
+          delete axiosError.config.params.test;
+        }
         setTestResponse(JSON.stringify(axiosError));
         setStatus(axiosError.response?.status || 500);
         setLoading(false);
         console.log('서버 오류:', axiosError);
+        decTrial();
       } else {
         console.error('An unexpected error occurred:', error);
       }

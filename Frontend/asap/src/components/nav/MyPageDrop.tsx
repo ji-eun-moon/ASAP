@@ -13,10 +13,18 @@ const MyPageDrop = forwardRef(() => {
       <div className="font-bold text-black text-lg flex justify-center">
         {memberInfo?.name} 님
       </div>
-      <Link to="mypage/account">기본 정보</Link>
-      <Link to="mypage/keys">키 관리</Link>
-      <Link to="mypage/wallet">지갑 정보</Link>
-      <Link to="mypage/credit">결제 수단 관리</Link>
+      <Link to="mypage/account" className="link-style">
+        기본 정보
+      </Link>
+      <Link to="mypage/keys" className="link-style">
+        키 관리
+      </Link>
+      <Link to="mypage/wallet" className="link-style">
+        지갑 정보
+      </Link>
+      <Link to="mypage/credit" className="link-style">
+        결제 수단 관리
+      </Link>
       <button
         type="button"
         onClick={logOut}

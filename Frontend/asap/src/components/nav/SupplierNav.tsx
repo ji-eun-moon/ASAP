@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import useAuthStore from 'store/auth/useAuthStore';
+import useSearchStore from 'store/search/useSearchStore';
 import { Menu, MenuHandler, MenuList } from '@material-tailwind/react';
 import { ReactComponent as Search } from 'assets/icons/Search.svg';
 import { ReactComponent as MyPage } from 'assets/icons/MyPage.svg';
@@ -20,8 +21,12 @@ const activeStyle = {
 };
 
 function SupplierNav() {
+  const { searchDropdown, toggleSearchDropdown } = useSearchStore();
   const { isLoggedIn } = useAuthStore((state) => state);
   const MyPageRef = React.createRef();
+
+  const location = useLocation();
+  const isMyPage = location.pathname.includes('/mypage');
 
   return (
     <div>
@@ -32,14 +37,6 @@ function SupplierNav() {
           </Link>
         </div>
         <div className="flex justify-center gap-20 w-full absolute z-0">
-          {/* 내가 제공 중인 API 통계로 이동 */}
-          <NavLink
-            to="/myapi"
-            className="font-bold text-xl"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            My API
-          </NavLink>
           {/* API 신청 리스트로 이동 */}
           <NavLink
             to="/supply"
@@ -48,13 +45,21 @@ function SupplierNav() {
           >
             API 신청
           </NavLink>
-          {/* 고객 지원 페이지로 이동 */}
+          {/* 내가 제공 중인 API 통계로 이동 */}
           <NavLink
-            to="/help"
+            to="/myapi"
             className="font-bold text-xl"
             style={({ isActive }) => (isActive ? activeStyle : undefined)}
           >
-            고객 지원
+            My API
+          </NavLink>
+          {/* 마이 페이지로 이동 */}
+          <NavLink
+            to="/mypage/account"
+            className="font-bold text-xl"
+            style={isMyPage ? activeStyle : undefined}
+          >
+            My Page
           </NavLink>
         </div>
         <div className="flex items-center absolute -right-0">
@@ -65,7 +70,11 @@ function SupplierNav() {
           {isLoggedIn && <NoticeBadge />}
 
           {isLoggedIn ? (
-            <Menu placement="top-start">
+            <Menu
+              placement="top-start"
+              open={searchDropdown}
+              handler={toggleSearchDropdown}
+            >
               <MenuHandler>
                 <button
                   type="button"
@@ -87,11 +96,14 @@ function SupplierNav() {
           )}
           <Menu placement="top-start">
             <MenuHandler>
-              <div className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold">
+              <button
+                type="button"
+                className="bg-blue w-20 h-20 flex items-center justify-center text-white font-bold"
+              >
                 <Search className="w-5" />
-              </div>
+              </button>
             </MenuHandler>
-            <MenuList>
+            <MenuList className="bg-gray-200 w-full">
               <SearchDrop />
             </MenuList>
           </Menu>

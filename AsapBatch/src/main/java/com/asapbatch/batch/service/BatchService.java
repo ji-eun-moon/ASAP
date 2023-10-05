@@ -1,5 +1,6 @@
 package com.asapbatch.batch.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -9,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -17,9 +19,13 @@ public class BatchService {
     @Value("${server.allow-header}")
     private String allowHeader;
 
+    public LocalDateTime batchTime;
+
+
     @Scheduled(fixedRate = 1000 * 60 * 5)
     public void processRedis() {
         serverGetConnect("/api/v1/batch/redis-process");
+        batchTime = LocalDateTime.now();
     }
 
     @Scheduled(cron = "0 0 3 * * 0")

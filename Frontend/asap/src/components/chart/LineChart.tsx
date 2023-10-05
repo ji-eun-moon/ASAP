@@ -2,10 +2,11 @@ import React, { useRef, useEffect, useMemo } from 'react';
 import * as echarts from 'echarts';
 import useNewUserStore from 'store/chart/useNewUserStore';
 import useNewUser from 'hooks/api/chart/useNewUser';
+import Spinner from 'components/common/Spinner';
 
 function LineChart() {
   const chartRef = useRef(null);
-  const newUserData = useNewUser();
+  const { newUserLoading } = useNewUser();
 
   const {
     fourBeforeMonthDate,
@@ -80,32 +81,28 @@ function LineChart() {
       // X축 데이터 포인트 위에 마우스를 가져갈 때 표시
       tooltip: {
         trigger: 'axis',
-        // eslint-disable-next-line
-        formatter(params: any[]) {
-          return `${params[0].name}: ${params[0].value}`; // X축 값 및 데이터 값 표시
-        },
       },
       xAxis: {
         type: 'category',
         data: dateArr,
       },
       yAxis: yAxisConfig,
-      series: [
-        {
-          data: countArr,
-          type: 'line',
-        },
-      ],
+      series: [{ name: '신규 사용자', data: countArr, type: 'line' }],
     }),
     [dateArr, countArr, yAxisConfig],
   );
 
   useEffect(() => {
     if (!chartRef.current) return undefined;
+
     const chart = echarts.init(chartRef.current);
     chart.setOption(options);
     return () => chart.dispose();
-  }, [newUserData, options]);
+  }, [options, newUserLoading]);
+
+  if (newUserLoading) {
+    return <Spinner size="12" />;
+  }
 
   return (
     <div

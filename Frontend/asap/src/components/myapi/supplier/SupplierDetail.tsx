@@ -7,20 +7,43 @@ import LineChart from 'components/chart/LineChart';
 import PieChart from 'components/chart/PieChart';
 import useIndustryRate from 'hooks/api/chart/useIndustryRate';
 import useIndustryRateStore from 'store/chart/useIndustryRateStore';
+import Spinner from 'components/common/Spinner';
 import SupplierDailyChart from './SupplierDailyChart';
 
 function SupplierDetail() {
   const { offerListLoading, offerList } = useGetOfferList();
-  const { apiId, setApiId, setApiTitle, apiTitle } = useDetailStore();
+  const { apiId, setApiId, setApiTitle, apiTitle, resetApiDetails } =
+    useDetailStore();
   const { industry, count } = useIndustryRateStore();
   const { industryRate } = useIndustryRate();
+
   const handleItemClick = (id: number, title: string) => {
     setApiId(id);
     setApiTitle(title);
   };
+
   useEffect(() => {
     industryRate(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiId]);
+
+  useEffect(() => {
+    return () => resetApiDetails();
+  }, [resetApiDetails]);
+
+  const renderApiTitile = () => {
+    if (offerListLoading) {
+      return <Spinner size="8" />;
+    }
+    if (!apiTitle) {
+      return <div>제공 중인 API가 없습니다.</div>;
+    }
+    return (
+      <div>
+        <span className="ms-2">&apos;{apiTitle}&apos;</span> <span>통계</span>
+      </div>
+    );
+  };
+
   return (
     <div
       className="container mx-auto mt-12 grid grid-cols-9 gap-10 flex justify-center"
@@ -52,10 +75,7 @@ function SupplierDetail() {
 
       {/* 제공 차트 */}
       <div className="col-span-7">
-        <div className="font-bold text-3xl mb-12">
-          <span className="ms-12">&apos;{apiTitle}&apos;</span>{' '}
-          <span>통계</span>
-        </div>
+        <div className="font-bold text-3xl mb-12 ml-8">{renderApiTitile()}</div>
         <div className="flex flex-col items-center justify-around">
           <div className="w-full flex justify-evenly">
             <div>
@@ -87,9 +107,7 @@ function SupplierDetail() {
               chart={<CurvedLineChart />}
             />
           </div>
-          <div className="mt-16" style={{ width: '95%' }}>
-            <SupplierDailyChart />
-          </div>
+          <SupplierDailyChart />
         </div>
       </div>
     </div>

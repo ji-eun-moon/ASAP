@@ -1,18 +1,28 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import useAuthStore from 'store/auth/useAuthStore';
 import useMonthlyDetail from 'hooks/api/chart/useMonthlyDetail';
 import Spinner from 'components/common/Spinner';
+import { Button } from '@material-tailwind/react';
+import useMonthlyStore from 'store/chart/useMonthlyStore';
 
 function MyApiDetail() {
   const [searchParams] = useSearchParams();
   const { loginType } = useAuthStore((state) => state);
   const { monthlyLoading, monthlyDetail } = useMonthlyDetail();
+  const { setMonth, setYear } = useMonthlyStore();
+  const navigate = useNavigate();
 
   const year = searchParams.get('year');
   const month = searchParams.get('month');
 
-  console.log(monthlyDetail, monthlyLoading);
+  const goStatistics = () => {
+    if (month && year) {
+      setMonth(month);
+      setYear(year);
+    }
+    navigate('/myapi');
+  };
 
   return (
     <div className="container mx-auto page-container">
@@ -62,6 +72,11 @@ function MyApiDetail() {
               조회 내역이 없습니다.
             </p>
           )}
+          <div className="flex justify-end mt-5">
+            <Button className="bg-blue" onClick={goStatistics}>
+              통계 보기
+            </Button>
+          </div>
         </div>
       )}
     </div>

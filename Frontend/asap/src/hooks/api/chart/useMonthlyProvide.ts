@@ -36,11 +36,8 @@ const useMonthlyProvide = () => {
     setOneBeforeMonthUsage,
     setTwoBeforeMonthUsage,
   } = useMonthlyStore();
+
   const [monthlyLoading, setMonthlyLoading] = useState<boolean>(true);
-  const [monthlyProvide, setMonthlyProvide] = useState<Array<{
-    month: string;
-    data: IMonthlyProvide[];
-  }> | null>();
 
   const getMonthlyProvide = useCallback(
     async (paramsObject: monthly) => {
@@ -55,7 +52,6 @@ const useMonthlyProvide = () => {
           Object.keys(response.data).map((key) => {
             return { month: key, data: response.data[key] };
           });
-        setMonthlyProvide(monthlyData);
 
         // 날짜 기준으로 monthlyData 정렬
         monthlyData.sort((a, b) => {
@@ -76,18 +72,17 @@ const useMonthlyProvide = () => {
           setTwoBeforeMonthUsage(monthlyData[2].data);
         }
         setMonthlyLoading(false);
-        // console.log('사용자 월별 제공량 조회 성공', response.data);
       } catch (error) {
         console.log('사용자 월별 제공량 조회 실패', error);
       }
     },
     [
-      setMonthUsage,
-      setOneBeforeMonthUsage,
-      setTwoBeforeMonthUsage,
       setMonthDate,
+      setMonthUsage,
       setOneBeforeMonthDate,
       setTwoBeforeMonthDate,
+      setOneBeforeMonthUsage,
+      setTwoBeforeMonthUsage,
     ],
   );
 
@@ -100,7 +95,6 @@ const useMonthlyProvide = () => {
 
   return {
     monthlyLoading,
-    monthlyProvide,
   };
 };
 

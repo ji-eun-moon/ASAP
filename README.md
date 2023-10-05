@@ -18,6 +18,8 @@
 
 #### 5. [서비스 아키텍처](#서비스-아키텍처)
 
+#### 6. [기술 스택](#기술-스택)
+
 <br>
 
 ## 프로젝트 개발 기간
@@ -74,47 +76,47 @@
 
 <br>
 
-<strong style="font-size:30px">다양한 API 조회 </string>
+### 다양한 API 조회
 
 <img src="./assets/메인화면.gif" width="800px"/>
 
 <br>
 <br>
 
-<strong style="font-size:30px">손쉬운 API 사용법 조회 </strong>
+### 손쉬운 API 사용법 조회
 
 <img src="./assets/사용법 조회.gif" width=800px></img>
 
 <br>
 <br>
 
-<strong style="font-size:30px">사용 신청 전 테스트 제공 </strong>
+### 사용 신청 전 테스트 제공
 
 <img src="./assets/테스트.gif" width=800px></img>
 
 <br>
 <br>
 
-<strong style="font-size:30px"> 사용·제공량 시각화 자료로 제공 </strong>
+### 사용·제공량 시각화 자료로 제공
 
 <img src="./assets/시각화 자료.gif" width=800px></img>
 
 <br>
 <br>
 
-<strong style="font-size:30px"> 블록체인으로 사용량 검증 서비스 제공</strong>
+### 블록체인으로 사용량 검증 서비스 제공
 
 <img src="./assets/블록체인 검증.gif" width=800px></img>
 
 <br>
 <br>
 
-<strong style="font-size:30px"> 간편한 API 신청 서비스 제공 </strong>
+### 간편한 API 신청 서비스 제공 
 
 <img src="./assets/제공 신청 페이지.gif" width=800px></img>
 
 <br>
-<br>
+
 
 ## 서비스 아키텍처
 
@@ -122,3 +124,11 @@
 
 <div align="center"><img src="./assets/서비스 아키텍처.png" width=800px></img></div>
 
+<br>
+
+## 기술 스택
+
+
+
+
+## 

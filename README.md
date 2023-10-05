@@ -6,7 +6,7 @@
 
 <br>
 
-## 📅 목차
+## 📃 목차
 
 ### 1. [프로젝트 개발 기간](#프로젝트-개발-기간)
 
@@ -20,11 +20,12 @@
 
 ### 6. [서비스 아키텍처](#서비스-아키텍처)
 
-### 7. [기술 스택](#기술-스택)
+### 7. [팀원 소개](#팀원-소개)
+### 8. [기술 스택](#기술-스택)
 
 <br>
                                
-## 프로젝트 개발 기간
+## 📅 프로젝트 개발 기간
 
 <br>
 
@@ -135,18 +136,56 @@
 
 <br>
 
+## 팀원소개
+|양시온|문지은|박서희|송아람|이도하|이찬웅|
+|---|---|---|---|---|---|
+|팀장<br>프론트엔드<br>CI/CD|프론트엔드<br>UI/UX 디자인|프론트엔드<br>UI/UX 디자인|프론트엔드<br>블록체인|백엔드<br>영상편집|백엔드<br>블록체인|
+<br>
 ## 기술 스택
 
 ### Front
 
-<img src="https://img.shields.io/badge/REACT-#61DAFB?style=for-the-badge&logo=React&logoColor=white">
+<img src="https://img.shields.io/badge/REACT-61DAFB?style=flat-square&logo=react&logoColor=white">
+<img src="https://img.shields.io/badge/TYPESCRIPT-3178C6?style=flat-square&logo=typescript&logoColor=white">
+<img src="https://img.shields.io/badge/TAILWIND-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white">
+<img src="https://img.shields.io/badge/AXIOS-5A29E4?style=flat-square&logo=axios&logoColor=white">
+<img src="https://img.shields.io/badge/ZUSTAND-ECB63F?style=flat-square&logoColor=white">
+<img src="https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=sass&logoColor=white">
+<img src="https://img.shields.io/badge/ESLINT-4B32C3?style=flat-square&logo=eslint&logoColor=white">
+<img src="https://img.shields.io/badge/PRETTIER-F7B93E?style=flat-square&logo=prettier&logoColor=white">
 
 ### Back
 
+<img src="https://img.shields.io/badge/JAVA-EC2025?style=flat-square&logoColor=white">
+<img src="https://img.shields.io/badge/SPRING BOOT-6DB33F?style=flat-square&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/SPRING SECURITY-6DB33F?style=flat-square&logo=springsecurity&logoColor=white">
+<img src="https://img.shields.io/badge/JSON WEB TOKENS-000000?style=flat-square&logo=jsonwebtokens&logoColor=white">
+<img src="https://img.shields.io/badge/MONGODB-47A248?style=flat-square&logo=mongodb&logoColor=white">
+<img src="https://img.shields.io/badge/REDIS-DC382D?style=flat-square&logo=redis&logoColor=white">
+<img src="https://img.shields.io/badge/MYSQL-4479A1?style=flat-square&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/GRADLE-02303A?style=flat-square&logo=gradle&logoColor=white">
+<img src="https://img.shields.io/badge/APACHE TOMCAT-F8DC75?style=flat-square&logo=apachetomcat&logoColor=white">
+<img src="https://img.shields.io/badge/SWAGGER-F46800?style=flat-square&logoColor=white">
+
 ### BlockChain
 
-### CI/CD
+<img src="https://img.shields.io/badge/ETHEREUM-3C3C3D?style=flat-square&logo=ethereum&logoColor=white">
+<img src="https://img.shields.io/badge/TRUFFLE-33DFC3?style=flat-square&logoColor=white">
+<img src="https://img.shields.io/badge/SOLIDITY-363636?style=flat-square&logo=solidity&logoColor=white">
+
+### DEVOPS
+
+<img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=nginx&logoColor=white">
+<img src="https://img.shields.io/badge/JENKINS-D24939?style=flat-square&logo=docker&logoColor=white">
+<img src="https://img.shields.io/badge/DOCKER-2496ED?style=flat-square&logo=docker&logoColor=white">
+<img src="https://img.shields.io/badge/GRAFANA-F46800?style=flat-square&logo=grafana&logoColor=white">
+<img src="https://img.shields.io/badge/PROMETHEUS-E6522C?style=flat-square&logo=prometheus&logoColor=white">
 
 ### 협업 툴
+
+<img src="https://img.shields.io/badge/JIRA-0052CC?style=flat-square&logo=jira&logoColor=white">
+<img src="https://img.shields.io/badge/GITLAB-FC6D26?style=flat-square&logo=gitlab&logoColor=white">
+<img src="https://img.shields.io/badge/MATTERMOST-0058CC?style=flat-square&logo=mattermost&logoColor=white">
+<img src="https://img.shields.io/badge/NOTION-000000?style=flat-square&logo=notion&logoColor=white">
 
 ##

@@ -181,6 +181,7 @@ function ApiList() {
                       category={api.category}
                       title={api.title}
                       tags={api.tags}
+                      content={api.content}
                     />
                   </div>
                 </div>

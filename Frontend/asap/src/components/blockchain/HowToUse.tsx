@@ -2,8 +2,6 @@ import React from 'react';
 import 'styles/blockchain/HowToUse.scss';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as Fold } from 'assets/icons/fold.svg';
-import { ReactComponent as Test1 } from 'assets/icons/test1.svg';
-import { ReactComponent as Test2 } from 'assets/icons/test2.svg';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 import { Fade } from 'react-awesome-reveal';
 import Swal from 'sweetalert2';
@@ -34,7 +32,7 @@ function HowToUse({
   };
 
   return (
-    <CSSTransition in={isOpen} timeout={400} classNames="fade" unmountOnExit>
+    <CSSTransition in={isOpen} timeout={600} classNames="fade" unmountOnExit>
       <div className="w-10/12 howtouse unmount">
         <div className="w-full flex items-center">
           <div className="number">1.</div>
@@ -63,7 +61,7 @@ function HowToUse({
                 변환하여 저장합니다
               </div>
               <div className="pl-3">
-                즉, 블록에 저장된 Hash값과 정산에 사용된 데이터의 Hash값이
+                즉, 블록에 저장된 Hash값과 정산에 사용된 데이터의 해시값이
                 동일하다면 정산에 사용된{' '}
                 <span className="color-text">데이터가 변조가 되지 않았음</span>
                 을 증명합니다
@@ -85,13 +83,23 @@ function HowToUse({
               >
                 변환하기
               </button>{' '}
-              버튼을 클릭하면 Hash값으로 직접 변환하여 확인도 가능합니다
+              버튼을 클릭하면 해시값으로 직접 변환하여 확인도 가능합니다
             </div>
             {testOpen ? (
               <div>
                 <Fade cascade damping={0.15}>
-                  <Test1 className="w-full h-auto" />
-                  <Test2 className="w-full h-auto" />
+                  <div className="check-back flex justify-between data mt-4">
+                    <div>
+                      7b69577e36adbbff5e25cc1ddbefea649aafbc8afbdcca37902e9bee4f47e0e1
+                    </div>
+                    <div className="color-text">일치합니다</div>
+                  </div>
+                  <div className="check-back flex justify-between data mt-4">
+                    <div>
+                      b67ec20f64bb5fd73b73be1d9b330cc012e534d5eae2dd26e5fa12ccfcf2f8cc
+                    </div>
+                    <div className="color-text">일치하지 않습니다</div>
+                  </div>
                 </Fade>
               </div>
             ) : null}
@@ -101,7 +109,7 @@ function HowToUse({
           <button
             type="button"
             onClick={onCloseHandler}
-            className="fold-button up mt-10"
+            className="fold-button up mt-7"
           >
             <Fold />
           </button>

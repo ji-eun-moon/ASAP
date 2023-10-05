@@ -25,6 +25,8 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     List<Daily> findAllByDate(LocalDate Date);
 
+    List<Daily> findAllByApiAndDate(Api api, LocalDate Date);
+
     @Query("SELECT d " +
             "FROM Daily d " +
             "WHERE d.userWallet.walletId = :userWallet and d.api.apiId = :api and d.date = :date")

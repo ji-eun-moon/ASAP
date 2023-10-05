@@ -14,6 +14,7 @@ import com.core.apiserver.total.entity.domain.Total;
 import com.core.apiserver.total.repository.TotalRepository;
 import com.core.apiserver.wallet.entity.domain.Wallet;
 import com.core.apiserver.wallet.repository.WalletRepository;
+import io.lettuce.core.GeoArgs;
 import lombok.RequiredArgsConstructor;
 
 import org.jetbrains.annotations.NotNull;
@@ -207,19 +208,24 @@ public class DailyService {
 
         Wallet wallet = walletRepository.findById(getDailyRequest.getUserWalletId()).orElseThrow();
         Api api = apiRepository.findById(getDailyRequest.getApiId()).orElseThrow();
-        List<DailyUsageResponse> usageResponses = new ArrayList<>();
         List<Daily> dailies = dailyRepository.findAllByUserWalletAndApiAndDateBetweenOrderByDateDesc(wallet,
                 api, LocalDate.now().minusDays(30), LocalDate.now());
+        Map<LocalDate, DailyUsageResponse> map = new HashMap<>();
+
+        for (int i = 0; i < 31; i++) {
+            map.put(LocalDate.now().minusDays(30-i), new DailyUsageResponse(LocalDate.now().minusDays(30-i), 0L, 0L));
+        }
 
         for (Daily daily: dailies) {
-            usageResponses.add(new DailyUsageResponse(daily.getDate(), daily.getUseAmount(),
-                    daily.getUseAmount() * api.getPrice()));
+            map.get(daily.getDate()).update(daily);
         }
-        usageResponses.sort((o1, o2) -> {
+
+        List<DailyUsageResponse> arrayList = new ArrayList<>(map.values());
+        arrayList.sort((o1, o2) -> {
             return o1.getDate().compareTo(o2.getDate());
         });
 
-        return usageResponses;
+        return arrayList;
     }
 
     public List<DailyUsageResponse> dailyProviding(Map<String, String> map) {
@@ -228,19 +234,19 @@ public class DailyService {
 
         Map<LocalDate, DailyProvidingResponse> dateMap = new HashMap<>();
 
+        for (int i = 0; i < 31; i++) {
+            dateMap.put(LocalDate.now().minusDays(30-i), new DailyProvidingResponse(0L, 0L));
+        }
+
         for (Daily daily: dailies) {
-            if (dateMap.containsKey(daily.getDate())) {
-                DailyProvidingResponse DailyProvidingResponse = dateMap.get(daily.getDate());
-                DailyProvidingResponse.update(daily.getUseAmount(), daily.getUseAmount() * Long.valueOf(daily.getApi().getPrice()));
-                dateMap.put(daily.getDate(), DailyProvidingResponse);
-            } else {
-                dateMap.put(daily.getDate(), new DailyProvidingResponse(daily.getUseAmount(), daily.getUseAmount() * Long.valueOf(daily.getApi().getPrice())));
-            }
+            dateMap.get(daily.getDate()).update(daily.getUseAmount(), daily.getUseAmount() * daily.getApi().getPrice());
         }
         List<DailyUsageResponse> list = new ArrayList<>();
         for (LocalDate localDate : dateMap.keySet()) {
             list.add(new DailyUsageResponse(localDate, dateMap.get(localDate).getAmount(), dateMap.get(localDate).getPrice()));
         }
+
+
         list.sort((o1, o2) -> {
             return o1.getDate().compareTo(o2.getDate());
         });

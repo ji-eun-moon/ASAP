@@ -150,7 +150,7 @@ function ApiApply() {
             <button
               type="button"
               onClick={onOkHandler}
-              className="w-2/6 rounded-md check-button"
+              className="w-2/6 rounded-md check"
             >
               확인
             </button>

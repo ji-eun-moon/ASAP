@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useGetApiUsage from 'hooks/api/api/useGetApiUsage';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 import { Button } from '@material-tailwind/react';
@@ -161,9 +161,14 @@ function ApiUsage() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="w-96">
-          <div className="flex justify-start">
+        <div className="w-80">
+          <div className="flex flex-col justify-start">
             <p className="text-lg mt-5 font-bold">클립보드에 복사되었습니다.</p>
+            <div className="text-base flex flex-col gap-1">
+              <Link to="/mypage/keys" className="move-text mt-4">
+                • 마이페이지 &gt; 키 관리로 이동하기
+              </Link>
+            </div>
           </div>
           <div className="flex flex-row-reverse my-5">
             <Button ripple onClick={closeModal} className="bg-blue-500">

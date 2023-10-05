@@ -2,12 +2,23 @@ import React, { useEffect } from 'react';
 import useGetUseList from 'hooks/api/chart/useGetUseList';
 import useDetailStore from 'store/chart/useDetailStore';
 import Spinner from 'components/common/Spinner';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@material-tailwind/react';
 import UserDailyChart from './UserDailyChart';
 
 function UserDetail() {
+  const navigate = useNavigate();
   const { useListLoading, useList } = useGetUseList();
   const { apiId, setApiId, setApiTitle, apiTitle, resetApiDetails } =
     useDetailStore();
+
+  const onApiUsageHandler = () => {
+    navigate(`/api_list/${apiId}/usage`);
+  };
+
+  const onApiDetailHandler = () => {
+    navigate(`/api_list/${apiId}`);
+  };
 
   const renderApiTitile = () => {
     if (useListLoading) {
@@ -18,7 +29,8 @@ function UserDetail() {
     }
     return (
       <div>
-        <span className="ms-2">&apos;{apiTitle}&apos;</span> <span>통계</span>
+        <span className="ms-2 page-text">&apos;{apiTitle}&apos;</span>{' '}
+        <span>통계</span>
       </div>
     );
   };
@@ -63,10 +75,24 @@ function UserDetail() {
 
       {/* 사용 차트 */}
       <div className="col-span-7">
-        <div className="font-bold text-3xl mb-12 ml-8">{renderApiTitile()}</div>
+        <button
+          type="button"
+          className="font-bold text-3xl mb-12 ml-8"
+          onClick={onApiDetailHandler}
+        >
+          {renderApiTitile()}
+        </button>
         <div className="flex flex-col items-center justify-around">
           <div className="w-full flex justify-evenly">
             <UserDailyChart />
+          </div>
+          <div className="flex justify-end mt-5" style={{ width: '94%' }}>
+            <Button
+              onClick={onApiUsageHandler}
+              style={{ backgroundColor: '#004096' }}
+            >
+              사용법 확인하기
+            </Button>
           </div>
         </div>
       </div>

@@ -47,7 +47,7 @@ function AccountWallet() {
             </div>
             {/* 지갑 정보 - 주소 */}
             <div className="w-2/3 pr-8 flex flex-col justify-center">
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-jbold">
                 <span className="color-text">{memberInfo?.name}</span>&nbsp;님의
                 지갑
               </div>

@@ -239,7 +239,7 @@ public class DailyService {
         }
 
         for (Daily daily: dailies) {
-            dateMap.get(daily.getDate()).update(daily.getUseAmount(), daily.getApi().getPrice());
+            dateMap.get(daily.getDate()).update(daily.getUseAmount(), Long.valueOf(daily.getApi().getPrice()));
         }
 
         List<DailyUsageResponse> list = new ArrayList<>();

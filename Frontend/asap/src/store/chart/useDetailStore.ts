@@ -29,6 +29,7 @@ const useDetailStore = create<IDetailStore>((set) => ({
     set({
       apiId: undefined,
       apiTitle: '',
+      dailyUsageStore: null,
     });
   },
 }));

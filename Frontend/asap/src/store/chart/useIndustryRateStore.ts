@@ -6,6 +6,7 @@ interface industryRateStore {
 
   setIndustry: (industry: string[]) => void; // eslint-disable-line no-unused-vars
   setCount: (count: number[]) => void; // eslint-disable-line no-unused-vars
+  resetIndustryRate: () => void; // eslint-disable-line no-unused-vars
 }
 
 const useIndustryRateStore = create<industryRateStore>((set) => ({
@@ -14,5 +15,11 @@ const useIndustryRateStore = create<industryRateStore>((set) => ({
 
   setIndustry: (industry) => set({ industry }),
   setCount: (count) => set({ count }),
+  resetIndustryRate: () => {
+    set({
+      industry: [],
+      count: [],
+    });
+  },
 }));
 export default useIndustryRateStore;

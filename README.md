@@ -77,10 +77,14 @@
 <strong style="font-size:20px">다양한 API 조회 </string>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <img src="./assets/메인화면.gif" width=900px style="align-self-center"></img>
 =======
 <img src="./assets/메인화면.gif" width=900px align="center"></img>
 >>>>>>> 5b3306c3efeeed11540d1e49bbe756f50b2e3de1
+=======
+<img src="./assets/메인화면.gif" width=900px style="align-self-center">
+>>>>>>> 272d26ba7dceb54821368868b93f86dc4bcbee75
 
 <br>
 

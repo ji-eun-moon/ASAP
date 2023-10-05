@@ -28,3 +28,11 @@ button {
     background-color: #353535;
   }
 }
+
+.page-text {
+  color: #000000;
+
+  &:hover {
+    color: #004096;
+  }
+}

@@ -158,7 +158,7 @@ function ApiList() {
               )}{' '}
               <p>개의 상품</p>
             </div>
-            <Button onClick={handleResetSearch} className="bg-gray-700">
+            <Button onClick={handleResetSearch} className="filter-button">
               검색 필터 초기화
             </Button>
           </div>

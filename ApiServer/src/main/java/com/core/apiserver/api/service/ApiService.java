@@ -133,6 +133,19 @@ public class ApiService {
         return commonForm(uri);
     }
 
+    public Object kakaoMobilityDirection(MultiValueMap<String, String> params) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://apis-navi.kakaomobility.com")
+                .path("/v1/directions")
+                .queryParams(params)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri);
+    }
+
     public Object commonForm(URI uri) {
         try {
             HttpHeaders headers = new HttpHeaders();

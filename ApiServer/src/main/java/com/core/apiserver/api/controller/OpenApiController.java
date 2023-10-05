@@ -166,4 +166,27 @@ public class OpenApiController {
 
         return ResponseEntity.ok(apiService.kakaoBookSearch(param));
     }
+
+    @GetMapping("/mobility/directions/{wallet-id}/{api-id}")
+    @Operation(summary = "책 검색", description = "query를 통해 검색 결과 받음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "검색 결과"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> kakaoMobilityDirections(HttpServletRequest httpServletRequest,
+                                             @RequestParam MultiValueMap<String, String> param,
+                                             @PathVariable(value = "wallet-id") Long walletId,
+                                             @PathVariable(value = "api-id") Long apiId) {
+
+        if (httpServletRequest.getHeader("Authorization").equals(allowHeader)) {
+            CreateRedisUsageRequest createRedisUsageRequest = new CreateRedisUsageRequest(walletId,
+                    apiService.findProviderIdById(apiId), apiId);
+
+            redisUsageService.save(createRedisUsageRequest);
+        }
+
+        return ResponseEntity.ok(apiService.kakaoMobilityDirection(param));
+    }
 }

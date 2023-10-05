@@ -12,6 +12,7 @@ function Intro({ navigate, text }: IIntrorops) {
   const onNavigateHandler = () => {
     window.location.href = navigate;
   };
+
   return (
     <div className="intro-container">
       <div className="text-container">

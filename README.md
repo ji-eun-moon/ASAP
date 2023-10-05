@@ -74,39 +74,39 @@
 
 <br>
 
-<strong>다양한 API 조회 </string>
+<strong style="font-size:20px">다양한 API 조회 </string>
 
-![Alt text](assets/%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4.gif)
-
-<br>
-
-<strong>손쉬운 API 사용법 조회 </strong>
-
-![Alt text](<assets/사용법 조회.gif>)
+<img src="./assets/메인화면.gif" width=400></img>
 
 <br>
 
-<strong>사용 신청 전 테스트 제공 </strong>
+<strong style="font-size:20px">손쉬운 API 사용법 조회 </strong>
 
-![Alt text](assets/%ED%85%8C%EC%8A%A4%ED%8A%B8.gif)
-
-<br>
-
-<strong> 사용·제공량 시각화 자료로 제공 </strong>
-
-![Alt text](<assets/시각화 자료.gif>)
+<img src="./assets/사용법 조회.gif" width=400></img>
 
 <br>
 
-<strong> 블록체인으로 사용량 검증 서비스 제공</strong>
+<strong style="font-size:20px">사용 신청 전 테스트 제공 </strong>
 
-![Alt text](<assets/블록체인 검증.gif>)
+<img src="./assets/테스트.gif" width=400></img>
 
 <br>
 
-<strong> 간편한 API 신청 서비스 제공 </strong>
+<strong style="font-size:20px"> 사용·제공량 시각화 자료로 제공 </strong>
 
-![Alt text](<assets/제공 신청 페이지.gif>)
+<img src="./assets/시각화 자료.gif" width=400></img>
+
+<br>
+
+<strong style="font-size:20px"> 블록체인으로 사용량 검증 서비스 제공</strong>
+
+<img src="./assets/블록체인 검증.gif" width=400></img>
+
+<br>
+
+<strong style="font-size:20px"> 간편한 API 신청 서비스 제공 </strong>
+
+<img src="./assets/제공 신청 페이지.gif" width=400></img>
 
 <br>
 
@@ -114,4 +114,4 @@
 
 <br>
 
-![Alt text](<assets/서비스 아키텍처.png>)
+<p align="center"><img src="./assets/서비스 아키텍처.png" width=400></img></p>

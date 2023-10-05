@@ -59,7 +59,12 @@
   background-color: #aed2ec;
   color: white;
   font-weight: 700;
+
+  &:hover {
+    background-color: #8dbbdd;
+  }
 }
+
 .wait option {
   width: 60px;
   height: 30px;
@@ -75,6 +80,7 @@
   color: white;
   font-weight: 700;
 }
+
 .approve option {
   width: 60px;
   height: 30px;
@@ -89,7 +95,12 @@
   background-color: #3e87e7;
   color: white;
   font-weight: 700;
+
+  &:hover {
+    background-color: #2275e2;
+  }
 }
+
 .proceed option {
   width: 60px;
   height: 30px;

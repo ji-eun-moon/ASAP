@@ -1,11 +1,35 @@
 import React from 'react';
 import useAuthStore from 'store/auth/useAuthStore';
 import { Chip } from '@material-tailwind/react';
+import useDetailStore from 'store/chart/useDetailStore';
+import useCategoryStore from 'store/chart/useCategoryStore';
+import useNewUserStore from 'store/chart/useNewUserStore';
+import useIndustryRateStore from 'store/chart/useIndustryRateStore';
 
 function Switch() {
   const { isLoggedIn, loginType, setLoginType } = useAuthStore(
     (state) => state,
   );
+  const { resetApiDetails } = useDetailStore();
+  const { resetApiCategory } = useCategoryStore();
+  const { resetNewUser } = useNewUserStore();
+  const { resetIndustryRate } = useIndustryRateStore();
+
+  const supplierHandler = () => {
+    setLoginType('supplier');
+    resetApiDetails();
+    resetApiCategory();
+    resetNewUser();
+    resetIndustryRate();
+  };
+  // useEffect(() => {
+  //   return () => {
+  //     resetApiDetails();
+  //     resetApiCategory();
+  //     resetNewUser();
+  //     resetIndustryRate();
+  //   };
+  // }, [resetApiDetails, resetApiCategory, resetNewUser, resetIndustryRate]);
 
   if (isLoggedIn) {
     return (
@@ -22,7 +46,7 @@ function Switch() {
               }`}
             />
           </button>
-          <button type="button" onClick={() => setLoginType('supplier')}>
+          <button type="button" onClick={supplierHandler}>
             <Chip
               size="lg"
               value="제공자"

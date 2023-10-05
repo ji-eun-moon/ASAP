@@ -74,6 +74,7 @@ const useMonthlyProvide = () => {
         setMonthlyLoading(false);
       } catch (error) {
         console.log('사용자 월별 제공량 조회 실패', error);
+        setMonthlyLoading(false);
       }
     },
     [

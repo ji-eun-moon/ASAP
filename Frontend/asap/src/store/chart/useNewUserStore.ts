@@ -22,6 +22,8 @@ interface newUserStore {
   setTwoBeforeMonthCount: (monthCount: number) => void; // eslint-disable-line no-unused-vars
   setOneBeforeMonthCount: (monthCount: number) => void; // eslint-disable-line no-unused-vars
   setMonthCount: (monthCount: number) => void; // eslint-disable-line no-unused-vars
+
+  resetNewUser: () => void; // eslint-disable-line no-unused-vars
 }
 const useNewUserStore = create<newUserStore>((set) => ({
   fourBeforeMonthDate: '',
@@ -53,6 +55,20 @@ const useNewUserStore = create<newUserStore>((set) => ({
   setOneBeforeMonthCount: (monthCount: number) =>
     set({ oneBeforeMonthCount: monthCount }),
   setMonthCount: (monthCount: number) => set({ monthCount }),
+  resetNewUser: () => {
+    set({
+      fourBeforeMonthDate: '',
+      threeBeforeMonthDate: '',
+      twoBeforeMonthDate: '',
+      oneBeforeMonthDate: '',
+      monthDate: '',
+      fourBeforeMonthCount: 0,
+      threeBeforeMonthCount: 0,
+      twoBeforeMonthCount: 0,
+      oneBeforeMonthCount: 0,
+      monthCount: 0,
+    });
+  },
 }));
 
 export default useNewUserStore;

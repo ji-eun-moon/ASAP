@@ -69,7 +69,7 @@ function UserMonthly() {
         <div className="flex">
           <div className="font-bold text-3xl flex">
             <div className="mr-1">API 사용 통계</div>
-            <TooltipHelper message="통계 데이터는 5분 마다 갱신됩니다." />
+            <TooltipHelper message="통계 데이터는 3분 마다 갱신됩니다." />
           </div>
         </div>
         {/* 날짜 선택 */}

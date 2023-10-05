@@ -67,6 +67,7 @@ const useMonthlyDetail = () => {
         setMonthlyLoading(false);
       } catch (error) {
         console.log(error);
+        setMonthlyLoading(false);
       }
     },
     [loginType],

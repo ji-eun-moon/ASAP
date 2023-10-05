@@ -76,7 +76,7 @@
 
 <strong style="font-size:20px">다양한 API 조회 </string>
 
-<img src="./assets/메인화면.gif" width=100%></img>
+<img src="./assets/메인화면.gif" width=900px></img>
 
 <br>
 
@@ -88,13 +88,13 @@
 
 <strong style="font-size:20px">사용 신청 전 테스트 제공 </strong>
 
-<img src="./assets/테스트.gif" width=500px></img>
+<img src="./assets/테스트.gif" width=700px></img>
 
 <br>
 
 <strong style="font-size:20px"> 사용·제공량 시각화 자료로 제공 </strong>
 
-<img src="./assets/시각화 자료.gif" width=400></img>
+<img src="./assets/시각화 자료.gif" width=800></img>
 
 <br>
 

@@ -27,9 +27,6 @@ function SupplierMonthly() {
     twoBeforeMonthDate,
     monthDate,
   } = useMonthlyStore();
-  console.log('여기를주목');
-  console.log(totalPrice);
-  console.log(oneBeforeMonthDate);
 
   // 사용 요금과 사용 가격 1000 단위로 쉼표
   const formattedTotalAmount = totalAmount.toLocaleString();

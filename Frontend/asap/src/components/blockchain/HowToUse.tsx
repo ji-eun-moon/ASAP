@@ -2,14 +2,37 @@ import React from 'react';
 import 'styles/blockchain/HowToUse.scss';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as Fold } from 'assets/icons/fold.svg';
-import { ReactComponent as Test } from 'assets/icons/test.svg';
+import { ReactComponent as Test1 } from 'assets/icons/test1.svg';
+import { ReactComponent as Test2 } from 'assets/icons/test2.svg';
+import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
+import { Fade } from 'react-awesome-reveal';
+import Swal from 'sweetalert2';
 
 interface HowToUseProps {
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  testOpen: boolean;
+  setTestOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onCloseHandler(): void;
 }
 
-function HowToUse({ isOpen, setIsOpen }: HowToUseProps) {
+function HowToUse({
+  isOpen,
+  testOpen,
+  setTestOpen,
+  onCloseHandler,
+}: HowToUseProps) {
+  const onCopyHandler = () => {
+    alert('클립보드에 내용이 복사되었습니다');
+  };
+  const onCheckHandler = () => {
+    Swal.fire({
+      icon: 'success',
+      title: '검증 결과',
+      text: '데이터가 일치합니다.',
+      confirmButtonColor: '#4caf50',
+    });
+  };
+
   return (
     <CSSTransition in={isOpen} timeout={400} classNames="fade" unmountOnExit>
       <div className="w-10/12 howtouse unmount">
@@ -17,7 +40,11 @@ function HowToUse({ isOpen, setIsOpen }: HowToUseProps) {
           <div className="number">1.</div>
           <div>
             조회할 API와 기간을 선택 후{' '}
-            <button type="button" className="check-button">
+            <button
+              type="button"
+              className="check-button"
+              onClick={onCheckHandler}
+            >
               검증하기
             </button>{' '}
             버튼을 클릭하세요
@@ -45,22 +72,35 @@ function HowToUse({ isOpen, setIsOpen }: HowToUseProps) {
           </div>
         </div>
         <div className="w-full flex items-start">
-          <div className="number">3.</div>
+          <div className="number pt-1">3.</div>
           <div className="w-11/12 flex flex-col">
-            <div>
-              정산에 사용된 데이터 또는 원하는 데이터를 입력 후{' '}
-              <button type="button" className="check-button">
+            <div className="flex items-center mb-2">
+              정산에 사용된 데이터{' '}
+              <Copy className="w-4 mx-2" onClick={onCopyHandler} />
+              또는 원하는 데이터를 입력 후{' '}
+              <button
+                type="button"
+                className="check-button mx-2"
+                onClick={() => setTestOpen(true)}
+              >
                 변환하기
               </button>{' '}
               버튼을 클릭하면 Hash값으로 직접 변환하여 확인도 가능합니다
             </div>
-            <Test className="w-auto h-auto" />
+            {testOpen ? (
+              <div>
+                <Fade cascade damping={0.15}>
+                  <Test1 className="w-full h-auto" />
+                  <Test2 className="w-full h-auto" />
+                </Fade>
+              </div>
+            ) : null}
           </div>
         </div>
         <div className="flex justify-center">
           <button
             type="button"
-            onClick={() => setIsOpen(false)}
+            onClick={onCloseHandler}
             className="fold-button up mt-10"
           >
             <Fold />

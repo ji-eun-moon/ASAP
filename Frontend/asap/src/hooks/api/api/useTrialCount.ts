@@ -12,7 +12,6 @@ const useTrialCount = () => {
         method: 'GET',
         url: '/api/v1/redis/test',
       });
-      console.log(response.data);
       setTrial(100 - response.data);
       setTrialLoading(false);
     } catch (error) {

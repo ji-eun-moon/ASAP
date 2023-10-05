@@ -11,59 +11,77 @@ import * as echarts from 'echarts';
 interface PieChartProps {
   title: string | null;
   content: string[];
-  value: number[];
+  value: string[] | number[];
 }
 function PieChart({ title, content, value }: PieChartProps) {
   const chartRef = useRef(null);
 
   useEffect(() => {
-    if (chartRef.current) {
-      const myChart = echarts.init(chartRef.current);
+    if (!chartRef.current) return undefined;
 
-      const option = {
-        title: {
-          text: title,
-          left: 'center', // 타이틀의 위치
-          top: '5%',
+    const option = {
+      title: {
+        text: title,
+        textStyle: {
+          // 이 부분을 추가
+          color: '#000000',
         },
-        tooltip: {
-          trigger: 'item',
-        },
-        legend: {
-          orient: 'horizontal',
-          bottom: '5%',
-          left: 'center',
-        },
-        series: [
-          {
-            // name: 'Access From',
-            type: 'pie',
-            radius: '50%',
-            data: content.map((item, index) => {
-              return { name: item, value: value[index] };
-            }),
-            label: {
-              show: true,
-              formatter: '{d}%', // 라벨 형식 설정 (이름: 백분율)
-            },
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)',
-              },
+        left: 'center', // 타이틀의 위치
+        top: '5%',
+      },
+      tooltip: {
+        trigger: 'item',
+      },
+      legend: {
+        orient: 'horizontal',
+        bottom: '5%',
+        left: 'center',
+      },
+      series: [
+        {
+          // name: 'Access From',
+          type: 'pie',
+          radius: '50%',
+          color: [
+            '#ea8181', // 빨
+            '#91cc75', // 초
+            '#f8ea72', // 노
+            '#5470c6', // 파
+            '#b154c6', // 보
+            '#6ec2e6', // 하늘
+            '#ea72c8', // 분홍
+          ],
+          data: content.map((item, index) => {
+            return { name: item, value: value[index] };
+          }),
+          label: {
+            show: true,
+            formatter: '{d}%', // 라벨 형식 설정 (이름: 백분율)
+          },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
             },
           },
-        ],
-      };
+        },
+      ],
+    };
 
-      myChart.setOption(option);
+    const myChart = echarts.init(chartRef.current);
+    myChart.setOption(option);
 
-      // 차트 컴포넌트 크기를 동적으로 조정
-      window.addEventListener('resize', () => {
-        myChart.resize();
-      });
-    }
+    const resizeHandler = () => {
+      myChart.resize();
+    };
+
+    window.addEventListener('resize', resizeHandler);
+
+    return () => {
+      myChart.dispose();
+      window.removeEventListener('resize', resizeHandler);
+    };
   }, [title, content, value]);
 
   return (
@@ -77,4 +95,4 @@ function PieChart({ title, content, value }: PieChartProps) {
   );
 }
 
-export default PieChart;
+export default React.memo(PieChart);

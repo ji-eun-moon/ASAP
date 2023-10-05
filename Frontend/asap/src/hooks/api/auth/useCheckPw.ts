@@ -20,12 +20,12 @@ const useCheckPw = () => {
         setCheckedPw(true);
         sessionStorage.setItem('isAuthenticated', 'true');
         window.location.replace(prevLocation || defaultRedirect);
-        console.log(response.data);
+        return true;
       }
     } catch (error) {
       console.log(error);
-      alert('비밀번호를 다시 입력해주세요.');
     }
+    return false;
   };
 
   return { checkPw, checkedPw };

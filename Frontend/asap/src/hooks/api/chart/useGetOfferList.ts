@@ -15,7 +15,7 @@ interface IApi {
 const useGetOfferList = () => {
   const [offerListLoading, setOfferListLoading] = useState<boolean>(true);
   const [offerList, setOfferList] = useState<IApi[] | null>();
-  const { setApiId } = useDetailStore();
+  const { setApiId, setApiTitle } = useDetailStore();
 
   const getOfferList = useCallback(async () => {
     try {
@@ -24,13 +24,16 @@ const useGetOfferList = () => {
         url: '/api/v1/apis/offerList',
       });
       setOfferList(response.data);
-      setApiId(response.data[0].apiId);
+      if (response.data.length >= 1) {
+        setApiId(response.data[0].apiId);
+        setApiTitle(response.data[0].title);
+      }
       setOfferListLoading(false);
       // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
-  }, [setApiId]);
+  }, [setApiId, setApiTitle]);
 
   useEffect(() => {
     getOfferList();

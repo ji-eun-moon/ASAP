@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'styles/common/Modal.scss';
 import { ReactComponent as Cross } from 'assets/icons/Cross.svg';
 import { Button } from '@material-tailwind/react';
@@ -12,6 +12,19 @@ interface ModalProps {
 }
 
 function Modal({ isOpen, onClose, message, confirm, children }: ModalProps) {
+  // 모달이 열려있을 때는 스크롤 방지
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   if (confirm) {

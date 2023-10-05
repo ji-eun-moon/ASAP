@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import useSupplyApplyList from 'hooks/api/supply/useSupplyApplyList';
 import { useNavigate } from 'react-router-dom';
 import Header from 'components/common/Header';
-import { Tabs, TabsHeader, Tab, Card, Button } from '@material-tailwind/react';
+import { Tabs, TabsHeader, Tab, Card } from '@material-tailwind/react';
 import { Collapse, Ripple, initTE } from 'tw-elements';
-import { ReactComponent as TopArrow } from 'assets/icons/TopArrow.svg';
 
 import Table from 'components/mypage/InfoTable';
 import 'styles/common/Input.scss';
@@ -28,7 +27,6 @@ function ApiDetail(
     }
     return 'col-span-2';
   };
-  console.log('tags', apiDetail.tags);
   return (
     <div className="my-5">
       {!apiDetail ? (
@@ -88,7 +86,9 @@ function ApiDetail(
             left="관련 태그"
             right={
               apiDetail.tags
-                ? JSON.parse(apiDetail.tags).map((tag: string) => <p>#{tag}</p>)
+                ? JSON.parse(apiDetail.tags).map((tag: string) => (
+                    <p key={tag}>#{tag}</p>
+                  ))
                 : ''
             }
             height="100%"
@@ -195,21 +195,11 @@ function SupplyApplyList() {
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
-  const onScrollUpHandler = () => {
-    if (!window.scrollY) return;
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
 
   /* 특정 api의 상세 내용 조회 */
   const showDetail = async (applyId: number) => {
-    console.log(applyId);
     if (detailApplyId === applyId) {
       setIsOpened(!isOpened);
-      console.log('이전과 같습니다');
     } else {
       setIsOpened(true);
       setDetailApplyId(applyId);
@@ -246,7 +236,11 @@ function SupplyApplyList() {
   /* 전체 조회 api 리스트 화면 관리 */
   const allApis = () => {
     if (supplyApplyList.length === 0) {
-      return <div> {selectedItem.slice(0, 2)} api 내역이 없습니다</div>;
+      return (
+        <div className="my-5">
+          {selectedItem.slice(0, 2)} api 내역이 없습니다
+        </div>
+      );
     }
     return supplyApplyList.map((api) => (
       <div className="w-full grid grid-cols-5 my-5" key={api.applyId}>
@@ -291,7 +285,11 @@ function SupplyApplyList() {
   /* 대기,승인,진행,거절조회 api 리스트 화면 관리 */
   const filterdApis = () => {
     if (stateApis.length === 0) {
-      return <div> {selectedItem.slice(0, 2)} api 내역이 없습니다</div>;
+      return (
+        <div className="my-5">
+          {selectedItem.slice(0, 2)} api 내역이 없습니다
+        </div>
+      );
     }
     return stateApis.map((api) => (
       <div className="w-full grid grid-cols-5 my-5">
@@ -359,7 +357,7 @@ function SupplyApplyList() {
           data-hs-scrollspy="#scrollspy-2"
           data-hs-scrollspy-scrollable-parent="#scrollspy-scrollable-parent-2"
         >
-          <Tabs value={selectedItem} orientation="vertical">
+          <Tabs value={selectedItem} orientation="vertical" className="up">
             <TabsHeader className="w-40">
               {data.map(({ label, value }) => (
                 <Tab
@@ -377,16 +375,19 @@ function SupplyApplyList() {
           </Tabs>
         </div>
         <div className="w-5/6 px-8 flex flex-col">
-          <div className="flex justify-end mb-10">
-            <Button
-              onClick={() => navigate('/supply/submit')}
-              className="applyButton"
+          <div className="flex justify-end mb-5">
+            <button
+              type="button"
+              onClick={() => {
+                navigate('/supply/submit');
+              }}
+              className="supply-button black-back"
             >
               API 제공 신청하기
-            </Button>
+            </button>
           </div>
 
-          <div className="my-4 w-full grid grid-cols-5 grid-rows-auto border-bottom py-3">
+          <div className="mt-4 w-full grid grid-cols-5 grid-rows-auto border-bottom py-3">
             <div className="col-span-1 text-center text-lg font-bold">
               신청일자
             </div>
@@ -396,17 +397,8 @@ function SupplyApplyList() {
             <div className="col-span-1 text-center text-lg font-bold">상태</div>
           </div>
 
-          <div className="my-6 pb-3 w-full border-bottom text-center">
+          <div className="mb-6 w-full border-bottom text-center">
             {selectedItem === '전체 조회' ? allApis() : filterdApis()}
-          </div>
-          <div className="topBtnWrap">
-            <button
-              type="button"
-              className="topBtn"
-              onClick={onScrollUpHandler}
-            >
-              <TopArrow className="w-8 h-auto" />
-            </button>
           </div>
         </div>
       </div>

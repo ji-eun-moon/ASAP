@@ -18,50 +18,61 @@ function BarChart({ title, content, value }: BarChartProps) {
   const chartRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (chartRef.current) {
-      const myChart = echarts.init(chartRef.current);
+    if (!chartRef.current) return undefined;
 
-      // 마지막 데이터를 빨간색으로 표시
-      const styledValue = value.map((v, index) =>
-        index === value.length - 1
-          ? { value: v, itemStyle: { color: '#DC2222' } }
-          : v,
-      );
+    const myChart = echarts.init(chartRef.current);
 
-      const option = {
-        title: {
-          text: title,
-          left: 'center',
-          top: '5%',
-        },
-        xAxis: {
-          type: 'category',
-          data: content,
-        },
-        yAxis: {
-          type: 'value',
-        },
-        series: [
-          {
-            data: styledValue,
-            type: 'bar',
-          },
-        ],
-        tooltip: {
-          trigger: 'axis', // 'axis'는 x축 기준으로 툴팁이 표시됩니다. 'item'으로 설정하면 각 항목 위에 따로 표시됩니다.
-          axisPointer: {
-            type: 'none', // 마우스가 올라간 항목의 영역을 강조
-          },
-        },
-      };
+    // 마지막 데이터를 빨간색으로 표시
+    const styledValue = value.map((v, index) =>
+      index === value.length - 1
+        ? { value: v, itemStyle: { color: '#DC2222' } }
+        : v,
+    );
 
-      myChart.setOption(option);
+    const option = {
+      title: {
+        text: title,
+        textStyle: {
+          // 이 부분을 추가
+          color: '#000000',
+        },
+        left: 'center',
+        top: '5%',
+      },
+      xAxis: {
+        type: 'category',
+        data: content,
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          data: styledValue,
+          type: 'bar',
+          barWidth: '50px', // 여기에 추가
+        },
+      ],
+      tooltip: {
+        trigger: 'axis', // 'axis'는 x축 기준으로 툴팁이 표시됩니다. 'item'으로 설정하면 각 항목 위에 따로 표시됩니다.
+        axisPointer: {
+          type: 'none', // 마우스가 올라간 항목의 영역을 강조
+        },
+      },
+    };
 
-      // 차트 컴포넌트 크기를 동적으로 조정
-      window.addEventListener('resize', () => {
-        myChart.resize();
-      });
-    }
+    myChart.setOption(option);
+
+    const resizeHandler = () => {
+      myChart.resize();
+    };
+
+    window.addEventListener('resize', resizeHandler);
+
+    return () => {
+      myChart.dispose();
+      window.removeEventListener('resize', resizeHandler);
+    };
   }, [title, content, value]);
 
   return (

@@ -15,7 +15,7 @@ interface IApi {
 const useGetUseList = () => {
   const [useListLoading, setUseListLoading] = useState<boolean>(true);
   const [useList, setUseList] = useState<IApi[] | null>();
-  const { setApiId } = useDetailStore();
+  const { setApiId, setApiTitle } = useDetailStore();
 
   const getUseList = useCallback(async () => {
     try {
@@ -24,13 +24,16 @@ const useGetUseList = () => {
         url: '/api/v1/purpose/useList',
       });
       setUseList(response.data);
-      setApiId(response.data[0].apiId);
+      if (response.data.length >= 1) {
+        setApiId(response.data[0].apiId);
+        setApiTitle(response.data[0].title);
+      }
       setUseListLoading(false);
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
-  }, [setApiId]);
+  }, [setApiId, setApiTitle]);
 
   useEffect(() => {
     getUseList();

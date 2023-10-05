@@ -9,7 +9,7 @@ import menus from 'router/data/mypage-menus';
 
 function AccountPay() {
   const { payment } = usePayment();
-  const { paymentList } = usePaymentList();
+  const { getPaymentList } = usePaymentList();
   const { paymentDetail } = usePaymentDetail();
 
   const setPayment = async () => {
@@ -31,7 +31,7 @@ function AccountPay() {
           <h1>API 신청내역</h1>
           <Button onClick={setPayment}>결제하기</Button>
 
-          <Button onClick={paymentList}>결제 내역 확인하기</Button>
+          <Button onClick={getPaymentList}>결제 내역 확인하기</Button>
 
           <Button onClick={() => paymentDetail(1)}>
             결제 상세 내역 확인하기

@@ -24,12 +24,6 @@ interface CategoryStore {
   oneBeforeMonthUsage: CategoryInfo | null;
   monthUsage: CategoryInfo | null;
 
-  // otherFourBeforeMonthUsage: CategoryInfo | null;
-  // otherThreeBeforeMonthUsage: CategoryInfo | null;
-  // otherTwoBeforeMonthUsage: CategoryInfo | null;
-  // otherOneBeforeMonthUsage: CategoryInfo | null;
-  // otherMonthUsage: CategoryInfo | null;
-
   setFourBeforeMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
   setThreeBeforeMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
   setTwoBeforeMonthDate: (monthDate: string) => void; // eslint-disable-line no-unused-vars
@@ -42,14 +36,10 @@ interface CategoryStore {
   setOneBeforeMonthUsage: (monthUsage: CategoryInfo) => void; // eslint-disable-line no-unused-vars
   setMonthUsage: (monthUsage: CategoryInfo) => void; // eslint-disable-line no-unused-vars
 
-  // setOtherFourBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void; // eslint-disable-line no-unused-vars
-  // setOtherThreeBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void; // eslint-disable-line no-unused-vars
-  // setOtherTwoBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void; // eslint-disable-line no-unused-vars
-  // setOtherOneBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void; // eslint-disable-line no-unused-vars
-  // setOtherMonthUsage: (monthUsage: CategoryInfo[]) => void; // eslint-disable-line no-unused-vars
-
   setYear: (year: string) => void; // eslint-disable-line no-unused-vars
   setMonth: (month: string) => void; // eslint-disable-line no-unused-vars
+
+  resetApiCategory: () => void; // eslint-disable-line no-unused-vars
 }
 
 const getCurrentYearAndMonth = () => {
@@ -73,12 +63,6 @@ const useCategoryStore = create<CategoryStore>((set) => ({
   twoBeforeMonthUsage: null,
   oneBeforeMonthUsage: null,
   monthUsage: null,
-
-  // otherFourBeforeMonthUsage: null,
-  // otherThreeBeforeMonthUsage: null,
-  // otherTwoBeforeMonthUsage: null,
-  // otherOneBeforeMonthUsage: null,
-  // otherMonthUsage: null,
 
   setFourBeforeMonthDate: (monthDate: string) =>
     set({ fourBeforeMonthDate: monthDate }),
@@ -106,14 +90,24 @@ const useCategoryStore = create<CategoryStore>((set) => ({
     set({ monthUsage });
   },
 
-  // setOtherFourBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void, // eslint-disable-line no-unused-vars
-  // setOtherThreeBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void, // eslint-disable-line no-unused-vars
-  // setOtherTwoBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void, // eslint-disable-line no-unused-vars
-  // setOtherOneBeforeMonthUsage: (monthUsage: CategoryInfo[]) => void, // eslint-disable-line no-unused-vars
-  // setOtherMonthUsage: (monthUsage: CategoryInfo[]) => void, // eslint-disable-line no-unused-vars
-
   setYear: (year) => set({ year }),
   setMonth: (month) => set({ month }),
+
+  resetApiCategory: () => {
+    set({
+      fourBeforeMonthDate: '',
+      threeBeforeMonthDate: '',
+      twoBeforeMonthDate: '',
+      oneBeforeMonthDate: '',
+      monthDate: '',
+
+      fourBeforeMonthUsage: null,
+      threeBeforeMonthUsage: null,
+      twoBeforeMonthUsage: null,
+      oneBeforeMonthUsage: null,
+      monthUsage: null,
+    });
+  },
 }));
 
 export default useCategoryStore;

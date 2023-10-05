@@ -4,7 +4,9 @@ import axiosInstance from 'utils/axiosInstance';
 interface APIDetail {
   api: string;
   input: string;
+  inputExample: string;
   output: string;
+  outputExample: string;
   price: number;
   progress: string;
   title: string;

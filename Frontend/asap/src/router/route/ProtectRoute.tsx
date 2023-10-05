@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from 'components/common/Footer';
 import useAuthStore from 'store/auth/useAuthStore';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -23,12 +22,7 @@ function ProtectRoute({ children }: Props) {
     return <Navigate to="/mypage/check" />;
   }
 
-  return (
-    <div>
-      {children}
-      <Footer />
-    </div>
-  );
+  return <div>{children}</div>;
 }
 
 export default ProtectRoute;

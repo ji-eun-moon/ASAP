@@ -22,6 +22,9 @@ function Calendar() {
       locale={ko}
       dateFormat="yyyy년 MM월 dd일"
       shouldCloseOnSelect
+      showYearDropdown
+      showMonthDropdown
+      dropdownMode="select"
       selected={selectedDate}
       onChange={onDateHandler}
       minDate={new Date()} // 오늘 이후부터 선택 가능

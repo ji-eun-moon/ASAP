@@ -47,6 +47,7 @@ function ApiApply() {
 
   /* 신청서 제출 */
   const onSubmitHandler = async () => {
+    console.log(apiId);
     if (!purpose) {
       alert('목적을 입력해주세요.');
       return;

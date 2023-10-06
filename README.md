@@ -23,7 +23,7 @@
 
 ### 5. [산출물](#-산출물)
 
-### 6. [팀원소개](#-team)
+### 6. [👪팀원소개](#-팀원소개)
 
 ### 7. [기술스택](#-기술스택)
 
@@ -222,7 +222,7 @@
 <br>
 <br>
 
-## 👪 TEAM
+## 팀원소개
 
 |           양시온            |           문지은           |           박서희           |         송아람         |       이도하       |       이찬웅       |
 | :-------------------------: | :------------------------: | :------------------------: | :--------------------: | :----------------: | :----------------: |
@@ -276,5 +276,3 @@
 <img src="https://img.shields.io/badge/GITLAB-FC6D26?style=flat-square&logo=gitlab&logoColor=white">
 <img src="https://img.shields.io/badge/MATTERMOST-0058CC?style=flat-square&logo=mattermost&logoColor=white">
 <img src="https://img.shields.io/badge/NOTION-000000?style=flat-square&logo=notion&logoColor=white">
-
-##

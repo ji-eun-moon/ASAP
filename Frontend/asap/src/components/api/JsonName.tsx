@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-/** Json 배열 중에서 key가 name 인 값들만 출력
- * @prop {string} jsonData Json 파일 String으로 변환한 문자열 전체
- */
-
 interface Pair {
   idx: number;
   key: string;
@@ -35,22 +31,19 @@ function JsonName({ jsonData }: Props) {
     return null;
   }
 
-  const columns = Object.keys(data[0]).filter(
-    (column) => column === 'name',
-  ) as (keyof Pair)[];
-
   return (
     <div className="h-full w-full flex flex-wrap">
-      {data.map((item) => (
-        <div key={item.idx} className="flex items-center">
-          {columns.map((column) => (
-            <p key={column} className="ps-2">
-              {item[column]}
-              {item.idx === data.length ? '' : ','}
-            </p>
-          ))}
-        </div>
-      ))}
+      {data.map(
+        (item, index) =>
+          item.name && (
+            <div key={item.idx} className="flex items-center">
+              <p className="ps-2">
+                {item.name}
+                {index !== data.length - 1 && ','}
+              </p>
+            </div>
+          ),
+      )}
     </div>
   );
 }

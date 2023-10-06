@@ -23,6 +23,7 @@ import SupplyApplyList from 'pages/supply/SupplyApplyList';
 
 // myapi
 import MyApi from 'pages/myapi/MyApi';
+import MyApiDetail from 'pages/myapi/MyApiDetail';
 
 // help
 import HelpPage from 'pages/help/HelpPage';
@@ -183,14 +184,22 @@ const routes: Route[] = [
       </PrivateRoute>
     ),
   },
+  {
+    path: '/myapi/detail',
+    element: (
+      <PrivateRoute>
+        <MyApiDetail />
+      </PrivateRoute>
+    ),
+  },
 
   // 블록체인 검증
   {
     path: '/check',
     element: (
-      <PrivateRoute>
+      <UserRoute>
         <CheckUsage />
-      </PrivateRoute>
+      </UserRoute>
     ),
   },
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from 'components/common/Footer';
 import useAuthStore from 'store/auth/useAuthStore';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -21,12 +20,7 @@ function SupplierRoute({ children }: Props) {
   sessionStorage.removeItem('isAuthenticated');
 
   if (isLoggedIn && loginType === 'supplier') {
-    return (
-      <div>
-        {children}
-        <Footer />
-      </div>
-    );
+    return <div>{children}</div>;
   }
 
   // 제공자가 아니라면 이전 위치 저장

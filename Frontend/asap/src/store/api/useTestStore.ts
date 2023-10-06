@@ -10,6 +10,7 @@ interface TestState {
   trial: number;
   setTrial: (trial: number) => void; // eslint-disable-line no-unused-vars
   decTrial: () => void;
+  resetStatus: () => void; // eslint-disable-line no-unused-vars
 }
 
 const useTestStore = create<TestState>((set) => ({
@@ -22,6 +23,7 @@ const useTestStore = create<TestState>((set) => ({
   setLoading: (loading) => set(() => ({ loading })),
   setTrial: (trial: number) => set(() => ({ trial })),
   decTrial: () => set((state) => ({ trial: state.trial - 1 })),
+  resetStatus: () => set(() => ({ status: 200 })),
 }));
 
 export default useTestStore;

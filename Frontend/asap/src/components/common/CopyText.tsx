@@ -13,7 +13,7 @@ function CopyTextComponent(selecttext: string) {
   };
 
   return (
-    <span onClick={() => handleCopyClick(selecttext)}>
+    <span aria-hidden onClick={() => handleCopyClick(selecttext)}>
       클릭하여 텍스트 복사
     </span>
   );

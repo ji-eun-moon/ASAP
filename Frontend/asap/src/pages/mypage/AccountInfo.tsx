@@ -48,15 +48,6 @@ function AccountInfo() {
               rightGrid="9"
             />
           </div>
-          {/* 수정,탈퇴 flex div */}
-          <div className="flex justify-end mt-4">
-            <div className="ml-4 border-blue-800 border rounded text-blue-800 py-2 px-5 text-xs">
-              회원정보수정
-            </div>
-            <div className="ml-4 border-red-600 border rounded text-red-600 py-2 px-7 text-xs">
-              회원탈퇴
-            </div>
-          </div>
         </div>
       </div>
     </div>

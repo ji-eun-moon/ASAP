@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import useGetApiUsage from 'hooks/api/api/useGetApiUsage';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
 import { Button } from '@material-tailwind/react';
@@ -63,9 +63,19 @@ function ApiUsage() {
       {/* EndPoint */}
       <div className="mb-5">
         <p className="text-lg font-bold mb-2 text-blue-700">ENDPOINT</p>
+
         <div className="flex grid grid-cols-10">
-          <div className="flex justify-between items-center border p-2 rounded-lg col-span-9 me-2">
-            <div className="ms-2">{apiUsage?.api}</div>
+          <div className="flex justify-between items-center border border-2 p-2 rounded-lg col-span-9 me-2">
+            <div className="flex items-center">
+              <p
+                className={`${
+                  apiUsage?.method === 'GET' ? 'bg-blue' : 'bg-green-600'
+                }  p-2 px-5 text-white font-bold rounded-lg`}
+              >
+                {apiUsage?.method}
+              </p>
+              <div className="ms-2">{apiUsage?.api}</div>
+            </div>
             {apiUsage && (
               <Copy
                 className="w-5 h-auto me-2 cursor-pointer"
@@ -151,9 +161,14 @@ function ApiUsage() {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="w-96">
-          <div className="flex justify-start">
+        <div className="w-80">
+          <div className="flex flex-col justify-start">
             <p className="text-lg mt-5 font-bold">클립보드에 복사되었습니다.</p>
+            <div className="text-base flex flex-col gap-1">
+              <Link to="/mypage/keys" className="move-text mt-4">
+                • 마이페이지 &gt; 키 관리로 이동하기
+              </Link>
+            </div>
           </div>
           <div className="flex flex-row-reverse my-5">
             <Button ripple onClick={closeModal} className="bg-blue-500">

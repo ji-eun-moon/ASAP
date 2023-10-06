@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SideBar from 'components/nav/SideBar';
 import Header from 'components/common/Header';
 import menus from 'router/data/mypage-menus';
 import useGetWallet from 'hooks/api/wallet/useGetWallet';
 import './AccountKey.scss';
 import { ReactComponent as Copy } from 'assets/icons/copybutton.svg';
+import Modal from 'components/common/Modal';
 
 function AccountKey() {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const { wallet } = useGetWallet();
   // 클릭하면 복사 함수
   const handleCopyClipBoard = async (text: string | null) => {
     if (text !== null) {
       try {
         await navigator.clipboard.writeText(text);
-        alert('클립보드에 복사 되었습니다.');
+        setModalMessage('클립보드에 복사되었습니다.');
+        setIsModalOpen(true);
       } catch (error) {
-        console.log(error);
+        setModalMessage('복사에 실패하였습니다.');
+        setIsModalOpen(true);
       }
     }
   };
@@ -55,6 +65,12 @@ function AccountKey() {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        confirm
+        message={modalMessage}
+      />
     </div>
   );
 }

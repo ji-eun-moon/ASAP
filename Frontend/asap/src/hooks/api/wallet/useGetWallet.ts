@@ -9,7 +9,6 @@ const useGetWallet = () => {
         method: 'GET',
         url: '/api/v1/member/getAddress',
       });
-      console.log(response.data);
       setWallet(response.data);
     } catch (error) {
       console.log('서버 오류:', error);

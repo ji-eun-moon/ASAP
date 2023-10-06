@@ -11,11 +11,12 @@ import useSetUserInfo from 'hooks/api/api/useSetUserInfo';
 function ApiApply() {
   const location = useLocation();
   const { setUserInfo } = useSetUserInfo();
+  const apiId = location.state?.apiId;
   const apiTitle = location.state?.apiTitle;
 
   // 사용자 신청 후 입력 받아야하는 값
   const [purpose, setPurpose] = useState<string>('');
-  const industrys = ['제조업', '서비스업', '금융업', '유통업', '기타'];
+  const industrys = ['제조업', '서비스업', '금융업', '유통업', 'IT', '기타'];
   const [industry, setIndustry] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,6 +47,7 @@ function ApiApply() {
 
   /* 신청서 제출 */
   const onSubmitHandler = async () => {
+    console.log(apiId);
     if (!purpose) {
       alert('목적을 입력해주세요.');
       return;
@@ -55,7 +57,7 @@ function ApiApply() {
       return;
     }
     await setUserInfo({
-      apiId: '6',
+      apiId,
       purpose,
       industry,
     });
@@ -64,7 +66,7 @@ function ApiApply() {
 
   const onOkHandler = () => {
     setIsModalOpen(false);
-    window.location.href = '/api_list';
+    window.location.href = `/api_list/${apiId}`;
   };
   return (
     <div>
@@ -133,21 +135,22 @@ function ApiApply() {
       {isModalOpen ? (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="flex flex-col justify-center items-center font-bold gap-2.5">
-            <div className="text-center m-1 pt-3">
+            <div className="text-xl text-center m-1 pt-3">
               <p style={{ color: '#004FB9' }}>{apiTitle}</p>
               <p>API 신청이 완료되었습니다</p>
             </div>
-            <div className="text-xs text-gray-500 flex flex-col gap-1">
-              <Link to="/mypage/keys">
+            <div className="text-base flex flex-col gap-1">
+              <Link to="/mypage/keys" className="move-text">
                 • 마이페이지 &gt; 키 관리로 이동하기
               </Link>
-              <Link to="/myapi">• My API로 이동하기</Link>
+              <Link to="/myapi" className="move-text">
+                • My API로 이동하기
+              </Link>
             </div>
             <button
               type="button"
               onClick={onOkHandler}
-              style={{ color: '#ffffff', backgroundColor: '#004AAD' }}
-              className="w-2/6 rounded-md"
+              className="w-2/6 rounded-md check"
             >
               확인
             </button>

@@ -205,7 +205,9 @@
 
 ## 📚 산출물
 
-### - 서비스 아키텍처
+<br>
+
+### 서비스 아키텍처
 
 <br>
 
@@ -213,7 +215,7 @@
 
 <br>
 
-### - ERD
+### ERD
 
 <br>
 
@@ -224,6 +226,8 @@
 
 ## 👪 팀원소개
 
+<br>
+
 |           양시온            |           문지은           |           박서희           |         송아람         |       이도하       |       이찬웅       |
 | :-------------------------: | :------------------------: | :------------------------: | :--------------------: | :----------------: | :----------------: |
 | 팀장<br>프론트엔드<br>CI/CD | 프론트엔드<br>UI/UX 디자인 | 프론트엔드<br>UI/UX 디자인 | 프론트엔드<br>블록체인 | 백엔드<br>영상편집 | 백엔드<br>블록체인 |
@@ -233,7 +237,9 @@
 
 ## 🛠️ 기술스택
 
-### - Front
+<br>
+
+### Front
 
 <img src="https://img.shields.io/badge/REACT-61DAFB?style=flat-square&logo=react&logoColor=white">
 <img src="https://img.shields.io/badge/TYPESCRIPT-3178C6?style=flat-square&logo=typescript&logoColor=white">
@@ -243,7 +249,7 @@
 <img src="https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=sass&logoColor=white">
 <img src="https://img.shields.io/badge/ESLINT-4B32C3?style=flat-square&logo=eslint&logoColor=white">
 
-### - Back
+### Back
 
 <img src="https://img.shields.io/badge/JAVA-EC2025?style=flat-square&logoColor=white">
 <img src="https://img.shields.io/badge/SPRING BOOT-6DB33F?style=flat-square&logo=springboot&logoColor=white">
@@ -256,13 +262,13 @@
 <img src="https://img.shields.io/badge/APACHE TOMCAT-F8DC75?style=flat-square&logo=apachetomcat&logoColor=white">
 <img src="https://img.shields.io/badge/SWAGGER-F46800?style=flat-square&logoColor=white">
 
-### - BlockChain
+### BlockChain
 
 <img src="https://img.shields.io/badge/ETHEREUM-3C3C3D?style=flat-square&logo=ethereum&logoColor=white">
 <img src="https://img.shields.io/badge/TRUFFLE-33DFC3?style=flat-square&logoColor=white">
 <img src="https://img.shields.io/badge/SOLIDITY-363636?style=flat-square&logo=solidity&logoColor=white">
 
-### - Devops
+### Devops
 
 <img src="https://img.shields.io/badge/NGINX-009639?style=flat-square&logo=nginx&logoColor=white">
 <img src="https://img.shields.io/badge/JENKINS-D24939?style=flat-square&logo=docker&logoColor=white">
@@ -270,7 +276,7 @@
 <img src="https://img.shields.io/badge/GRAFANA-F46800?style=flat-square&logo=grafana&logoColor=white">
 <img src="https://img.shields.io/badge/PROMETHEUS-E6522C?style=flat-square&logo=prometheus&logoColor=white">
 
-### - 협업 툴
+### 협업 툴
 
 <img src="https://img.shields.io/badge/JIRA-0052CC?style=flat-square&logo=jira&logoColor=white">
 <img src="https://img.shields.io/badge/GITLAB-FC6D26?style=flat-square&logo=gitlab&logoColor=white">

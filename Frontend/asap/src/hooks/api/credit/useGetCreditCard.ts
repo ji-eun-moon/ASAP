@@ -17,7 +17,6 @@ const useGetCreditCard = () => {
         method: 'GET',
         url: '/api/v1/credit/get',
       });
-      console.log('조회 결과:', response.data);
       setCreditCard(response.data);
     } catch (error) {
       console.log('조회 오류:', error);

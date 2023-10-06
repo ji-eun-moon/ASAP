@@ -7,7 +7,6 @@ import Spinner from 'components/common/Spinner';
 function CurvedLineChart() {
   const chartRef = useRef(null);
   const { categoryAvgLoading } = useCategoryAvg();
-  console.log(categoryAvgLoading);
   const {
     monthDate,
     oneBeforeMonthDate,

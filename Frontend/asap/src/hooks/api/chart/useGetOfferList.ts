@@ -29,7 +29,6 @@ const useGetOfferList = () => {
         setApiTitle(response.data[0].title);
       }
       setOfferListLoading(false);
-      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }

@@ -40,7 +40,6 @@ function CheckUsage() {
 
   const onHowToUseHandler = () => {
     setIsOpen(!isOpen);
-    console.log(isOpen, '확인');
   };
 
   const onInputHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -99,7 +98,6 @@ function CheckUsage() {
   const onHashHandler = () => {
     if (test) {
       const hashedValue = SHA256(test).toString();
-      console.log(hashedValue, '변환값');
       setHash(hashedValue);
     } else {
       alert('값을 입력하세요');

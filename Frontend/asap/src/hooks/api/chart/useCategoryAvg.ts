@@ -71,7 +71,6 @@ const useCategoryAvg = () => {
         }
 
         setCategoryAvgLoading(false);
-        // console.log('다른 카테고리 평균 조회 성공', response.data);
       } catch (error) {
         console.log('다른 카테고리 평균 조회 실패', error);
         setCategoryAvgLoading(false);

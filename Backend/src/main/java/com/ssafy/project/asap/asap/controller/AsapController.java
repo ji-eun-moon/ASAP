@@ -146,13 +146,13 @@ public class AsapController {
         if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
             log.info("어딘가에 기록");
         } else {
-            purposeService.checkApplyByApiIdAndMemberId(35L, member.getMemberId());
+            purposeService.checkApplyByApiIdAndMemberId(36L, member.getMemberId());
         }
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io/block")
 //                .fromUriString("http://localhost:9001")
-                .path("/api/v1/asap/image/search/" + member.getWalletId() + "/35")
+                .path("/api/v1/asap/image/search/" + member.getWalletId() + "/36")
                 .queryParams(param)
                 .encode()
                 .build()

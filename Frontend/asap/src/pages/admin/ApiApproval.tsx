@@ -43,7 +43,6 @@ interface ApiDetailProps {
 
 /* apiDetail 화면 출력 함수 */
 function ApiDetail({ apiDetail }: ApiDetailProps) {
-  console.log('디테일 값', apiDetail);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -320,7 +319,6 @@ function ApiApproval() {
   };
   /* 거절 이유 관리 */
   const handleRejectReason = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(e.target.value);
     setRejectReason(e.target.value);
   };
 
@@ -344,14 +342,12 @@ function ApiApproval() {
   };
   /* 승인 카테고리 관리 */
   const handleApproveCategory = (category: string) => {
-    console.log(category);
     setSelectedCategory(category);
   };
 
   /* api 상태 관리 */
   const changeState = (applyId: number, newState: string) => {
     const doChange = async () => {
-      console.log(applyId, newState);
       // await adminApiList();
       await setLastChanged(new Date().getTime());
       if (newState === '거절') {
@@ -394,10 +390,8 @@ function ApiApproval() {
   const [isOpened, setIsOpened] = useState(false); // 상세 내용 창이 열렸는지 유무(true/false)
   /* 특정 api의 상세 내용 조회 */
   const showDetail = async (applyId: number) => {
-    console.log(applyId);
     if (detailApplyId === applyId) {
       setIsOpened(!isOpened);
-      console.log('이전과 같습니다');
     } else {
       setIsOpened(true);
       setDetailApplyId(applyId);

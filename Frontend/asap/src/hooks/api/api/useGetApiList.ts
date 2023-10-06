@@ -19,7 +19,6 @@ const useGetApiList = () => {
         url: '/api/v1/apis/all',
       });
       setApiList(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
     }

@@ -34,7 +34,6 @@ const useDailyUsage = () => {
         setDailyUsage(response.data);
         setDailyUsageStore(response.data);
         setDailyLoading(false);
-        // console.log('사용자 일별 사용량 조회 성공', response.data);
       } catch (error) {
         setDailyLoading(false);
         console.log('사용자 일별 사용량 조회 실패', error);

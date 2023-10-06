@@ -37,9 +37,9 @@ public class FindApplyResponse {
     public FindApplyResponse(Apply apply) {
         this.api = apply.getApi();
         this.input = apply.getInput();
-        this.inputExample = apply.getOutputExample();
+        this.inputExample = apply.getInputExample();
         this.output = apply.getOutput();
-        this.outputExample = apply.getInputExample();
+        this.outputExample = apply.getOutputExample();
         this.price = apply.getPrice();
         this.progress = apply.getProgress();
         this.title = apply.getTitle();

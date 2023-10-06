@@ -18,6 +18,7 @@ import com.ssafy.project.asap.member.entity.domain.Member;
 import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +88,7 @@ public class ApplyService {
 
         List<FindApplysResponse> list = new ArrayList<>();
 
-        for(Apply apply : applyRepository.findAll()){
+        for(Apply apply : applyRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate"))){
             list.add(new FindApplysResponse(apply));
         }
 

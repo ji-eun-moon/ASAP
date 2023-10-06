@@ -140,10 +140,16 @@ public class ApplyController {
     })
     public ResponseEntity<?> reject(@RequestBody RejectApplyRequest request){
 
-        noticeService.saveRejectApply(request);
-        applyService.rejectProgress(request.getApplyId());
+        try {
+            noticeService.saveRejectApply(request);
+            applyService.rejectProgress(request.getApplyId());
 
-        return ResponseEntity.ok("거절 사유 입력 완료");
+            return ResponseEntity.ok("신청 거절 완료");
+        } catch (Exception e) {
+
+            return ResponseEntity.ok(e.getMessage());
+
+        }
     }
 
     @PutMapping("/approve")

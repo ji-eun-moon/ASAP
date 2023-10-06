@@ -1,15 +1,14 @@
-package com.ssafy.project.asap.payment.entity.dto.request;
+package com.core.apiserver.batch.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class RegisterPaymentRequest {
 
     private String address;
     private Long price;
-
 }

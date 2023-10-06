@@ -44,7 +44,7 @@ public class CategoryService {
 
     }
 
-    public List<CategoryListResponse> categoryList(){
+    public List<CategoryListResponse> categoryList() {
 
         List<Category> list = categoryRepository.findAll();
 
@@ -53,8 +53,20 @@ public class CategoryService {
                         .builder()
                         .category(category.getCategory())
                         .count((long) category.getApiList().size())
-                        .build())
-                .collect(Collectors.toList());
+                        .build()).sorted((o1, o2) -> o2.getCount().compareTo(o1.getCount())).collect(Collectors.toList());
+
+        CategoryListResponse categoryListResponse = null;
+        for (CategoryListResponse c : categoryListResponseList) {
+            if (c.getCategory().equals("기타")) {
+                categoryListResponse = new CategoryListResponse(c.getCategory(), c.getCount());
+                categoryListResponseList.remove(c);
+                break;
+            }
+        }
+
+        if(categoryListResponse != null){
+            categoryListResponseList.add(categoryListResponse);
+        }
 
         return categoryListResponseList;
     }

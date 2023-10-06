@@ -73,6 +73,23 @@ public class DailyController {
         return ResponseEntity.status(200).body(dailyService.monthlyUsage(monthlyUsageRequest));
     }
 
+    @GetMapping("/monthly/use/one")
+    @Operation(summary = "월간 조회", description = "월간 사용량 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "1개월간 제공량 조회"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<Map<YearMonth, List<UsageResponse>>> oneMonthlyUsage(@RequestParam Map<String, String> params) {
+        MonthlyUsageRequest monthlyUsageRequest = new MonthlyUsageRequest(Long.parseLong(params.get("userWalletId")),
+                Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
+
+        System.out.println(monthlyUsageRequest.getUserWalletId() + ", " + monthlyUsageRequest.getYear() + ", "  + monthlyUsageRequest.getMonth());
+
+        return ResponseEntity.status(200).body(dailyService.oneMonthlyUsage(monthlyUsageRequest));
+    }
+
     @GetMapping("/monthly/provide")
     @Operation(summary = "월간 조회", description = "월간 제공량 조회")
     @ApiResponses(value = {
@@ -81,12 +98,28 @@ public class DailyController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<Map<YearMonth, List<ProvidingResponse>>> monthlyProviding(@RequestParam Map<String, String> params) {
+    public ResponseEntity<?> monthlyProviding(@RequestParam Map<String, String> params) {
 
         MonthlyUsageRequest monthlyUsageRequest = new MonthlyUsageRequest(Long.parseLong(params.get("userWalletId")),
                 Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
 
         return ResponseEntity.status(200).body(dailyService.monthlyProviding(monthlyUsageRequest));
+    }
+
+    @GetMapping("/monthly/provide/one")
+    @Operation(summary = "월간 조회", description = "월간 제공량 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "3개월간 제공량 조회"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> oneMonthlyProviding(@RequestParam Map<String, String> params) {
+
+        MonthlyUsageRequest monthlyUsageRequest = new MonthlyUsageRequest(Long.parseLong(params.get("userWalletId")),
+                Integer.parseInt(params.get("year")), Integer.parseInt(params.get("month")));
+
+        return ResponseEntity.status(200).body(dailyService.oneMonthlyProviding(monthlyUsageRequest));
     }
 
     @GetMapping ("/daily/use")

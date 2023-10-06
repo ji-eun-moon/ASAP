@@ -64,7 +64,7 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param, authentication);
+        return commonForm(uri, param, httpServletRequest);
     }
 
     @GetMapping("/local/search/keyword")
@@ -87,7 +87,7 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param, authentication);
+        return commonForm(uri, param, httpServletRequest);
     }
 
     @GetMapping("/local/search/category")
@@ -110,16 +110,115 @@ public class AsapController {
                 .build()
                 .toUri();
 
-        return commonForm(uri, param, authentication);
+        return commonForm(uri, param, httpServletRequest);
     }
 
-    public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param, Authentication authentication) {
+    @GetMapping("/web/search")
+    public ResponseEntity<?> kakaoWebSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(31L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+//                .fromUriString("http://localhost:9001")
+                .path("/api/v1/asap/web/search/" + member.getWalletId() + "/31")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param, httpServletRequest);
+    }
+
+    @GetMapping("/image/search")
+    public ResponseEntity<?> kakaoImageSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(35L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+//                .fromUriString("http://localhost:9001")
+                .path("/api/v1/asap/image/search/" + member.getWalletId() + "/35")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param, httpServletRequest);
+    }
+
+    @GetMapping("/book/search")
+    public ResponseEntity<?> kakaoBookSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(33L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+//                .fromUriString("http://localhost:9001")
+                .path("/api/v1/asap/book/search/" + member.getWalletId() + "/33")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param, httpServletRequest);
+    }
+
+    @GetMapping("/mobility/directions")
+    public ResponseEntity<?> kakaoMobilityDirections(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
+
+        log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+
+        Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
+            log.info("어딘가에 기록");
+        } else {
+            purposeService.checkApplyByApiIdAndMemberId(34L, member.getMemberId());
+        }
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://j9c202.p.ssafy.io/block")
+//                .fromUriString("http://localhost:9001")
+                .path("/api/v1/asap/mobility/directions/" + member.getWalletId() + "/34")
+                .queryParams(param)
+                .encode()
+                .build()
+                .toUri();
+
+        return commonForm(uri, param, httpServletRequest);
+    }
+
+    public ResponseEntity<?> commonForm(URI uri, MultiValueMap<String, String> param, HttpServletRequest httpServletRequest) {
 
         try {
             HttpHeaders headers = new HttpHeaders();
             if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
                 log.info("테스트로 진행");
-                redisService.setCount(authentication.getName());
+
+                String id = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)).getId();
+                redisService.setCount(id);
+
                 headers.set(HttpHeaders.AUTHORIZATION, testHeader);
             } else {
                 headers.set(HttpHeaders.AUTHORIZATION, allowHeader); // 이 부분에서 헤더를 설정합니다.

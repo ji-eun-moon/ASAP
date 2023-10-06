@@ -44,6 +44,7 @@ public interface PurposeRepository extends JpaRepository<Purpose, Long> {
 
     @Query("select p.industry, count(p) " +
             "from Purpose  p " +
+            "where p.api.apiId = :apiId " +
             "group by p.industry")
     List<Object[]> findAllByApiAndIndustry(@Param("apiId") Long apiId);
 

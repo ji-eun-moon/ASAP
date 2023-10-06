@@ -33,19 +33,19 @@ public class MailService {
         message.setSubject(title);
 
         String emailMsg = "";
-        emailMsg += "<div style='margin:20px;'>";
-        emailMsg += "<h1> 안녕 나는 ASAP 관리자 O.O </h1>";
-        emailMsg += "<br>";
-        emailMsg += "<p>아래 코드를 입력해줘<p>";
-        emailMsg += "<br>";
-        emailMsg += "<p>고마웡~ O.<<p>";
-        emailMsg += "<br>";
-        emailMsg += "<div align='center' style='border:1px solid gray; box-shadow: 5px 5px 5px 5px gray; font-family:verdana';>";
-        emailMsg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
-        emailMsg += "<div style='font-size:130%'>";
-        emailMsg += "CODE : <strong>";
-        emailMsg += pwd + "</strong><div><br/> ";
-        emailMsg += "</div>";
+        emailMsg += "<div style='margin:20px; display: flex; flex-direction: column; justify-content: center; align-items: center;'> \n" +
+                "      <img src=\"https://findmyguide.s3.amazonaws.com/logo-nobg.png\" alt=\"ASAP Logo Img\" style=\"width:380px;\">\n" +
+                "      <h1 style='font-weight: 900;'> ASAP 회원가입 인증코드입니다 </h1> \n" +
+                "\n" +
+                "      <br> \n" +
+                "      <h4 style='font-weight: 600;'>회원가입을 위한 인증 코드를 발송하였습니다</h4> \n" +
+                "      <h4 style='font-weight: 600;'>아래 인증코드를 복사하여 회원가입 페이지에 입력바랍니다 <h4> \n" +
+                "      <br> \n" +
+                "        <h2 style='color:blue; font-weight: 800;'>회원가입 인증 코드입니다.</h2> \n" +
+                "        <div style='font-size:50px'>\n" +           pwd    +"   \n" +
+                "        </div>\n" +
+                "     <br>  \n" +
+                "     <h4 style='font-weight: 600;'>인증 코드 오류가 생긴 경우 고객센터로 문의바랍니다</h4>";
 
         message.setFrom(setFrom);
         message.setText(emailMsg, "utf-8", "html");

@@ -1,5 +1,8 @@
 package com.ssafy.project.asap.asap.controller;
 
+import com.ssafy.project.asap.api.entity.domain.Api;
+import com.ssafy.project.asap.api.entity.domain.ApiMethod;
+import com.ssafy.project.asap.api.repository.ApiRepository;
 import com.ssafy.project.asap.asap.domain.request.LocalSearch;
 import com.ssafy.project.asap.global.exception.CustomException;
 import com.ssafy.project.asap.global.exception.ErrorCode;
@@ -35,6 +38,7 @@ import java.util.Objects;
 public class AsapController {
 
     private final MemberService memberService;
+    private final ApiRepository apiRepository;
     private final PurposeService purposeService;
     private final RedisService redisService;
     @Value("${server.allow-header}")
@@ -141,18 +145,20 @@ public class AsapController {
     public ResponseEntity<?> kakaoImageSearch(@RequestParam MultiValueMap<String, String> param, HttpServletRequest httpServletRequest, Authentication authentication) {
 
         log.info("HttpHeaders.AUTHORIZATION = " + httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        log.info("URI = " + httpServletRequest.getRequestURI());
+        Api api = apiRepository.findByApiAndMethod(String.valueOf("https://j9c202.p.ssafy.io"+ httpServletRequest.getRequestURI()), ApiMethod.GET).orElseThrow();
 
         Member member = memberService.findMemberByWallet(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
         if (param.containsKey("test") && param.get("test").toString().equals("[asap]")) {
             log.info("어딘가에 기록");
         } else {
-            purposeService.checkApplyByApiIdAndMemberId(36L, member.getMemberId());
+            purposeService.checkApplyByApiIdAndMemberId(api.getApiId(), member.getMemberId());
         }
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://j9c202.p.ssafy.io/block")
 //                .fromUriString("http://localhost:9001")
-                .path("/api/v1/asap/image/search/" + member.getWalletId() + "/36")
+                .path("/api/v1/asap/image/search/" + member.getWalletId() + "/" + api.getApiId())
                 .queryParams(param)
                 .encode()
                 .build()

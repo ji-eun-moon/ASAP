@@ -7,7 +7,6 @@ const useCheckApply = () => {
         method: 'GET',
         url: `https://j9c202.p.ssafy.io/api/v1/purpose/check-apply/${id}`,
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log('서버 오류:', error);

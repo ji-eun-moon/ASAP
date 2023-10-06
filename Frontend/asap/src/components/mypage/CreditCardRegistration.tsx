@@ -59,7 +59,6 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
             });
           };
           onPostCreditCard();
-          console.log('방금 등록된 카드 : ', { cardCompany, cardNumber });
 
           // 상태를 'registered'로 변경
           alert('카드 정보가 등록되었습니다.');
@@ -74,7 +73,6 @@ function CreditCardRegistration({ closeModal }: CreditCardRegistrationProps) {
             });
           };
           onChangeCreditCard();
-          console.log('방금 변경된 카드 : ', { cardCompany, cardNumber });
 
           // 상태를 'registered'로 유지
           alert('카드 정보가 변경되었습니다.');

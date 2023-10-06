@@ -18,7 +18,6 @@ function AccountWallet() {
       const fetchBalance = async () => {
         try {
           const bal = await getBalance(wallet);
-          console.log(bal);
           setBalance(Number(bal) / 10 ** 12);
         } catch (error) {
           console.error('에러 발생:', error);

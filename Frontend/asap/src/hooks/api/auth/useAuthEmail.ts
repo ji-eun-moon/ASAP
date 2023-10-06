@@ -37,10 +37,8 @@ const useAuthEmail = () => {
       });
       if (response.data === 'EMAIL_CODE_NOT_AUTHORIZED') {
         setCheckedCode(false);
-        console.error('이메일 인증 실패');
       } else {
         setCheckedCode(true);
-        console.log('이메일 인증 성공');
       }
     } catch (error) {
       console.log('서버 오류:', error);

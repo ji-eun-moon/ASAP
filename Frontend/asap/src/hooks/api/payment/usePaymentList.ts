@@ -18,13 +18,8 @@ const usePaymentList = () => {
         method: 'GET',
         url: '/api/v1/payment/list',
       });
-      if (response.status === 200) {
-        console.log('결제 내역 확인 완료', response.data);
-        setPaymentList(response.data);
-        setPaymentListLoading(false);
-      } else {
-        console.log('결제 내역 확인 실패');
-      }
+      setPaymentList(response.data);
+      setPaymentListLoading(false);
     } catch (error) {
       console.log(error);
     }

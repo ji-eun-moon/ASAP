@@ -15,7 +15,6 @@ const useGetCategoryList = () => {
         url: '/api/v1/category/categoryList',
       });
       if (response.status === 200) {
-        console.log('check', response.data);
         const total = response.data.reduce(
           (acc: number, category: categoryInfo) => acc + category.count,
           0,

@@ -15,7 +15,6 @@ const useGetSupplyList = () => {
         url: '/api/v1/monthly/provided',
       });
       setSupplyList(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log('서버 오류 :', error);
     }

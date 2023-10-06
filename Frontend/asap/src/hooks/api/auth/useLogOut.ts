@@ -9,7 +9,6 @@ const useLogOut = () => {
       });
       if (response.status === 200) {
         sessionStorage.clear();
-        console.log('로그아웃 성공:', response.data);
         window.location.href = '/';
       }
     } catch (error) {

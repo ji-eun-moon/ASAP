@@ -8,7 +8,7 @@ interface cardInfo {
 const usePostCreditCard = () => {
   const postCreditCard = async ({ cardCompany, cardNumber }: cardInfo) => {
     try {
-      const response = await axiosInstance({
+      await axiosInstance({
         method: 'POST',
         url: `/api/v1/credit/register`,
         data: {
@@ -16,8 +16,6 @@ const usePostCreditCard = () => {
           cardNumber,
         },
       });
-      console.log('post시도');
-      console.log(response.data);
     } catch (error) {
       console.log('서버 오류:', error);
     }

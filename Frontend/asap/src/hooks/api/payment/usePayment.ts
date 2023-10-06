@@ -14,7 +14,7 @@ const usePayment = () => {
     fee,
   }: paymentInfo) => {
     try {
-      const response = await axiosInstance({
+      await axiosInstance({
         method: 'POST',
         url: '/api/v1/payment/approve',
         data: {
@@ -24,11 +24,6 @@ const usePayment = () => {
           fee,
         },
       });
-      if (response.status === 201) {
-        console.log('결제 등록 완료');
-      } else {
-        console.log('결제 등록 실패');
-      }
     } catch (error) {
       console.log(error);
     }

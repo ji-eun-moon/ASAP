@@ -14,7 +14,6 @@ const useCheckUsage = () => {
         url: '/api/v1/transaction',
         params: { apiTitle, startDate, endDate },
       });
-      console.log(response.data, 'checkUsage 체크');
       return response.data;
     } catch (error) {
       console.log('서버 오류:', error);

@@ -8,16 +8,12 @@ interface IChangePw {
 const useChangePw = () => {
   const changePw = async ({ id, password }: IChangePw) => {
     try {
-      const response = await axiosInstance({
+      await axiosInstance({
         method: 'POST',
         url: '/api/v1/member/find-password',
         data: { id, password },
       });
-      console.log(response.data);
       // 서버에서 받은 응답 처리
-      if (response.status === 200) {
-        console.log('비밀번호 변경 성공');
-      }
     } catch (error) {
       console.log('서버 오류:', error);
     }

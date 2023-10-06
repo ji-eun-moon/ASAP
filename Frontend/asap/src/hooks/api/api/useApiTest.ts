@@ -59,7 +59,6 @@ const useApiTest = () => {
         setTestResponse(JSON.stringify(axiosError));
         setStatus(axiosError.response?.status || 500);
         setLoading(false);
-        console.log('서버 오류:', axiosError);
         decTrial();
       } else {
         console.error('An unexpected error occurred:', error);

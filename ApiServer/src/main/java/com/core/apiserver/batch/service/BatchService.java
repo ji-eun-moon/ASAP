@@ -2,35 +2,34 @@ package com.core.apiserver.batch.service;
 
 import com.core.apiserver.api.entity.domain.Api;
 import com.core.apiserver.api.repository.ApiRepository;
+import com.core.apiserver.batch.dto.RegisterPaymentRequest;
 import com.core.apiserver.daily.entity.domain.Daily;
 import com.core.apiserver.daily.entity.dto.request.DailyUsageRequest;
 import com.core.apiserver.daily.repository.DailyRepository;
 import com.core.apiserver.daily.service.DailyService;
-import com.core.apiserver.total.entity.domain.Total;
-import com.core.apiserver.total.repository.TotalRepository;
 import com.core.apiserver.total.service.TotalService;
 import com.core.apiserver.transaction.entity.domain.Transaction;
 import com.core.apiserver.transaction.entity.dto.request.TransactionRequest;
 import com.core.apiserver.transaction.repository.TransactionRepository;
 import com.core.apiserver.transaction.service.TransactionService;
 import com.core.apiserver.usage.entity.domain.RedisUsage;
-import com.core.apiserver.usage.entity.dto.response.RedisUsageResponse;
 import com.core.apiserver.usage.repository.RedisUsageRepository;
 import com.core.apiserver.wallet.entity.domain.Wallet;
 import com.core.apiserver.wallet.repository.WalletRepository;
 import com.core.apiserver.wallet.service.EthereumService;
-import jnr.constants.platform.Local;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +54,8 @@ public class BatchService {
     private String pwd = "pass";
 
     // redis 데이터 처리 - 30분
-    @Scheduled(fixedRate = 1000 * 60 * 30)
+//    @Scheduled(fixedRate = 1000 * 60 * 30)
+    @Transactional
     public void processRedisData() {
         log.info("redis 처리 시작");
         Iterable<RedisUsage> redisUsages = redisUsageRepository.findAll();
@@ -80,8 +80,8 @@ public class BatchService {
 
             if (transaction.isEmpty()) {
                 transactionService.register(new TransactionRequest(wallet.getAddress(), api.getWallet().getAddress(),
-                        api.getTitle(), redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())),
-                        redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())).plusDays(6)),
+                                api.getTitle(), redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())),
+                                redisUsage.getUseAt().toLocalDate().minusDays(dateCalculate(redisUsage.getUseAt().toLocalDate())).plusDays(6)),
                         redisUsage.getUseAt());
             } else {
                 transactionService.update(transaction.get().get_id(), String.valueOf(redisUsage.getUseAt()));
@@ -90,8 +90,20 @@ public class BatchService {
         redisUsageRepository.deleteAll(redisUsages);
     }
 
+    // 데일리 데이터 토탈 집계 - 매일 새벽 2시
+    @Transactional
+    public void processTotal() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        List<Daily> dailies = dailyRepository.findAllByDate(yesterday);
+
+        for (Daily daily : dailies) {
+            totalService.updateAmount(daily);
+        }
+    }
+
     // 트랜잭션 블록 생성 - 매주 일요일
-    @Scheduled(cron = "0 0 1 * * 0")
+//    @Scheduled(cron = "0 0 1 * * 0")
+    @Transactional
     public void processTransactionBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
         List<Transaction> transactions = transactionRepository.findAllByTransactionHashAndEndDate(null,
                 LocalDate.now().minusDays(dateCalculate(LocalDate.now()) + 1));
@@ -104,7 +116,8 @@ public class BatchService {
 
     // 결제 - 매월 1일에 실행
 
-    @Scheduled(cron = "0 0 1 1 * ?")
+    //    @Scheduled(cron = "0 0 1 1 * ?")
+    @Transactional
     public void processCredit() throws IOException, ExecutionException, InterruptedException {
 
         YearMonth current = YearMonth.now().minusMonths(1);
@@ -130,50 +143,73 @@ public class BatchService {
         }
 
         for (Wallet wallet : usageMap.keySet()) {
-            ethereumService.sendEther(wallet.getAddress(), wallet.getPrivateKey(), from, BigInteger.valueOf(usageMap.get(wallet)));
+            if (!wallet.getAddress().equals(from)) {
+                ethereumService.sendEther(wallet.getAddress(), wallet.getPrivateKey(), from, BigInteger.valueOf(usageMap.get(wallet)));
+            }
+            serverPostConnect(new RegisterPaymentRequest(wallet.getAddress(), usageMap.get(wallet)));
         }
 
         for (String walletAddress : provideMap.keySet()) {
-            ethereumService.sendEther(from, pwd, walletAddress, BigInteger.valueOf(provideMap.get(walletAddress)));
+            if (!walletAddress.equals(from)) {
+                ethereumService.sendEther(from, pwd, walletAddress, BigInteger.valueOf(provideMap.get(walletAddress)));
+            }
         }
 
+    }
+
+//    @PostMapping
+///api/v1/payment/approve
+    public void serverPostConnect(RegisterPaymentRequest request) {
+
+        URI uri = UriComponentsBuilder
+//                .fromUriString("http://localhost:9000")
+                .fromUriString("https://j9c202.p.ssafy.io")
+                .path("/api/v1/payment/approve")
+                .encode()
+                .build()
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(request, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, String.class);
+        log.info((String) responseEntity.getBody());
     }
 
 
 
     public void dataMake() {
         Random random = new Random();
-
         for (int i = 0; i < 188; i++) {
-            Optional<Daily> daily1 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 23L, LocalDate.now().minusDays(i));
-            Optional<Daily> daily2 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 28L, LocalDate.now().minusDays(i));
-            Optional<Daily> daily3 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 29L, LocalDate.now().minusDays(i));
-
+            Optional<Daily> daily1 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 30L, LocalDate.now().minusDays(i));
+            Optional<Daily> daily2 = dailyRepository.findByUserWalletIdAndApiIdAndDate(999999L, 31L, LocalDate.now().minusDays(i));
+            long randLong = random.nextLong(20);
+            long randLong2 = 0L;
+            if (randLong > 0) {
+                randLong2 = random.nextLong(randLong);
+            } else {
+                randLong2 = random.nextLong(20);
+            }
             if (daily1.isEmpty()) {
-                Daily saveDaily1 = dailyService.register(new DailyUsageRequest(999999L, 23L, random.nextLong(1000),
+                Daily saveDaily1 = dailyService.register(new DailyUsageRequest(999999L, 30L, randLong2 * (188-i),
                         LocalDate.now().minusDays(i)));
 
                 totalService.updateAmount(saveDaily1);
             } else {
+                dailyService.updateAmount(daily1.get(), randLong2 * (188-i));
                 totalService.updateAmount(daily1.get());
             }
 
             if (daily2.isEmpty()) {
-                Daily saveDaily2 = dailyService.register(new DailyUsageRequest(999999L, 28L, random.nextLong(1000),
+                Daily saveDaily2 = dailyService.register(new DailyUsageRequest(999999L, 31L, randLong * (188-i),
                         LocalDate.now().minusDays(i)));
 
                 totalService.updateAmount(saveDaily2);
             } else {
+                dailyService.updateAmount(daily2.get(), randLong * (188-i));
                 totalService.updateAmount(daily2.get());
-            }
-
-            if (daily3.isEmpty()) {
-                Daily saveDaily3 = dailyService.register(new DailyUsageRequest(999999L, 29L, random.nextLong(1000),
-                        LocalDate.now().minusDays(i)));
-
-                totalService.updateAmount(saveDaily3);
-            } else {
-                totalService.updateAmount(daily3.get());
             }
 
         }

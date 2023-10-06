@@ -37,15 +37,11 @@ public class OpenApiController {
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    public ResponseEntity<JSONObject> kakaoLocal(HttpServletRequest httpServletRequest,
-                                                 @RequestParam Map<String, String> param,
+    public ResponseEntity<?> kakaoLocal(HttpServletRequest httpServletRequest,
+                                                 @RequestParam MultiValueMap<String, String> param,
                                                  @PathVariable(value = "wallet-id") Long walletId,
-                                                 @PathVariable(value = "api-id") Long apiId) throws Exception {
-        if (param.get("query").isEmpty()) {
-            throw new IllegalArgumentException("query 값은 필수 입니다.");
-        }
+                                                 @PathVariable(value = "api-id") Long apiId) {
 
-        System.out.println("header : " + httpServletRequest.getHeader("Authorization"));
         if (httpServletRequest.getHeader("Authorization").equals(allowHeader)) {
             CreateRedisUsageRequest createRedisUsageRequest = new CreateRedisUsageRequest(walletId,
                     apiService.findProviderIdById(apiId), apiId);
@@ -100,5 +96,97 @@ public class OpenApiController {
         }
 
         return ResponseEntity.ok(apiService.kakaoLocalCategory(param));
+    }
+
+    @GetMapping("/web/search/{wallet-id}/{api-id}")
+    @Operation(summary = "웹 검색", description = "query를 통해 검색 결과 받음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "검색 결과"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> kakaoWebSearch(HttpServletRequest httpServletRequest,
+                                                @RequestParam MultiValueMap<String, String> param,
+                                                @PathVariable(value = "wallet-id") Long walletId,
+                                                @PathVariable(value = "api-id") Long apiId) {
+
+        if (httpServletRequest.getHeader("Authorization").equals(allowHeader)) {
+            CreateRedisUsageRequest createRedisUsageRequest = new CreateRedisUsageRequest(walletId,
+                    apiService.findProviderIdById(apiId), apiId);
+
+            redisUsageService.save(createRedisUsageRequest);
+        }
+
+        return ResponseEntity.ok(apiService.kakaoWebSearch(param));
+    }
+
+    @GetMapping("/image/search/{wallet-id}/{api-id}")
+    @Operation(summary = "이미지 검색", description = "query를 통해 검색 결과 받음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "검색 결과"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> kakaoImageSearch(HttpServletRequest httpServletRequest,
+                                            @RequestParam MultiValueMap<String, String> param,
+                                            @PathVariable(value = "wallet-id") Long walletId,
+                                            @PathVariable(value = "api-id") Long apiId) {
+
+        if (httpServletRequest.getHeader("Authorization").equals(allowHeader)) {
+            CreateRedisUsageRequest createRedisUsageRequest = new CreateRedisUsageRequest(walletId,
+                    apiService.findProviderIdById(apiId), apiId);
+
+            redisUsageService.save(createRedisUsageRequest);
+        }
+
+        return ResponseEntity.ok(apiService.kakaoImageSearch(param));
+    }
+
+    @GetMapping("/book/search/{wallet-id}/{api-id}")
+    @Operation(summary = "책 검색", description = "query를 통해 검색 결과 받음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "검색 결과"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> kakaoBookSearch(HttpServletRequest httpServletRequest,
+                                              @RequestParam MultiValueMap<String, String> param,
+                                              @PathVariable(value = "wallet-id") Long walletId,
+                                              @PathVariable(value = "api-id") Long apiId) {
+
+        if (httpServletRequest.getHeader("Authorization").equals(allowHeader)) {
+            CreateRedisUsageRequest createRedisUsageRequest = new CreateRedisUsageRequest(walletId,
+                    apiService.findProviderIdById(apiId), apiId);
+
+            redisUsageService.save(createRedisUsageRequest);
+        }
+
+        return ResponseEntity.ok(apiService.kakaoBookSearch(param));
+    }
+
+    @GetMapping("/mobility/directions/{wallet-id}/{api-id}")
+    @Operation(summary = "책 검색", description = "query를 통해 검색 결과 받음")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "검색 결과"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    public ResponseEntity<?> kakaoMobilityDirections(HttpServletRequest httpServletRequest,
+                                             @RequestParam MultiValueMap<String, String> param,
+                                             @PathVariable(value = "wallet-id") Long walletId,
+                                             @PathVariable(value = "api-id") Long apiId) {
+
+        if (httpServletRequest.getHeader("Authorization").equals(allowHeader)) {
+            CreateRedisUsageRequest createRedisUsageRequest = new CreateRedisUsageRequest(walletId,
+                    apiService.findProviderIdById(apiId), apiId);
+
+            redisUsageService.save(createRedisUsageRequest);
+        }
+
+        return ResponseEntity.ok(apiService.kakaoMobilityDirection(param));
     }
 }

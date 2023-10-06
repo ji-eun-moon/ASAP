@@ -1,5 +1,6 @@
 package com.ssafy.project.asap.payment.controller;
 
+import com.ssafy.project.asap.member.service.MemberService;
 import com.ssafy.project.asap.payment.entity.dto.request.RegisterPaymentRequest;
 import com.ssafy.project.asap.payment.entity.dto.response.FindPaymentsResponse;
 import com.ssafy.project.asap.payment.service.PaymentService;
@@ -24,6 +25,7 @@ import java.util.List;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final MemberService memberService;
 
     @GetMapping("/list")
     @Operation(summary = "결제 내역", description = "회원이 결제한 내역을 조회")
@@ -41,16 +43,17 @@ public class PaymentController {
     @PostMapping("/approve")
     @Operation(summary = "결제", description = "회원의 결제 정보를 통해 결제")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "결제 내역 생성", content = @Content(schema = @Schema(
-                    implementation = RegisterPaymentRequest.class
-            ))),
+            @ApiResponse(responseCode = "200", description = "결제 내역 생성"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "404", description = "Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
     public ResponseEntity<String> registerPayment(@RequestBody RegisterPaymentRequest registerPaymentRequest) {
 
-        return ResponseEntity.status(201).body("결제 내역 생성 완료");
+        paymentService.save(registerPaymentRequest);
+
+        return ResponseEntity.ok("결제 성공");
+
     }
 
     @GetMapping("/detail/{payment-id}")

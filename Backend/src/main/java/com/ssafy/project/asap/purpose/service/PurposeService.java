@@ -132,7 +132,7 @@ public class PurposeService {
 
     public List<FindPurposesDateResponse> findAllByApiAndCreateDate(Long apiId) {
         LocalDate endDate = LocalDate.now().withDayOfMonth(1); // 현재 월의 1일
-        LocalDate startDate = endDate.minusMonths(2); // 2달 전
+        LocalDate startDate = endDate.minusMonths(4); // 2달 전
         LocalDate currentDate = startDate;
 
         Map<String, Long> dataMap = new HashMap<>();
@@ -178,6 +178,10 @@ public class PurposeService {
                     .build());
 
         }
+
+        list.sort((o1, o2) -> {
+            return Long.compare(o2.getCount(), o1.getCount());
+        });
 
         return list;
 

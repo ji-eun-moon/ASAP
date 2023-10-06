@@ -16,6 +16,7 @@ import com.ssafy.project.asap.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -41,7 +42,7 @@ public class ApiService {
 
         List<FindApisResponse> list = new ArrayList<>();
 
-        for(Api api : apiRepository.findAll()){
+        for(Api api : apiRepository.findAll(Sort.by(Sort.Direction.DESC, "modifyDate"))){
             list.add(FindApisResponse.builder()
                     .apiId(api.getApiId())
                     .title(api.getTitle())
@@ -80,6 +81,7 @@ public class ApiService {
         return GuideApiResponse.builder()
                 .title(api.getTitle())
                 .api(api.getApi())
+                .method(api.getMethod())
                 .input(api.getInput())
                 .inputExample(api.getInputExample())
                 .output(api.getOutput())
@@ -174,6 +176,17 @@ public class ApiService {
         return serverGetConnect(params, "/api/v1/usage/monthly/use");
     }
 
+    public Object findOneMonthUsage(Map<String, String> param, Long walletId) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
+        params.put("year", Collections.singletonList(param.get("year")));
+        params.put("month", Collections.singletonList(param.get("month")));
+
+
+        return serverGetConnect(params, "/api/v1/usage/monthly/use/one");
+    }
+
     public Object findMonthlyProviding(Map<String, String> param, Long walletId) {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -182,6 +195,16 @@ public class ApiService {
         params.put("month", Collections.singletonList(param.get("month")));
 
         return serverGetConnect(params, "/api/v1/usage/monthly/provide");
+    }
+
+    public Object findOneMonthlyProviding(Map<String, String> param, Long walletId) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.put("userWalletId", Collections.singletonList(String.valueOf(walletId)));
+        params.put("year", Collections.singletonList(param.get("year")));
+        params.put("month", Collections.singletonList(param.get("month")));
+
+        return serverGetConnect(params, "/api/v1/usage/monthly/provide/one");
     }
 
     public Object findDailyUsage(Map<String, String> param, Long walletId) {

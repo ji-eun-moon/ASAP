@@ -1,5 +1,6 @@
 package com.core.apiserver.batch.controller;
 
+import com.core.apiserver.batch.dto.RegisterPaymentRequest;
 import com.core.apiserver.batch.service.BatchService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +28,33 @@ public class BatchController {
         return ResponseEntity.status(201).body("성공적");
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteRedis() {
+    @PostMapping("/redis-process")
+    public ResponseEntity<?> processRedis() {
         batchService.processRedisData();
-        return ResponseEntity.status(204).body("성공적");
+        return ResponseEntity.status(201).body("성공적");
     }
 
-    @PostMapping("/make-transaction")
-    public ResponseEntity<?> toBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
+    @PostMapping("/total-process")
+    public ResponseEntity<?> processTotal() {
+        batchService.processTotal();
+        return ResponseEntity.status(202).body("성공적");
+    }
+
+    @PostMapping("/transaction-process")
+    public ResponseEntity<?> processBlock() throws NoSuchAlgorithmException, IOException, ExecutionException, InterruptedException {
         batchService.processTransactionBlock();
+        return ResponseEntity.status(201).body("성공적");
+    }
+
+    @PostMapping("/credit-process")
+    public ResponseEntity<?> processCredit() throws IOException, ExecutionException, InterruptedException {
+        batchService.processCredit();
+        return ResponseEntity.status(201).body("성공적");
+    }
+
+    @PostMapping("/payment-process")
+    public ResponseEntity<?> processPayment() {
+        batchService.serverPostConnect(new RegisterPaymentRequest("0xb2f25bea384704fc26d60f1bf7490444df21babe", 12345L));
         return ResponseEntity.status(201).body("성공적");
     }
 }

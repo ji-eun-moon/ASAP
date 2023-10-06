@@ -19,14 +19,8 @@ const useAdminApiList = () => {
         method: 'GET',
         url: '/api/v1/apply/list',
       });
-      if (response.status === 200) {
-        // console.log('관리자 api 신청 내역 조회');
-        // console.log(response.data);
-        setApiList(response.data);
-        setLoading(false);
-      } else {
-        console.log('관리자 api 신청 내역 조회 실패');
-      }
+      setApiList(response.data);
+      setLoading(false);
     } catch (error) {
       sessionStorage.clear();
       alert('관리자 인증을 다시 해주세요.');

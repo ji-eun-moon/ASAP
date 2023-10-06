@@ -26,15 +26,7 @@ const useAdminApiDetail = () => {
         method: 'GET',
         url: `/api/v1/apply/detail/${applyId}`,
       });
-      if (response.status === 200) {
-        console.log('API 상세 정보 조회 성공');
-        console.log(response.data);
-        setApiDetail(response.data);
-        console.log('type', response.data.api);
-        console.log('길이', Object.keys(response.data).length);
-      } else {
-        console.log('API 상세 정보 조회 실패');
-      }
+      setApiDetail(response.data);
     } catch (error) {
       console.log('서버 오류');
     }

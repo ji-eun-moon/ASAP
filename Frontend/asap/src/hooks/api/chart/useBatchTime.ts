@@ -14,7 +14,6 @@ const useBatchTime = () => {
       setBatchTime(response.data);
       setBatchTimeLoading(false);
     } catch (error) {
-      console.log('batch time 실패', error);
       setBatchTimeLoading(false);
     }
   }, []);

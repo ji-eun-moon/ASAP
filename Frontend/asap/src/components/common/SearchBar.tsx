@@ -18,7 +18,6 @@ function SearchBar() {
 
   const handleSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(input);
     setSearchDropdown(false);
     navigate(`/api_list?search=${input}`);
   };
